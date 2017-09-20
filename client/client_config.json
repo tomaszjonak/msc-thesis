@@ -1,0 +1,20 @@
+{
+  "listening_host": "localhost",
+  "listening_port": 4321,
+
+  "server_fqdn": "192.168.100.101",
+  "server_port": 9999,
+
+  "filetypes": [
+    "csv",
+    "avi"
+  ],
+
+  "queue_size": 10,
+  "chunk_size": 1024,
+
+  "connection_retry_interval": 30,
+
+  "heartbeat_enabled": false,
+  "heartbeat_interval": 5
+}

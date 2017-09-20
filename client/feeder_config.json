@@ -1,0 +1,11 @@
+{
+  "interval": 30,
+  "receiver_host": "localhost",
+  "receiver_port": 4321,
+  "path": "data",
+  "file_size": 1024,
+  "extensions": [
+    ".csv",
+    ".avi"
+  ]
+}
