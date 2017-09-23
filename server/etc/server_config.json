@@ -1,6 +1,12 @@
 {
-  "server_host": "localhost",
-  "server_port": 9999,
-  "chunk_size": 8192,
-  "destination_folder": "received"
+  "server": {
+    "host": "localhost",
+    "port": 9999
+  },
+
+  "protocol": {
+    "destination_folder": "received",
+    "chunk_size": 8192,
+    "separator": "\r\n"
+  }
 }

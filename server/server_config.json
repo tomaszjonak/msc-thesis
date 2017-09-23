@@ -1,6 +1,0 @@
-{
-  "server_host": "localhost",
-  "server_port": 9999,
-  "chunk_size": 8192,
-  "destination_folder": "received"
-}

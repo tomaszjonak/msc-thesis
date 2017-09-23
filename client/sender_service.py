@@ -22,7 +22,7 @@ class FileSenderThread(threading.Thread):
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect(self.server_address)
-        except ConnectionRefusedError:
+        except (ConnectionRefusedError, TimeoutError):
             logger.warning('{} refused connection, sleeping for {} sec'
                            .format(self.server_address, self.connection_retry_interval))
             time.sleep(self.connection_retry_interval)
@@ -41,13 +41,13 @@ class FileSenderThread(threading.Thread):
         logger.info('Processing {}'.format(str(file)))
 
         file_len = file.stat().st_size
-        data_chunk = bytes(str(file) + '\r\n' + str(file_len) + '\r\n', 'ascii')
+        data_chunk = bytes(str(file) + '\r\n' + str(file_len) + '\r\n', 'utf8')
         try:
             with file.open(mode='rb') as fd:
                 while data_chunk:
                     self.socket.send(data_chunk)
                     data_chunk = fd.read(self.chunk_size)
-            self.socket.send(bytes('\r\n', 'ascii'))
+            self.socket.send(bytes('\r\n', 'utf8'))
         except (ConnectionAbortedError, BrokenPipeError, ConnectionResetError) as e:
             # TODO: ConnectionResetError - handling of file broken in half
             logger.error("Sending interrupted ({})".format(repr(e)))

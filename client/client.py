@@ -17,7 +17,7 @@ def main():
     logger.setLevel(logging.DEBUG)
 
     logger.info("Starting up")
-    with open('client_config.json', 'r') as fd:
+    with open('etc/client_config.json', 'r') as fd:
         config = json.load(fd)
     logger.debug("Config read")
     logger.debug("Config contents: {}".format(config))

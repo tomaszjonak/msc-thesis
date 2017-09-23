@@ -1,2 +1,2 @@
-rm -rf msc_server/received/*
-rm -rf msc_client/data/*
+rm -rf server/received/*
+rm -rf client/data/*

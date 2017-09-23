@@ -20,7 +20,7 @@ def send_all(sock, data):
 
 
 def main():
-    with open('feeder_config.json', 'r') as fd:
+    with open('etc/feeder_config.json', 'r') as fd:
         config = json.load(fd)
 
     address = config['receiver_host'], int(config['receiver_port'])
@@ -49,17 +49,17 @@ def main():
         file_name = current_time.strftime('M%y%m%d-%H%M%S')
         # file_path = os.path.join(folder_path, file_name)
         folder = pathlib.Path(root_path, folder_name)
-        folder.mkdir(exist_ok=True)
+        folder.mkdir(exist_ok=True, parents=True)
         file_pattern = folder.joinpath(file_name)
         try:
             for extension in extensions:
-                # if random.choice((True, False)):
-                file = file_pattern.with_suffix('.{}'.format(extension))
-                shutil.copy('data_sample_big.txt', str(file))
-                # file.symlink_to('data_sample_big.txt')
-                logger.debug('Created {}'.format(str(file)))
-                # else:
-                # logger.debug('Skipped extension ({})'.format(extension))
+                if random.choice((True, True)):
+                    file = file_pattern.with_suffix('.{}'.format(extension))
+                    shutil.copy('sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt', str(file))
+                    # file.symlink_to('data_sample_big.txt')
+                    logger.debug('Created {}'.format(str(file)))
+                else:
+                    logger.debug('Skipped extension ({})'.format(extension))
                 # with open(file_path, 'wb') as fd:
                     # fd.write(os.urandom(file_bytes_size))
 
