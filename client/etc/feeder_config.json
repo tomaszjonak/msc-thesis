@@ -1,9 +1,19 @@
 {
   "interval": 30,
-  "receiver_host": "localhost",
-  "receiver_port": 4321,
+
+  "active_feeder": {
+    "receiver_host": "localhost",
+    "receiver_port": 4321
+  },
+
+  "passive_feeder": {
+    "listening_host": "localhost",
+    "listening_port": 7654
+  },
+
   "path": "data",
   "file_size": 1024,
+
   "extensions": [
     ".csv",
     ".avi"

@@ -42,6 +42,7 @@ class FileTransferTcpHandler(socketserver.BaseRequestHandler):
         try:
             machine.run()
         except Exception as e:
+            logger.error('Exception caught')
             logger.exception(e)
 
 

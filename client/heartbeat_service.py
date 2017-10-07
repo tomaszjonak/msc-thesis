@@ -10,8 +10,8 @@ logger.setLevel(logging.DEBUG)
 
 class HeartBeatThread(threading.Thread):
     def __init__(self, config):
-        self.host = config["server_fqdn"]
-        self.port = int(config["server_port"])
+        self.host = config["host"]
+        self.port = int(config["port"])
         self.heartbeat_interval = int(config['heartbeat_interval'])
         self.connection_retry_interval = int(config['connection_retry_interval'])
 

@@ -1,20 +1,41 @@
 {
-  "listening_host": "localhost",
-  "listening_port": 4321,
-
-  "server_fqdn": "localhost",
-  "server_port": 9999,
-
-  "filetypes": [
-    "csv",
-    "avi"
-  ],
-
   "queue_size": 10,
-  "chunk_size": 1024,
 
-  "connection_retry_interval": 30,
+  "Sender": {
+    "host": "localhost",
+    "port": 9999,
 
-  "heartbeat_enabled": false,
-  "heartbeat_interval": 5
+    "connection_retry_interval": 30,
+    "chunk_size": 8192,
+    "enabled": true
+  },
+
+  "LabviewActiveConnector": {
+    "host": "localhost",
+    "port": 7654,
+
+    "connection_retry_interval": 10,
+    "chunk_size": 8192,
+    "delimiter": "\n",
+
+    "filetypes": ["csv", "avi"],
+    "enabled": true
+  },
+
+  "LabviewPassiveConnector": {
+    "host": "localhost",
+    "port": 4321,
+
+    "filetypes": ["csv", "avi"],
+    "enabled": false
+  },
+
+  "HeartBeat": {
+    "host": "localhost",
+    "port": 9999,
+
+    "connection_retry_interval": 10,
+    "heartbeat_interval": 30,
+    "enabled": false
+  }
 }

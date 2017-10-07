@@ -3,7 +3,7 @@ import logging
 import queue
 
 from heartbeat_service import HeartBeatThread
-from labview_connector import LabviewReceiverThread
+from labview_connector import LabviewPassiveConnectorThread, LabviewActiveConnectorThread
 from sender_service import FileSenderThread
 
 # TODO(jonak) connection reset handling
@@ -20,27 +20,40 @@ def main():
     with open('etc/client_config.json', 'r') as fd:
         config = json.load(fd)
     logger.debug("Config read")
-    logger.debug("Config contents: {}".format(config))
+    logger.debug("Config contents\n {}".format(json.dumps(config, indent=2)))
 
     filename_queue = queue.Queue(config["queue_size"])
     logger.debug("Filename queue created")
 
+    sender_config = config['Sender']
+    heartbeat_config = config['HeartBeat']
+    active_connector_config = config['LabviewActiveConnector']
+    passive_connector_config = config['LabviewPassiveConnector']
+
+    services = []
     try:
-        # heartbeat_service = HeartBeatThread(config)
-        # heartbeat_service.start()
+        if heartbeat_config['enabled']:
+            logger.info('Heartbead enabled')
+            services.append(HeartBeatThread(heartbeat_config))
 
-        filesender_service = FileSenderThread(config, filename_queue)
-        filesender_service.start()
+        if sender_config['enabled']:
+            logger.info('Sender enabled')
+            services.append(FileSenderThread(sender_config, filename_queue))
 
-        receiver_service = LabviewReceiverThread(config, filename_queue)
-        receiver_service.start()
+        if passive_connector_config['enabled']:
+            logger.info('Passive receiver enabled')
+            services.append(LabviewPassiveConnectorThread(passive_connector_config, filename_queue))
+
+        if active_connector_config['enabled']:
+            logger.info('Active receiver enabled')
+            services.append(LabviewActiveConnectorThread(active_connector_config, filename_queue))
+
+        [service.start() for service in services]
     except Exception as e:
-        logger.error(repr(e))
+        logger.exception(e)
         exit()
     else:
-        receiver_service.join()
-        filesender_service.join()
-        # heartbeat_service.join()
+        [service.join() for service in services]
 
 
 if __name__ == '__main__':

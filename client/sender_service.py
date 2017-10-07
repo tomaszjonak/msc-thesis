@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class FileSenderThread(threading.Thread):
     def __init__(self, config, filename_queue):
-        self.server_address = config['server_fqdn'], int(config['server_port'])
+        self.server_address = config['host'], int(config['port'])
         self.queue = filename_queue
         self.chunk_size = config['chunk_size']
         self.connection_retry_interval = config['connection_retry_interval']
