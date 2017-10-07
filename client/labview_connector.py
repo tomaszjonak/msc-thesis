@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 class LabviewReceiverHandle(socketserver.BaseRequestHandler):
     def setup(self):
         self.config = self.server.config
+        self.base_path = pathlib.Path(self.config['base_path'])
 
     def handle(self):
         logger.info('Connection received from {}'.format(self.client_address))
@@ -25,7 +26,7 @@ class LabviewReceiverHandle(socketserver.BaseRequestHandler):
     def _handle(self):
         data = self.request.recv(self.server.config['chunk_size'])
         logger.debug('Received {}'.format(repr(data)))
-        target = pathlib.Path(str(data, 'utf8'))
+        target = self.base_path.joinpath(str(data, 'utf8'))
 
         if not target.parent.exists() or not target.parent.is_dir():
             logger.warning('Received path to nonexistent directory ({})'
@@ -66,12 +67,16 @@ class LabviewPassiveConnectorThread(threading.Thread):
 
 class LabviewActiveConnectorThread(common.KeepAliveWorker):
     def __init__(self, config, queue):
-
-        self.config = config
-        self.queue = queue
-        self.buffer = bytearray()
+        # Configurables
         self.chunk_size = config['chunk_size']
+        self.base_path = pathlib.Path(config.get('base_path', ''))
+        self.filetypes = config['filetypes']
         self.delimiter = bytes(config['delimiter'], 'utf8')
+        # Destination queue
+        self.queue = queue
+        # State storage
+        self.buffer = bytearray()
+
         super(LabviewActiveConnectorThread, self).__init__(config)
         self.name = "ActiveReceiverThread"
 
@@ -93,7 +98,7 @@ class LabviewActiveConnectorThread(common.KeepAliveWorker):
         while pos != -1:
             logger.debug('Path found')
             encoded_path, self.buffer = self.buffer[:pos], self.buffer[pos + len(self.delimiter):]
-            path_base = pathlib.Path(encoded_path.decode('utf8'))
+            path_base = self.base_path.joinpath(encoded_path.decode('utf8'))
             paths = self.find_matching_files(path_base)
 
             for path in paths:
@@ -103,5 +108,4 @@ class LabviewActiveConnectorThread(common.KeepAliveWorker):
             pos = self.buffer.find(self.delimiter)
 
     def find_matching_files(self, target):
-        filetypes = self.config['filetypes']
-        return (file for file in (target.with_suffix('.{}'.format(ext)) for ext in filetypes) if file.exists())
+        return (file for file in (target.with_suffix('.{}'.format(ext)) for ext in self.filetypes) if file.exists())

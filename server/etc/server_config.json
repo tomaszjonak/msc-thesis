@@ -7,6 +7,7 @@
   "protocol": {
     "destination_folder": "received",
     "chunk_size": 8192,
-    "separator": "\r\n"
+    "separator": "\r\n",
+    "path_parents_to_keep": 1
   }
 }

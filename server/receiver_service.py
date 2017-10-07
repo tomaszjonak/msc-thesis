@@ -13,6 +13,17 @@ def int_from_bytes(xbytes):
     return int.from_bytes(xbytes, 'little')
 
 
+def path_relative_to_nth_parent(path, n):
+    parts = path.parts
+    plen = len(parts)
+    if n >= plen:
+        return path
+    if n < 0:
+        raise RuntimeError('')
+    shrinked_parts = parts[plen - (n + 1):]
+    return pathlib.Path(*shrinked_parts)
+
+
 class ReciverStateMachine(object):
     def __init__(self, input_device, config):
         self.operation = self._seek_filename
@@ -20,6 +31,7 @@ class ReciverStateMachine(object):
         self.char_device = input_device
         self.chunk_size = config['chunk_size']
         self.separator = bytes(config['separator'], 'utf8')
+        self.path_parents_to_keep = int(config['path_parents_to_keep'])
         self.read_needed = True
 
         self.current_file = None
@@ -54,11 +66,13 @@ class ReciverStateMachine(object):
         if not len(name):
             logger.warning('Found empty name, jumping to next separator')
             return
-        win_file_path = pathlib.Path(name.decode('utf8'))
-        logger.info('File incoming [{}]'.format(str(win_file_path)))
-        if any(map(lambda x: len(x) > 255, win_file_path.parts)):
-            raise RuntimeError('Invalid parts in path [{}]'.format(str(win_file_path)))
-        self.current_file = self.base_path.joinpath(win_file_path)
+        received_path = pathlib.Path(name.decode('utf8'))
+        logger.info('File incoming [{}]'.format(str(received_path)))
+        if any(map(lambda x: len(x) > 255, received_path.parts)):
+            raise RuntimeError('Invalid parts in path [{}]'.format(str(received_path)))
+
+        shrinked_path = path_relative_to_nth_parent(received_path, self.path_parents_to_keep)
+        self.current_file = self.base_path.joinpath(shrinked_path)
         self.operation = self._seek_size
         self.read_needed = False
 
