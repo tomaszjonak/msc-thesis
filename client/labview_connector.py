@@ -85,20 +85,21 @@ class LabviewActiveConnectorThread(common.KeepAliveWorker):
             self._work()
 
     def _work(self):
-        logger.debug('Active works')
         chunk = self.socket.recv(self.chunk_size)
-        logger.debug('Chunk recived ({} bytes)'.format(len(chunk)))
         self.buffer += chunk
-        logger.debug('Buffer state:\n{}\n'.format(self.buffer))
+
         # 1. find all \n terminated sequences
         # 2. remove such from buffer and decode
         # TODO: check path validity needed?
         # 3. add each to queue
         pos = self.buffer.find(self.delimiter)
         while pos != -1:
-            logger.debug('Path found')
             encoded_path, self.buffer = self.buffer[:pos], self.buffer[pos + len(self.delimiter):]
+            # skip empty entries which may be found on buffer boundary
+            if not len(encoded_path):
+                continue
             path_base = self.base_path.joinpath(encoded_path.decode('utf8'))
+            logger.debug('Path found [{}]'.format(encoded_path.decode('utf8')))
             paths = self.find_matching_files(path_base)
 
             for path in paths:

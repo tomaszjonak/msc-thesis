@@ -28,6 +28,7 @@ class RecvProxy(object):
 
 class FileTransferTcpHandler(socketserver.BaseRequestHandler):
     def handle(self):
+        logger.info('Connection from {}'.format(self.client_address))
         try:
             self._handle()
         except ConnectionResetError as e:
@@ -41,6 +42,8 @@ class FileTransferTcpHandler(socketserver.BaseRequestHandler):
         machine = receiver_service.ReciverStateMachine(RecvProxy(self.request), self.protocol_config)
         try:
             machine.run()
+        except ConnectionResetError:
+            logger.warning('{} closed connection (reset)'.format(self.client_address))
         except Exception as e:
             logger.error('Exception caught')
             logger.exception(e)

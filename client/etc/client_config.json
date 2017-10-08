@@ -5,7 +5,7 @@
     "host": "localhost",
     "port": 9999,
 
-    "connection_retry_interval": 30,
+    "connection_retry_interval": 10,
     "chunk_size": 8192,
     "enabled": true
   },

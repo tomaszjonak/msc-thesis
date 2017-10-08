@@ -6,6 +6,7 @@ import logging
 import pathlib
 import random
 import socketserver
+import itertools
 
 
 class DataGeneratorServer(socketserver.TCPServer):
@@ -23,10 +24,18 @@ class DataGeneratorHandle(socketserver.BaseRequestHandler):
         self.extensions = [extension.lstrip('.') for extension
                            in self.config['extensions']]
         self.root_path = self.config['path']
+        self.repetitions = self.config['passive_feeder']\
+                               .get('repetitions', 1)
+        self.source_path = self.config['passive_feeder']\
+                               .get('source_path', 'sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt')
 
     def handle(self):
         logger.info("Connection from {}".format(self.client_address))
-        work(self.request, self.extensions, self.root_path)
+        try:
+            work(self.request, self.extensions, self.root_path,
+                 repetitions=self.repetitions, source_path=self.source_path)
+        except ConnectionResetError:
+            logger.warning('{} closed connection (reset)'.format(self.client_address))
 
 
 def send_all(sock, data):
@@ -41,37 +50,49 @@ def send_all(sock, data):
         buffer = buffer[sent:]
 
 
-def work(sock, extensions, root_path):
+def work(sock, extensions, root_path, **kwargs):
     while True:
         print()
         ok = input("Next?")
-        current_time = datetime.now()
-        folder_name = current_time.strftime('M%y%m%d')
-        file_name = current_time.strftime('M%y%m%d-%H%M%S')
-        # file_path = os.path.join(folder_path, file_name)
-        folder = pathlib.Path(root_path, folder_name)
-        folder.mkdir(exist_ok=True, parents=True)
-        file_pattern = folder.joinpath(file_name)
         try:
-            for extension in extensions:
-                if random.choice((True, True)):
-                    file = file_pattern.with_suffix('.{}'.format(extension))
-                    shutil.copy('sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt', str(file))
-                    # file.symlink_to('data_sample_big.txt')
-                    logger.debug('Created {}'.format(str(file)))
-                else:
-                    logger.debug('Skipped extension ({})'.format(extension))
-                # with open(file_path, 'wb') as fd:
-                    # fd.write(os.urandom(file_bytes_size))
-
-            send_all(sock, (str(file_pattern) + '\n').encode('utf8'))
-            logger.info("Sent {}".format(file_name))
+            _work(sock, extensions, root_path, **kwargs)
         except ConnectionAbortedError:
             logger.error('Connection aborted by remote host')
             break
         else:
             pass
             # time.sleep(config['interval'])
+
+
+def _work(sock, extensions, root_path, **kwargs):
+    seeds, paths = get_file_paths(extensions, root_path, **kwargs)
+    source_path = kwargs.get('source_path', 'sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt')
+    create_files(paths, source_path)
+    # payload, list of path strings separated by \n
+    payload = ('\n'.join(str(path) for path in seeds) + '\n').encode('utf8')
+    send_all(sock, payload)
+    logger.info("Sent {}".format(paths))
+
+
+def get_file_paths(extensions: list, root_path: str, **kwargs):
+    current_time = datetime.now()
+    folder_name = current_time.strftime('M%y%m%d')
+    file_name_seed = current_time.strftime('M%y%m%d-%H%M%S')
+
+    folder_path = pathlib.Path(root_path, folder_name)
+    folder_path.mkdir(exist_ok=True, parents=True)
+
+    names = (file_name_seed + '_{}'.format(rep) for rep in range(kwargs.get('repetitions', 1)))
+    seeds = [folder_path.joinpath(name) for name in names]
+
+    paths = [seed.with_suffix(".{}".format(extension)) for seed, extension
+             in itertools.product(seeds, extensions)]
+    return seeds, paths
+
+
+def create_files(paths, source_path):
+    for path in paths:
+        shutil.copy(str(source_path), str(path))
 
 
 def run_connecting(config: dict):
