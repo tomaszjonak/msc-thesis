@@ -11,7 +11,7 @@
     "listening_port": 7654,
 
     "source_path": "sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt",
-    "repetitions": 10
+    "repetitions": 5
   },
 
   "path": "data",

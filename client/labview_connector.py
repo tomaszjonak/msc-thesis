@@ -1,8 +1,11 @@
-import threading
-import socketserver
 import logging
 import pathlib
-import common
+import socketserver
+import threading
+
+from utility import workers
+from utility.device_helpers import DeviceProxy
+
 logger = logging.getLogger(__name__)
 
 
@@ -65,7 +68,7 @@ class LabviewPassiveConnectorThread(threading.Thread):
             server.serve_forever()
 
 
-class LabviewActiveConnectorThread(common.KeepAliveWorker):
+class LabviewActiveConnectorThread(workers.KeepAliveWorker):
     def __init__(self, config, queue):
         # Configurables
         self.chunk_size = config['chunk_size']
@@ -76,15 +79,28 @@ class LabviewActiveConnectorThread(common.KeepAliveWorker):
         self.queue = queue
         # State storage
         self.buffer = bytearray()
-
         super(LabviewActiveConnectorThread, self).__init__(config)
         self.name = "ActiveReceiverThread"
 
     def work(self):
+        device = DeviceProxy(self.socket, self.delimiter, self.chunk_size)
         while True:
-            self._work()
+            self._work(device)
 
-    def _work(self):
+    def _work(self, device):
+        encoded_path = device.get_token()
+        # logger.debug("Encoded path: {}".format(encoded_path))
+        str_path = encoded_path.decode('utf8')
+        logger.debug("Got path base ({})".format(str_path))
+        path_base = self.base_path.joinpath(str_path)
+        # logger.debug("Path base: {}".format(path_base))
+        valid_paths = self.find_matching_files(path_base)
+
+        for path in valid_paths:
+            self.queue.put(path)
+            logger.debug("Queued: {}".format(path))
+
+    def _work_old(self):
         chunk = self.socket.recv(self.chunk_size)
         self.buffer += chunk
 
