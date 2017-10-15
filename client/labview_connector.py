@@ -89,6 +89,8 @@ class LabviewActiveConnectorThread(workers.KeepAliveWorker):
 
     def _work(self, device):
         encoded_path = device.get_token()
+        if not encoded_path:
+            logger.warning('Encountered empty path token, dropping')
         # logger.debug("Encoded path: {}".format(encoded_path))
         str_path = encoded_path.decode('utf8')
         logger.debug("Got path base ({})".format(str_path))

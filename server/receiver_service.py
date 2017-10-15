@@ -2,6 +2,7 @@ import json
 import sys
 import pathlib
 import logging
+from utility.device import DeviceProxy
 logger = logging.getLogger(__name__)
 
 
@@ -24,102 +25,82 @@ def path_relative_to_nth_parent(path, n):
     return pathlib.Path(*shrinked_parts)
 
 
-class ReciverStateMachine(object):
+class ReceiverStateMachine(object):
+    """
+    Shallow protocol built on tcp to send and receive files.
+    Does not provide data integrity or sync yet.
+    """
     def __init__(self, input_device, config):
-        self.operation = self._seek_filename
-        self.buffer = bytearray()
-        self.char_device = input_device
-        self.chunk_size = config['chunk_size']
-        self.separator = bytes(config['separator'], 'utf8')
+        # Prepare socket or any other medium supporting read
+        self._device = DeviceProxy(input_device, config['separator'], config['chunk_size'])
+
+        # get protocol specific settings
         self.path_parents_to_keep = int(config['path_parents_to_keep'])
-        self.read_needed = True
-
-        self.current_file = None
-        self.current_len = None
-        self.dest_fd = None
-
         self.base_path = pathlib.Path(config['destination_folder'])
+        # Create destination folder and all parents if necessary
         self.base_path.mkdir(exist_ok=True, parents=True)
 
-    def add_to_buffer(self):
-        chunk = self.char_device.read(self.chunk_size)
-        self.buffer += chunk
-        # logger.debug('Read occurred ({} bytes)'.format(len(chunk)))
-        if not len(chunk):
-            raise RuntimeError('Eof m8')
+        # state machine variables
+        self._current_file = None
+        self._current_len = None
+        self._dest_fd = None
+        self._bytes_left = None
+
+        # next (initial) state to execute
+        self.operation = self._seek_filename
 
     def run(self):
         while True:
-            if self.read_needed:
-                self.add_to_buffer()
             self.operation()
 
     def _seek_filename(self):
-        logger.debug('Seeking filename')
-        pos = self.buffer.find(self.separator)
-        if pos == -1:
-            logger.debug('Not yet in buffer')
-            self.read_needed = True
+        name_bytes = self._device.get_token()
+        if not len(name_bytes):
             return
+        received_path = pathlib.Path(name_bytes.decode('utf8'))
+        logger.info('Receiving file ({})'.format(repr(received_path)))
 
-        name, self.buffer = self.buffer[:pos], self.buffer[pos + len(self.separator):]
-        if not len(name):
-            logger.warning('Found empty name, jumping to next separator')
-            return
-        received_path = pathlib.Path(name.decode('utf8'))
-        logger.info('File incoming [{}]'.format(str(received_path)))
         if any(map(lambda x: len(x) > 255, received_path.parts)):
             raise RuntimeError('Invalid parts in path [{}]'.format(str(received_path)))
 
         shrinked_path = path_relative_to_nth_parent(received_path, self.path_parents_to_keep)
-        self.current_file = self.base_path.joinpath(shrinked_path)
+        logger.debug('Saving as ({})'.format(repr(shrinked_path.parts)))
+
+        self._current_file = self.base_path.joinpath(shrinked_path)
         self.operation = self._seek_size
-        self.read_needed = False
 
     def _seek_size(self):
-        pos = self.buffer.find(self.separator)
-        if pos != -1:
-            len_encoded, self.buffer = self.buffer[:pos], self.buffer[pos + len(self.separator):]
-            self.current_len = int(len_encoded)
-            self.bytes_left = self.current_len
-            logger.debug(self.current_len)
-            self.operation = self._open_dest
-            self.read_needed = False
-        else:
-            self.read_needed = True
+        len_encoded = self._device.get_token()
+        self._current_len = int(len_encoded)
+        self._bytes_left = self._current_len
+
+        self.operation = self._open_dest
+        logger.debug('Found size ({})'.format(self._current_len))
 
     def _open_dest(self):
-        self.current_file.parent.mkdir(exist_ok=True, parents=True)
-        self.dest_fd = self.current_file.open('wb')
+        # In case of this work - if file is first in the day it should create folder beforehand
+        self._current_file.parent.mkdir(exist_ok=True, parents=True)
+        self.dest_fd = self._current_file.open('wb')
         self.operation = self._consume_data
+        logger.debug('File created')
 
     def _close_dest(self):
         self.dest_fd.close()
-        logger.info('[{}] written to disk'.format(str(self.current_file)))
-        self.current_len = None
-        self.current_file = None
         self.operation = self._seek_filename
-        if not len(self.buffer):
-            self.read_needed = True
+        logger.debug('File saved ({} bytes written)'.format(self._current_file.stat().st_size))
+        self._current_len = None
+        self._current_file = None
 
     def _consume_data(self):
-        buffer_len = len(self.buffer)
-        if buffer_len <= self.bytes_left:
-            write_all(self.dest_fd, self.buffer)
-            self.bytes_left -= buffer_len
-            self.buffer = bytearray()
-        else:
-            write_all(self.dest_fd, self.buffer[:self.bytes_left])
-            self.buffer = self.buffer[self.bytes_left:]
-            self.bytes_left -= self.bytes_left
-
-        # logger.debug('{} bytes left...'.format(self.bytes_left))
-        # logger.debug('Buffer state [{}]'.format(len(self.buffer)))
-        if self.bytes_left <= 0:
-            self.operation = self._close_dest
-            self.read_needed = False
-        else:
-            self.read_needed = True
+        bytes_left = self._current_len
+        chunk_size = 8192
+        while bytes_left > 0:
+            chunk = self._device.get_bytes(chunk_size=chunk_size)
+            write_all(self.dest_fd, chunk)
+            bytes_left -= len(chunk)
+            if chunk_size > bytes_left:
+                chunk_size = bytes_left
+        self.operation = self._close_dest
 
 
 def main():
@@ -133,7 +114,7 @@ def main():
         file_path = 'test_data/test2files.data'
 
     with open(file_path, 'rb') as source_fd:
-        machine = ReciverStateMachine(source_fd, config)
+        machine = ReceiverStateMachine(source_fd, config)
         try:
             machine.run()
         except RuntimeError as e:

@@ -76,6 +76,8 @@ class DeviceProxy(object):
 
         # TODO what happens on eof
         chunk = self._device.read(chunk_size)
+        if not chunk:
+            raise ConnectionResetError('Remote given up')
         # logger.debug("Fetched data from device ({} bytes)".format(len(chunk_size)))
         self._buffer += chunk
 
@@ -84,10 +86,10 @@ class DeviceProxy(object):
         drops found sequence and separator from internal buffer
         :return: first set of bytes terminated by separator (token)
         """
-
         pos = self._buffer.find(self.separator)
         while pos == -1:
             self._fetch_from_device()
+            pos = self._buffer.find(self.separator)
 
         token = self._buffer[:pos]
         self._buffer = self._buffer[pos + len(self.separator):]

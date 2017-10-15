@@ -4,7 +4,6 @@ import socket
 import shutil
 import logging
 import pathlib
-import random
 import socketserver
 import itertools
 
@@ -52,10 +51,10 @@ def send_all(sock, data):
 
 def work(sock, extensions, root_path, **kwargs):
     while True:
-        print()
-        ok = input("Next?")
+        amount = input("Next?")
+        amount = int(amount)
         try:
-            _work(sock, extensions, root_path, **kwargs)
+            _work(sock, extensions, root_path, **kwargs, amount=amount)
         except ConnectionAbortedError:
             logger.error('Connection aborted by remote host')
             break
@@ -71,7 +70,7 @@ def _work(sock, extensions, root_path, **kwargs):
     # payload, list of path strings separated by \n
     payload = ('\n'.join(str(path) for path in seeds) + '\n').encode('utf8')
     send_all(sock, payload)
-    logger.info("Sent {}".format(paths))
+    logger.info("Sent {}".format(seeds))
 
 
 def get_file_paths(extensions: list, root_path: str, **kwargs):
@@ -82,7 +81,7 @@ def get_file_paths(extensions: list, root_path: str, **kwargs):
     folder_path = pathlib.Path(root_path, folder_name)
     folder_path.mkdir(exist_ok=True, parents=True)
 
-    names = (file_name_seed + '_{}'.format(rep) for rep in range(kwargs.get('repetitions', 1)))
+    names = (file_name_seed + '_{}'.format(rep) for rep in range(kwargs.get('amount', 1)))
     seeds = [folder_path.joinpath(name) for name in names]
 
     paths = [seed.with_suffix(".{}".format(extension)) for seed, extension

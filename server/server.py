@@ -39,7 +39,7 @@ class FileTransferTcpHandler(socketserver.BaseRequestHandler):
         self.protocol_config = self.server.protocol_config
 
     def _handle(self):
-        machine = receiver_service.ReciverStateMachine(RecvProxy(self.request), self.protocol_config)
+        machine = receiver_service.ReceiverStateMachine(RecvProxy(self.request), self.protocol_config)
         try:
             machine.run()
         except ConnectionResetError:
