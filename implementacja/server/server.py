@@ -1,7 +1,6 @@
 import json
 import logging
 import socketserver
-import sys
 import argparse
 
 import receiver_service

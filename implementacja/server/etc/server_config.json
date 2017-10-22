@@ -5,7 +5,7 @@
   },
 
   "protocol": {
-    "destination_folder": "received",
+    "destination_folder": "../filesystem_stub/server",
     "chunk_size": 8192,
     "separator": "\r\n",
     "path_parents_to_keep": 1

@@ -111,8 +111,6 @@ def run_connecting(config: dict):
 
     logger.info('Connected as {}'.format(socket.gethostname()))
 
-    # file_bytes_size = config['file_size']
-
     work(sock, extensions, root_path)
 
 
@@ -125,7 +123,7 @@ def run_listening(config: dict):
 
 
 def main():
-    with open('etc/feeder_config.json', 'r') as fd:
+    with open('feeder_config.json', 'r') as fd:
         config = json.load(fd)
 
     run_listening(config)

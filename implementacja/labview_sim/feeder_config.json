@@ -14,7 +14,7 @@
     "repetitions": 5
   },
 
-  "path": "data",
+  "path": "../filesystem_stub/client",
   "file_size": 1024,
 
   "extensions": [
