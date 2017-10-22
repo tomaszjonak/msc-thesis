@@ -2,6 +2,7 @@ import json
 import logging
 import socketserver
 import sys
+import argparse
 
 import receiver_service
 
@@ -52,14 +53,42 @@ class FileTransferTcpHandler(socketserver.BaseRequestHandler):
 
 
 def main():
-    if len(sys.argv) > 1:
-        config_file = sys.argv[1]
-    else:
-        config_file = 'etc/server_config.json'
+    parser = argparse.ArgumentParser(description='TODO make some description')
+    parser.add_argument('--config', '-c', action='store', default='etc/server_config.json')
+    parser.add_argument('--options', '-o', action='append', nargs=2, metavar=('config.part.field', 'value'),
+                        help='this can be used multiple times to override config options')
 
-    with open(config_file, 'r') as fd:
+    args = parser.parse_args()
+
+    with open(args.config, 'r') as fd:
         config = json.load(fd)
 
+    # Loop below overrides values in config based on scope
+    # i.e providing -o Sender.host '192.168.0.1' results in
+    # config['Sender']['host'] = '192.168.0.1'
+    # TODO: duplcates code from client.py - do i want separation or code reuse
+    for scope_str, value in args.options or []:
+        scope = scope_str.split('.')
+        curr = None
+        try:
+            for config_part in scope[:-1]:
+                curr = config[config_part]
+            curr[scope[-1]] = value
+        except KeyError as e:
+            print('Undefined config section (section: {}, tag: {}, value: {})'
+                  .format(e, repr(scope_str), value))
+            exit(-1)
+
+    logger.debug("Config contents\n {}".format(json.dumps(config, indent=2)))
+    try:
+        service_exec(config)
+    except OSError:
+        logger.error('Invalid (host, port) provided. Can not proceed')
+    except Exception as e:
+        logger.exception(e)
+
+
+def service_exec(config):
     server_config = config['server']
     protocol_config = config['protocol']
 

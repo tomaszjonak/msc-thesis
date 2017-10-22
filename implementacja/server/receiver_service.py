@@ -3,7 +3,7 @@ import logging
 import pathlib
 import sys
 
-from utility import DeviceProxy
+from utility.device import DeviceProxy
 
 logger = logging.getLogger(__name__)
 
