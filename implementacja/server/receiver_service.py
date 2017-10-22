@@ -1,8 +1,10 @@
 import json
-import sys
-import pathlib
 import logging
-from utility.device import DeviceProxy
+import pathlib
+import sys
+
+from utility import DeviceProxy
+
 logger = logging.getLogger(__name__)
 
 
