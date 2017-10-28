@@ -1,6 +1,6 @@
 import abc
 import pathlib as pl
-
+import tempfile
 
 class StreamProxy(abc.ABC):
     """
@@ -35,7 +35,9 @@ class StreamProxy(abc.ABC):
 
 
 class FileStreamProxy(StreamProxy):
-    def __init__(self, infile: (str, pl.Path), outdevice=None):
+    def __init__(self, infile: (str, pl.Path, tempfile.TemporaryFile), outdevice=None):
+        self.at_exit = None
+
         if isinstance(infile, str):
             self._infile = open(infile, 'rb')
             self.at_exit = lambda: self._infile.close()
@@ -46,17 +48,33 @@ class FileStreamProxy(StreamProxy):
             raise RuntimeError('Unsupported input file ({})'.format(repr(infile)))
 
         self._outdevice = outdevice
-        self.at_exit = None
 
     def read(self, chunk_len: int):
         return self._infile.read(chunk_len)
 
     def write(self, buffer):
-        pass
+        return self._infile.write(buffer)
 
     def write_all(self, buffer):
-        pass
+        return self._infile.write_all(buffer)
 
     def __del__(self):
         if self.at_exit:
             self.at_exit()
+
+class TempFileStreamProxy(StreamProxy):
+    def __init__(self, infile, outfile):
+        self._infile = infile
+        self._outfile = outfile
+
+    def read(self, chunk_len):
+        return self._infile.read(chunk_len)
+
+    def write(self, buffer):
+        return self._outfile.write(buffer)
+
+    def write_all(self, buffer):
+        to_write = buffer[:]
+        while to_write:
+            written = self._outfile.write(to_write)
+            to_write = to_write[written:]

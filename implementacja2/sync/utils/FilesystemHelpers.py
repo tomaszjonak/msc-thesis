@@ -6,6 +6,6 @@ def count_all_files_in_filetree(path: str):
     return len(filenames)
 
 
-def get_relative_path(name):
+def get_relative_path(file, path):
     # Returns path relative to this file direcotry
-    return os.path.join(os.path.dirname(__file__), name)
+    return os.path.join(os.path.dirname(file), path)
