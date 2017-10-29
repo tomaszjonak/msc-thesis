@@ -24,6 +24,11 @@ def queue_factory(db_path):
     return factory
 
 
+def test_empty(queue_factory):
+    queue = queue_factory()
+    assert not queue.get(wait_for_value=False)
+
+
 def test_put(queue_factory):
     queue = queue_factory()
     assert queue.len() == 0
