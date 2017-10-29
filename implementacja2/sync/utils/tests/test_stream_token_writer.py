@@ -55,9 +55,9 @@ def test_pan_tadeusz_1000_bytes(tmp_data, pan_tadeusz_1000_bytes, pan_tadeusz_tx
     temp_fd, temp_writer = tmp_data
     pan_tadeusz_name = 'pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt'
 
-
     temp_writer.write_token(pan_tadeusz_name)
     temp_writer.write_token('1000')
+
     with open(pan_tadeusz_txt, 'rb') as fd:
         temp_writer.write_bytes(fd.read(1000))
     temp_writer.write_separator()
