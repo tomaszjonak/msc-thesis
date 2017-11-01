@@ -73,7 +73,9 @@ class SqliteQueue(Queue):
             # TODO czy bawic sie w picklowanie obiektow pythonowych?
             raise RuntimeError('put argument has to be convertible to string')
 
-        self.connection.execute(r'INSERT INTO queue VALUES (DATETIME(),?)', value)
+        # sqlite expects list of values as second parameter, if it happens
+        # that string is passed it will be treated as array of characters (silly stuff)
+        self.connection.execute(r'INSERT INTO queue VALUES (DATETIME(),?)', (value,))
         self.connection.commit()
 
     def get(self, wait_for_value=True):
@@ -105,7 +107,7 @@ class SqliteQueue(Queue):
         Jesli pojawi sie wiecej niz jeden element o takiej samej wartosci wszystkie zostana usuniete.
         Bazuje to na zalozeniu ze soft pomiarowy daje kolejnym plikom unikalne nazwy
         """
-        self.connection.execute(r'DELETE FROM queue where element=?', element)
+        self.connection.execute(r'DELETE FROM queue where element=?', (element,))
         self.connection.commit()
 
     def len(self):

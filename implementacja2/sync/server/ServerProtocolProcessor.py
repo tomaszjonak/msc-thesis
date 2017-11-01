@@ -1,4 +1,4 @@
-from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue
+from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue, FilesystemHelpers
 import pathlib as pl
 import datetime as dt
 
@@ -60,7 +60,8 @@ class ServerProtocolProcessor(object):
         filename = self.reader.get_token().decode('utf8')
         if not filename:
             return
-        path = pl.Path(filename)
+
+        path = self.storage_root.joinpath(filename)
         if any(len(part) > 255 for part in path.parts):
             # TODO: log some message? skip to next token?
             return
@@ -93,7 +94,9 @@ class ServerProtocolProcessor(object):
             for _ in range(full_chunks):
                 chunk = self.reader.get_bytes(chunk_size)
                 fd.writeall(chunk)
-            fd.writeall(self.reader.get_bytes(last_chunk_size))
+            # so much for high level interfaces, this write has to be done c style
+            # fd.writeall(self.reader.get_bytes(last_chunk_size))
+            FilesystemHelpers.write_all(fd, self.reader.get_bytes(last_chunk_size))
 
         self.operation = self._announce_response
 

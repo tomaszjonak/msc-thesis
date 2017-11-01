@@ -24,6 +24,8 @@ class StreamTokenWriter(object):
             separator = separator if isinstance(separator, (bytes, bytearray)) else separator.encode('utf8')
         separator = separator or self.separator
 
+        # In case of none param we want to write empty string with separator (empty token)
+        token = token or ''
         token = token if isinstance(token, (bytes, bytearray)) else token.encode('utf8')
 
         self._stream.write_all(token + separator)

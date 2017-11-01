@@ -2,6 +2,7 @@ import abc
 import pathlib as pl
 import tempfile
 
+
 class StreamProxy(abc.ABC):
     """
     Klasa implementujaca interfejs do wymiany danych. Jej zadaniem jest uwspolnienie
@@ -58,9 +59,13 @@ class FileStreamProxy(StreamProxy):
     def write_all(self, buffer):
         return self._infile.write_all(buffer)
 
+    def seek0(self):
+        return self._infile.seek(0)
+
     def __del__(self):
         if self.at_exit:
             self.at_exit()
+
 
 class TempFileStreamProxy(StreamProxy):
     def __init__(self, infile, outfile):

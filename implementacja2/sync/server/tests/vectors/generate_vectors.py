@@ -49,13 +49,13 @@ with open('two_increasing_length.vector', 'wb') as dest_fd:
 case_3_file_1_name = get_name(3, 0)
 case_3_file_2_name = get_name(3, 1)
 with open('two_decreasing_length.vector', 'wb') as dest_fd:
-    dest_fd.write('{}\r\n'.format(tadeusz_path).encode('utf8'))
+    dest_fd.write('{}\r\n'.format(case_3_file_1_name).encode('utf8'))
     dest_fd.write('{}\r\n'.format(tadeusz_test_size * 2).encode('utf8'))
     with open(tadeusz_path, 'rb') as source_fd:
         dest_fd.write(source_fd.read(tadeusz_test_size * 2))
     dest_fd.write('\r\n'.encode('utf8'))
 
-    dest_fd.write('{}\r\n'.format(tadeusz_path).encode('utf8'))
+    dest_fd.write('{}\r\n'.format(case_3_file_2_name).encode('utf8'))
     dest_fd.write('{}\r\n'.format(tadeusz_test_size).encode('utf8'))
     with open(tadeusz_path, 'rb') as source_fd:
         dest_fd.write(source_fd.read(tadeusz_test_size))

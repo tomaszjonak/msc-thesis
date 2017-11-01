@@ -10,7 +10,7 @@ class StreamTokenReader(object):
     <token><separator><token><separator>...
     """
 
-    def __init__(self, stream: StreamProxy.StreamProxy, separator: (str, bytes, bytearray), chunk_size: int):
+    def __init__(self, stream: StreamProxy.StreamProxy, separator: (str, bytes, bytearray), chunk_size: int=8192):
         """
         :param char_device: Instancja klasy StreamProxy
         :param separator: znak/sekwencja znakow rozdzielajacych strumien
@@ -86,3 +86,6 @@ class StreamTokenReader(object):
         tmp = self._buffer
         self._buffer = bytearray()
         return tmp
+
+    def seek0(self):
+        self._stream.seek0()
