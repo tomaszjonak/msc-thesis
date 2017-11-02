@@ -49,5 +49,7 @@ ops = {
 
 while True:
     ctrl = input('>>> ').split()
+    if not ctrl:
+        continue
     op, args = ctrl[0], ctrl[1:]
     ops.get(op, noop)(*args)

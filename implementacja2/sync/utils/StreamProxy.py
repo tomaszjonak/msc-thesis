@@ -83,3 +83,26 @@ class TempFileStreamProxy(StreamProxy):
         while to_write:
             written = self._outfile.write(to_write)
             to_write = to_write[written:]
+
+
+class SocketStreamProxy(StreamProxy):
+    def __init__(self, socket):
+        self.socket = socket
+
+        if hasattr(socket, 'recv'):
+            self.read_ = self.socket.recv
+        else:
+            self.read_ = self.socket.read
+
+    # interestingly enough providing write as class member in init is not enough to satisfy "abstractness" of abc
+    def read(self, chunk_size):
+        return self.read_(chunk_size)
+
+    def write(self, buffer):
+        return self.socket.write(buffer)
+
+    # TODO check if this socket has sendall
+    def write_all(self, buffer):
+        while buffer:
+            sent = self.write(buffer)
+            buffer = buffer[sent:]
