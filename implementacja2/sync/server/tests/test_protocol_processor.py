@@ -1,131 +1,41 @@
 import pytest
-import os
 import pathlib as pl
 
-from .. import ServerProtocolProcessor
+from ...utils import StreamProxy
+from ...utils import StreamTokenReader
+from ...utils import FilesystemHelpers as fsh
+from .. import ServerProtocolProcessor as spp
 
 
-def test_one_file(server_root_path, cache, reader_one_file, mock_outstream, pan_tadeusz_file):
-    file, out_writer = mock_outstream
-    processor = ServerProtocolProcessor.ServerProtocolProcessor(reader_one_file, out_writer,
-                                                                cache, server_root_path.name)
-
-    with pytest.raises(RuntimeError):
-        processor.run()
-
-    assert 'M000101' in os.listdir(server_root_path.name)
-
-    file.seek(0)
-    assert file.read() == b'\r\nM000101/M000101-000000\r\n'
-    assert cache.get(wait_for_value=False) == 'M000101/M000101-000000'
-
-    generated_file = pl.Path(server_root_path.name, 'M000101/M000101-000000')
-    with pan_tadeusz_file.open('rb') as pan_tadeusz:
-        assert generated_file.read_bytes() == pan_tadeusz.read(1000)
+def get_vector_reader(vector_path):
+    full_path = fsh.get_relative_path(__file__, vector_path)
+    stream = StreamProxy.FileStreamProxy(full_path)
+    return StreamTokenReader.StreamTokenReader(stream, b'\r\n')
 
 
-def test_two_equall_length(server_root_path, cache, reader_two_equall, mock_outstream, pan_tadeusz_file):
+def test_vector(server_root_path, mock_outstream, cache, vector_description):
     file, out_writer = mock_outstream
 
-    processor = ServerProtocolProcessor.ServerProtocolProcessor(reader_two_equall, out_writer,
-                                                                cache, server_root_path.name)
+    if vector_description.cache_initial:
+        cache.put(vector_description.cache_initial)
 
-    with pytest.raises(RuntimeError):
-        processor.run()
-
-    assert 'M000102' in os.listdir(server_root_path.name)
-
-    file.seek(0)
-    assert file.read() == b'\r\nM000102/M000102-000000\r\nM000102/M000102-000001\r\n'
-    assert cache.get(wait_for_value=False) == 'M000102/M000102-000001'
-
-    first_file = pl.Path(server_root_path.name, 'M000102/M000102-000000')
-    second_file = pl.Path(server_root_path.name, 'M000102/M000102-000001')
-    with pan_tadeusz_file.open('rb') as pan_tadeusz:
-        pan_tadeusz_1000_bytes = pan_tadeusz.read(1000)
-    assert first_file.read_bytes() == pan_tadeusz_1000_bytes
-    assert second_file.read_bytes() == pan_tadeusz_1000_bytes
-
-
-def test_two_increasing_length(server_root_path, cache, reader_two_increasing, mock_outstream, pan_tadeusz_file):
-    file, out_writer = mock_outstream
-
-    processor = ServerProtocolProcessor.ServerProtocolProcessor(reader_two_increasing, out_writer,
-                                                                cache, server_root_path.name)
-
-    with pytest.raises(RuntimeError):
-        processor.run()
-
-    assert 'M000103' in os.listdir(server_root_path.name)
-
-    file.seek(0)
-    assert file.read() == b'\r\nM000103/M000103-000000\r\nM000103/M000103-000001\r\n'
-    assert cache.get(wait_for_value=False) == 'M000103/M000103-000001'
-
-    first_file = pl.Path(server_root_path.name, 'M000103/M000103-000000')
-    second_file = pl.Path(server_root_path.name, 'M000103/M000103-000001')
-    with pan_tadeusz_file.open('rb') as pan_tadeusz:
-        pan_tadeusz_2000_bytes = pan_tadeusz.read(2000)
-    assert first_file.read_bytes() == pan_tadeusz_2000_bytes[:1000]
-    assert second_file.read_bytes() == pan_tadeusz_2000_bytes
-
-
-def test_two_decreasing_length(server_root_path, cache, reader_two_decreasing, mock_outstream, pan_tadeusz_file):
-    file, out_writer = mock_outstream
-
-    processor = ServerProtocolProcessor.ServerProtocolProcessor(reader_two_decreasing, out_writer,
-                                                                cache, server_root_path.name)
-
-    with pytest.raises(RuntimeError):
-        processor.run()
-
-    assert 'M000104' in os.listdir(server_root_path.name)
-
-    file.seek(0)
-    assert file.read() == b'\r\nM000104/M000104-000000\r\nM000104/M000104-000001\r\n'
-    assert cache.get(wait_for_value=False) == 'M000104/M000104-000001'
-
-    first_file = pl.Path(server_root_path.name, 'M000104/M000104-000000')
-    second_file = pl.Path(server_root_path.name, 'M000104/M000104-000001')
-    with pan_tadeusz_file.open('rb') as pan_tadeusz:
-        pan_tadeusz_2000_bytes = pan_tadeusz.read(2000)
-    assert first_file.read_bytes() == pan_tadeusz_2000_bytes
-    assert second_file.read_bytes() == pan_tadeusz_2000_bytes[:1000]
-
-
-def test_no_cache_update(server_root_path, cache, reader_two_no_cache_update, mock_outstream, pan_tadeusz_file):
-    file, out_writer = mock_outstream
-
-    processor = ServerProtocolProcessor.ServerProtocolProcessor(reader_two_no_cache_update, out_writer,
-                                                                cache, server_root_path.name)
-
-    with pytest.raises(RuntimeError):
-        processor.run()
-
-    assert 'M000105' in os.listdir(server_root_path.name)
-
-    file.seek(0)
-    assert file.read() == b'\r\nM000105/M000105-000001\r\nM000105/M000105-000000\r\n'
-    assert cache.get(wait_for_value=False) == 'M000105/M000105-000001'
-
-    first_file = pl.Path(server_root_path.name, 'M000105/M000105-000000')
-    second_file = pl.Path(server_root_path.name, 'M000105/M000105-000001')
-    with pan_tadeusz_file.open('rb') as pan_tadeusz:
-        pan_tadeusz_100_bytes = pan_tadeusz.read(100)
-    assert first_file.read_bytes() == pan_tadeusz_100_bytes
-    assert second_file.read_bytes() == pan_tadeusz_100_bytes
-
-
-def test_predefined_cache_value(server_root_path, cache, reader_two_no_cache_update, mock_outstream, pan_tadeusz_file):
-    file, out_writer = mock_outstream
-
-    cache.put('M000105/M000105-000003')
-    processor = ServerProtocolProcessor.ServerProtocolProcessor(reader_two_no_cache_update, out_writer,
-                                                                cache, server_root_path.name)
+    vector_reader = get_vector_reader(vector_description.vector_path)
+    processor = spp.ServerProtocolProcessor(vector_reader, out_writer,
+                                            cache, server_root_path.name)
 
     with pytest.raises(RuntimeError):
         processor.run()
 
     file.seek(0)
-    assert file.read() == b'M000105/M000105-000003\r\nM000105/M000105-000001\r\nM000105/M000105-000000\r\n'
-    assert cache.get(wait_for_value=False) == 'M000105/M000105-000003'
+    assert vector_description.token_sequence.encode() == file.read()
+
+    storage_root = server_root_path.name
+    for file_group_description in vector_description.file_groups:
+        source_path = file_group_description.source_path
+        source_file = pl.Path(fsh.get_relative_path(__file__, source_path))
+        source_bytes = source_file.read_bytes()
+        for file_state in file_group_description.file_states:
+            expected_file = pl.Path(storage_root, file_state.path)
+            assert expected_file.read_bytes() == source_bytes[:file_state.size]
+
+    assert cache.get(wait_for_value=False) == vector_description.cache_expected
