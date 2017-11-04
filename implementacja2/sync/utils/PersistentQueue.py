@@ -87,6 +87,7 @@ class SqliteQueue(Queue):
         """
         curs = self.connection.execute(r'SELECT element FROM queue LIMIT 1')
         record = curs.fetchone()
+        # TODO zmienic na lock
         while not record:
             curs = self.connection.execute(r'SELECT element FROM queue LIMIT 1')
             record = curs.fetchone()

@@ -28,6 +28,8 @@ def mock_outstream():
 
     return file, writer
 
+
+# TODO store those in json and use to generate test vectors
 one_file_vector_dict = {
     'vector_path': 'vectors/one_file.vector',
     'cache_initial_state': None,
@@ -35,7 +37,7 @@ one_file_vector_dict = {
     'expected_ack_sequence': ('M000101/M000101-000000',),
     'expected_disk_state': [
         {
-            'source_path': 'vectors\pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
+            'source_path': 'vectors/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
             'file_states': [
                 {'path': 'M000101/M000101-000000', 'size': 1000},
             ]
@@ -53,7 +55,7 @@ two_equall_length_dict = {
     ),
     'expected_disk_state': [
         {
-            'source_path': 'vectors\pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
+            'source_path': 'vectors/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
             'file_states': [
                 {'path': 'M000102/M000102-000000', 'size': 1000},
                 {'path': 'M000102/M000102-000001', 'size': 1000}
@@ -72,7 +74,7 @@ two_increasing_length_dict = {
     ),
     'expected_disk_state': [
         {
-            'source_path': 'vectors\pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
+            'source_path': 'vectors/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
             'file_states': [
                 {'path': 'M000103/M000103-000000', 'size': 1000},
                 {'path': 'M000103/M000103-000001', 'size': 2000}
@@ -92,7 +94,7 @@ two_decreasing_length_dict = {
     ),
     'expected_disk_state': [
         {
-            'source_path': 'vectors\pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
+            'source_path': 'vectors/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
             'file_states': [
                 {'path': 'M000104/M000104-000000', 'size': 2000},
                 {'path': 'M000104/M000104-000001', 'size': 1000}
@@ -112,7 +114,7 @@ two_no_cache_update_path_dict = {
     ),
     'expected_disk_state': [
         {
-            'source_path': 'vectors\pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
+            'source_path': 'vectors/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt',
             'file_states': [
                 {'path': 'M000105/M000105-000000', 'size': 100},
                 {'path': 'M000105/M000105-000001', 'size': 100}

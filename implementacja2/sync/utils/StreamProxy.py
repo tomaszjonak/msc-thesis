@@ -106,3 +106,20 @@ class SocketStreamProxy(StreamProxy):
         while buffer:
             sent = self.write(buffer)
             buffer = buffer[sent:]
+
+
+class ByteStream(StreamProxy):
+    def __init__(self):
+        self._buffer = bytearray()
+
+    def read(self, chunk_size):
+        result = self._buffer[:chunk_size]
+        self._buffer = self._buffer[chunk_size:]
+        return result
+
+    def write(self, buffer):
+        self._buffer += buffer
+        return len(buffer)
+
+    def write_all(self, buffer):
+        self.write(buffer)
