@@ -12,7 +12,6 @@ from ...utils import PersistentQueue
 def cache():
     f = tempfile.NamedTemporaryFile(delete=False)
     cache_instance = PersistentQueue.SqliteQueue(f.name)
-
     return cache_instance
 
 

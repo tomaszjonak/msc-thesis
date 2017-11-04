@@ -99,7 +99,7 @@ class SocketStreamProxy(StreamProxy):
         return self.read_(chunk_size)
 
     def write(self, buffer):
-        return self.socket.write(buffer)
+        return self.socket.send(buffer)
 
     # TODO check if this socket has sendall
     def write_all(self, buffer):

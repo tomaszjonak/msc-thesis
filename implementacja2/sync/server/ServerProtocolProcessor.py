@@ -49,6 +49,10 @@ class ServerProtocolProcessor(object):
         ktory zostal poprawnie zapisany na serwerze.
         """
         newest_file = self.cache.get(wait_for_value=False)
+        if newest_file:
+            print('Cached file found, sending information ({})'.format(newest_file))
+        else:
+            print('No cached file found, proceeding')
         self.writer.write_token(newest_file)
 
         self.operation = self._process_filename
@@ -60,6 +64,7 @@ class ServerProtocolProcessor(object):
         filename = self.reader.get_token().decode('utf8')
         if not filename:
             return
+        print('Receiving file ({})'.format(filename))
 
         path = self.storage_root.joinpath(filename)
         if any(len(part) > 255 for part in path.parts):

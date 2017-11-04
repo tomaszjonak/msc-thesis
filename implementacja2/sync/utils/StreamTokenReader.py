@@ -34,7 +34,7 @@ class StreamTokenReader(object):
 
     def _fetch_from_device(self, chunk_size=None):
         """
-        :param chunk_szie:
+        :param chunk_size:
         :return:
         """
         chunk_size = chunk_size or self.chunk_size

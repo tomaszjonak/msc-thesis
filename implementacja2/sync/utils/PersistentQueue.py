@@ -56,7 +56,7 @@ class SqliteQueue(Queue):
     def __init__(self, path: str, interval: float=0.05):
         self.path = path
         self.interval = interval
-        self.connection = sqlite3.connect(self.path)
+        self.connection = sqlite3.connect(self.path, check_same_thread=False)
 
         curs = self.connection.execute("""SELECT name FROM sqlite_master WHERE type='table' AND name='queue'""")
         if not curs.fetchone():

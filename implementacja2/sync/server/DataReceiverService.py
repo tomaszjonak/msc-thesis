@@ -30,7 +30,12 @@ class DataReceiverService(object):
     def __init__(self, address, storage_root, cache=None, **kwargs):
         self.options = kwargs
         self.address = address
-        self.storage_root = pl.Path(kwargs.get('storage_root', '.'))
+        if isinstance(storage_root, str):
+            self.storage_root = pl.Path(storage_root)
+        elif isinstance(storage_root, pl.Path):
+            self.storage_root = storage_root
+        else:
+            raise RuntimeError('Invalid storage root provided ({})'.format(repr(storage_root)))
 
         self.storage_root.mkdir(exist_ok=True, parents=True)
         self.cache = cache or PersistentQueue.SqliteQueue(kwargs.get('cache_file', 'cache.db'))
@@ -83,9 +88,9 @@ class DataReceiverHandler(socketserver.BaseRequestHandler):
         processor = self.prepare_processor(self.request, self.cache, self.storage_root)
         try:
             processor.run()
-        except:
+        except Exception as e:
             # we have some connection breaking condition, just stop handling
-            pass
+            print(repr(e))
 
     @staticmethod
     def prepare_processor(socket, cache, storage_root):
