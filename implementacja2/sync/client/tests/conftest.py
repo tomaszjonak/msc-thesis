@@ -48,6 +48,11 @@ def ostream():
     return OStream(reader, writer)
 
 
+@pytest.fixture(scope='session')
+def extensions():
+    return ['avi', 'tmp', 'lvm']
+
+
 @pytest.fixture(scope='function', params=[
     (
         ('one/file.tmp',    100),
@@ -83,6 +88,33 @@ def ostream():
         ('cat1/1.tmp', 30),
         ('cat2/2.tmp', 30),
         ('cat3/3.tmp', 30),
+    ),
+    (
+        ('file.ext', 1),
+        ('file2.ext', 1),
+    ),
+    ( # files will be discovered in order of extensions passed to processor
+        ('file.avi', 1),
+        ('file.tmp', 1),
+        ('file.lvm', 1)
+    ),
+    (
+        ('file.avi', 1),
+        ('file.tmp', 1),
+        ('file.lvm', 1),
+        ('file.ext', 1),
+    ),
+    (
+        ('file.ext', 1),
+        ('file.avi', 1),
+        ('file.tmp', 1),
+        ('file.lvm', 1),
+    ),
+    (
+        ('file.avi', 1),
+        ('file.ext', 1),
+        ('file.tmp', 1),
+        ('file.lvm', 1),
     ),
 ])
 def file_vector(request):

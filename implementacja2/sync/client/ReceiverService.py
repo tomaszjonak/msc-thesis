@@ -1,4 +1,6 @@
-from ..utils import PersistentQueue
+from . import ReceiverProcessor
+import threading
+
 
 class ReceiverService(object):
     """
@@ -22,8 +24,5 @@ class ReceiverService(object):
     * Kolejka musi byc w stanie przechowac swoj stan w przypadku naglego zakonczenia
       dzialania programu (np. odciecie zasilania)
     """
-    def __init__(self, queue: PersistentQueue.Queue):
-        if not isinstance(queue, PersistentQueue.Queue):
-            raise RuntimeError('Queue has to keep data despite program shutdown')
-
-        self.queue = queue
+    def __init__(self):
+        pass
