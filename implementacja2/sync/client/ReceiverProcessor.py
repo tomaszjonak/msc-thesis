@@ -8,7 +8,7 @@ class ReceiverProcessorError(RuntimeError):
 
 
 class ReceiverProcessor(object):
-    def __init__(self, reader, queue, supported_extensions, storage_root):
+    def __init__(self, reader, queue, storage_root, supported_extensions):
         if not isinstance(queue, PersistentQueue.Queue):
             raise ReceiverProcessorError('Queue has to keep data despite program shutdown')
 

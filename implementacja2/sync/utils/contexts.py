@@ -25,3 +25,11 @@ def connection_context(*args, **kwargs):
 
         ConnectionContext = collections.namedtuple('ConnectionContext', ('connection', 'reader', 'writer'))
         yield ConnectionContext(socket_, reader, writer)
+
+
+@contextmanager
+def listener_context(*args, **kwargs):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(*args, **kwargs)
+        s.listen(kwargs.get('connection_backlog', 0))
+        yield s

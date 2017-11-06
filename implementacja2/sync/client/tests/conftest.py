@@ -9,6 +9,19 @@ from ...utils import StreamTokenWriter
 from ...utils import StreamTokenReader
 
 
+# TODO: check whether automatic port discovery could be used here
+service_port = 20000
+
+
+@pytest.fixture(scope='function')
+def service_address():
+    global service_port
+    host = '127.0.0.1'
+    address = host, service_port
+    service_port += 1
+    return address
+
+
 @pytest.fixture(scope='function')
 def stage_queue():
     # TODO, nest this under storage_root

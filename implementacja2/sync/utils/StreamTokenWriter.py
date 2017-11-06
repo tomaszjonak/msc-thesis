@@ -1,17 +1,21 @@
 from . import StreamProxy
 
 
+class StreamTokenWriterError(RuntimeError):
+    pass
+
+
 class StreamTokenWriter(object):
     """
     Klasa odpowiedzialna za wpisywanie tokenow razem z separatorami do strumienia
     """
     def __init__(self, stream: StreamProxy.StreamProxy, separator: (bytes, bytearray, str)):
         if not isinstance(stream, StreamProxy.StreamProxy):
-            raise RuntimeError('Can\'t create StreamTokenWriter with unsupported stream type ({})'.format(type(stream)))
+            raise StreamTokenWriterError('Can\'t create StreamTokenWriter with unsupported stream type ({})'.format(type(stream)))
         if not isinstance(separator, (bytes, bytearray, str)):
-            raise RuntimeError('Separator has to be either string or bytes (got: )'.format(type(separator)))
+            raise StreamTokenWriterError('Separator has to be either string or bytes (got: )'.format(type(separator)))
         if not separator:
-            raise RuntimeError('Can\'t use empty separator')
+            raise StreamTokenWriterError('Can\'t use empty separator')
 
         self._stream = stream
         self.separator = separator if isinstance(separator, (bytes, bytearray)) else separator.encode('utf8')

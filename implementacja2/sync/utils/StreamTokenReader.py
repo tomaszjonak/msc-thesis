@@ -1,6 +1,10 @@
 from . import StreamProxy
 
 
+class StreamTokenReaderError(RuntimeError):
+    pass
+
+
 class StreamTokenReader(object):
     """
     Klasa odpowiedzialna za manipulacje strumieniem w celu odczytu pojedynczych tokenow ze strumienia
@@ -41,7 +45,7 @@ class StreamTokenReader(object):
 
         chunk = self._stream.read(chunk_size)
         if not chunk:
-            raise RuntimeError('End of stream')
+            raise StreamTokenReaderError('End of stream')
 
         self._buffer += chunk
 
