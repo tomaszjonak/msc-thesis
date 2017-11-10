@@ -77,7 +77,7 @@ class SqliteQueue(Queue):
     def _setup_scheme(self):
         # TODO test queue size trends on working system
         # TODO check whether indexing by timestamp gives any performance difference
-        self.connection.execute(r'CREATE TABLE queue (timestamp DATETIME, element text)')
+        self.connection.execute(r'CREATE TABLE queue (timestamp DATETIME, element TEXT)')
 
     def put(self, element):
         try:
@@ -93,6 +93,10 @@ class SqliteQueue(Queue):
 
     def get(self, wait_for_value=True):
         return self.waiting_get() if wait_for_value else self.instant_get()
+
+    def get_all(self):
+        result = self.connection.execute("""SELECT element FROM queue""").fetchall()
+        return [x for (x,) in result]
 
     def waiting_get(self):
         """

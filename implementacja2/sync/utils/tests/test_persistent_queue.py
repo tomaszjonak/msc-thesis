@@ -80,3 +80,10 @@ def test_sqlite_fifo(queue):
         result = queue.get()
         queue.pop(result)
         assert int(result) == number
+
+
+def test_fetch_all(queue):
+    for number in range(5):
+        queue.put(str(number))
+
+    assert queue.get_all() == ['0', '1', '2', '3', '4']
