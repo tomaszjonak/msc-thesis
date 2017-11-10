@@ -23,15 +23,19 @@ def service_address():
 
 
 @pytest.fixture(scope='function')
-def stage_queue():
-    # TODO, nest this under storage_root
+def queue_file():
     f = tempfile.NamedTemporaryFile(delete=False)
-    cache_instance = PersistentQueue.SqliteQueue(f.name)
-    yield cache_instance
+    yield f.name
     # TODO looks like it leaves file in tmp under windows
     # did no tests on linux, bash on windows makes me lazy
     f.delete = True
     f.close()
+
+
+@pytest.fixture(scope='function')
+def stage_queue(queue_file):
+    cache_instance = PersistentQueue.SqliteQueue(queue_file)
+    yield cache_instance
 
 
 @pytest.fixture(scope='function')

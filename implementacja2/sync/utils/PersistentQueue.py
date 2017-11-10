@@ -53,18 +53,31 @@ class SqliteQueue(Queue):
     """
     Implementacja kolejki dyskowej z wykorzystaniem bazy danych sqlite. Warto zwrocic uwage ze get zwraca str(element)
     """
-    def __init__(self, path: str, interval: float=0.05):
+
+    ORDER_MAP = {
+        'query': r'SELECT element FROM queue LIMIT 1',
+        'LIFO': r'SELECT element from queue ORDER BY queue.timestamp DESC LIMIT 1',
+        'FIFO': r'SELECT element from queue ORDER BY queue.timestamp ASC LIMIT 1'
+    }
+
+    def __init__(self, path: str, interval: float=0.05, order='query'):
         self.path = path
         self.interval = interval
         self.connection = sqlite3.connect(self.path, check_same_thread=False)
+
+        self.get_impl = self.ORDER_MAP[order]
 
         curs = self.connection.execute("""SELECT name FROM sqlite_master WHERE type='table' AND name='queue'""")
         if not curs.fetchone():
             self._setup_scheme()
 
+    def set_order(self, order):
+        self.get_impl = self.ORDER_MAP[order]
+
     def _setup_scheme(self):
-        self.connection.execute(r'CREATE TABLE queue (timestamp text, element text)')
-        self.connection.commit()
+        # TODO test queue size trends on working system
+        # TODO check whether indexing by timestamp gives any performance difference
+        self.connection.execute(r'CREATE TABLE queue (timestamp DATETIME, element text)')
 
     def put(self, element):
         try:
@@ -75,23 +88,21 @@ class SqliteQueue(Queue):
 
         # sqlite expects list of values as second parameter, if it happens
         # that string is passed it will be treated as array of characters (silly stuff)
-        self.connection.execute(r'INSERT INTO queue VALUES (DATETIME(),?)', (value,))
-        self.connection.commit()
+        with self.connection:
+            self.connection.execute("""INSERT INTO queue VALUES (strftime('%Y-%m-%d %H:%M:%f', 'now'),?)""", (value,))
 
     def get(self, wait_for_value=True):
         return self.waiting_get() if wait_for_value else self.instant_get()
 
     def waiting_get(self):
         """
-        :return: str - ostatni element z kolejki
+        :return: str - element z kolejki (w zaleznosci od paramteru order)
         """
-        curs = self.connection.execute(r'SELECT element FROM queue LIMIT 1')
-        record = curs.fetchone()
-        # TODO zmienic na lock
+        record = self.connection.execute(self.get_impl).fetchone()
+
         while not record:
-            curs = self.connection.execute(r'SELECT element FROM queue LIMIT 1')
-            record = curs.fetchone()
             time.sleep(self.interval)
+            record = self.connection.execute(self.get_impl).fetchone()
 
         return record[0]
 
@@ -99,8 +110,7 @@ class SqliteQueue(Queue):
         """
         :return: value if any present in queue else none
         """
-        curs = self.connection.execute(r'SELECT element FROM queue LIMIT 1')
-        record = curs.fetchone()
+        record = self.connection.execute(self.get_impl).fetchone()
         return record[0] if record else None
 
     def pop(self, element):
@@ -109,11 +119,9 @@ class SqliteQueue(Queue):
         Bazuje to na zalozeniu ze soft pomiarowy daje kolejnym plikom unikalne nazwy
         """
         self.connection.execute(r'DELETE FROM queue where element=?', (element,))
-        self.connection.commit()
 
     def len(self):
-        curs = self.connection.execute(r'SELECT count(*) from queue')
-        record = curs.fetchone()
+        record = self.connection.execute(r'SELECT count(*) from queue').fetchone()
         return record[0]
 
     def __del__(self):
