@@ -10,8 +10,8 @@ class SyncProcessor(object):
         self.staged_files = staged_files
 
     def update_queue(self, server_info, client_info):
-        upper_time = client_info.lstat().st_ctime_ns
-        lower_time = server_info.lstat().st_ctime_ns
+        upper_time = client_info.stat().st_ctime_ns
+        lower_time = server_info.stat().st_ctime_ns
         possible_matches = self.find_files_in_time_span(lower_time, upper_time)
         matches = (file for file in possible_matches if file not in self.staged_files)
         for file in matches:

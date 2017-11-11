@@ -136,3 +136,100 @@ def extensions():
 ])
 def file_vector(request):
     return request.param
+
+@pytest.fixture(scope='session', params=[
+    {
+        'files': [  # file order matters here, order introduced by creation time is based on this
+            "f1/a.ext",
+            "f2/a.ext",
+            "f3/a.ext"
+        ],
+        'first': 0,
+        'last': 2,
+        'staged': [],
+        'extensions': ['ext']
+    },
+    {
+        'files': [  # file order matters here, order introduced by creation time is based on this
+            "f1/a.ext",
+            "f1/b.ext",
+            "f1/c.ext",
+            "f2/a.ext",
+            "f2/b.ext",
+            "f2/c.ext"
+        ],
+        'first': 2,
+        'last': 5,
+        'staged': [],
+        'extensions': ['ext']
+    },
+    {
+        'files': [  # file order matters here, order introduced by creation time is based on this
+            "f1/a.ext",
+            "f1/b.ext",
+            "f1/c.ext",
+            "f2/a.ext",
+            "f2/b.ext",
+            "f2/c.ext"
+        ],
+        'first': 1,
+        'last': 4,
+        'staged': [2, 3],
+        'extensions': ['ext']
+    },
+    {
+        'files': [  # file order matters here, order introduced by creation time is based on this
+            "f1/a.ext",
+            "f1/b.txt",
+            "f1/c.xD",
+            "f2/a.ext",
+            "f2/b.ext",
+            "f2/c.ext"
+        ],
+        'first': 0,
+        'last': 5,
+        'staged': [4, 3],
+        'extensions': ['ext']
+    },
+    {
+        'files': [  # file order matters here, order introduced by creation time is based on this
+            "f1/a.lvm",
+            "f1/a.avi",
+            "f1/a.ext",
+            "f2/a.lvm",
+            "f2/a.avi",
+            "f2/a.ext"
+        ],
+        'first': 0,
+        'last': 5,
+        'staged': [],
+        'extensions': ['lvm,avi,ext']
+    },
+    {
+        'files': [  # file order matters here, order introduced by creation time is based on this
+            "f1/a.lvm",
+            "f1/a.avi",
+            "f1/a.ext",
+            "f2/a.lvm",
+            "f2/a.avi",
+            "f2/a.ext"
+        ],
+        'first': 0,
+        'last': 5,
+        'staged': [1, 3, 5],
+        'extensions': ['lvm,avi,ext']
+    },
+])
+def sync_vector(request):
+    dct = request.param
+    SyncState = collections.namedtuple('SyncState', ('files', 'first', 'last', 'staged', 'extensions'))
+
+    vector = SyncState(
+        files=dct['files'],
+        first=dct['first'],
+        last=dct['last'],
+        staged=dct['staged'],
+        extensions=dct['extensions']
+    )
+
+    return vector
