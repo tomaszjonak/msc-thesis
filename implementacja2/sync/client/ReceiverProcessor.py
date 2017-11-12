@@ -8,7 +8,7 @@ class ReceiverProcessorError(RuntimeError):
 
 
 class ReceiverProcessor(object):
-    def __init__(self, reader, queue, storage_root, supported_extensions):
+    def __init__(self, reader, queue, storage_root, supported_extensions, sync_queue=None):
         if not isinstance(queue, PersistentQueue.Queue):
             raise ReceiverProcessorError('Queue has to keep data despite program shutdown')
 
@@ -23,24 +23,48 @@ class ReceiverProcessor(object):
             raise ReceiverProcessorError('Unsupported storage root type ({})'.format(repr(storage_root)))
 
         self.queue = queue
+        self.sync_queue = sync_queue
         self.reader = reader
         self.extensions = ['.{}'.format(extension.strip('.')) for extension in supported_extensions]
 
+        self.operation = self._get_first_record if self.sync_queue else self._process_files
+
+    def _get_first_record(self):
+        file_pattern = self.reader.get_token().decode()
+        files = self.find_matching_files(file_pattern)
+
+        if not files:
+            print('No files matched (file_name: {}, extensions: {}'.format(file_pattern, repr(self.extensions)))
+            return
+
+        first_received = min((self.storage_root.joinpath(file) for file in files),
+                             key=lambda file: file.stat().st_ctime_ns)
+
+        self.sync_queue.put(first_received)
+
+        for file in files:
+            self.queue.put(file)
+
+        self.operation = self._process_files
+
     def run(self):
         while True:
-            file_pattern = self.reader.get_token().decode()
-            files = self.find_matching_files(file_pattern)
+            self.operation()
 
-            file = None
-            for file in files:
-                self.queue.put(file)
-            if file is None:
-                # TODO use logger and make it warning
-                print('No files matched (file_name: {}, extensions: {}'.format(file_pattern, repr(self.extensions)))
+    def _process_files(self):
+        file_pattern = self.reader.get_token().decode()
+        files = self.find_matching_files(file_pattern)
+
+        file = None
+        for file in files:
+            self.queue.put(file)
+        if file is None:
+            # TODO use logger and make it warning
+            print('No files matched (file_name: {}, extensions: {}'.format(file_pattern, repr(self.extensions)))
 
     def find_matching_files(self, file_pattern):
         base_path = pl.Path(file_pattern)
         possible_files = (base_path.with_suffix(extension) for extension in self.extensions)
         # we want to send file path relative to storage root, thus base storage_root is included
         # into path only for existence check
-        return (str(file) for file in possible_files if self.storage_root.joinpath(file).exists())
+        return [str(file) for file in possible_files if self.storage_root.joinpath(file).exists()]

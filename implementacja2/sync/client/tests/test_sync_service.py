@@ -1,5 +1,4 @@
 import pytest
-import queue
 import contextlib
 import time
 
@@ -19,16 +18,6 @@ def sync_service_running(client_queue, server_queue, **kwargs):
         server_queue.put('stop')
         client_queue.put('stop')
         service.stop()
-
-
-@pytest.fixture(scope='function')
-def client_queue():
-    return queue.Queue(maxsize=1)
-
-
-@pytest.fixture(scope='function')
-def server_queue():
-    return queue.Queue(maxsize=1)
 
 
 @pytest.mark.timeout(0.5)
@@ -57,7 +46,7 @@ def test_context_creation(storage_path, stage_queue, client_queue, server_queue)
     assert not stage_queue.get_all()
 
 
-@pytest.mark.timeout(1.0)
+# @pytest.mark.timeout(1.0)
 def test_simple_case(storage_path, stage_queue, client_queue, server_queue):
     file_names = ['test1.file', 'test2.file', 'test3.file']
     files = [storage_path.joinpath(file_name) for file_name in file_names]
@@ -70,6 +59,8 @@ def test_simple_case(storage_path, stage_queue, client_queue, server_queue):
                               extensions=['file']):
         server_queue.put((files[0], []))
         client_queue.put(files[2])
+        # Saddly we need to give time for processing
+        time.sleep(0.25)
 
     stage_state = [storage_path.joinpath(relative_path) for relative_path in stage_queue.get_all()]
     assert stage_state == [files[1]]
@@ -92,6 +83,7 @@ def test_vectors(storage_path, stage_queue, client_queue, server_queue, sync_vec
                               extensions=sync_vector.extensions):
         server_queue.put((files[sync_vector.first], staged_state))
         client_queue.put(files[sync_vector.last])
+        time.sleep(0.25)
 
     expected_queue_state = [storage_path.joinpath(relative_path) for relative_path in staged_state]
     expected_queue_state += [file for file in files[sync_vector.first + 1:sync_vector.last]

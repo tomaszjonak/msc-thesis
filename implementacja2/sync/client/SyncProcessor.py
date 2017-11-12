@@ -15,6 +15,7 @@ class SyncProcessor(object):
         possible_matches = self.find_files_in_time_span(lower_time, upper_time)
         matches = (file for file in possible_matches if file not in self.staged_files)
         for file in matches:
+            print('putting {} into queue'.format(repr(file)))
             self.queue.put(str(file.relative_to(self.storage_root)))
 
     def find_files_in_time_span(self, lower, upper):

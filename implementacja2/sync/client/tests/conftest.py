@@ -2,6 +2,7 @@ import pytest
 import tempfile
 import collections
 import pathlib as pl
+import queue
 
 from ...utils import PersistentQueue
 from ...utils import StreamProxy
@@ -137,6 +138,7 @@ def extensions():
 def file_vector(request):
     return request.param
 
+
 @pytest.fixture(scope='session', params=[
     {
         'files': [  # file order matters here, order introduced by creation time is based on this
@@ -150,7 +152,7 @@ def file_vector(request):
         'extensions': ['ext']
     },
     {
-        'files': [  # file order matters here, order introduced by creation time is based on this
+        'files': [
             "f1/a.ext",
             "f1/b.ext",
             "f1/c.ext",
@@ -164,7 +166,7 @@ def file_vector(request):
         'extensions': ['ext']
     },
     {
-        'files': [  # file order matters here, order introduced by creation time is based on this
+        'files': [
             "f1/a.ext",
             "f1/b.ext",
             "f1/c.ext",
@@ -178,7 +180,7 @@ def file_vector(request):
         'extensions': ['ext']
     },
     {
-        'files': [  # file order matters here, order introduced by creation time is based on this
+        'files': [
             "f1/a.ext",
             "f1/b.txt",
             "f1/c.xD",
@@ -192,7 +194,7 @@ def file_vector(request):
         'extensions': ['ext']
     },
     {
-        'files': [  # file order matters here, order introduced by creation time is based on this
+        'files': [
             "f1/a.lvm",
             "f1/a.avi",
             "f1/a.ext",
@@ -206,7 +208,7 @@ def file_vector(request):
         'extensions': ['lvm,avi,ext']
     },
     {
-        'files': [  # file order matters here, order introduced by creation time is based on this
+        'files': [
             "f1/a.lvm",
             "f1/a.avi",
             "f1/a.ext",
@@ -233,3 +235,14 @@ def sync_vector(request):
     )
 
     return vector
+
+
+@pytest.fixture(scope='function')
+def client_queue():
+    return queue.Queue()
+
+
+@pytest.fixture(scope='function')
+def server_queue():
+    return queue.Queue()
+
