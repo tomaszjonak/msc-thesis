@@ -1,11 +1,11 @@
 import pytest
 import os
 
-from .. import ClientProtocolProcesor as cpp
+from .. import SenderProtocolProcessor as spp
 
 
 def test_creation(istream, ostream, stage_queue, storage_path):
-    processor = cpp.ClientProtocolProcessor(
+    processor = spp.SenderProtocolProcessor(
         reader=istream.reader,
         writer=ostream.writer,
         stage_queue=stage_queue,
@@ -27,7 +27,7 @@ def test_operation_normal(istream, ostream, stage_queue, storage_path):
 
     istream.writer.write_separator()
 
-    processor = cpp.ClientProtocolProcessor(
+    processor = spp.SenderProtocolProcessor(
         reader=istream.reader,
         writer=ostream.writer,
         stage_queue=stage_queue,
@@ -62,7 +62,7 @@ def test_file_vectors(istream, ostream, stage_queue, storage_path, file_vector):
     storage_path.joinpath(ender_filename).write_bytes(b'')
     stage_queue.put(ender_filename)
 
-    processor = cpp.ClientProtocolProcessor(
+    processor = spp.SenderProtocolProcessor(
         reader=istream.reader,
         writer=ostream.writer,
         stage_queue=stage_queue,

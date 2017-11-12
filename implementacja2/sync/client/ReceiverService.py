@@ -31,11 +31,11 @@ class ReceiverService(object):
     * Kolejka musi byc w stanie przechowac swoj stan w przypadku naglego zakonczenia
       dzialania programu (np. odciecie zasilania)
     """
-    def __init__(self, address, stage_queue, storage_root, **kwargs):
+    def __init__(self, address, stage_queue, storage_root, sync_queue=None, **kwargs):
         if not isinstance(stage_queue, PersistentQueue.Queue):
             raise ReceiverServiceError('Unsupported queue type ({})'.format(repr(stage_queue)))
 
-        self.thread = ReceiverThread(address, stage_queue, storage_root, **kwargs)
+        self.thread = ReceiverThread(address, stage_queue, storage_root, sync_queue=sync_queue, **kwargs)
         self.thread.start()
 
     def is_running(self):
@@ -50,11 +50,12 @@ class ReceiverService(object):
 
 
 class ReceiverThread(Workers.KeepAliveWorker):
-    def __init__(self, address, stage_queue, storage_root, **kwargs):
+    def __init__(self, address, stage_queue, storage_root, sync_queue=None, **kwargs):
         self.address = address
         self.queue = stage_queue
         self.storage_root = storage_root
 
+        self.sync_queue = sync_queue
         self.separator = kwargs.get('separator', '\n')
         self.extensions = kwargs.get('extensions', ['lvm', 'avi'])
         retry_time = kwargs.get('retry_time', 30)
@@ -70,7 +71,14 @@ class ReceiverThread(Workers.KeepAliveWorker):
     def _prepare_processor(self):
         stream = StreamProxy.SocketStreamProxy(self.socket)
         reader = StreamTokenReader.StreamTokenReader(stream, self.separator)
-        return ReceiverProcessor.ReceiverProcessor(reader, self.queue, self.storage_root, self.extensions)
+        proc = ReceiverProcessor.ReceiverProcessor(
+            reader=reader,
+            queue=self.queue,
+            storage_root=self.storage_root,
+            supported_extensions=self.extensions,
+            sync_queue=self.sync_queue
+        )
+        return proc
 
     def stop(self):
         super(ReceiverThread, self).stop()

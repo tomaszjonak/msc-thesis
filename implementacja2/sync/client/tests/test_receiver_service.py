@@ -3,6 +3,7 @@ import pathlib as pl
 from contextlib import contextmanager
 
 from .. import ReceiverService as srv
+from ...utils import PersistentQueue
 from ...utils import contexts as ctx
 
 
@@ -55,7 +56,6 @@ def test_functional_one_element(service_address, stage_queue, storage_path):
 
 
 def test_functional_vectors(service_address, queue_file, storage_path, extensions, file_vector):
-    from ...utils import PersistentQueue
     queue_view_1 = PersistentQueue.SqliteQueue(queue_file)
 
     expected_results = []
@@ -84,3 +84,51 @@ def test_functional_vectors(service_address, queue_file, storage_path, extension
         result = queue_view_2.get()
         assert storage_path.joinpath(result) == file
         queue_view_2.pop(result)
+
+
+def test_synchronization_notification(service_address, queue_file, storage_path, client_queue):
+    queue_view1 = PersistentQueue.SqliteQueue(queue_file)
+
+    ext = 'ext'
+    stub_path = 'file'
+    file = storage_path.joinpath(stub_path)
+    file_with_ext = file.with_suffix('.{}'.format(ext))
+    file_with_ext.write_bytes(b'')
+
+    with ctx.listener_context(service_address) as s:
+        with receiver_service(service_address, queue_view1, storage_path,
+                              retry_time=0.5, extensions=[ext],
+                              sync_queue=client_queue) as service:
+            assert service.is_running()
+            conn, _ = s.accept()
+            conn.send((stub_path + '\n').encode())
+            # TODO change connection to some context type for sanity sake
+            conn.close()
+
+    assert client_queue.get() == file_with_ext
+    assert client_queue.empty()
+
+
+def test_synchroniaztion_notification(service_address, queue_file, storage_path, client_queue):
+    queue_view1 = PersistentQueue.SqliteQueue(queue_file)
+
+    ext = 'ext'
+    file_names = ['file1', 'file2', 'file3']
+    files = []
+    for file_name in file_names:
+        file = storage_path.joinpath(file_name).with_suffix('.{}'.format(ext))
+        file.write_bytes(b'')
+        files.append(file)
+
+    with ctx.listener_context(service_address) as s:
+        with receiver_service(service_address, queue_view1, storage_path,
+                              retry_time=0.5, extensions=[ext],
+                              sync_queue=client_queue) as service:
+            assert service.is_running()
+            conn, _ = s.accept()
+            for file_name in file_names:
+                conn.send((file_name + '\n').encode())
+            conn.close()
+
+    assert client_queue.get() == files[0]
+    assert client_queue.empty()

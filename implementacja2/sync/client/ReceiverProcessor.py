@@ -40,7 +40,10 @@ class ReceiverProcessor(object):
         first_received = min((self.storage_root.joinpath(file) for file in files),
                              key=lambda file: file.stat().st_ctime_ns)
 
-        self.sync_queue.put(first_received)
+        try:
+            self.sync_queue.put(first_received)
+        except Exception as e:
+            print(repr(e))
 
         for file in files:
             self.queue.put(file)

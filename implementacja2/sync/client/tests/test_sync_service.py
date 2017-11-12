@@ -46,7 +46,7 @@ def test_context_creation(storage_path, stage_queue, client_queue, server_queue)
     assert not stage_queue.get_all()
 
 
-# @pytest.mark.timeout(1.0)
+@pytest.mark.timeout(1.0)
 def test_simple_case(storage_path, stage_queue, client_queue, server_queue):
     file_names = ['test1.file', 'test2.file', 'test3.file']
     files = [storage_path.joinpath(file_name) for file_name in file_names]

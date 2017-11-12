@@ -6,7 +6,7 @@ class ClientProtocolError(RuntimeError):
     pass
 
 
-class ClientProtocolProcessor(object):
+class SenderProtocolProcessor(object):
     """
     Klasa odpowiedzialna za obsluge komunikacji (strumienia danych) zestawionego z serwerem.
     Bezposrednio odpowiada za przeslanie plikow.
