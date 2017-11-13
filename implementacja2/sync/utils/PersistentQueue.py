@@ -47,6 +47,14 @@ class Queue(abc.ABC):
         """
         :return: Liczba elementow w kolejce
         """
+        pass
+
+    @abc.abstractmethod
+    def get_all(self):
+        """
+        :return: Lista elementow obecnie znajdujacych sie w kolejce
+        """
+        pass
 
 
 class SqliteQueue(Queue):

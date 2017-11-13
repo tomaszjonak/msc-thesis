@@ -16,7 +16,7 @@ def test_creation(istream, ostream, stage_queue, storage_path):
         processor.run()
 
 
-def test_operation_normal(istream, ostream, stage_queue, storage_path):
+def test_operation_normal(istream, ostream, storage_path, stage_queue, server_queue):
     test_file = 'test/file.tmp'
     file_content = b'correct horse battery staple'
     file_path = storage_path.joinpath(test_file)
@@ -31,7 +31,8 @@ def test_operation_normal(istream, ostream, stage_queue, storage_path):
         reader=istream.reader,
         writer=ostream.writer,
         stage_queue=stage_queue,
-        storage_root=storage_path
+        storage_root=storage_path,
+        sync_queue=server_queue
     )
 
     with pytest.raises(RuntimeError):
@@ -42,7 +43,7 @@ def test_operation_normal(istream, ostream, stage_queue, storage_path):
     assert ostream.reader.get_bytes(len(file_content)) == file_content
 
 
-def test_file_vectors(istream, ostream, stage_queue, storage_path, file_vector):
+def test_file_vectors(istream, ostream, stage_queue, storage_path, server_queue, file_vector):
     # No cached value from server
     istream.writer.write_separator()
 
@@ -66,7 +67,8 @@ def test_file_vectors(istream, ostream, stage_queue, storage_path, file_vector):
         reader=istream.reader,
         writer=ostream.writer,
         stage_queue=stage_queue,
-        storage_root=storage_path
+        storage_root=storage_path,
+        sync_queue=server_queue
     )
 
     with pytest.raises(RuntimeError):
@@ -77,3 +79,25 @@ def test_file_vectors(istream, ostream, stage_queue, storage_path, file_vector):
         assert ostream.reader.get_token() == encoded_size
         assert ostream.reader.get_bytes(int(encoded_size.decode())) == content
         assert ostream.reader.get_token() == b''
+
+
+def test_sync_basic(istream, ostream, stage_queue, storage_path, server_queue):
+    expected_file = 'test.file'
+    istream.writer.write_token(expected_file)
+
+    ender_filename = 'xD'
+    storage_path.joinpath(ender_filename).write_bytes(b'')
+    stage_queue.put(ender_filename)
+
+    processor = spp.SenderProtocolProcessor(
+        reader=istream.reader,
+        writer=ostream.writer,
+        stage_queue=stage_queue,
+        storage_root=storage_path,
+        sync_queue=server_queue
+    )
+
+    with pytest.raises(RuntimeError):
+        processor.run()
+
+    assert server_queue.get(timeout=2) == (storage_path.joinpath(expected_file), [ender_filename])

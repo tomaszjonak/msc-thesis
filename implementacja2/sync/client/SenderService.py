@@ -1,3 +1,8 @@
+from ..utils import Workers
+from ..utils import StreamTokenReader
+from ..utils import StreamTokenWriter
+from ..utils import StreamProxy
+from . import SenderProtocolProcessor
 
 
 class SenderService(object):
@@ -21,3 +26,56 @@ class SenderService(object):
     * Serwis ponawia polaczenie analogicznie do odbierajcego z labview
     * Schemat kompresji jest wymienny, istnieje mozliwosc wyboru schematu kompresji w zaleznosci od rozszerzenia pliku
     """
+    def __init__(self, address, storage_root, stage_queue, sync_queue, **kwargs):
+        self.address = address
+        self.storage_root = storage_root
+        self.stage_queue = stage_queue
+        self.sync_queue = sync_queue
+        self.thread = SenderThread(address, storage_root, stage_queue, sync_queue, **kwargs)
+        self.thread.start()
+
+    def is_alive(self):
+        return self.thread.isAlive()
+
+    def stop(self):
+        self.thread.stop()
+
+    def __del__(self):
+        if hasattr(self, 'thread') and self.thread:
+            self.thread.join()
+
+
+class SenderThread(Workers.KeepAliveWorker):
+    def __init__(self, address, storage_root, stage_queue, sync_queue, **kwargs):
+        self.storage_root = storage_root
+        self.stage_queue = stage_queue
+        self.sync_queue = sync_queue
+
+        self.separator = kwargs.get('separator', b'\r\n')
+        retry_time = kwargs.get('retry_time', 30)
+        super(SenderThread, self).__init__(address, retry_time)
+
+    def work(self):
+        processor = self._prepare_processor()
+        try:
+            processor.run()
+        except StreamTokenReader.StreamTokenReaderError as e:
+            print('Stream error, restarting connection ({})'.format(e))
+
+    def _prepare_processor(self):
+        stream = StreamProxy.SocketStreamProxy(self.socket)
+        reader = StreamTokenReader.StreamTokenReader(stream, self.separator)
+        writer = StreamTokenWriter.StreamTokenWriter(stream, self.separator)
+
+        proc = SenderProtocolProcessor.SenderProtocolProcessor(
+            reader=reader,
+            writer=writer,
+            storage_root=self.storage_root,
+            stage_queue=self.stage_queue,
+            sync_queue=self.sync_queue,
+        )
+
+        return proc
+
+    def stop(self):
+        super(SenderThread, self).stop()
