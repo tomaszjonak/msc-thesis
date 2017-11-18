@@ -353,8 +353,8 @@ reference "chap:kompresja"
 
 \end_inset
 
- zawiera analizę dostępnych algorytmów kompresji, oraz porównanie ich skutecznoś
-ci w analizowanym przypadku.
+ zawiera analizę dostępnych algorytmów kompresji oraz porównanie ich skutecznośc
+i w analizowanym przypadku.
 \end_layout
 
 \begin_layout Chapter
@@ -369,434 +369,34 @@ name "chap:opis_problemu"
 \end_layout
 
 \begin_layout Standard
-Rysunki można wstawiać używając menu Wstaw 
-\begin_inset Formula $\rightarrow$
-\end_inset
+Katedra metrologii prowadzi badania dotyczące odczytu informacji o pojazdach
+ poruszających się po drodze za pomocą czujników magnetycznych.
+ Czujniki takie zostały zamontowane na odcinku autostrady w miejscowości
+ Gardawice.
+ Stanowisko pomiarowe prócz czujników składa się z komputera połączonego
+ bezpośrednio z czujnikami na którym zainstalowane jest oprogramowanie zbierając
+e z nich dane.
+ Dodatkowo zamontowana jest kamera wykonująca krótkie sekwencje wideo przejeżdża
+jących samochodów.
+ Dane te zapisywane są w pamięci trwałej komputera celem późniejszego przetransp
+ortowania do katedry oraz dalszej analizy.
+ Codzienna komunikacja ze stanowiskiem pomiarowym prowadzona jest zdalnie.
+\end_layout
 
- Wstawka 
-\begin_inset Formula $\rightarrow$
-\end_inset
-
- Rysunek.
- Spowoduje to pojawienie się obszaru wstawki.
- Od razu warto ustalić i nadać wstawce etykietę, co najszybciej można zrobić
- przyciskiem 
-\begin_inset Quotes pld
-\end_inset
-
-Wstaw etykietę
-\begin_inset Quotes prd
-\end_inset
-
-.
- Kolejny krok to wprowadzenie podpisu pod rysunkiem i finalne wstawienie
- grafiki używając menu Wstaw 
-\begin_inset Formula $\rightarrow$
-\end_inset
-
- Rysunek.
- Wyśrodkowanie rysunku można zrealizować przyciskiem 
-\begin_inset Quotes pld
-\end_inset
-
-Ustawienia akapitu
-\begin_inset Quotes prd
-\end_inset
-
-.
- Oczywiście teraz możemy w tekście odnieść się do naszego opisanego rysunku
- posługując się jego etykietą i przyciskiem 
-\begin_inset Quotes pld
-\end_inset
-
-Wstaw odsyłacz wewnętrzny
-\begin_inset Quotes prd
-\end_inset
-
-, patrz rys.
- 
+\begin_layout Standard
+Dostęp do stanowiska zapewnia bezprzewodowe łącze internetowe o małej przepustow
+ości.
+ Uniemożliwia to łatwy przesył danych za pomocą powszechnie znanych metod
+ takich jak ftp (ang File Transfer Protocol), scp (ang.
+ Secure Copy Protocol) czy program rsync.
+ Wymagane jest zastosowanie kompresji, której poświęcony jest rozdział 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:etykieta_dla_wstawka_rysunek"
+reference "chap:kompresja"
 
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/wstawka_rysunek.PNG
-	lyxscale 50
-	width 14cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Podpis pod rysunkiem.
- Tak to wygląda w \SpecialChar LyX
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:etykieta_dla_wstawka_rysunek"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Wstawkę z rysunkiem można zamknąć/otworzyć pojedynczym kliknięciem na 
-\begin_inset Quotes pld
-\end_inset
-
-Wstawka: Rysunek
-\begin_inset Quotes prd
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-Często Promotor narzuca Dyplomantom aby rysunki pojawiały się w tekście
- zaraz poniżej pierwszego wystąpienia odnośnika do danego rysunku.
- \SpecialChar LyX
-, tak samo jak \SpecialChar LaTeX
- stara się rysunki rozmieszczać wg swojego wewnętrznego
- algorytmu, często nie tak, jak to my byśmy sobie życzyli.
- Aby uporać się z tym problemem wystarczy wybrać ustawienie 
-\begin_inset Quotes pld
-\end_inset
-
-Tutaj bezwzględnie
-\begin_inset Quotes prd
-\end_inset
-
-, co ilustruje rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:tutaj_bezwzglednie"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/tutaj_bezwglednie.png
-	width 7cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Ustawienia występowania rysunków w tekście
-\end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:tutaj_bezwzglednie"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Wstawiane pliki z grafiką (w formacie: PNG, JPG, GIF, EMF itd.) mogą mieć
- różną rozdzielczość.
- Często chcemy, aby rysunek na stronie miał żądaną przez nas szerokość lub
- wysokość, a nie rozmiar wynikający z rozdzielczości takiego pliku.
- W \SpecialChar LyX
- można to wygodnie określić, patrz rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:ustawienia_szerokosci_rys"
-
-\end_inset
-
-.
- Dla tak określonych rozmiarów rysunku w finalnym PDF (w cm) \SpecialChar LyX
- zadba o jego
- proporcje – nie trzeba określać wysokości.
- Rozmiary rysunku wyświetlanego w edytorze \SpecialChar LyX
- ustawia się w zakładce 
-\begin_inset Quotes pld
-\end_inset
-
-Opcje \SpecialChar LaTeX
- i \SpecialChar LyX
-
-\begin_inset Quotes prd
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/ustaw_szerokosc.PNG
-	width 10cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Ustawienia szerokości rysunku na stronie w finalnym pliku PDF
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:ustawienia_szerokosci_rys"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Dobrym przyzwyczajeniem jest umieszczanie plików rysunków w podkatalogu,
- np.
- 
-\begin_inset Quotes pld
-\end_inset
-
-img
-\begin_inset Quotes prd
-\end_inset
-
- jak w tym dokumencie oraz podając ścieżkę względną.
-\end_layout
-
-\begin_layout Standard
-Na rysunku 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:eps_vs_jpg"
-
-\end_inset
-
- możesz zobaczyć różnicę w wyglądzie między formatami EPS i JPG.
- W finalnym dokumencie różnica jak widać jest widoczna, zwłaszcza przy skalowani
-u-powiększeniu strony.
- Warto używać grafik wektorowych takich jak EMF czy EPS i oprogramowania
- Inkscape 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "inkscape"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="2" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-a)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-b)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename img/agh.eps
-	width 3cm
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename img/_agh.jpg
-	lyxscale 20
-	width 3cm
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Logo AGH: a) z pliku EPS; b) z pliku JPG
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:eps_vs_jpg"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Chapter
@@ -2010,15 +1610,18 @@ Numeracja wzorów w tekście powinna być w okrągłych nawiasach.
 \end_layout
 
 \begin_layout Verbatim
+
 - wzoru 3.1.
  
 \end_layout
 
 \begin_layout Verbatim
+
 + wzoru (3.1).
 \end_layout
 
 \begin_layout Verbatim
+
 - wzoru(3.1) 
 \end_layout
 
@@ -2036,10 +1639,12 @@ Numery cytowań są częścią zdania.
 \end_layout
 
 \begin_layout Verbatim
+
 - nawierzchni.[13] Jest 
 \end_layout
 
 \begin_layout Verbatim
+
 + nawierzchni [13].
  Jest 
 \end_layout
@@ -2051,10 +1656,12 @@ Numery cytowań są jak wyrazy.
 \end_layout
 
 \begin_layout Verbatim
+
 - w pracy[3] przedstawiono 
 \end_layout
 
 \begin_layout Verbatim
+
 + w pracy [3] przedstawiono
 \end_layout
 
@@ -2093,10 +1700,12 @@ mA albo 10
 \end_layout
 
 \begin_layout Verbatim
+
 - F:/home/raf/inz/img/glade.png
 \end_layout
 
 \begin_layout Verbatim
+
 + img/glade.png
 \end_layout
 
@@ -2105,10 +1714,12 @@ W języku polskim znak dziesiętny to przecinek, czyli zamiast
 \end_layout
 
 \begin_layout Verbatim
+
 - między 0.25 a 1.2 
 \end_layout
 
 \begin_layout Verbatim
+
 + między 0,25 a 1,2
 \end_layout
 
@@ -2206,6 +1817,7 @@ procedury
 
 \begin_layout Verbatim
 
+
 \backslash
 renewcommand*{
 \backslash
@@ -2213,6 +1825,7 @@ tablename}{Tab.}
 \end_layout
 
 \begin_layout Verbatim
+
 
 \backslash
 renewcommand*{
