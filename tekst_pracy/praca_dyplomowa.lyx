@@ -309,33 +309,10 @@ Zakres pracy
 \end_layout
 
 \begin_layout Standard
-W ramach pracy przeanalizowano d
-\end_layout
-
-\begin_layout Standard
-Niniejsza praca dotyczy oprogramowania \SpecialChar LyX
-, który jest pomyślany w taki sposób,
- aby odciążyć użytkownika od szczegółowej znajomości \SpecialChar LaTeX
--a.
- Często jednak znajomość \SpecialChar LaTeX
- jest niezbędna.
- Warto wówczas sięgnąć np.
- do 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kostecki"
-
-\end_inset
-
- lub do wykładu 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Szpyrka_wyklad"
-
-\end_inset
-
-.
- 
+Praca obejmuje dobór protokołów sieciowych do transportu danych, analizę
+ metod kompresji oraz dobór, implementację aplikacji komunikujących stronę
+ kliencką oraz serwerową oraz określenie i implementację mechanizmu ochrony
+ przed utratą danych (synchronizacji).
 \end_layout
 
 \begin_layout Section*
@@ -378,19 +355,6 @@ reference "chap:kompresja"
 
  zawiera analizę dostępnych algorytmów kompresji, oraz porównanie ich skutecznoś
 ci w analizowanym przypadku.
-\end_layout
-
-\begin_layout Standard
-\begin_inset VSpace bigskip
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Wszelkie uwagi dotyczące tej formatki śmiało proszę zgłaszać na mój adres
- e-mail.
- 
 \end_layout
 
 \begin_layout Chapter
