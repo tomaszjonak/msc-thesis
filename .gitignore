@@ -105,3 +105,6 @@ venv.bak/
 .mypy_cache/
 msc_client/data
 msc_server/received/
+
+# lynx
+*.pdf

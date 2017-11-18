@@ -1,0 +1,2589 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass aghdpl
+\begin_preamble
+% \documentclass{aghdpl}               % przy kompilacji programem latex
+% \documentclass[pdflatex,en]{aghdpl}  % praca w języku angielskim
+% dodatkowe pakiety
+\usepackage{enumerate}
+\usepackage{listings}
+% Numeracja po kolei rysunkow, tabel i wzorow
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+%
+\lstloadlanguages{TeX}
+\usepackage{caption} 
+\captionsetup[figure]{labelformat=simple, labelsep=period}
+\captionsetup[table]{labelformat=simple, labelsep=period}
+\captionsetup[algorithm]{labelformat=simple, labelsep=period}
+%\captionsetup{font=small}
+\captionsetup{margin=10pt, font={small}, labelfont=bf, format=hang}
+\usepackage{esint}
+\clubpenalty = 10000
+\widowpenalty = 10000
+%\usepackage{graphicx}
+%\usepackage{grfext}
+%\AtBeginDocument{%
+% \PrependGraphicsExtensions*{
+%    .mps,.MPS,.pdf,.PDF,.eps,.EPS,.ps,.PS,
+%    .png,.PNG,.jpg,.jpeg,.JPG,.JPEG,
+%    .funny,.foobar
+%  }%
+%  \PrintGraphicsExtensions % see .log file
+%}
+% \usepackage[style=numeric-comp]{biblatex}
+% \setlength{\itemsep}{-1\parsep}
+%---------------------------------------------------------------------------
+%\usepackage{epstopdf}
+\end_preamble
+\options pdflatex
+\use_default_options true
+\maintain_unincluded_children false
+\language polish
+\language_package default
+\inputencoding iso8859-2
+\fontencoding global
+\font_roman "utopia" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics none
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\float_placement H
+\paperfontsize 12
+\spacing onehalf
+\use_hyperref true
+\pdf_title "dyplom"
+\pdf_author "Imie Nazwisko"
+\pdf_subject "Temat"
+\pdf_keywords "słowa kluczowe"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 2
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 0
+\use_package amssymb 0
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style bst/IEEEtran
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Indeks
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language polish
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\listings_params "language={C++},alsolanguage={bash},breaklines=true,fontadjust=true,numberstyle={\tiny},stepnumber=1,numbersep={-7pt},numbers=right,numberstyle={\tiny},backgroundcolor={\color{cream}},basicstyle={\small}"
+\tracking_changes false
+\output_changes false
+\html_math_output 3
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{Tomasz Jonak}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+shortauthor{T.
+ Jonak}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titlePL{Opracowanie oprogramowania do kompresji, przesylu oraz skladowania
+ danych ze zdalnego systemu pomiaru parametrow ruchu drogowego}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titleEN{Development of software for compressing, transmitting and storing
+ data from remote traffic measurement system}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+shorttitle{TODO shorttile}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+faculty{Wydział Elektrotechniki, Automatyki,
+\backslash
+
+\backslash
+Informatyki i Inżynierii Biomedycznej}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+division{Katedra Metrologii i Elektroniki}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+specialization{Automatyka i Robotyka}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+thesistype{Praca dyplomowa magisterska}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+supervisor{dr inż.
+ Zbigniew Marszałek}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+acknowledgements{Wymaga odkomentowania linijek w aghdpl.cls} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+date{2017} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titlepages
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{tocdepth}{2}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Te linijki zamieniaja Tabela i Rysunek na Tab.
+ i Rys.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand*{
+\backslash
+tablename}{Tab.}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand*{
+\backslash
+figurename}{Rys.}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Wstęp
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Wstep"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Głównymi zaletami edytora \SpecialChar LyX
+ jest automatyczna numeracja obiektów – rysunków,
+ tabel, algorytmów, wzorów, rozdziałów, bibliografii i innych.
+ Oznacza to, że użytkownik może skupić się na tekście – nie musi myśleć
+ o tym, czy numeracja w tekście i przy danym rysunku lub tabeli będzie prawidłow
+a, gdy przeniesie jeden podrozdział w inne miejsce swojej pracy.
+ Numeracją zajmie się \SpecialChar LyX
+ poprzez mechanizm etykiet.
+\end_layout
+
+\begin_layout Section*
+Cel pracy
+\end_layout
+
+\begin_layout Standard
+Niniejsza praca powstała w celu zaprojektowania oraz wdrożenia systemu służącego
+ automatycznemu przesyłowi danych ze stanowiska pomiarowego do przestrzeni
+ magazynowania w katedrze metrologii wydziału EAIiIB AGH.
+\end_layout
+
+\begin_layout Section*
+Zakres pracy
+\end_layout
+
+\begin_layout Standard
+W ramach pracy przeanalizowano d
+\end_layout
+
+\begin_layout Standard
+Niniejsza praca dotyczy oprogramowania \SpecialChar LyX
+, który jest pomyślany w taki sposób,
+ aby odciążyć użytkownika od szczegółowej znajomości \SpecialChar LaTeX
+-a.
+ Często jednak znajomość \SpecialChar LaTeX
+ jest niezbędna.
+ Warto wówczas sięgnąć np.
+ do 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kostecki"
+
+\end_inset
+
+ lub do wykładu 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Szpyrka_wyklad"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section*
+Układ pracy
+\end_layout
+
+\begin_layout Standard
+W rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:opis_problemu"
+
+\end_inset
+
+ przedstawiono informacje na temat stanowiska pomiarowego oraz wymogów względem
+ projektu.
+ W rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:warstwa_sieciowa"
+
+\end_inset
+
+ omówiono dostępne rozwiązania przesyłu danych.
+ W rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:synchronizacja_danych"
+
+\end_inset
+
+ przedstawiono przewidywane problemy w środowisku pracy oraz możliwe sposoby
+ ich rozwiązania.
+ Rozdział 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:kompresja"
+
+\end_inset
+
+ zawiera analizę dostępnych algorytmów kompresji, oraz porównanie ich skutecznoś
+ci w analizowanym przypadku.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wszelkie uwagi dotyczące tej formatki śmiało proszę zgłaszać na mój adres
+ e-mail.
+ 
+\end_layout
+
+\begin_layout Chapter
+Opis problemu
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:opis_problemu"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rysunki można wstawiać używając menu Wstaw 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Wstawka 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Rysunek.
+ Spowoduje to pojawienie się obszaru wstawki.
+ Od razu warto ustalić i nadać wstawce etykietę, co najszybciej można zrobić
+ przyciskiem 
+\begin_inset Quotes pld
+\end_inset
+
+Wstaw etykietę
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Kolejny krok to wprowadzenie podpisu pod rysunkiem i finalne wstawienie
+ grafiki używając menu Wstaw 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Rysunek.
+ Wyśrodkowanie rysunku można zrealizować przyciskiem 
+\begin_inset Quotes pld
+\end_inset
+
+Ustawienia akapitu
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Oczywiście teraz możemy w tekście odnieść się do naszego opisanego rysunku
+ posługując się jego etykietą i przyciskiem 
+\begin_inset Quotes pld
+\end_inset
+
+Wstaw odsyłacz wewnętrzny
+\begin_inset Quotes prd
+\end_inset
+
+, patrz rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:etykieta_dla_wstawka_rysunek"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/wstawka_rysunek.PNG
+	lyxscale 50
+	width 14cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Podpis pod rysunkiem.
+ Tak to wygląda w \SpecialChar LyX
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:etykieta_dla_wstawka_rysunek"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wstawkę z rysunkiem można zamknąć/otworzyć pojedynczym kliknięciem na 
+\begin_inset Quotes pld
+\end_inset
+
+Wstawka: Rysunek
+\begin_inset Quotes prd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Często Promotor narzuca Dyplomantom aby rysunki pojawiały się w tekście
+ zaraz poniżej pierwszego wystąpienia odnośnika do danego rysunku.
+ \SpecialChar LyX
+, tak samo jak \SpecialChar LaTeX
+ stara się rysunki rozmieszczać wg swojego wewnętrznego
+ algorytmu, często nie tak, jak to my byśmy sobie życzyli.
+ Aby uporać się z tym problemem wystarczy wybrać ustawienie 
+\begin_inset Quotes pld
+\end_inset
+
+Tutaj bezwzględnie
+\begin_inset Quotes prd
+\end_inset
+
+, co ilustruje rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:tutaj_bezwzglednie"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/tutaj_bezwglednie.png
+	width 7cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ustawienia występowania rysunków w tekście
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:tutaj_bezwzglednie"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wstawiane pliki z grafiką (w formacie: PNG, JPG, GIF, EMF itd.) mogą mieć
+ różną rozdzielczość.
+ Często chcemy, aby rysunek na stronie miał żądaną przez nas szerokość lub
+ wysokość, a nie rozmiar wynikający z rozdzielczości takiego pliku.
+ W \SpecialChar LyX
+ można to wygodnie określić, patrz rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:ustawienia_szerokosci_rys"
+
+\end_inset
+
+.
+ Dla tak określonych rozmiarów rysunku w finalnym PDF (w cm) \SpecialChar LyX
+ zadba o jego
+ proporcje – nie trzeba określać wysokości.
+ Rozmiary rysunku wyświetlanego w edytorze \SpecialChar LyX
+ ustawia się w zakładce 
+\begin_inset Quotes pld
+\end_inset
+
+Opcje \SpecialChar LaTeX
+ i \SpecialChar LyX
+
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/ustaw_szerokosc.PNG
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ustawienia szerokości rysunku na stronie w finalnym pliku PDF
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:ustawienia_szerokosci_rys"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dobrym przyzwyczajeniem jest umieszczanie plików rysunków w podkatalogu,
+ np.
+ 
+\begin_inset Quotes pld
+\end_inset
+
+img
+\begin_inset Quotes prd
+\end_inset
+
+ jak w tym dokumencie oraz podając ścieżkę względną.
+\end_layout
+
+\begin_layout Standard
+Na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:eps_vs_jpg"
+
+\end_inset
+
+ możesz zobaczyć różnicę w wyglądzie między formatami EPS i JPG.
+ W finalnym dokumencie różnica jak widać jest widoczna, zwłaszcza przy skalowani
+u-powiększeniu strony.
+ Warto używać grafik wektorowych takich jak EMF czy EPS i oprogramowania
+ Inkscape 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "inkscape"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+b)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/agh.eps
+	width 3cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/_agh.jpg
+	lyxscale 20
+	width 3cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Logo AGH: a) z pliku EPS; b) z pliku JPG
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:eps_vs_jpg"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Warstwa sieciowa
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:warstwa_sieciowa"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tabelę wstawia się poprzez menu Wstaw 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Wstawka 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+Tabela, po czym wewnątrz obszaru wstawki, wstawiamy Wstaw 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Tabela.
+ Wewnątrz wstawki umieszczamy etykietę, którą posługujemy się w tekście
+ w celu odniesienia się do przykładowej tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:przykladowa_tabela"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowa tabela
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="8">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Nr
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Klasa pojazdu
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Skuteczność 
+\begin_inset Formula $S_{det}$
+\end_inset
+
+ w [%] wykrywania liczby osi:
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0 lub 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+6 i więcej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Osobowy z felgami aluminiowymi (2-osiowy)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+99,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+1,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Osobowy z felgami stalowymi (2-osiowy)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+99,3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Dostawczy (2-osiowy)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+99,7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Ciężarowy (2-osiowy)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+98,8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Ciężarowy (3-osiowy)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+99,1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Ciężarowy z osią podniesioną (5-osiowy)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size small
+27,8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size small
+71,8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Ciężarowy (5-osiowy)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+100,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Ciężarowy (4-osiowy)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+100,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+0,0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:przykladowa_tabela"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Algorytm lub procedurę w języku C, omawianego w pracy dyplomowej fragmentu
+ kodu programu, wstawiać można poprzez menu Wstaw 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Wstawka 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Algorytm.
+ Na przykład tekst algorytmu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "a:przykladowy-algorytm"
+
+\end_inset
+
+ został wstawiony jako 
+\begin_inset Quotes pld
+\end_inset
+
+listing
+\begin_inset Quotes prd
+\end_inset
+
+ wewnątrz wstawki Algorytm.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowa procedura wstawiona jako 
+\begin_inset Quotes pld
+\end_inset
+
+listing kodu
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+for(i=0; i<N; i++){
+\end_layout
+
+\begin_layout Plain Layout
+
+  // ...
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "a:przykladowy-algorytm"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dodatkowe ustawienia (takie jak sposób prezentacji numeru linii) można wprowadzi
+ć w Dokument 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+Ustawienia 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+Listings.
+ Natomiast skarbnicą wiedzy na temat 
+\begin_inset Quotes pld
+\end_inset
+
+listingów
+\begin_inset Quotes prd
+\end_inset
+
+ jest dokument 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Heinz_listings"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Chapter
+Synchronizacja danych
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:synchronizacja_danych"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Numerowane wzory matematyczne wstawia się używając menu 
+\begin_inset Quotes pld
+\end_inset
+
+Wstaw 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Matematyka 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Numerowana formuła
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Przykładowo wzór (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:W_AV"
+
+\end_inset
+
+) przedstawia zależność na energię średnią zgromadzoną w polu magnetycznym
+ pętli indukcyjnej.
+ Należy pamiętać o umieszczeniu nawiasów okrągłych na zewnątrz etykiety
+ do wzoru, czego nie robi się w przypadku tabel lub rysunków.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+W_{AV}=\frac{1}{4}\,\intop_{V}\,\underline{\overrightarrow{B}}\cdot\overrightarrow{\underline{H}}{}^{^{*}}\,dV\label{eq:W_AV}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Kompresja
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:kompresja"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W tym rozdziale przedstawiono kilka ogólnych uwag dotyczących popełnianych
+ często błędów edycyjnych i nie tylko.
+ 
+\end_layout
+
+\begin_layout Standard
+Bardzo dużo błędów w postaci literówek wynika z faktu, że podczas instalacji
+ \SpecialChar LyX
+-a na swoim komputerze zapomniano o wybraniu opcji automatycznego zainstalowani
+a oprogramowania do sprawdzania pisowni dla języka polskiego lub nie aktywowano
+ tego sprawdzania w sposób ciągły w tle.
+ Oprogramowanie do sprawdzania pisowni, które dla wybranego języka należy
+ zainstalować, kryje się pod nazwami Hunspell oraz Thesaurus.
+ Sprawdzanie pisowni w tle w środowisku \SpecialChar LyX
+ jest bardzo ważne i jeśli nie działa,
+ lepiej zrezygnować z pisania tekstu bezpośrednio w tym narzędziu i wykorzystać
+ jakikolwiek inny edytor sprawdzający pisownie do wprowadzania tekstu, kolejno
+ go przenosząc metodą kopiowania i wklejania.
+ Warto zobaczyć również do menu Narzędzia 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Ustawienia 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Pisownia.
+\end_layout
+
+\begin_layout Standard
+Numeracja wzorów w tekście powinna być w okrągłych nawiasach.
+ Poniższy przykład przedstawiony w linijce rozpoczynającej się znakiem 
+\family typewriter
++
+\family default
+ oznacza poprawną wersję, z minusem niepoprawną.
+ 
+\end_layout
+
+\begin_layout Verbatim
+- wzoru 3.1.
+ 
+\end_layout
+
+\begin_layout Verbatim
++ wzoru (3.1).
+\end_layout
+
+\begin_layout Verbatim
+- wzoru(3.1) 
+\end_layout
+
+\begin_layout Standard
+Niepoprawnie jest też sklejanie wzoru ze zdaniem bez spacji przed nawiasem.
+ \SpecialChar LyX
+ nie pozwoli wstawić za dużo spacji, jednak sam nie jest w stanie dodać
+ spacji tam gdzie musi być, trzeba ją napisać.
+ 
+\end_layout
+
+\begin_layout Standard
+Numery cytowań są częścią zdania.
+ Nie umieszcza się ich na początku zdania, ani też po kropce.
+\end_layout
+
+\begin_layout Verbatim
+- nawierzchni.[13] Jest 
+\end_layout
+
+\begin_layout Verbatim
++ nawierzchni [13].
+ Jest 
+\end_layout
+
+\begin_layout Standard
+Numery cytowań są jak wyrazy.
+ Czyli oddziela się je spacją.
+ 
+\end_layout
+
+\begin_layout Verbatim
+- w pracy[3] przedstawiono 
+\end_layout
+
+\begin_layout Verbatim
++ w pracy [3] przedstawiono
+\end_layout
+
+\begin_layout Standard
+Kilka cytowań w jednym miejscu tekstu umieszcza się tak [1, 2, 5].
+ Dopuszczalne jest [1][2][5] jednak źle to wygląda.
+\end_layout
+
+\begin_layout Standard
+Podpisy rysunków robi się pod rysunkami.
+ Podpisy tabel ponad nimi.
+ Fragmenty kodu (listing) raczej traktuje się jak tabele.
+ Pomiędzy wartością a jednostką np.
+ 1
+\begin_inset space \thinspace{}
+\end_inset
+
+m lub 5
+\begin_inset space \thinspace{}
+\end_inset
+
+mA albo 10
+\begin_inset space \thinspace{}
+\end_inset
+
+% proszę stosować w całej pracy jednolicie ten sam znak rozdzielający.
+ Może to być, ładnie jednocześnie wyglądająca, twarda, krótka spacja (skrót:
+ Ctrl+Shift+Spacja).
+ 
+\end_layout
+
+\begin_layout Standard
+Ścieżki do rysunków powinny być względne, czyli zamiast całej ścieżki trzeba
+ ręcznie wprowadzić względną, dzięki temu \SpecialChar LyX
+ będzie przenośny.
+\end_layout
+
+\begin_layout Verbatim
+- F:/home/raf/inz/img/glade.png
+\end_layout
+
+\begin_layout Verbatim
++ img/glade.png
+\end_layout
+
+\begin_layout Standard
+W języku polskim znak dziesiętny to przecinek, czyli zamiast 
+\end_layout
+
+\begin_layout Verbatim
+- między 0.25 a 1.2 
+\end_layout
+
+\begin_layout Verbatim
++ między 0,25 a 1,2
+\end_layout
+
+\begin_layout Standard
+Tabele lepiej wyglądają jako wyśrodkowane.
+ Proszę sprawdzić czy wszystkie cytowania zostały przez \SpecialChar LyX
+ odnalezione poprzez
+ wyszukanie w pdf ciągu znaków 
+\family typewriter
+[?
+\family default
+ .
+ 
+\end_layout
+
+\begin_layout Standard
+W pracy dyplomowej 
+\family typewriter
+\series bold
+nie wolno
+\family default
+\series default
+ stosować żargonu ani języka żargonowego! 
+\end_layout
+
+\begin_layout Standard
+Sformułowania 
+\begin_inset Quotes pld
+\end_inset
+
+stworzono, tworzono, stworzenie
+\begin_inset Quotes prd
+\end_inset
+
+ proszę raczej zastępować określeniami inżynierskimi.
+ Inżynier (jako nieboski) nie 
+\begin_inset Quotes pld
+\end_inset
+
+tworzy
+\begin_inset Quotes prd
+\end_inset
+
+ tylko buduje, konstruuje, uruchamia, pisze program, rozwiązuje problem
+ techniczny itp.
+ Przykładowe, niefortunne zdanie: 
+\begin_inset Quotes pld
+\end_inset
+
+Poszczególne funkcjonalności często są też realizowane przez kilka kodów
+ źródłowych
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Po zastosowaniu prostych reguł, że w pracy dyplomowej nie wolno stosować
+ żargonu oraz inżynier powinien unikać słowa 
+\begin_inset Quotes pld
+\end_inset
+
+stworzono
+\begin_inset Quotes prd
+\end_inset
+
+ będzie brzmieć: 
+\begin_inset Quotes pld
+\end_inset
+
+Poszczególne procedury programu realizowane są w kilku różnych plikach źródłowyc
+h
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Warto się zastanowić/sprawdzić czy słowo 
+\begin_inset Quotes pld
+\end_inset
+
+funkcjonalności
+\begin_inset Quotes prd
+\end_inset
+
+ istniało/istnieje w papierowych słownikach języka polskiego.
+ Ja użyłbym słowa 
+\begin_inset Quotes pld
+\end_inset
+
+procedury
+\begin_inset Quotes prd
+\end_inset
+
+, ponieważ w językach programowania oznacza ono wydzielony fragment algorytmu.
+ Proszę nie usuwać wstawki:
+\end_layout
+
+\begin_layout Verbatim
+
+\backslash
+renewcommand*{
+\backslash
+tablename}{Tab.} 
+\end_layout
+
+\begin_layout Verbatim
+
+\backslash
+renewcommand*{
+\backslash
+figurename}{Rys.} 
+\end_layout
+
+\begin_layout Standard
+Tab.
+ i Rys.
+ w opisach tych obiektów lepiej wygląda.
+ 
+\end_layout
+
+\begin_layout Standard
+Wyniki pokazane w postaci tabelarycznej powinno się również przedstawiać
+ w postaci wykresów, ponieważ na nich dużo łatwiej niż w tabelach dostrzec
+ kluczowe różnice.
+ 
+\end_layout
+
+\begin_layout Standard
+To, w jaki sposób \SpecialChar LyX
+ będzie sortował bibliografię i jak ona będzie wyglądać
+ zależy od ustawień wstawki 
+\begin_inset Quotes pld
+\end_inset
+
+bibliografia wygenerowana przez Bib\SpecialChar TeX
+
+\begin_inset Quotes prd
+\end_inset
+
+.
+ W formatce domyślnie ustawiłem swój zmodyfikowany styl 
+\family typewriter
+bst/IEEEtran
+\family default
+.
+ Dostępny jest również styl 
+\family typewriter
+bst/IEEEtranS
+\family default
+.
+ Litera 
+\family typewriter
+S
+\family default
+ na końcu oznacza wersję skryptu sortującego bibliografię w kolejności alfabetyc
+znej wg nazwisk autorów publikacji.
+ Bibliografii posortowanej w kolejności alfabetycznej najczęściej używa
+ się w polskojęzycznych publikacjach.
+ 
+\end_layout
+
+\begin_layout Standard
+Jak dodać nową linię w tabeli, gdy nie mieści się ona w szerokości strony?
+ Można to zrobić dodając kolejną komórkę poniżej i ustawić linię pomiędzy
+ jako niewidoczną.
+ Prymitywne ale działa.
+ 
+\end_layout
+
+\begin_layout Standard
+W \SpecialChar LyX
+ 
+\family typewriter
+dokument/ustawienia/właściwości PDF
+\family default
+ należy uzupełnić zakładkę 
+\begin_inset Quotes pld
+\end_inset
+
+Ogólny
+\begin_inset Quotes prd
+\end_inset
+
+.
+ W tych ustawieniach zostały włączone opcje 
+\begin_inset Quotes pld
+\end_inset
+
+Użyj wsparcia dla hypperref
+\begin_inset Quotes prd
+\end_inset
+
+.
+ W zakładce 
+\begin_inset Quotes pld
+\end_inset
+
+Hiperłącza
+\begin_inset Quotes prd
+\end_inset
+
+, włączone są 
+\begin_inset Quotes pld
+\end_inset
+
+Brak ramek dookoła łącz
+\begin_inset Quotes prd
+\end_inset
+
+, 
+\begin_inset Quotes pld
+\end_inset
+
+Kolorowe łącza
+\begin_inset Quotes prd
+\end_inset
+
+ i 
+\begin_inset Quotes pld
+\end_inset
+
+Złam łącza pomiędzy wierszami
+\begin_inset Quotes prd
+\end_inset
+
+.
+ W finalnej wersji pracy dyplomowej, ze względu na ewentualne wydruki, proszę
+ wyłączyć/odznaczyć 
+\begin_inset Quotes pld
+\end_inset
+
+Kolorowe łącza
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Gdy pojawia się jakiś rysunek, to powinien poprzedzać go tekst odnoszący
+ się do jego numeru.
+ Proszę w kontekście rysunków unikać "na rysunku poniżej", "powyżej".
+ Rysunek po to ma numer (etykietę za którą \SpecialChar LyX
+ podstawi właściwy numer) aby
+ z niego korzystać w tekście.
+\end_layout
+
+\begin_layout Standard
+Praca powinna mieć łagodne i niejako ciągłe przejścia pomiędzy rozdziałami.
+ Każdy rozdział powinien komponować się w pracy.
+ Chodzi o to, że niejako z rozdziału pierwszego "Wstęp" wynikają kolejne.
+ Końcówka drugiego rozdziału zapowiada trzeci aż do podsumowania całości.
+ 
+\end_layout
+
+\begin_layout Standard
+Bibliografia powinna być generowana na podstawie pliku 
+\begin_inset Quotes pld
+\end_inset
+
+bibliografia.bib
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Jest to plik tekstowy w formacie programu BibTeX 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Borzyszkowski_bibtex"
+
+\end_inset
+
+.
+ Do edycji i uzupełniania bibliografii służy program JabRef, którego interfejs,
+ w poprzedniej wersji, przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:JabRef"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/JabRef.JPG
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Interfejs programu JabRef
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:JabRef"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Styl cytowania IEEEtran oraz IEEEtranS automatycznie zmienia w tytule wielki
+ litery na małe, co czasem nie jest wskazane.
+ Przykładowo tytuł 
+\begin_inset Quotes pld
+\end_inset
+
+Reguła Lenza
+\begin_inset Quotes prd
+\end_inset
+
+ zostanie przez wspomniany mechanizm zamieniony na 
+\begin_inset Quotes pld
+\end_inset
+
+Reguła lenza
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Aby tego uniknąć wystarczy w JabRef ująć taki tytuł w nawiasy klamrowe
+ {}.
+ W nowej wersji programu JabRef wprowadzono pole 
+\begin_inset Quotes pld
+\end_inset
+
+jurnaltitle
+\begin_inset Quotes prd
+\end_inset
+
+, które nie jest obsługiwane przez IEEEtran, wobec czego trzeba skorzystać
+ z pola 
+\begin_inset Quotes pld
+\end_inset
+
+jurnal
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Chapter
+Podsumowanie
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Podsumowanie"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Niniejsza praca zawiera wprowadzenie do obsługi edytora \SpecialChar LyX
+.
+ W szczególności w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:opis_problemu"
+
+\end_inset
+
+ przedstawiono podstawowe informacje na temat wstawiania rysunków w \SpecialChar LyX
+, w
+ rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:warstwa_sieciowa"
+
+\end_inset
+
+ omówiono wstawianie tabel i algorytmów, w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:synchronizacja_danych"
+
+\end_inset
+
+ przedstawiono sposób wstawiania i odnoszenia się do wzorów, natomiast bardzo
+ istotny dla studentów rozdział 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:kompresja"
+
+\end_inset
+
+ dotyczy często popełnianych błędów.
+\end_layout
+
+\begin_layout Standard
+Typowe podsumowanie pracy dyplomowej może rozpocząć się od akapitu 
+\begin_inset Quotes pld
+\end_inset
+
+W pracy przedstawiono wyniki badań autora nad zastosowaniem ...
+ do ....
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "bibliografia"
+options "bibtotoc,bst/IEEEtran"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
