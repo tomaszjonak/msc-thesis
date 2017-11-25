@@ -61,6 +61,12 @@ class SynchronizationThread(threading.Thread):
     Wykorzystanie kolejek wprowadza ryzyko, ze uzyta zostanie niepoprawnie zestawiona para.
     Co oznacza ze dla sesji Sn (Cn, Sn) oraz Sm (Cm, Sm) zamiast oczekiwanego zestawu informacji
     Cn Sn synchronizacja zostanie przeprowadzona dla pary (Cn, Sm) co nie ma wiekszego sensu.
+
+    Rozpatrywane scenariusze bledu
+    * Server(x) Client(x) - pierwszy rozruch, pusta synchronizacja
+    Zarowno klient jak i serwer wysylaja dane przez kolejki
+    synchronizacja sprawdza stan dysku i
+
     """
     def __init__(self, server_queue, client_queue, queue_view, storage_root, extensions):
         self.server_queue = server_queue

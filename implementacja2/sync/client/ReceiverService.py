@@ -45,7 +45,7 @@ class ReceiverService(object):
         self.thread.stop()
 
     def __del__(self):
-        if self.thread:
+        if hasattr(self, 'thread') and self.thread:
             self.thread.join()
 
 
@@ -60,6 +60,7 @@ class ReceiverThread(Workers.KeepAliveWorker):
         self.extensions = kwargs.get('extensions', ['lvm', 'avi'])
         retry_time = kwargs.get('retry_time', 30)
         super(ReceiverThread, self).__init__(address, retry_time)
+        self.name = 'ReceiverThread'
 
     def work(self):
         processor = self._prepare_processor()
