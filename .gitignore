@@ -108,3 +108,11 @@ msc_server/received/
 
 # lynx
 *.pdf
+tekst_pracy/backup/
+tekst_pracy/bst/
+tekst_pracy/*.lyx~
+
+# misc
+*.tar.*
+*.db
+
