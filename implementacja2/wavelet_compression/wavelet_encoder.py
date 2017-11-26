@@ -2,30 +2,7 @@ import pywt
 import numpy as np
 import pathlib as pl
 
-
-def make_dwt_impl(wavelet_type='sym4', wavelet_mode='per'):
-    def dwt_impl(signal_):
-        return pywt.dwt(signal_, wavelet_type, mode=wavelet_mode)
-    return dwt_impl
-
-
-class WaveletParams(object):
-    def __init__(self):
-        self.k_z = 0
-        self.k_v = 0
-        self.ESC_Q = 8
-        self.ESC_Z = 6
-        self.ESC_V = -1
-        self.k_max = 3
-        self.N0 = 2
-        self.A_MAX = 512
-        self.a_enc = 'vli'
-        # Typ transformaty
-        self.wname = 'sym4'
-        # Paramter kompresji (nie wiadomo dokladnie co to)
-        self.q = 1
-        self.dwt = make_dwt_impl()
-        self.decomposition_level = 6
+import wavelet_commons as wcom
 
 
 def signal_encode(signal, params):
@@ -101,8 +78,8 @@ def encode(xa, xd, params):
             d *= 2
 
         if params.k_max:
-            ka = k_get(N, A, params.k_max)
-            N, A = NA(N, A, v[0], params.N0, params.A_MAX)
+            ka = wcom.k_get(N, A, params.k_max)
+            N, A = wcom.NA(N, A, v[0], params.N0, params.A_MAX)
 
         kod, p = enc_vect(v, kod, p, ka, kd, params)
 
@@ -171,28 +148,6 @@ def GR0(v, k, ESC_Q, ESC_B):
     n = ESC_Q + ESC_B
 
     return c, n
-
-
-def k_get(N, A, k_max):
-    return np.argwhere(2**np.arange(k_max+1) * N <= A).size
-
-
-def NA(N, A, v, N0, A_MAX):
-    if N0 == 1:
-        N = 1
-        A = abs(v)
-        return N, A
-
-    N += 1
-    A += abs(v)
-
-    A = min(A, A_MAX)
-
-    if N == N0:
-        N //= 2
-        A //= 2
-
-    return N, A
 
 
 def enc_vect(V, kod, p, ka, kd, params):
