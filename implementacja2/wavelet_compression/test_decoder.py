@@ -13,9 +13,10 @@ source_folder = pl.Path('bs')
 source_files = list(source_folder.glob('*'))
 
 params = wcom.WaveletParams()
-for file in source_files:
-    test_coded_signal = file.read_bytes()
-    test_decoded_signal = wvd.decode_signal(test_coded_signal, params)
+for i, file in enumerate(source_files):
+    test_original_signal = data[:, i + 1]
+    test_encoded_signal = file.read_bytes()
+    test_decoded_signal = wvd.decode_signal(test_encoded_signal, params)
 
     err = np.sqrt(((test_decoded_signal - test_original_signal)**2)).mean()/np.abs(test_original_signal).max() * 100
     print("{}   E: {:4f}".format(file.name, err))

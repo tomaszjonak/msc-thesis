@@ -12,8 +12,16 @@ def signal_encode(signal, params):
 
     stream_with_length = add_length_to_stream(bs, len(signal))
     padded_stream = pad_stream(stream_with_length)
+    binstream = to_binary(padded_stream)
 
-    return padded_stream
+    return binstream, len(padded_stream)
+
+
+def to_binary(bitstream):
+    b = bytearray()
+    for chunk in chunks(bitstream, 8):
+        b += int(chunk, 2).to_bytes(1, byteorder='big')
+    return b
 
 
 def add_length_to_stream(bitstream, signal_len):

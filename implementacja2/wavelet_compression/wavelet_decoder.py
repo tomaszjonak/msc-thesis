@@ -1,6 +1,5 @@
 import numpy as np
 import pywt
-import scipy.io as sio
 
 import wavelet_commons as wcom
 
@@ -38,7 +37,6 @@ def _decode(bs, Nx, params):
             ka = wcom.k_get(N, A, params.k_max)
 
         v, p = _dec_vect(bs, p, VN, ka, params)
-        # print(v.min(), v.max(), v.mean(), v.sum())
 
         if params.k_max:
             N, A = wcom.NA(N, A, v[0], params.N0, params.A_MAX)
@@ -106,14 +104,7 @@ def gdmap1(z):
 
 def iwt(xa, xd, N, wname='sym4', mode='per'):
     signal = xa
-    print(signal.size, signal.min(), signal.max(), signal.mean(), signal.sum())
     for cdn in reversed(xd):
-        print(cdn.size, cdn.min(), cdn.max(), cdn.mean(), cdn.sum())
         signal = pywt.idwt(signal, cdn, wavelet=wname, mode=mode)
-        print(signal.size, signal.min(), signal.max(), signal.mean(), signal.sum())
-
-    # signal2 = pywt.waverec((xa, *reversed(xd)), wavelet=wname, mode=mode)
-
-    # print((signal == signal2).all())
 
     return signal[:N]
