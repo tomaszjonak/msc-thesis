@@ -1,8 +1,10 @@
-import threading
-import socket
-import time
 import logging
-from ..wavelet_compression import wavelet_lvm
+import socket
+import threading
+import time
+
+from wavelet_compression import wavelet_lvm
+
 logger = logging.getLogger(__name__)
 
 
