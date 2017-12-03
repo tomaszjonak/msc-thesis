@@ -65,11 +65,13 @@ def work(socket, storage_root, extensions, **kwargs):
 
 
 def main():
-    address = ('127.0.0.1', 50123)
+    import sys
+    address = sys.argv[1], int(sys.argv[2])
     # storage_root = pl.Path('R2017_10_06')
+
     config = {
-        'extensions': ['lvm', 'avi'],
-        'path': 'R2017_10_06',
+        'extensions': sys.argv[4:],
+        'path': sys.argv[3],
     }
     server = DataGeneratorServer(address, DataGeneratorHandle, config=config)
     server.serve_forever()
