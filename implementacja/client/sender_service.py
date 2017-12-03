@@ -79,7 +79,7 @@ class CompressingSenderThread(FileSenderThread):
                                .format(suffix))
                 bytes_ = file.read_bytes()
             else:
-                bytes_ = self.converters[suffix](file)
+                bytes_ = self.converters[suffix](file_name)
         else:
             bytes_ = file.read_bytes()
 
