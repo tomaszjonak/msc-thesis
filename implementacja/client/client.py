@@ -5,7 +5,7 @@ import argparse
 
 from heartbeat_service import HeartBeatThread
 from labview_connector import LabviewPassiveConnectorThread, LabviewActiveConnectorThread
-from sender_service import FileSenderThread
+import sender_service
 
 # TODO(jonak) connection reset handling
 
@@ -29,7 +29,10 @@ def thread_exec(config):
 
         if sender_config['enabled']:
             logger.info('Sender enabled')
-            services.append(FileSenderThread(sender_config, filename_queue))
+            if sender_config['use_compression']:
+                services.append(sender_service.CompressingSenderThread(sender_config, filename_queue))
+            else:
+                services.append(sender_service.FileSenderThread(sender_config, filename_queue))
 
         if passive_connector_config['enabled']:
             logger.info('Passive receiver enabled')

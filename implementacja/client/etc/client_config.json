@@ -5,6 +5,9 @@
     "host": "localhost",
     "port": 9999,
 
+    "use_compression": true,
+    "compress": ["lvm"],
+
     "connection_retry_interval": 10,
     "chunk_size": 8192,
     "enabled": true
@@ -27,7 +30,7 @@
     "host": "localhost",
     "port": 4321,
 
-    "filetypes": ["csv", "avi"],
+    "filetypes": ["lvm", "avi"],
     "enabled": false
   },
 

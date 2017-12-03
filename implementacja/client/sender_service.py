@@ -2,6 +2,7 @@ import threading
 import socket
 import time
 import logging
+from ..wavelet_compression import wavelet_lvm
 logger = logging.getLogger(__name__)
 
 
@@ -56,3 +57,49 @@ class FileSenderThread(threading.Thread):
             time.sleep(self.connection_retry_interval)
         finally:
             self.queue.task_done()
+
+
+class CompressingSenderThread(FileSenderThread):
+    converters = {'lvm': wavelet_lvm.encode_file}
+
+    def __init__(self, config, filename_queue):
+        super(CompressingSenderThread, self).__init__(config, filename_queue)
+        self.extensions_to_compress = config['compress']
+
+    def work(self):
+        file = self.queue.get()
+        file_name = str(file)
+
+        suffix = file.suffix.lstrip('.')
+        if suffix in self.extensions_to_compress:
+            if suffix not in self.converters.keys():
+                logger.warning('Configured to compress {} files but no converters available, sending plain'
+                               .format(suffix))
+                bytes_ = file.read_bytes()
+            else:
+                bytes_ = self.converters[suffix](file)
+        else:
+            bytes_ = file.read_bytes()
+
+        try:
+            self.raw_send(file_name, bytes_)
+        except (ConnectionAbortedError, BrokenPipeError, ConnectionResetError) as e:
+            # TODO: ConnectionResetError - handling of file broken in half
+            logger.error("Sending interrupted ({})".format(repr(e)))
+            self.operation = self.try_connect
+            time.sleep(self.connection_retry_interval)
+        finally:
+            self.queue.task_done()
+
+    def raw_send(self, file_name, bytes_):
+        preamble = (file_name + '\r\n' + str(len(bytes_)) + '\r\n').encode('utf8')
+
+        send_all(self.socket, preamble)
+        send_all(self.socket, bytes_)
+        send_all(self.socket, '\r\n')
+
+
+def send_all(socket, data):
+    while data:
+        sent = socket.send(data)
+        data = data[sent:]
