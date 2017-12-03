@@ -1,7 +1,7 @@
 import numpy as np
 import pywt
 
-import wavelet_commons as wcom
+import wavelet_compression.wavelet_commons as wcom
 
 
 def decode_signal(signal, params):

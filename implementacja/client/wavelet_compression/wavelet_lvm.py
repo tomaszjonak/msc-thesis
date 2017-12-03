@@ -1,7 +1,7 @@
 import numpy as np
-import wavelet_commons as wcom
-import wavelet_encoder as wenc
-import wavelet_decoder as wdec
+import wavelet_compression.wavelet_commons as wcom
+import wavelet_compression.wavelet_encoder as wenc
+import wavelet_compression.wavelet_decoder as wdec
 
 params = wcom.WaveletParams()
 
