@@ -41,6 +41,7 @@ class ReceiverStateMachine(object):
         self.base_path = pathlib.Path(config['destination_folder'])
         # Create destination folder and all parents if necessary
         self.base_path.mkdir(exist_ok=True, parents=True)
+        logger.debug('Storage root set {}'.format(str(self.base_path)))
 
         # state machine variables
         self._current_file = None
