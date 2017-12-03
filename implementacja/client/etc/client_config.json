@@ -17,8 +17,9 @@
     "connection_retry_interval": 10,
     "chunk_size": 8192,
     "delimiter": "\n",
+    "base_path": null,
 
-    "filetypes": ["csv", "avi"],
+    "filetypes": ["lvm", "avi"],
     "enabled": true
   },
 

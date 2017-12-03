@@ -37,6 +37,7 @@ class FileSenderThread(threading.Thread):
             self.operation()
 
     def work(self):
+        logger.info('Fetching next file...')
         file = self.queue.get()
         logger.info('Processing {}'.format(str(file)))
 
