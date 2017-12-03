@@ -67,10 +67,13 @@ class CompressingSenderThread(FileSenderThread):
     def __init__(self, config, filename_queue):
         super(CompressingSenderThread, self).__init__(config, filename_queue)
         self.extensions_to_compress = config['compress']
+        self.counter = 0
 
     def work(self):
+        logger.debug('Waiting for file...')
         file = self.queue.get()
         file_name = str(file)
+        logger.debug('Processing {}'.format(file_name))
 
         suffix = file.suffix.lstrip('.')
         if suffix in self.extensions_to_compress:
@@ -84,21 +87,24 @@ class CompressingSenderThread(FileSenderThread):
             bytes_ = file.read_bytes()
 
         try:
+            logger.debug("Sending {}".format(file_name))
             self.raw_send(file_name, bytes_)
         except (ConnectionAbortedError, BrokenPipeError, ConnectionResetError) as e:
             # TODO: ConnectionResetError - handling of file broken in half
             logger.error("Sending interrupted ({})".format(repr(e)))
             self.operation = self.try_connect
             time.sleep(self.connection_retry_interval)
-        finally:
+        else:
             self.queue.task_done()
+            self.counter += 1
+            logger.debug('Sent {} files this far'.format(self.counter))
 
     def raw_send(self, file_name, bytes_):
         preamble = (file_name + '\r\n' + str(len(bytes_)) + '\r\n').encode('utf8')
 
         send_all(self.socket, preamble)
         send_all(self.socket, bytes_)
-        send_all(self.socket, '\r\n')
+        send_all(self.socket, b'\r\n')
 
 
 def send_all(socket, data):

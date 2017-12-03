@@ -15,7 +15,7 @@
 
   "LabviewActiveConnector": {
     "host": "localhost",
-    "port": 7654,
+    "port": 50123,
 
     "connection_retry_interval": 10,
     "chunk_size": 8192,

@@ -127,4 +127,5 @@ class LabviewActiveConnectorThread(workers.KeepAliveWorker):
             pos = self.buffer.find(self.delimiter)
 
     def find_matching_files(self, target):
+        logger.debug("Checking {}".format(target))
         return (file for file in (target.with_suffix('.{}'.format(ext)) for ext in self.filetypes) if file.exists())

@@ -8,6 +8,7 @@ import datetime as dt
 import logging
 logging.basicConfig()
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 @contextlib.contextmanager
@@ -73,6 +74,7 @@ def main():
         'extensions': sys.argv[4:],
         'path': sys.argv[3],
     }
+    logger.info("Starting server")
     server = DataGeneratorServer(address, DataGeneratorHandle, config=config)
     server.serve_forever()
 
