@@ -2,6 +2,7 @@ import json
 import logging
 import pathlib
 import sys
+import pdb
 
 from utility.device import DeviceProxy
 
@@ -59,9 +60,15 @@ class ReceiverStateMachine(object):
     def _seek_filename(self):
         name_bytes = self._device.get_token()
         if not len(name_bytes):
+            logger.debug('Empty token received, skipping')
             return
-        received_path = pathlib.Path(name_bytes.decode('utf8'))
-        logger.info('Receiving file ({})'.format(repr(received_path)))
+        try:
+            received_path = pathlib.Path(name_bytes.decode('utf8'))
+        except Exception as e:
+            logger.error(self._device._buffer)
+            raise
+        else:
+            logger.info('Receiving file ({})'.format(str(received_path)))
 
         if any(map(lambda x: len(x) > 255, received_path.parts)):
             raise RuntimeError('Invalid parts in path [{}]'.format(str(received_path)))
@@ -98,7 +105,7 @@ class ReceiverStateMachine(object):
         bytes_left = self._current_len
         chunk_size = 8192
         while bytes_left > 0:
-            chunk = self._device.get_bytes(chunk_size=chunk_size)
+            chunk = self._device.get_bytes(chunk_size=min(chunk_size, bytes_left))
             write_all(self.dest_fd, chunk)
             bytes_left -= len(chunk)
             if chunk_size > bytes_left:

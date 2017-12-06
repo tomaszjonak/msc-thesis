@@ -30,8 +30,10 @@ def thread_exec(config):
         if sender_config['enabled']:
             logger.info('Sender enabled')
             if sender_config['use_compression']:
+                logger.info('Compression enabled')
                 services.append(sender_service.CompressingSenderThread(sender_config, filename_queue))
             else:
+                logger.info('Compression disabled')
                 services.append(sender_service.FileSenderThread(sender_config, filename_queue))
 
         if passive_connector_config['enabled']:

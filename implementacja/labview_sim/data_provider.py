@@ -57,10 +57,12 @@ def work(socket, storage_root, extensions, **kwargs):
 
     if 'sleep' in kwargs.keys():
         for file in files_to_send:
+            logger.info('Sending {}'.format(str(file)))
             socket.send((str(file) + '\n').encode())
             time.sleep(kwargs['sleep'])
     else:
         for file in files_to_send:
+            logger.info('Sending {}'.format(str(file)))
             socket.send((str(file) + '\n').encode())
             input('Next? ')
 

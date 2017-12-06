@@ -76,22 +76,33 @@ class CompressingSenderThread(FileSenderThread):
         logger.debug('Processing {}'.format(file_name))
 
         suffix = file.suffix.lstrip('.')
-        if suffix in self.extensions_to_compress:
-            if suffix not in self.converters.keys():
-                logger.warning('Configured to compress {} files but no converters available, sending plain'
-                               .format(suffix))
-                bytes_ = file.read_bytes()
-            else:
-                bytes_ = self.converters[suffix](file_name)
-        else:
-            bytes_ = file.read_bytes()
+        # if suffix in self.extensions_to_compress:
+        #     if suffix not in self.converters.keys():
+        #         logger.warning('Configured to compress {} files but no converters available, sending plain'
+        #                        .format(suffix))
+        #         bytes_ = file.read_bytes()
+        #     else:
+        #         bytes_ = self.converters[suffix](file_name)
+        #         logger.info('Shrinked file from {} to {} bytes'
+        #                     .format(file.stat().st_size, len(bytes_)))
+        # else:
+        #     bytes_ = file.read_bytes()
 
         try:
             logger.debug("Sending {}".format(file_name))
-            self.raw_send(file_name, bytes_)
+            if suffix in self.converters.keys():
+                bytes_ = self.converters[suffix](file_name)
+                logger.info('Shrinked file from {} to {} bytes'
+                            .format(file.stat().st_size, len(bytes_)))
+                self.raw_send(file_name, bytes_)
+            else:
+                self.chunked_send(file)
+            # self.raw_send(file_name, bytes_)
         except (ConnectionAbortedError, BrokenPipeError, ConnectionResetError) as e:
             # TODO: ConnectionResetError - handling of file broken in half
             logger.error("Sending interrupted ({})".format(repr(e)))
+            self.socket.shutdown()
+            self.socket.close()
             self.operation = self.try_connect
             time.sleep(self.connection_retry_interval)
         else:
@@ -99,12 +110,23 @@ class CompressingSenderThread(FileSenderThread):
             self.counter += 1
             logger.debug('Sent {} files this far'.format(self.counter))
 
-    def raw_send(self, file_name, bytes_):
-        preamble = (file_name + '\r\n' + str(len(bytes_)) + '\r\n').encode('utf8')
+    def chunked_send(self, file):
+        file_len = file.stat().st_size
+        data_chunk = bytes(str(file) + '\r\n' + str(file_len) + '\r\n', 'utf8')
+        with file.open(mode='rb') as fd:
+            while data_chunk:
+                self.socket.send(data_chunk)
+                data_chunk = fd.read(self.chunk_size)
+        self.socket.send(bytes('\r\n', 'utf8'))
 
+    def raw_send(self, file_name, bytes_):
+        logger.debug('Sending file ({})'.format(file_name))
+        preamble = (file_name + '\r\n' + str(len(bytes_)) + '\r\n').encode('utf8')
+        logger.debug('Sending preamble ({})'.format(preamble))
         send_all(self.socket, preamble)
         send_all(self.socket, bytes_)
-        send_all(self.socket, b'\r\n')
+        # send_all(self.socket, b'\r\n')
+        logger.debug('File sent ({})'.format(file_name))
 
 
 def send_all(socket, data):
