@@ -41,7 +41,11 @@ class FileTransferTcpHandler(socketserver.BaseRequestHandler):
         self.protocol_config = self.server.protocol_config
 
     def _handle(self):
-        machine = receiver_service.ReceiverStateMachine(RecvProxy(self.request), self.protocol_config)
+        if self.protocol_config['use_compression']:
+            machine = receiver_service.CompressionReceiverStateMachine(RecvProxy(self.request), self.protocol_config)
+        else:
+            machine = receiver_service.ReceiverStateMachine(RecvProxy(self.request), self.protocol_config)
+
         try:
             machine.run()
         except ConnectionResetError:

@@ -2,7 +2,7 @@ import json
 import logging
 import pathlib
 import sys
-import pdb
+from wavelet_compression import wavelet_lvm
 
 from utility.device import DeviceProxy
 
@@ -108,9 +108,30 @@ class ReceiverStateMachine(object):
             chunk = self._device.get_bytes(chunk_size=min(chunk_size, bytes_left))
             write_all(self.dest_fd, chunk)
             bytes_left -= len(chunk)
-            if chunk_size > bytes_left:
-                chunk_size = bytes_left
         self.operation = self._close_dest
+
+
+class CompressionReceiverStateMachine(ReceiverStateMachine):
+    decompressors = {'lvm': wavelet_lvm.decode_to_file}
+
+    def __init__(self, input_device, config):
+        super(CompressionReceiverStateMachine, self).__init__(input_device, config)
+        self.compression_required = config['compress']
+
+    def _consume_data(self):
+        suffix = self._current_file.suffix.lstrip('.')
+        if suffix in self.decompressors.keys() and suffix in self.compression_required:
+            binary_data = bytearray()
+            bytes_left = self._current_len
+            chunk_size = 8192
+            while bytes_left > 0:
+                chunk = self._device.get_bytes(chunk_size=min(chunk_size, bytes_left))
+                binary_data += chunk
+                bytes_left -= len(chunk)
+            self.decompressors[suffix](str(self._current_file), binary_data)
+            self.operation = self._close_dest
+        else:
+            super(CompressionReceiverStateMachine, self)._consume_data()
 
 
 def main():
