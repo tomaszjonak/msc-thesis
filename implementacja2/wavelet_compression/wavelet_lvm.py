@@ -1,7 +1,9 @@
 import numpy as np
-import wavelet_commons as wcom
-import wavelet_encoder as wenc
-import wavelet_decoder as wdec
+import pathlib as pl
+
+import wavelet_compression.wavelet_commons as wcom
+import wavelet_compression.wavelet_encoder as wenc
+import wavelet_compression.wavelet_decoder as wdec
 
 params = wcom.WaveletParams()
 
@@ -36,3 +38,15 @@ def decode_binary(packed_measurements):
 
     decoded_mesaruement = np.array(decoded_mesaruement).transpose()
     return decoded_mesaruement
+
+
+def decode_to_file(file: pl.Path, packed_measurements, fmt='%.6f', delimiter='\t'):
+    decoded_measurements = decode_binary(packed_measurements)
+    len_ = decoded_measurements.shape[0]
+    # original numbering is for some reason multiplied by 10e-5
+    indices = np.arange(len_) / 10e5
+    # transpose indices
+    indices.shape = (len_, 1)
+    # concatenate it with results
+    data_array = np.hstack((indices, decoded_measurements))
+    np.savetxt(str(file), data_array, fmt=fmt, delimiter=delimiter)
