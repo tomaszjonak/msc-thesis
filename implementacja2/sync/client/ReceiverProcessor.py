@@ -27,6 +27,8 @@ class ReceiverProcessor(object):
         self.reader = reader
         self.extensions = ['.{}'.format(extension.strip('.')) for extension in supported_extensions]
 
+        self.cont = True
+
         self.operation = self._get_first_record if self.sync_queue else self._process_files
 
     def _get_first_record(self):
@@ -51,8 +53,13 @@ class ReceiverProcessor(object):
         self.operation = self._process_files
 
     def run(self):
-        while True:
-            self.operation()
+        while self.cont:
+            try:
+                self.operation()
+            except StreamTokenReader.StreamTokenReaderError:
+                raise
+            except Exception:
+                pass
 
     def _process_files(self):
         file_pattern = self.reader.get_token().decode()
@@ -71,3 +78,7 @@ class ReceiverProcessor(object):
         # we want to send file path relative to storage root, thus base storage_root is included
         # into path only for existence check
         return [str(file) for file in possible_files if self.storage_root.joinpath(file).exists()]
+
+    def stop(self):
+        self.reader.timeout = 1
+        self.cont = False

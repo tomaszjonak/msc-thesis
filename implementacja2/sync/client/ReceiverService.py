@@ -56,6 +56,7 @@ class ReceiverThread(Workers.KeepAliveWorker):
         self.storage_root = storage_root
 
         self.sync_queue = sync_queue
+        self.processor = None
         self.separator = kwargs.get('separator', '\n')
         self.extensions = kwargs.get('extensions', ['lvm', 'avi'])
         retry_time = kwargs.get('retry_time', 30)
@@ -63,9 +64,9 @@ class ReceiverThread(Workers.KeepAliveWorker):
         self.name = 'ReceiverThread'
 
     def work(self):
-        processor = self._prepare_processor()
+        self.processor = self._prepare_processor()
         try:
-            processor.run()
+            self.processor.run()
         except StreamTokenReader.StreamTokenReaderError as e:
             print('Stream error, restarting connection ({})'.format(e))
 
@@ -82,4 +83,6 @@ class ReceiverThread(Workers.KeepAliveWorker):
         return proc
 
     def stop(self):
+        if self.processor:
+            self.processor.stop()
         super(ReceiverThread, self).stop()

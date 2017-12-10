@@ -35,6 +35,7 @@ class StreamTokenReader(object):
         self.separator = separator if isinstance(separator, (bytes, bytearray)) else separator.encode('utf8')
         self.chunk_size = chunk_size
         self._buffer = bytearray()
+        self.timeout_ = None
 
     def _fetch_from_device(self, chunk_size=None):
         """
@@ -93,3 +94,13 @@ class StreamTokenReader(object):
 
     def seek0(self):
         self._stream.seek0()
+
+    @property
+    def timeout(self):
+        return self.timeout_
+
+    @timeout.setter
+    def timeout(self, value):
+        self.timeout_ = value
+        if isinstance(self._stream, StreamProxy.SocketStreamProxy):
+            self._stream.set_timeout(self.timeout_)

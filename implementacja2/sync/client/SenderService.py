@@ -50,15 +50,16 @@ class SenderThread(Workers.KeepAliveWorker):
         self.storage_root = storage_root
         self.stage_queue = stage_queue
         self.sync_queue = sync_queue
+        self.processor = None
 
         self.separator = kwargs.get('separator', b'\r\n')
         retry_time = kwargs.get('retry_time', 30)
         super(SenderThread, self).__init__(address, retry_time)
 
     def work(self):
-        processor = self._prepare_processor()
+        self.processor = self._prepare_processor()
         try:
-            processor.run()
+            self.processor.run()
         except StreamTokenReader.StreamTokenReaderError as e:
             print('Stream error, restarting connection ({})'.format(e))
 
@@ -78,4 +79,6 @@ class SenderThread(Workers.KeepAliveWorker):
         return proc
 
     def stop(self):
+        if hasattr(self, 'processor'):
+            self.processor.stop()
         super(SenderThread, self).stop()

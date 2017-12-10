@@ -45,6 +45,7 @@ class SenderProtocolProcessor(object):
         self.sync_queue = sync_queue
         self.transformation = None
         self.chunk_size = kwargs.get('chunk_size', 8192)
+        self.cont = True
 
         # zmienne maszyny stanow
         self.operation = self._receive_last_valid
@@ -96,5 +97,14 @@ class SenderProtocolProcessor(object):
         self.operation = self._send_metadata
 
     def run(self):
-        while True:
-            self.operation()
+        while self.cont:
+            try:
+                self.operation()
+            except StreamTokenReader.StreamTokenReaderError:
+                raise
+            except Exception:
+                pass
+
+    def stop(self):
+        self.reader.timeout = 1
+        self.cont = False

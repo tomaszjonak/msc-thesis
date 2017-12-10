@@ -86,8 +86,9 @@ class TempFileStreamProxy(StreamProxy):
 
 
 class SocketStreamProxy(StreamProxy):
-    def __init__(self, socket):
+    def __init__(self, socket, timeout=None):
         self.socket = socket
+        self.timeout = timeout
 
         if hasattr(socket, 'recv'):
             self.read_ = self.socket.recv
@@ -106,6 +107,9 @@ class SocketStreamProxy(StreamProxy):
         while buffer:
             sent = self.write(buffer)
             buffer = buffer[sent:]
+
+    def set_timeout(self, value):
+        self.socket.settimeout(value)
 
 
 class ByteStream(StreamProxy):

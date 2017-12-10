@@ -1,5 +1,6 @@
 import pytest
 import pathlib as pl
+import time
 from contextlib import contextmanager
 
 from .. import ReceiverService as srv
@@ -55,6 +56,7 @@ def test_functional_one_element(service_address, stage_queue, storage_path):
     assert storage_path.joinpath(stage_queue.get()) == file
 
 
+@pytest.mark.timeout(3)
 def test_functional_vectors(service_address, queue_file, storage_path, extensions, file_vector):
     queue_view_1 = PersistentQueue.SqliteQueue(queue_file)
 
@@ -75,10 +77,11 @@ def test_functional_vectors(service_address, queue_file, storage_path, extension
             for relative_path, _ in file_vector:
                 path_without_extension = str(pl.Path(relative_path).with_suffix(''))
                 conn.send((path_without_extension + '\n').encode())
+            time.sleep(2)
             conn.close()
 
     # It is risky to use same SqliteQueue object in two threads (damn you sqlite3)
-    # if needed create 2 objects pointing to same storage file (
+    # if needed create 2 objects pointing to same storage file
     queue_view_2 = PersistentQueue.SqliteQueue(queue_file)
     for file in expected_results:
         result = queue_view_2.get()
