@@ -99,21 +99,27 @@ class SqliteQueue(Queue):
         with self.connection:
             self.connection.execute("""INSERT INTO queue VALUES (strftime('%Y-%m-%d %H:%M:%f', 'now'),?)""", (value,))
 
-    def get(self, wait_for_value=True):
-        return self.waiting_get() if wait_for_value else self.instant_get()
+    def get(self, wait_for_value=True, timeout=None):
+        return self.waiting_get(timeout=timeout) if wait_for_value else self.instant_get()
 
     def get_all(self):
         result = self.connection.execute("""SELECT element FROM queue""").fetchall()
         return [x for (x,) in result]
 
-    def waiting_get(self):
+    def waiting_get(self, timeout=None):
         """
         :return: str - element z kolejki (w zaleznosci od paramteru order)
         """
         record = self.connection.execute(self.get_impl).fetchone()
 
+        time_passed = 0
         while not record:
             time.sleep(self.interval)
+            time_passed += self.interval
+
+            if timeout and time_passed >= timeout:
+                raise TimeoutError()
+
             record = self.connection.execute(self.get_impl).fetchone()
 
         return record[0]
