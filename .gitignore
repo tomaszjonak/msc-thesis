@@ -116,3 +116,6 @@ tekst_pracy/*.lyx~
 *.tar.*
 *.db
 
+badania/
+various_storage/
+smietnik/
