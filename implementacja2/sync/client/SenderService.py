@@ -62,6 +62,8 @@ class SenderThread(Workers.KeepAliveWorker):
             self.processor.run()
         except StreamTokenReader.StreamTokenReaderError as e:
             print('Stream error, restarting connection ({})'.format(e))
+        except TimeoutError:
+            pass
 
     def _prepare_processor(self):
         stream = StreamProxy.SocketStreamProxy(self.socket)
@@ -79,6 +81,6 @@ class SenderThread(Workers.KeepAliveWorker):
         return proc
 
     def stop(self):
-        if hasattr(self, 'processor'):
+        if self.processor:
             self.processor.stop()
         super(SenderThread, self).stop()

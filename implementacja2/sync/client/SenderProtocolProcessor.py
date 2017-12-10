@@ -46,6 +46,7 @@ class SenderProtocolProcessor(object):
         self.transformation = None
         self.chunk_size = kwargs.get('chunk_size', 8192)
         self.cont = True
+        self.queue_timeout = None
 
         # zmienne maszyny stanow
         self.operation = self._receive_last_valid
@@ -62,7 +63,7 @@ class SenderProtocolProcessor(object):
         self.operation = self._send_metadata
 
     def _send_metadata(self):
-        self.file_path = self.stage_queue.get()
+        self.file_path = self.stage_queue.get(timeout=self.queue_timeout)
         self.writer.write_token(self.file_path)
 
         self.file_obj = self.storage_root.joinpath(self.file_path)
@@ -108,3 +109,4 @@ class SenderProtocolProcessor(object):
     def stop(self):
         self.reader.timeout = 1
         self.cont = False
+        self.queue_timeout = 1
