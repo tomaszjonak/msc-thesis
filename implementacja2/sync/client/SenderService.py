@@ -55,6 +55,7 @@ class SenderThread(Workers.KeepAliveWorker):
         self.separator = kwargs.get('separator', b'\r\n')
         retry_time = kwargs.get('retry_time', 30)
         super(SenderThread, self).__init__(address, retry_time)
+        self.name = 'SenderThread'
 
     def work(self):
         self.processor = self._prepare_processor()

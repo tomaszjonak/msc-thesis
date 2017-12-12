@@ -68,7 +68,7 @@ class SqliteQueue(Queue):
         'FIFO': r'SELECT element from queue ORDER BY queue.timestamp ASC LIMIT 1'
     }
 
-    def __init__(self, path: str, interval: float=0.05, order='query'):
+    def __init__(self, path: str, interval: float=0.5, order='query'):
         self.path = path
         self.interval = interval
         self.connection = sqlite3.connect(self.path, check_same_thread=False)

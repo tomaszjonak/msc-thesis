@@ -4,6 +4,9 @@ from ..utils import StreamProxy
 from ..utils import StreamTokenReader
 from ..utils import PersistentQueue
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class ReceiverServiceError(RuntimeError):
     pass
@@ -36,12 +39,14 @@ class ReceiverService(object):
             raise ReceiverServiceError('Unsupported queue type ({})'.format(repr(stage_queue)))
 
         self.thread = ReceiverThread(address, stage_queue, storage_root, sync_queue=sync_queue, **kwargs)
+        logger.info('Starting receiver service')
         self.thread.start()
 
     def is_running(self):
         return self.thread.isAlive()
 
     def stop(self):
+        logger.info('Stopping receiver service')
         self.thread.stop()
 
     def __del__(self):
@@ -68,7 +73,8 @@ class ReceiverThread(Workers.KeepAliveWorker):
         try:
             self.processor.run()
         except StreamTokenReader.StreamTokenReaderError as e:
-            print('Stream error, restarting connection ({})'.format(e))
+            logger.info('Stream error, restarting connection ({})'.format(e))
+            raise
 
     def _prepare_processor(self):
         stream = StreamProxy.SocketStreamProxy(self.socket)
