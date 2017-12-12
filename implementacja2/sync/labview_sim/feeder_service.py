@@ -3,7 +3,7 @@ import socketserver
 import logging
 import threading
 
-from . import dated_file_generator
+from implementacja2.sync.labview_sim import dated_file_generator
 
 FORMAT = '%(asctime)s [%(name)s|%(threadName)s] %(levelname)s: %(message)s'
 logging.basicConfig(format=FORMAT, level=logging.DEBUG)

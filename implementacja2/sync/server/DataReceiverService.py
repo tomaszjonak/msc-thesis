@@ -75,8 +75,13 @@ class DataReceiverServer(socketserver.TCPServer, socketserver.ThreadingMixIn):
         self.cache = cache
         self.options = kwargs
         self.storage_root = storage_root
+        self.cont = True
         self.allow_reuse_address = True
         super(DataReceiverServer, self).__init__(address, handler_cls)
+
+    def shutdown(self):
+        self.cont = False
+        super(DataReceiverServer, self).shutdown()
 
 
 class DataReceiverHandler(socketserver.BaseRequestHandler):

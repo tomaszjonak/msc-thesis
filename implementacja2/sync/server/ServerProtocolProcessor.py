@@ -33,6 +33,9 @@ class ServerProtocolProcessor(object):
         self.writer = writer
         self.cache = disk_cache
 
+        self.cont = True
+        self.queue_timeout = None
+
         self.options = kwargs
 
         self._file_description = {
@@ -97,8 +100,7 @@ class ServerProtocolProcessor(object):
         last_chunk_size = size % chunk_size
         with path.open('wb') as fd:
             for _ in range(full_chunks):
-                chunk = self.reader.get_bytes(chunk_size)
-                fd.writeall(chunk)
+                FilesystemHelpers.write_all(fd, self.reader.get_bytes(chunk_size))
             # so much for high level interfaces, this write has to be done c style
             # fd.writeall(self.reader.get_bytes(last_chunk_size))
             FilesystemHelpers.write_all(fd, self.reader.get_bytes(last_chunk_size))
@@ -150,5 +152,9 @@ class ServerProtocolProcessor(object):
         self.operation = self._process_filename
 
     def run(self):
-        while True:
+        while self.cont:
             self.operation()
+
+    def stop(self):
+        self.cont = False
+        self.reader.timeout = 1

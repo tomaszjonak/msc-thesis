@@ -73,7 +73,6 @@ def client_context(labview_address, server_address, storage_root, queue_file, cl
         retry_time=0.5
     )
 
-    test_queue_view = PersistentQueue.SqliteQueue(queue_file)
     fields = (
         'sender_srv',
         'receiver_srv',
@@ -100,7 +99,6 @@ def client_context(labview_address, server_address, storage_root, queue_file, cl
 
     yield ctx
 
-    test_queue_view.put('')
     sender_srv.stop()
     feeder_srv.stop()
     receiver_srv.stop()

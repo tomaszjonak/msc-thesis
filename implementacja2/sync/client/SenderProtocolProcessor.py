@@ -35,7 +35,6 @@ class SenderProtocolProcessor(object):
         else:
             raise ClientProtocolError("Unsupported storage_root type ({})".format(storage_root))
 
-        # TODO sprawdzic czy storage root istnieje
         if not (self.storage_root.exists() or self.storage_root.is_dir()):
             raise ClientProtocolError("Storage root has to be directory")
 
@@ -53,12 +52,12 @@ class SenderProtocolProcessor(object):
         self.file_obj = None
 
     def _receive_last_valid(self):
-        last_on_server = self.reader.get_token().decode()
+        # last_on_server = self.reader.get_token().decode()
         # technically there should be some check, we might encounter situation where
         # last valid file gets archieved by cron job and thus path is no longer usable
-        last_path = self.storage_root.joinpath(last_on_server)
-        stage_snapshot = self.stage_queue.get_all()
-        self.sync_queue.put((last_path, stage_snapshot))
+        # last_path = self.storage_root.joinpath(last_on_server)
+        # stage_snapshot = self.stage_queue.get_all()
+        # self.sync_queue.put((last_path, stage_snapshot))
 
         self.operation = self._send_metadata
 

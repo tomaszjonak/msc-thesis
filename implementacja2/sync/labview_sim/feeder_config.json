@@ -8,13 +8,13 @@
 
   "passive_feeder": {
     "listening_host": "localhost",
-    "listening_port": 7654,
+    "listening_port": 50321,
 
     "source_path": "sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt",
     "repetitions": 5
   },
 
-  "path": "../filesystem_stub/client",
+  "path": "../../client_storage/",
   "file_size": 1024,
 
   "extensions": [

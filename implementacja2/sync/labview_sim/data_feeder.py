@@ -68,7 +68,7 @@ def _work(sock, extensions, root_path, **kwargs):
     source_path = kwargs.get('source_path', 'sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt')
     create_files(paths, source_path)
     # payload, list of path strings separated by \n
-    payload = ('\n'.join(str(path) for path in seeds) + '\n').encode('utf8')
+    payload = ('\n'.join(str(path.relative_to(root_path)) for path in seeds) + '\n').encode('utf8')
     send_all(sock, payload)
     logger.info("Sent {}".format(seeds))
 
@@ -91,6 +91,7 @@ def get_file_paths(extensions: list, root_path: str, **kwargs):
 
 def create_files(paths, source_path):
     for path in paths:
+        print('Creating {}'.format(path.resolve()))
         shutil.copy(str(source_path), str(path))
 
 

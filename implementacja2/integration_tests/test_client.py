@@ -32,9 +32,6 @@ def test_creation(labview_address, server_address, storage_root, queue_file, cli
                                                    stage_queue=receiver_queue_view, sync_queue=client_sync_queue,
                                                    retry_time=0.5)
 
-    test_queue_view = PersistentQueue.SqliteQueue(queue_file)
-    test_queue_view.put('')
-    time.sleep(0.02)
     sender_srv.stop()
     feeder_srv.stop()
     receiver_srv.stop()
@@ -48,9 +45,6 @@ def token_ops_from_connection(connection):
 
 
 def test_context(client_context):
-    # assert client_context.sender_srv.is_alive()
-    # assert client_context.receiver_srv.is_alive()
-    # assert client_context.feeder_srv.is_alive()
     with ctx.listener_context(client_context.server_address) as listener:
         with connection_accepedetd(listener.accept()) as conn:
             reader, writer = token_ops_from_connection(conn)

@@ -89,6 +89,7 @@ def test_functional_vectors(service_address, queue_file, storage_path, extension
         queue_view_2.pop(result)
 
 
+@pytest.mark.skip
 def test_synchronization_notification(service_address, queue_file, storage_path, client_queue):
     queue_view1 = PersistentQueue.SqliteQueue(queue_file)
 
@@ -112,6 +113,7 @@ def test_synchronization_notification(service_address, queue_file, storage_path,
     assert client_queue.empty()
 
 
+@pytest.mark.skip
 def test_synchroniaztion_notification(service_address, queue_file, storage_path, client_queue):
     queue_view1 = PersistentQueue.SqliteQueue(queue_file)
 

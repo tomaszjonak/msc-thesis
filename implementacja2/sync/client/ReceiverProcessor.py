@@ -39,13 +39,13 @@ class ReceiverProcessor(object):
             print('No files matched (file_name: {}, extensions: {}'.format(file_pattern, repr(self.extensions)))
             return
 
-        first_received = min((self.storage_root.joinpath(file) for file in files),
-                             key=lambda file: file.stat().st_ctime_ns)
+        # first_received = min((self.storage_root.joinpath(file) for file in files),
+        #                      key=lambda file: file.stat().st_ctime_ns)
 
-        try:
-            self.sync_queue.put(first_received)
-        except Exception as e:
-            print(repr(e))
+        # try:
+        #     self.sync_queue.put(first_received)
+        # except Exception as e:
+        #     print(repr(e))
 
         for file in files:
             self.queue.put(file)
@@ -56,10 +56,12 @@ class ReceiverProcessor(object):
         while self.cont:
             try:
                 self.operation()
-            except StreamTokenReader.StreamTokenReaderError:
+            except TimeoutError as e:
+                print(repr(e))
+            except Exception as e:
+                print('Exception in receiver processor')
+                print(repr(e))
                 raise
-            except Exception:
-                pass
 
     def _process_files(self):
         file_pattern = self.reader.get_token().decode()

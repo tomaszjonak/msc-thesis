@@ -44,6 +44,7 @@ def test_vectors(istream, storage_path, stage_queue, extensions, file_vector):
         stage_queue.pop(path)
 
 
+@pytest.mark.skip
 def test_sync_queue_update(istream, storage_path, stage_queue, client_queue):
     relative_path = 'test_file.ext'
     first_file = storage_path.joinpath(relative_path)
@@ -67,6 +68,7 @@ def test_sync_queue_update(istream, storage_path, stage_queue, client_queue):
     assert client_queue.empty()
 
 
+@pytest.mark.skip
 def test_sync_queue_update_multiple_inserts(istream, storage_path, stage_queue, client_queue):
     relative_paths = ['f1.ext', 'f2.ext', 'f3.ext', 'f4.ext']
     paths = [storage_path.joinpath(relative_path) for relative_path in relative_paths]
