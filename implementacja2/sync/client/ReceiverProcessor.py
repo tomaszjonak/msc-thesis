@@ -1,6 +1,9 @@
 from ..utils import PersistentQueue
 from ..utils import StreamTokenReader
 import pathlib as pl
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ReceiverProcessorError(RuntimeError):
@@ -29,14 +32,16 @@ class ReceiverProcessor(object):
 
         self.cont = True
 
-        self.operation = self._get_first_record if self.sync_queue else self._process_files
+        self.operation = self._process_files
+        # self.operation = self._get_first_record if self.sync_queue else self._process_files
 
     def _get_first_record(self):
         file_pattern = self.reader.get_token().decode()
         files = self.find_matching_files(file_pattern)
 
         if not files:
-            print('No files matched (file_name: {}, extensions: {}'.format(file_pattern, repr(self.extensions)))
+            logger.warning('No files matched (file_name: {}, extensions: {}'
+                           .format(file_pattern, repr(self.extensions)))
             return
 
         # first_received = min((self.storage_root.joinpath(file) for file in files),
@@ -56,11 +61,10 @@ class ReceiverProcessor(object):
         while self.cont:
             try:
                 self.operation()
-            except TimeoutError as e:
-                print(repr(e))
+            except TimeoutError:
+                logger.info('Receiver processor timeout')
             except Exception as e:
-                print('Exception in receiver processor')
-                print(repr(e))
+                logger.exception(e)
                 raise
 
     def _process_files(self):
@@ -72,10 +76,12 @@ class ReceiverProcessor(object):
             self.queue.put(file)
         if file is None:
             # TODO use logger and make it warning
-            print('No files matched (file_name: {}, extensions: {}'.format(file_pattern, repr(self.extensions)))
+            logger.warning('No files matched (file_name: {}, extensions: {}'
+                           .format(file_pattern, repr(self.extensions)))
 
     def find_matching_files(self, file_pattern):
         base_path = pl.Path(file_pattern)
+        logger.debug('Base path: {}'.format(base_path))
         possible_files = (base_path.with_suffix(extension) for extension in self.extensions)
         # we want to send file path relative to storage root, thus base storage_root is included
         # into path only for existence check

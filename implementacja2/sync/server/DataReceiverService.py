@@ -1,12 +1,16 @@
 import pathlib as pl
 import threading
 import socketserver
+import logging
 
 from ..utils import PersistentQueue
 from ..utils import StreamProxy
 from ..utils import StreamTokenReader
 from ..utils import StreamTokenWriter
 from . import ServerProtocolProcessor as proc
+
+
+logger = logging.getLogger(__name__)
 
 
 class DataReceiverService(object):
@@ -90,12 +94,13 @@ class DataReceiverHandler(socketserver.BaseRequestHandler):
         self.storage_root = self.server.storage_root
 
     def handle(self):
+        logger.info('Connection from {}'.format(self.client_address))
         processor = self.prepare_processor(self.request, self.cache, self.storage_root)
         try:
             processor.run()
         except Exception as e:
             # we have some connection breaking condition, just stop handling
-            print(repr(e))
+            logger.exception(e)
 
     @staticmethod
     def prepare_processor(socket, cache, storage_root):

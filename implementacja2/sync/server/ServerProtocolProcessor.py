@@ -2,6 +2,9 @@ from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue, Files
 import pathlib as pl
 import datetime as dt
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class ServerProtocolProcessor(object):
     """
@@ -142,12 +145,12 @@ class ServerProtocolProcessor(object):
         else:
             last_path = pl.Path(last_element)
             curr_path = pl.Path(current_element)
-            if self.newer_file(curr_path.name, last_path.name):
-                self.cache.pop(last_element)
-                self.cache.put(current_element)
-
-        # For testing purposes, this should always have one entry
-        assert self.cache.len() == 1
+            try:
+                if self.newer_file(curr_path.name, last_path.name):
+                    self.cache.pop(last_element)
+                    self.cache.put(current_element)
+            except ValueError as e:
+                logger.exception(e)
 
         self.operation = self._process_filename
 

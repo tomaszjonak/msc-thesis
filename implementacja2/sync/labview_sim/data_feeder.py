@@ -51,29 +51,29 @@ def send_all(sock, data):
 
 def work(sock, extensions, root_path, **kwargs):
     while True:
-        amount = input("Next?")
-        amount = int(amount)
+        res = input("Next?")
+
+        if res:
+            break
+
         try:
-            _work(sock, extensions, root_path, **kwargs, amount=amount)
+            _work(sock, extensions, root_path, **kwargs)
         except ConnectionAbortedError:
             logger.error('Connection aborted by remote host')
             break
-        else:
-            pass
-            # time.sleep(config['interval'])
 
 
 def _work(sock, extensions, root_path, **kwargs):
-    seeds, paths = get_file_paths(extensions, root_path, **kwargs)
+    seed, paths = get_file_paths(extensions, root_path)
     source_path = kwargs.get('source_path', 'sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt')
     create_files(paths, source_path)
     # payload, list of path strings separated by \n
-    payload = ('\n'.join(str(path.relative_to(root_path)) for path in seeds) + '\n').encode('utf8')
+    payload = (str(seed.relative_to(root_path)) + '\n').encode('utf8')
     send_all(sock, payload)
-    logger.info("Sent {}".format(seeds))
+    logger.info("Sent {}".format(seed))
 
 
-def get_file_paths(extensions: list, root_path: str, **kwargs):
+def get_file_paths(extensions: list, root_path: str):
     current_time = datetime.now()
     folder_name = current_time.strftime('M%y%m%d')
     file_name_seed = current_time.strftime('M%y%m%d-%H%M%S')
@@ -81,12 +81,10 @@ def get_file_paths(extensions: list, root_path: str, **kwargs):
     folder_path = pathlib.Path(root_path, folder_name)
     folder_path.mkdir(exist_ok=True, parents=True)
 
-    names = (file_name_seed + '_{}'.format(rep) for rep in range(kwargs.get('amount', 1)))
-    seeds = [folder_path.joinpath(name) for name in names]
+    seed = folder_path.joinpath(file_name_seed)
 
-    paths = [seed.with_suffix(".{}".format(extension)) for seed, extension
-             in itertools.product(seeds, extensions)]
-    return seeds, paths
+    paths = [seed.with_suffix(".{}".format(extension)) for extension in extensions]
+    return seed, paths
 
 
 def create_files(paths, source_path):

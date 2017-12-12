@@ -1,7 +1,7 @@
 from . import StreamProxy
 
 
-class StreamTokenReaderError(RuntimeError):
+class StreamTokenReaderError(BrokenPipeError):
     pass
 
 

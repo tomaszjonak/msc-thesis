@@ -45,7 +45,7 @@ class KeepAliveWorker(threading.Thread):
     def _op(self):
         try:
             self.work()
-        except (ConnectionAbortedError, BrokenPipeError, ConnectionError) as e:
+        except (ConnectionAbortedError, BrokenPipeError, ConnectionError, ConnectionResetError) as e:
             logger.warning("Lost connection".format(repr(e)))
             logger.debug("{}".format(repr(e)))
             self.socket.close()
