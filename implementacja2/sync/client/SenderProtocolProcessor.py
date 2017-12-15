@@ -1,5 +1,9 @@
 from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue
 import pathlib as pl
+import logging
+import time
+
+logger = logging.getLogger(__name__)
 
 
 class ClientProtocolError(RuntimeError):
@@ -19,6 +23,7 @@ class SenderProtocolProcessor(object):
       jest przeprowadzenie transformacji (i.e kompresja przed wyslaniem)
     """
     def __init__(self, reader, writer, stage_queue, storage_root, sync_queue=None, **kwargs):
+        logger.debug('SenderProtocolProcessor::init')
         if not isinstance(reader, StreamTokenReader.StreamTokenReader):
             raise RuntimeError('Unsupported reader type')
         if not isinstance(writer, StreamTokenWriter.StreamTokenWriter):
@@ -52,7 +57,9 @@ class SenderProtocolProcessor(object):
         self.file_obj = None
 
     def _receive_last_valid(self):
-        # last_on_server = self.reader.get_token().decode()
+        logger.debug('_receive_last_valid')
+        last_on_server = self.reader.get_token().decode()
+        logger.debug('Received last file from server ({})'.format(last_on_server))
         # technically there should be some check, we might encounter situation where
         # last valid file gets archieved by cron job and thus path is no longer usable
         # last_path = self.storage_root.joinpath(last_on_server)
@@ -62,6 +69,7 @@ class SenderProtocolProcessor(object):
         self.operation = self._send_metadata
 
     def _send_metadata(self):
+        logger.debug('_send_metadata')
         self.file_path = self.stage_queue.get(timeout=self.queue_timeout)
         self.writer.write_token(self.file_path)
 
@@ -72,6 +80,7 @@ class SenderProtocolProcessor(object):
         self.operation = self._transfer_file
 
     def _transfer_file(self):
+        logger.debug('_transfer_file')
         with self.file_obj.open('rb') as fd:
             data_chunk = fd.read(self.chunk_size)
             while data_chunk:
@@ -82,18 +91,19 @@ class SenderProtocolProcessor(object):
         self.operation = self._acknowledge_and_unstage
 
     def _acknowledge_and_unstage(self):
+        logger.debug('_acknowledge_and_unstage')
         # TODO add some timeout
         ack_path = self.reader.get_token().decode()
 
         if ack_path == self.file_path:
-            self.stage_queue.pop(self.file_path)
+            self.stage_queue.pop(pl.Path(ack_path).as_posix())
+            logger.debug('Acknowledge received ({})'.format(str(ack_path)))
         else:
-            print('Server acknowledge error. Expected ({}), got ({})'
-                  .format(self.file_path, ack_path))
+            logger.error('Mismatched server acknowledge. Expected ({}), got ({})'
+                         .format(self.file_path, ack_path))
 
         self.file_path = None
         self.file_obj = None
-
         self.operation = self._send_metadata
 
     def run(self):
@@ -102,8 +112,9 @@ class SenderProtocolProcessor(object):
                 self.operation()
             except StreamTokenReader.StreamTokenReaderError:
                 raise
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error('Exception in event loop')
+                logger.exception(e)
 
     def stop(self):
         self.reader.timeout = 1

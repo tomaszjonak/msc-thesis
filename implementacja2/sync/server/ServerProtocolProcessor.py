@@ -56,9 +56,9 @@ class ServerProtocolProcessor(object):
         """
         newest_file = self.cache.get(wait_for_value=False)
         if newest_file:
-            print('Cached file found, sending information ({})'.format(newest_file))
+            logger.info('Cached file found, sending information ({})'.format(newest_file))
         else:
-            print('No cached file found, proceeding')
+            logger.info('No cached file found, proceeding')
         self.writer.write_token(newest_file)
 
         self.operation = self._process_filename
@@ -70,7 +70,7 @@ class ServerProtocolProcessor(object):
         filename = self.reader.get_token().decode('utf8')
         if not filename:
             return
-        print('Receiving file ({})'.format(filename))
+        logger.info('Receiving file ({})'.format(filename))
 
         path = self.storage_root.joinpath(filename)
         if any(len(part) > 255 for part in path.parts):
@@ -115,6 +115,7 @@ class ServerProtocolProcessor(object):
         Potwierdzenie odebrania pliku przez serwer, domyka transakcje
         """
         path = self._file_description['filename']
+        logger.info('Announcing back ({})'.format(path))
         self.writer.write_token(path)
 
         self.operation = self._update_cache
@@ -137,6 +138,7 @@ class ServerProtocolProcessor(object):
         """
         Sprawdza zawartosc dyskowego cache, podmienia wartosc jesli jest nowsza
         """
+        logger.debug('Updating cache')
         last_element = self.cache.get(wait_for_value=False)
         current_element = self._file_description['filename']
 
@@ -146,7 +148,7 @@ class ServerProtocolProcessor(object):
             last_path = pl.Path(last_element)
             curr_path = pl.Path(current_element)
             try:
-                if self.newer_file(curr_path.name, last_path.name):
+                if self.newer_file(curr_path.with_suffix('').name, last_path.with_suffix('').name):
                     self.cache.pop(last_element)
                     self.cache.put(current_element)
             except ValueError as e:

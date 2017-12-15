@@ -70,9 +70,11 @@ class ReceiverProcessor(object):
     def _process_files(self):
         file_pattern = self.reader.get_token().decode()
         files = self.find_matching_files(file_pattern)
+        logger.debug('Found matching files ({})'.format(len(files)))
 
         file = None
         for file in files:
+            logger.debug('Adding file to queue ({})'.format(file))
             self.queue.put(file)
         if file is None:
             # TODO use logger and make it warning
@@ -85,7 +87,7 @@ class ReceiverProcessor(object):
         possible_files = (base_path.with_suffix(extension) for extension in self.extensions)
         # we want to send file path relative to storage root, thus base storage_root is included
         # into path only for existence check
-        return [str(file) for file in possible_files if self.storage_root.joinpath(file).exists()]
+        return [file.as_posix() for file in possible_files if self.storage_root.joinpath(file).exists()]
 
     def stop(self):
         self.reader.timeout = 1

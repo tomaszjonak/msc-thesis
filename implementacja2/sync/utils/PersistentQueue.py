@@ -137,6 +137,7 @@ class SqliteQueue(Queue):
         Bazuje to na zalozeniu ze soft pomiarowy daje kolejnym plikom unikalne nazwy
         """
         self.connection.execute(r'DELETE FROM queue where element=?', (element,))
+        self.connection.commit()
 
     def len(self):
         record = self.connection.execute(r'SELECT count(*) from queue').fetchone()
