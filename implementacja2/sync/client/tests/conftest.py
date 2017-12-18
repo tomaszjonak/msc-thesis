@@ -246,3 +246,13 @@ def client_queue():
 def server_queue():
     return queue.Queue()
 
+
+@pytest.fixture(scope='function')
+def client_cache():
+    f = tempfile.NamedTemporaryFile(delete=False)
+    cache_instance = PersistentQueue.SqliteQueue(f.name)
+    yield cache_instance
+    # TODO looks like it leaves file in tmp under windows
+    # did no tests on linux, bash on windows makes me lazy
+    f.delete = True
+    f.close()

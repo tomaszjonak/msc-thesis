@@ -34,7 +34,7 @@ class ReceiverService(object):
     * Kolejka musi byc w stanie przechowac swoj stan w przypadku naglego zakonczenia
       dzialania programu (np. odciecie zasilania)
     """
-    def __init__(self, address, stage_queue, storage_root, sync_queue=None, **kwargs):
+    def __init__(self, address, stage_queue, storage_root, cache, sync_queue=None, **kwargs):
         if not isinstance(stage_queue, PersistentQueue.Queue):
             raise ReceiverServiceError('Unsupported queue type ({})'.format(repr(stage_queue)))
 
@@ -55,10 +55,11 @@ class ReceiverService(object):
 
 
 class ReceiverThread(Workers.KeepAliveWorker):
-    def __init__(self, address, stage_queue, storage_root, sync_queue=None, **kwargs):
+    def __init__(self, address, stage_queue, storage_root, cache, sync_queue=None,**kwargs):
         self.address = address
         self.queue = stage_queue
         self.storage_root = storage_root
+        self.cache = cache
 
         self.sync_queue = sync_queue
         self.processor = None

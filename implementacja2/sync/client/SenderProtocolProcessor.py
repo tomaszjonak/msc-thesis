@@ -81,12 +81,15 @@ class SenderProtocolProcessor(object):
 
     def _transfer_file(self):
         logger.debug('_transfer_file')
+        start = time.time()
         with self.file_obj.open('rb') as fd:
             data_chunk = fd.read(self.chunk_size)
             while data_chunk:
                 self.writer.write_bytes(data_chunk)
                 data_chunk = fd.read(self.chunk_size)
         self.writer.write_separator()
+        stop = time.time()
+        logger.debug('File transfer took ended (took {} seconds)'.format(stop - start))
 
         self.operation = self._acknowledge_and_unstage
 

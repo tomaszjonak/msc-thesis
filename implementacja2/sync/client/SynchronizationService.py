@@ -6,18 +6,16 @@ class SynchronizationService(object):
     """
     Klasa umozliwiajaca zarzadzanie watkiem synchronizacyjnym (glownie zatrzymanie)
     """
-    def __init__(self, stage_queue, client_queue, server_queue, storage_root, **kwargs):
-        self.stage_queue = stage_queue
-        self.client_queue = client_queue
-        self.server_queue = server_queue
+    def __init__(self, sync_queue, queue_view, storage_root, **kwargs):
+        self.sync_queue = sync_queue
+        self.queue_view = queue_view
         self.storage_root = storage_root
 
         self.extensions = kwargs.get('extensions', ['lvm', 'avi'])
 
         self.thread = SynchronizationThread(
-            server_queue=self.server_queue,
-            client_queue=self.client_queue,
-            queue_view=self.stage_queue,
+            sync_queue=self.sync_queue,
+            queue_view=self.queue_view,
             storage_root=self.storage_root,
             extensions=self.extensions
         )
@@ -68,12 +66,11 @@ class SynchronizationThread(threading.Thread):
     synchronizacja sprawdza stan dysku i
 
     """
-    def __init__(self, server_queue, client_queue, queue_view, storage_root, extensions):
-        self.server_queue = server_queue
-        self.client_queue = client_queue
-        self.stage_queue = queue_view
+    def __init__(self, sync_queue, queue_view, storage_root, extensions, timeout=None):
+        self.work_queue = sync_queue
         self.storage_root = storage_root
         self.extensions = extensions
+        self.timeout = timeout
 
         self.stop_ = False
 
@@ -83,22 +80,16 @@ class SynchronizationThread(threading.Thread):
     def run(self):
         # TODO should those be pathlib objects or plain strings
         while not self.stop_:
-            # TODO error handling
-            startup_information = self.server_queue.get()
-            # breaks to enable sort of immediate return
-            # dont know yet how to perform immediate thread teardown in python
-            if self.stop_:
-                break
-            first_new = self.client_queue.get()
-            if self.stop_:
+            try:
+                last_saved, first_new, currently_queued = self.work_queue.get(timeout=self.timeout)
+            except TimeoutError:
                 break
 
-            last_saved, stage_state = startup_information
             SyncProcessor.SyncProcessor(
-                queue_view=self.stage_queue,
+                queue_view=self.queue_view,
                 extensions=self.extensions,
                 storage_root=self.storage_root,
-                staged_files=stage_state
+                staged_files=currently_queued
             ).update_queue(last_saved, first_new)
 
     def stop(self):
