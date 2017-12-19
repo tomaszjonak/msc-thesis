@@ -1,5 +1,5 @@
-import implementacja2.sync.server.DataReceiverService as srv
-import implementacja2.sync.utils.PersistentQueue as que
+import sync.server.DataReceiverService as srv
+import sync.utils.PersistentQueue as que
 
 address = ('127.0.0.1', 50123)
 cache = que.SqliteQueue('cache.db')

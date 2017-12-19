@@ -89,8 +89,8 @@ def get_file_paths(extensions: list, root_path: str):
 
 def create_files(paths, source_path):
     for path in paths:
-        print('Creating {}'.format(path.resolve()))
         shutil.copy(str(source_path), str(path))
+        print('Creating {}'.format(path.resolve()))
 
 
 def run_connecting(config: dict):
@@ -116,9 +116,9 @@ def run_connecting(config: dict):
 def run_listening(config: dict):
     passive_config = config['passive_feeder']
     address = passive_config['listening_host'], int(passive_config['listening_port'])
-    with DataGeneratorServer(address, DataGeneratorHandle, config) as server:
-        logger.info('Listening on {}'.format(address))
-        server.serve_forever()
+    server = DataGeneratorServer(address, DataGeneratorHandle, config)
+    logger.info('Listening on {}'.format(address))
+    server.serve_forever()
 
 
 def main():

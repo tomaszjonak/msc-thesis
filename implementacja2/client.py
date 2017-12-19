@@ -1,6 +1,6 @@
-import implementacja2.sync.client.ReceiverService as receiver
-import implementacja2.sync.client.SenderService as sender
-import implementacja2.sync.utils.PersistentQueue as que
+import sync.client.ReceiverService as receiver
+import sync.client.SenderService as sender
+import sync.utils.PersistentQueue as que
 import pathlib
 
 server_address = ('127.0.0.1', 50123)
