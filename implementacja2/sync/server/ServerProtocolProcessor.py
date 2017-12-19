@@ -1,6 +1,8 @@
 from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue, FilesystemHelpers
+from ..wavelet_compression import wavelet_lvm
 import pathlib as pl
 import datetime as dt
+import numpy as np
 
 import logging
 logger = logging.getLogger(__name__)
@@ -164,3 +166,49 @@ class ServerProtocolProcessor(object):
     def stop(self):
         self.cont = False
         self.reader.timeout = 1
+
+
+class ServerDecompressionProcessor(ServerProtocolProcessor):
+    supported_compressors = {'lvm': wavelet_lvm.decode_with_indexing}
+    fmt = '%.6f'
+    delimiter = '\t'
+
+    def __init__(self, reader: StreamTokenReader.StreamTokenReader, writer: StreamTokenWriter.StreamTokenWriter,
+                 disk_cache: PersistentQueue.Queue, storage_root: (str, pl.Path), **kwargs):
+        super(ServerDecompressionProcessor, self).__init__(reader, writer, disk_cache, storage_root, **kwargs)
+
+    def _process_file_bytes(self):
+        """
+        Sekwencja odpowiedzialna za faktyczne odebranie pliku
+        TODO: checksuma
+        """
+        path = self._file_description['file_pathobj']
+        path.parent.mkdir(exist_ok=True, parents=True)
+        chunk_size = self.options.get('chunk_size', 8192)
+
+        size = self._file_description['size']
+        full_chunks = size // chunk_size
+        last_chunk_size = size % chunk_size
+        buffer = bytearray()
+        with path.open('wb') as fd:
+            for _ in range(full_chunks):
+                buffer += self.reader.get_bytes(chunk_size)
+                logger.debug('Chunk received ({})'.format(chunk_size))
+            # so much for high level interfaces, this write has to be done c style
+            # fd.writeall(self.reader.get_bytes(last_chunk_size))
+            buffer += self.reader.get_bytes(last_chunk_size)
+
+        suffix = path.suffix.lstrip('.')
+
+        self.operation = self._announce_response
+
+        try:
+            data = self.supported_compressors[suffix](buffer)
+        except KeyError:
+            logger.debug('No decompression scheme associated with extension, dumping raw to disk ({})'.format(suffix))
+            path.write_bytes(buffer)
+        except Exception as e:
+            logger.exception(e)
+
+        # TODO currently its easy to just assume its lvm here, change to generic handling
+        np.savetxt(str(path), data, fmt=self.fmt, delimiter=self.delimiter)

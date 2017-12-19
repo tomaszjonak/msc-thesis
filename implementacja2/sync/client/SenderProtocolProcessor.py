@@ -114,7 +114,7 @@ class SenderProtocolProcessor(object):
         while self.cont:
             try:
                 self.operation()
-            except StreamTokenReader.StreamTokenReaderError:
+            except (StreamTokenReader.StreamTokenReaderError, BrokenPipeError):
                 raise
             except Exception as e:
                 logger.error('Exception in event loop')
