@@ -104,6 +104,7 @@ class ServerProtocolProcessor(object):
         with path.open('wb') as fd:
             for _ in range(full_chunks):
                 FilesystemHelpers.write_all(fd, self.reader.get_bytes(chunk_size))
+                logger.debug('Chunk received ({})'.format(chunk_size))
             # so much for high level interfaces, this write has to be done c style
             # fd.writeall(self.reader.get_bytes(last_chunk_size))
             FilesystemHelpers.write_all(fd, self.reader.get_bytes(last_chunk_size))
@@ -128,7 +129,7 @@ class ServerProtocolProcessor(object):
         :param right: str - sciezka do prawego pliku (pathlike)
         :return: bool - czy lewy jest nowszy od prawego
         """
-        time_formatstr = self.options.get('formatstr', 'M%y%m%d-%H%M%S')
+        time_formatstr = self.options.get('formatstr', 'M%y%m%d_%H%M%S')
 
         left_date = dt.datetime.strptime(left, time_formatstr)
         right_date = dt.datetime.strptime(right, time_formatstr)

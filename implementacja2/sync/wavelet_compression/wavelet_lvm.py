@@ -1,9 +1,9 @@
 import numpy as np
 import pathlib as pl
 
-import wavelet_compression.wavelet_commons as wcom
-import wavelet_compression.wavelet_encoder as wenc
-import wavelet_compression.wavelet_decoder as wdec
+from . import wavelet_commons as wcom
+from . import wavelet_encoder as wenc
+from . import wavelet_decoder as wdec
 
 params = wcom.WaveletParams()
 

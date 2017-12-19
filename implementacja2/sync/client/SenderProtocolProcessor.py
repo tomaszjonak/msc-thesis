@@ -1,4 +1,5 @@
 from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue
+from ..wavelet_compression import wavelet_lvm
 import pathlib as pl
 import logging
 import time
@@ -123,3 +124,48 @@ class SenderProtocolProcessor(object):
         self.reader.timeout = 1
         self.cont = False
         self.queue_timeout = 1
+
+
+class CompressionEnabledSender(SenderProtocolProcessor):
+    compressors = {'lvm': wavelet_lvm.encode_file}
+
+    def __init__(self, reader, writer, stage_queue, storage_root, sync_queue):
+        logger.info('CompressionEnabledSender::init')
+        logger.info('Keep in mind this implementation puts constraints on several file extensions ({})'
+                    .format(self.compressors.keys()))
+        super(CompressionEnabledSender, self).__init__(reader, writer, stage_queue, storage_root, sync_queue)
+
+    def _send_metadata(self):
+        logger.debug('_send_metadata')
+        self.file_path = self.stage_queue.get(timeout=self.queue_timeout)
+        self.writer.write_token(self.file_path)
+
+        self.file_obj = self.storage_root.joinpath(self.file_path)
+
+        self.operation = self._transfer_file
+
+    def _transfer_file(self):
+        logger.debug('_transfer_file')
+        extension = self.file_obj.suffix.lstrip('.')
+
+        try:
+            compression_begin = time.time()
+            blob = self.compressors[extension](str(self.file_obj))
+
+            self.writer.write_token(str(len(blob)))
+            compression_end = time.time()
+            logger.debug('Compression done ({} s)'.format(compression_end - compression_begin))
+        except KeyError:
+            file_size = self.file_obj.stat().st_size
+            self.writer.write_token(str(file_size))
+            logger.debug('No compression scheme for extension ({})'.format(extension))
+            super(CompressionEnabledSender, self)._transfer_file()
+            return
+
+        transfer_start = time.time()
+        self.writer.write_bytes(blob)
+        transfer_end = time.time()
+        logger.debug('Transfer done ({} s)'.format(transfer_end - transfer_start))
+        self.writer.write_separator()
+
+        self.operation = self._acknowledge_and_unstage

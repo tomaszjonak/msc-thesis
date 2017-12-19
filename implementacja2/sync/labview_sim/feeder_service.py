@@ -115,6 +115,7 @@ class FeederServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 def main():
     pass
 
+
 if __name__ == '__main__':
     FORMAT = '%(asctime)s [%(name)s|%(threadName)s] %(levelname)s: %(message)s'
     logging.basicConfig(format=FORMAT, level=logging.DEBUG)

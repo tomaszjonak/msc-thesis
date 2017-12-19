@@ -2,7 +2,7 @@ import pywt
 import numpy as np
 import pathlib as pl
 
-import wavelet_compression.wavelet_commons as wcom
+from . import wavelet_commons as wcom
 
 
 def signal_encode(signal, params):

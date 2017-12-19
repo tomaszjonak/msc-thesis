@@ -3,6 +3,13 @@ from ..utils import StreamTokenReader
 from ..utils import StreamTokenWriter
 from ..utils import StreamProxy
 from . import SenderProtocolProcessor
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class SenderServiceException(Exception):
+    pass
 
 
 class SenderService(object):
@@ -46,11 +53,22 @@ class SenderService(object):
 
 
 class SenderThread(Workers.KeepAliveWorker):
+    supported_processors = {
+        'basic': SenderProtocolProcessor.SenderProtocolProcessor,
+        'compression': SenderProtocolProcessor.CompressionEnabledSender
+    }
+
     def __init__(self, address, storage_root, stage_queue, sync_queue, **kwargs):
         self.storage_root = storage_root
         self.stage_queue = stage_queue
         self.sync_queue = sync_queue
         self.processor = None
+
+        processor_identifier = kwargs.get('processor', 'compression')
+        try:
+            self.processor_impl = self.supported_processors[processor_identifier]
+        except KeyError:
+            raise SenderServiceException('Unsupported processor requested ({})'.format(processor_identifier))
 
         self.separator = kwargs.get('separator', b'\r\n')
         retry_time = kwargs.get('retry_time', 30)
@@ -62,7 +80,8 @@ class SenderThread(Workers.KeepAliveWorker):
         try:
             self.processor.run()
         except StreamTokenReader.StreamTokenReaderError as e:
-            print('Stream error, restarting connection ({})'.format(e))
+            logger.exception(e)
+            raise e
         except TimeoutError:
             pass
 
@@ -71,7 +90,7 @@ class SenderThread(Workers.KeepAliveWorker):
         reader = StreamTokenReader.StreamTokenReader(stream, self.separator)
         writer = StreamTokenWriter.StreamTokenWriter(stream, self.separator)
 
-        proc = SenderProtocolProcessor.SenderProtocolProcessor(
+        proc = self.processor_impl(
             reader=reader,
             writer=writer,
             storage_root=self.storage_root,
