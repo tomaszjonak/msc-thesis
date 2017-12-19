@@ -68,7 +68,8 @@ def _work(sock, extensions, root_path, **kwargs):
     source_path = kwargs.get('source_path', 'sample_data/pan-tadeusz-czyli-ostatni-zajazd-na-litwie.txt')
     create_files(paths, source_path)
     # payload, list of path strings separated by \n
-    payload = (str(seed.relative_to(root_path)) + '\n').encode('utf8')
+    logger.debug(seed.relative_to(root_path).as_posix())
+    payload = (seed.relative_to(root_path).as_posix() + '\n').encode('utf8')
     send_all(sock, payload)
     logger.info("Sent {}".format(seed))
 

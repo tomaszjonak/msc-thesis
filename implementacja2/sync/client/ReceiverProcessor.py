@@ -110,8 +110,8 @@ class ReceiverProcessor(object):
         # into path only for existence check
         full_paths = (self.storage_root.joinpath(file) for file in possible_files)
         valid_paths = [path for path in full_paths if path.exists()]
-        last_created = max(valid_paths, key=lambda file: self.storage_root.joinpath(file).stat().st_ctime_ns)
-        first_created = max(valid_paths, key=lambda file: self.storage_root.joinpath(file).stat().st_ctime_ns)
+        last_created = max(valid_paths, key=lambda file: file.stat().st_ctime_ns)
+        first_created = min(valid_paths, key=lambda file: file.stat().st_ctime_ns)
         return [path.relative_to(self.storage_root).as_posix() for path in valid_paths], last_created, first_created
 
     def stop(self):

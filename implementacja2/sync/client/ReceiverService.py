@@ -38,7 +38,7 @@ class ReceiverService(object):
         if not isinstance(stage_queue, PersistentQueue.Queue):
             raise ReceiverServiceError('Unsupported queue type ({})'.format(repr(stage_queue)))
 
-        self.thread = ReceiverThread(address, stage_queue, storage_root, sync_queue=sync_queue, **kwargs)
+        self.thread = ReceiverThread(address, stage_queue, storage_root, cache, sync_queue=sync_queue, **kwargs)
         logger.info('Starting receiver service')
         self.thread.start()
 
@@ -85,7 +85,8 @@ class ReceiverThread(Workers.KeepAliveWorker):
             queue=self.queue,
             storage_root=self.storage_root,
             supported_extensions=self.extensions,
-            sync_queue=self.sync_queue
+            sync_queue=self.sync_queue,
+            cache=self.cache
         )
         return proc
 

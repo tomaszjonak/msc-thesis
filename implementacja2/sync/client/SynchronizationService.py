@@ -1,5 +1,8 @@
 import threading
 from . import SyncProcessor
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class SynchronizationService(object):
@@ -67,10 +70,12 @@ class SynchronizationThread(threading.Thread):
 
     """
     def __init__(self, sync_queue, queue_view, storage_root, extensions, timeout=None):
+        logger.debug('Sync::init')
         self.work_queue = sync_queue
         self.storage_root = storage_root
         self.extensions = extensions
         self.timeout = timeout
+        self.queue_view = queue_view
 
         self.stop_ = False
 
@@ -78,10 +83,12 @@ class SynchronizationThread(threading.Thread):
         self.name = "SynchronizationThread"
 
     def run(self):
+        logger.debug('Sync::run')
         # TODO should those be pathlib objects or plain strings
         while not self.stop_:
             try:
-                last_saved, first_new, currently_queued = self.work_queue.get(timeout=self.timeout)
+                logger.debug('Waiting for data')
+                last_saved, first_new, stage_snapshot = self.work_queue.get(timeout=self.timeout)
             except TimeoutError:
                 break
 
@@ -89,7 +96,7 @@ class SynchronizationThread(threading.Thread):
                 queue_view=self.queue_view,
                 extensions=self.extensions,
                 storage_root=self.storage_root,
-                staged_files=currently_queued
+                staged_files=stage_snapshot
             ).update_queue(last_saved, first_new)
 
     def stop(self):
