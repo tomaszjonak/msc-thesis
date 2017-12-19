@@ -207,6 +207,7 @@ class ServerDecompressionProcessor(ServerProtocolProcessor):
         except KeyError:
             logger.debug('No decompression scheme associated with extension, dumping raw to disk ({})'.format(suffix))
             path.write_bytes(buffer)
+            return
         except Exception as e:
             logger.exception(e)
 
