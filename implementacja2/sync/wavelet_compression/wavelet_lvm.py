@@ -52,7 +52,6 @@ def decode_with_indexing(packed_measurements):
     return data_array
 
 
-
 def decode_to_file(file: pl.Path, packed_measurements, fmt='%.6f', delimiter='\t'):
     decoded_measurements = decode_binary(packed_measurements)
     len_ = decoded_measurements.shape[0]

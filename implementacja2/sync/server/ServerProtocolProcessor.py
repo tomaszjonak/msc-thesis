@@ -190,13 +190,9 @@ class ServerDecompressionProcessor(ServerProtocolProcessor):
         full_chunks = size // chunk_size
         last_chunk_size = size % chunk_size
         buffer = bytearray()
-        with path.open('wb') as fd:
-            for _ in range(full_chunks):
-                buffer += self.reader.get_bytes(chunk_size)
-                # logger.debug('Chunk received ({})'.format(chunk_size))
-            # so much for high level interfaces, this write has to be done c style
-            # fd.writeall(self.reader.get_bytes(last_chunk_size))
-            buffer += self.reader.get_bytes(last_chunk_size)
+        for _ in range(full_chunks):
+            buffer += self.reader.get_bytes(chunk_size)
+        buffer += self.reader.get_bytes(last_chunk_size)
 
         suffix = path.suffix.lstrip('.')
 
