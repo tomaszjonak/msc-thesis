@@ -104,12 +104,10 @@ class ServerProtocolProcessor(object):
         full_chunks = size // chunk_size
         last_chunk_size = size % chunk_size
         with path.open('wb') as fd:
-            for _ in range(full_chunks):
+            for i in range(full_chunks):
                 FilesystemHelpers.write_all(fd, self.reader.get_bytes(chunk_size))
-                logger.debug('Chunk received ({})'.format(chunk_size))
-            # so much for high level interfaces, this write has to be done c style
-            # fd.writeall(self.reader.get_bytes(last_chunk_size))
-            FilesystemHelpers.write_all(fd, self.reader.get_bytes(last_chunk_size))
+            if last_chunk_size:
+                FilesystemHelpers.write_all(fd, self.reader.get_bytes(last_chunk_size))
 
         self.operation = self._announce_response
 
@@ -206,6 +204,16 @@ class ServerDecompressionProcessor(ServerProtocolProcessor):
             return
         except Exception as e:
             logger.exception(e)
+            logger.debug('Decompression failed for given file, saving raw representation')
+            self.save_failed_file(buffer)
+            return
 
         # TODO currently its easy to just assume its lvm here, change to generic handling
         np.savetxt(str(path), data, fmt=self.fmt, delimiter=self.delimiter)
+
+    def save_failed_file(self, buffer):
+        name = self._file_description['filename']
+        error_loc = self.storage_root.joinpath('failed_decompression')
+        file_path = error_loc.joinpath(name)
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.write_bytes(buffer)

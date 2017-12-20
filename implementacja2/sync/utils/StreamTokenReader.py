@@ -72,6 +72,9 @@ class StreamTokenReader(object):
         :param chunk_size: opcjonalny parametr jesli chcemy pobrac ilosc bajtow inna niz skonfigurowana
         :return: bajty w ilosci rownej chunk_size
         """
+        if chunk_size == 0:
+            return bytes()
+
         chunk_size = chunk_size or self.chunk_size
         if chunk_size > self.chunk_size:
             raise RuntimeError('Requested chunk_size exceedes configured one, this may exhaoust memory')

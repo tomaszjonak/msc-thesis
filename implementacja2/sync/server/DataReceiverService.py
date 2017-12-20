@@ -109,5 +109,5 @@ class DataReceiverHandler(socketserver.BaseRequestHandler):
         reader = StreamTokenReader.StreamTokenReader(stream, b'\r\n')
         writer = StreamTokenWriter.StreamTokenWriter(stream, b'\r\n')
 
-        return proc.ServerProtocolProcessor(reader=reader, writer=writer,
-                                            disk_cache=cache, storage_root=storage_root)
+        return proc.ServerDecompressionProcessor(reader=reader, writer=writer,
+                                                 disk_cache=cache, storage_root=storage_root)
