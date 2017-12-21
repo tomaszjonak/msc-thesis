@@ -40,7 +40,7 @@ class DataGeneratorHandle(socketserver.BaseRequestHandler):
     def handle(self):
         logger.info("Connection from {}".format(self.client_address))
         try:
-            work(self.request, self.root_path, self.extensions, sleep=3)
+            work(self.request, self.root_path, self.extensions)# , sleep=3)
         except ConnectionResetError:
             logger.warning('{} closed connection (reset)'.format(self.client_address))
 
@@ -62,9 +62,12 @@ def work(socket, storage_root, extensions, **kwargs):
             time.sleep(kwargs['sleep'])
     else:
         for file in files_to_send:
-            logger.info('Sending {}'.format(str(file)))
-            socket.send((str(file) + '\n').encode())
-            input('Next? ')
+            x = input('Next? ')
+            if x:
+                logger.debug('Skipping {}'.format(str(file)))
+            else:
+                logger.info('Sending {}'.format(str(file)))
+                socket.send((str(file) + '\n').encode())
 
 
 def main():
