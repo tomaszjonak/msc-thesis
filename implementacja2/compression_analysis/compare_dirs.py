@@ -2,7 +2,6 @@ import pathlib as pl
 import numpy as np
 import pandas
 from pprint import pprint
-from sync.wavelet_compression import wavelet_lvm
 import matplotlib.pyplot as plt
 import multiprocessing
 import collections
@@ -53,12 +52,13 @@ def plot_signals(client_data, server_data, case_name):
         plt.plot(server_signal, label='decoded')
         plt.legend()
         plt.title('{} - channel {}'.format(case_name, i))
+        plt.grid()
         plt.show()
 
 
 def main():
-    client_storage = pl.Path('client_storage')
-    server_storage = pl.Path('server_received')
+    client_storage = pl.Path('../client_storage')
+    server_storage = pl.Path('../server_received')
 
     pairs, invalid_paths = get_file_pairs(client_storage, server_storage, 'lvm')
     if invalid_paths:
