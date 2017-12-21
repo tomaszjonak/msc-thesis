@@ -1,4 +1,4 @@
-file_name,lzma,bz2,zlib,wavelets
+file_name,file_size,lzma,bz2,zlib,wavelets
 client_storage/R2017_10_06/M171006_054851.lvm,931966,200228,173146,265526,1306
 client_storage/R2017_10_06/M171006_065107.lvm,932578,195784,178365,264693,1099
 client_storage/R2017_10_06/M171006_084457.lvm,927425,203072,177601,270346,1145
