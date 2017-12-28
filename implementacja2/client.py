@@ -21,7 +21,9 @@ def main():
     config = {
         'server': {
             'host': '127.0.0.1',
-            'port': 50123
+            'port': 50123,
+            'retry_time': 30,
+            'processor': 'compression'
         },
         'provider': {
             'host': '127.0.0.1',
@@ -95,21 +97,37 @@ def main():
 
     sync_queue = queue.Queue()
     logger.info('Starting synchronization service')
-    sync_service = sc.SynchronizationService(sync_queue=sync_queue, queue_view=stage_queue_view2,
-                                             storage_root=storage_root)
+    sync_service = sc.SynchronizationService(
+        sync_queue=sync_queue,
+        queue_view=stage_queue_view2,
+        storage_root=storage_root
+    )
     services.append(sync_service)
 
     labview_address = (config['provider']['host'], int(config['provider']['port']))
     logger.info('Starting receiver service')
-    receiver_service = receiver.ReceiverService(labview_address, stage_queue_view3, storage_root,
-                                                cache, sync_queue, extensions=config['provider']['extensions'],
-                                                separator=config['provider']['separator'])
+    receiver_service = receiver.ReceiverService(
+        labview_address,
+        stage_queue_view3,
+        storage_root,
+        cache,
+        sync_queue,
+        extensions=config['provider']['extensions'],
+        separator=config['provider']['separator'],
+        retry_time=int(config['provider']['retry_time'])
+    )
     services.append(receiver_service)
 
     server_address = (config['server']['host'], int(config['server']['port']))
     logger.info('Starting sender service')
-    sender_service = sender.SenderService(address=server_address, storage_root=storage_root,
-                                          stage_queue=stage_queue_view1, sync_queue=None)
+    sender_service = sender.SenderService(
+        address=server_address,
+        storage_root=storage_root,
+        stage_queue=stage_queue_view1,
+        sync_queue=None,
+        retry_time=int(config['server']['retry_time']),
+        processor=config['server']['processor']
+    )
     services.append(sender_service)
 
 

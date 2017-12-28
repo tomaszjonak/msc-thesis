@@ -64,20 +64,22 @@ Sposob konfiguracji analogicznie do serwera, domyslnie sprobouje sie polaczyc na
 
 Struktura pliku konfiguracyjnego (wartosci domyslne):
 {
-  "server": {
-    "host": "127.0.0.1",
-    "port": 50123
-  },
-  "provider": {
-    "host": "127.0.0.1",
-    "port": 50321,
-    "extensions": [
-      "lvm",
-      "avi"
-    ],
-    "retry_time": 30,
-    "separator": "\n"
-  },
+  "server": {                                                                                                                                                                                                      
+    "host": "127.0.0.1",                                                                                                                                                                                           
+    "port": 50123,                                                                                       
+    "retry_time": 30,                                                                                    
+    "processor": "compression"                                                                           
+  },                                                                                                     
+  "provider": {                                                                                          
+    "host": "127.0.0.1",                                                                                                                                                                                           
+    "port": 50321,                                                                                       
+    "extensions": [                                                                                                                                                                                                
+      "lvm",                                                                                                                                                                                                       
+      "avi"                                                                                                                                                                                                        
+    ],                                                                                                                                                                                                             
+    "retry_time": 30,                                                                                    
+    "separator": "\n"                                                                                                                                                                                              
+  },                                                                                                     
   "storage_root": "client_storage",
   "stage_queue_path": "state_storage/stage.queue",
   "cache_path": "state_storage/client.cache"
