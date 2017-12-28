@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sync.server.DataReceiverService as srv
-import sync.utils.PersistentQueue as que
 
 import pathlib as pl
 import argparse
@@ -16,7 +15,7 @@ def main():
     config = {
         'host': '127.0.0.1',
         'port': 50123,
-        'storage_root': 'state_storage/server_storage_root'
+        'storage_root': 'server_storage'
     }
 
     parser = argparse.ArgumentParser(description='TODO make some description')
