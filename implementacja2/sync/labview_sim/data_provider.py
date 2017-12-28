@@ -80,19 +80,6 @@ def work(socket, storage_root, extensions, sleep=0, skip=0):
 
 
 def main():
-    import sys
-    address = sys.argv[1], int(sys.argv[2])
-
-    config = {
-        'extensions': sys.argv[4:],
-        'path': sys.argv[3],
-    }
-    logger.info("Starting server")
-    server = DataGeneratorServer(address, DataGeneratorHandle, config=config)
-    server.serve_forever()
-
-
-def main2():
     parser = argparse.ArgumentParser(description='Measurement system simulator, plays files from given directory')
     parser.add_argument('--host', '-hs', action='store', required=True, help='host on which provider listens')
     parser.add_argument('--port', '-p', action='store', required=True, type=int, help='port on which provider listens')
@@ -132,7 +119,7 @@ def main2():
 
 if __name__ == '__main__':
     try:
-     main2()
+        main()
     except KeyboardInterrupt:
         print('\n')
         logger.info('SIGINT caught, exitting')
