@@ -36,7 +36,6 @@ def main():
         'cache_path': 'state_storage/client.cache'
     }
 
-
     parser = argparse.ArgumentParser(description='TODO make some description')
     parser.add_argument('--config', '-c', action='store', help='json format config'
                                                                'default one will be dumped to debug logs')
