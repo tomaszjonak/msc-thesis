@@ -124,7 +124,6 @@ def main():
         address=server_address,
         storage_root=storage_root,
         stage_queue=stage_queue_view1,
-        sync_queue=None,
         retry_time=int(config['server']['retry_time']),
         processor=config['server']['processor']
     )

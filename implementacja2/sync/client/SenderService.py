@@ -33,12 +33,11 @@ class SenderService(object):
     * Serwis ponawia polaczenie analogicznie do odbierajcego z labview
     * Schemat kompresji jest wymienny, istnieje mozliwosc wyboru schematu kompresji w zaleznosci od rozszerzenia pliku
     """
-    def __init__(self, address, storage_root, stage_queue, sync_queue, **kwargs):
+    def __init__(self, address, storage_root, stage_queue, **kwargs):
         self.address = address
         self.storage_root = storage_root
         self.stage_queue = stage_queue
-        self.sync_queue = sync_queue
-        self.thread = SenderThread(address, storage_root, stage_queue, sync_queue, **kwargs)
+        self.thread = SenderThread(address, storage_root, stage_queue, **kwargs)
         self.thread.start()
 
     def is_alive(self):
@@ -58,10 +57,9 @@ class SenderThread(Workers.KeepAliveWorker):
         'compression': SenderProtocolProcessor.CompressionEnabledSender
     }
 
-    def __init__(self, address, storage_root, stage_queue, sync_queue, **kwargs):
+    def __init__(self, address, storage_root, stage_queue, **kwargs):
         self.storage_root = storage_root
         self.stage_queue = stage_queue
-        self.sync_queue = sync_queue
         self.processor = None
 
         processor_identifier = kwargs.get('processor', 'compression')
@@ -95,7 +93,6 @@ class SenderThread(Workers.KeepAliveWorker):
             writer=writer,
             storage_root=self.storage_root,
             stage_queue=self.stage_queue,
-            sync_queue=self.sync_queue,
         )
 
         return proc

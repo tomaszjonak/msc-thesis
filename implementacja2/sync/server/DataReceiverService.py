@@ -59,13 +59,12 @@ class DataReceiverService(object):
 
 
 class DataReceiverThread(threading.Thread):
-    def __init__(self, address, cache, storage_root):
+    def __init__(self, address, storage_root):
         self.address = address
-        self.cache = cache
         self.storage_root = storage_root
         super(DataReceiverThread, self).__init__()
         self.name = 'DataReceiverThread'
-        self.server = DataReceiverServer(self.address, DataReceiverHandler, self.cache, self.storage_root)
+        self.server = DataReceiverServer(self.address, DataReceiverHandler, self.storage_root)
 
     def run(self):
         self.server.serve_forever()
@@ -75,8 +74,7 @@ class DataReceiverThread(threading.Thread):
 
 
 class DataReceiverServer(socketserver.TCPServer, socketserver.ThreadingMixIn):
-    def __init__(self, address, handler_cls, cache, storage_root, **kwargs):
-        self.cache = cache
+    def __init__(self, address, handler_cls, storage_root, **kwargs):
         self.options = kwargs
         self.storage_root = storage_root
         self.cont = True
@@ -90,12 +88,11 @@ class DataReceiverServer(socketserver.TCPServer, socketserver.ThreadingMixIn):
 
 class DataReceiverHandler(socketserver.BaseRequestHandler):
     def setup(self):
-        self.cache = self.server.cache
         self.storage_root = self.server.storage_root
 
     def handle(self):
         logger.info('Connection from {}'.format(self.client_address))
-        processor = self.prepare_processor(self.request, self.cache, self.storage_root)
+        processor = self.prepare_processor(self.request, self.storage_root)
         try:
             processor.run()
         except Exception as e:
@@ -103,11 +100,10 @@ class DataReceiverHandler(socketserver.BaseRequestHandler):
             logger.exception(e)
 
     @staticmethod
-    def prepare_processor(socket, cache, storage_root):
+    def prepare_processor(socket, storage_root):
         stream = StreamProxy.SocketStreamProxy(socket)
         # TODO czy ustawic konfigurowalny separator?
         reader = StreamTokenReader.StreamTokenReader(stream, b'\r\n')
         writer = StreamTokenWriter.StreamTokenWriter(stream, b'\r\n')
 
-        return proc.ServerDecompressionProcessor(reader=reader, writer=writer,
-                                                 disk_cache=cache, storage_root=storage_root)
+        return proc.ServerDecompressionProcessor(reader=reader, writer=writer, storage_root=storage_root)

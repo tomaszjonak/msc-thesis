@@ -1,10 +1,11 @@
-from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue, FilesystemHelpers
+from ..utils import StreamTokenWriter, StreamTokenReader, FilesystemHelpers
 from ..wavelet_compression import wavelet_lvm
-import pathlib as pl
-import datetime as dt
-import numpy as np
 
+import pathlib as pl
+import numpy as np
 import logging
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -17,13 +18,11 @@ class ServerProtocolProcessor(object):
     oraz obsluge bledow z nimi zwiazanych.
     """
     def __init__(self, reader: StreamTokenReader.StreamTokenReader, writer: StreamTokenWriter.StreamTokenWriter,
-                 disk_cache: PersistentQueue.Queue, storage_root: (str, pl.Path), **kwargs):
+                 storage_root: (str, pl.Path), **kwargs):
         if not isinstance(reader, StreamTokenReader.StreamTokenReader):
             raise RuntimeError('Unsupported reader type')
         if not isinstance(writer, StreamTokenWriter.StreamTokenWriter):
             raise RuntimeError('Unsupported writer type')
-        if not isinstance(disk_cache, PersistentQueue.Queue):
-            raise RuntimeError('Unsupported disk cache type')
 
         # lokacja na dysku w ktorej skladowane beda pliki
         # wszystkie sciezki przeslane przez klienta
@@ -36,7 +35,6 @@ class ServerProtocolProcessor(object):
 
         self.reader = reader
         self.writer = writer
-        self.cache = disk_cache
 
         self.cont = True
         self.queue_timeout = None
@@ -48,20 +46,6 @@ class ServerProtocolProcessor(object):
             'file_pathobj': None,
             'size': None
         }
-
-        self.operation = self._send_cached_filename
-
-    def _send_cached_filename(self):
-        """
-        (Synchronizacja) przesyl informacji o ostatnim wygenerowanym przez labview pliku
-        ktory zostal poprawnie zapisany na serwerze.
-        """
-        newest_file = self.cache.get(wait_for_value=False)
-        if newest_file:
-            logger.info('Cached file found, sending information ({})'.format(newest_file))
-        else:
-            logger.info('No cached file found, proceeding')
-        self.writer.write_token(newest_file)
 
         self.operation = self._process_filename
 
@@ -119,42 +103,6 @@ class ServerProtocolProcessor(object):
         logger.info('Announcing back ({})'.format(path))
         self.writer.write_token(path)
 
-        self.operation = self._update_cache
-
-    def newer_file(self, left, right):
-        """
-        Czynnosc potrzebna klientowi w momencie wygenerowania plikow przez labview przed 'wstaniem'
-        sync clienta. Przekazuje informacje o najswiezszym odebranym pliku (co do daty wygenerowania przez labview)
-        :param left: str - sciezka do lewego pliku (pathlike)
-        :param right: str - sciezka do prawego pliku (pathlike)
-        :return: bool - czy lewy jest nowszy od prawego
-        """
-        time_formatstr = self.options.get('formatstr', 'M%y%m%d_%H%M%S')
-
-        left_date = dt.datetime.strptime(left, time_formatstr)
-        right_date = dt.datetime.strptime(right, time_formatstr)
-        return left_date > right_date
-
-    def _update_cache(self):
-        """
-        Sprawdza zawartosc dyskowego cache, podmienia wartosc jesli jest nowsza
-        """
-        logger.debug('Updating cache')
-        last_element = self.cache.get(wait_for_value=False)
-        current_element = self._file_description['filename']
-
-        if not last_element:
-            self.cache.put(current_element)
-        else:
-            last_path = pl.Path(last_element)
-            curr_path = pl.Path(current_element)
-            try:
-                if self.newer_file(curr_path.with_suffix('').name, last_path.with_suffix('').name):
-                    self.cache.pop(last_element)
-                    self.cache.put(current_element)
-            except ValueError as e:
-                logger.exception(e)
-
         self.operation = self._process_filename
 
     def run(self):
@@ -172,8 +120,8 @@ class ServerDecompressionProcessor(ServerProtocolProcessor):
     delimiter = '\t'
 
     def __init__(self, reader: StreamTokenReader.StreamTokenReader, writer: StreamTokenWriter.StreamTokenWriter,
-                 disk_cache: PersistentQueue.Queue, storage_root: (str, pl.Path), **kwargs):
-        super(ServerDecompressionProcessor, self).__init__(reader, writer, disk_cache, storage_root, **kwargs)
+                 storage_root: (str, pl.Path), **kwargs):
+        super(ServerDecompressionProcessor, self).__init__(reader, writer, storage_root, **kwargs)
 
     def _process_file_bytes(self):
         """

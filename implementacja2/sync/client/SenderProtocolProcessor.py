@@ -23,7 +23,7 @@ class SenderProtocolProcessor(object):
     * Jedynym zadaniem dodatkowym obslugiwanym przez ten serwis
       jest przeprowadzenie transformacji (i.e kompresja przed wyslaniem)
     """
-    def __init__(self, reader, writer, stage_queue, storage_root, sync_queue=None, **kwargs):
+    def __init__(self, reader, writer, stage_queue, storage_root, **kwargs):
         logger.debug('SenderProtocolProcessor::init')
         if not isinstance(reader, StreamTokenReader.StreamTokenReader):
             raise RuntimeError('Unsupported reader type')
@@ -47,27 +47,14 @@ class SenderProtocolProcessor(object):
         self.reader = reader
         self.writer = writer
         self.stage_queue = stage_queue
-        self.sync_queue = sync_queue
         self.transformation = None
         self.chunk_size = kwargs.get('chunk_size', 8192)
         self.cont = True
         self.queue_timeout = None
 
         # zmienne maszyny stanow
-        self.operation = self._receive_last_valid
-        self.file_obj = None
-
-    def _receive_last_valid(self):
-        logger.debug('_receive_last_valid')
-        last_on_server = self.reader.get_token().decode()
-        logger.debug('Received last file from server ({})'.format(last_on_server))
-        # technically there should be some check, we might encounter situation where
-        # last valid file gets archieved by cron job and thus path is no longer usable
-        # last_path = self.storage_root.joinpath(last_on_server)
-        # stage_snapshot = self.stage_queue.get_all()
-        # self.sync_queue.put((last_path, stage_snapshot))
-
         self.operation = self._send_metadata
+        self.file_obj = None
 
     def _send_metadata(self):
         logger.debug('_send_metadata')
@@ -132,11 +119,11 @@ class SenderProtocolProcessor(object):
 class CompressionEnabledSender(SenderProtocolProcessor):
     compressors = {'lvm': wavelet_lvm.encode_file}
 
-    def __init__(self, reader, writer, stage_queue, storage_root, sync_queue):
+    def __init__(self, reader, writer, stage_queue, storage_root):
         logger.info('CompressionEnabledSender::init')
         logger.info('Keep in mind this implementation puts constraints on several file extensions ({})'
                     .format(self.compressors.keys()))
-        super(CompressionEnabledSender, self).__init__(reader, writer, stage_queue, storage_root, sync_queue)
+        super(CompressionEnabledSender, self).__init__(reader, writer, stage_queue, storage_root)
 
     def _send_metadata(self):
         logger.debug('_send_metadata')
