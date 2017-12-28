@@ -8,6 +8,7 @@ import queue
 import argparse
 import logging
 import signal
+import json
 
 
 logger = logging.getLogger(__name__)
@@ -33,6 +34,40 @@ def main():
         'cache_path': 'state_storage/client.cache'
     }
 
+
+    parser = argparse.ArgumentParser(description='TODO make some description')
+    parser.add_argument('--config', '-c', action='store', help='json format config as specified in code, '
+                                                               'default one will be dumped to debug logs')
+    parser.add_argument('--options', '-o', action='append', nargs=2, metavar=('config.part.field', 'value'),
+                        help='this can be used multiple times to override config options (experimental, does not work'
+                             ' with compound values i.e nested dicts or lists)')
+
+    args = parser.parse_args()
+
+    if args.config:
+        logger.info('Pulling configuration from file (./{})'.format(args.config))
+        with open(args.config, 'r') as fd:
+            config = json.load(fd)
+    else:
+        logger.info('Using hardcoded configuration')
+
+    # Loop below overrides values in config based on scope
+    # i.e providing -o Sender.host 192.168.0.1 results in
+    # config['Sender']['host'] = '192.168.0.1'
+    # TODO: duplcates code from client.py - do i want separation or code reuse
+    for scope_str, value in args.options or []:
+        scope = scope_str.split('.')
+        curr = None
+        try:
+            for config_part in scope[:-1]:
+                curr = config[config_part]
+            curr[scope[-1]] = value
+        except KeyError as e:
+            print('Undefined config section (section: {}, tag: {}, value: {})'
+                  .format(e, repr(scope_str), value))
+            exit(-1)
+
+    logger.debug('Configuration state00\n{}'.format(json.dumps(config, indent=2)))
 
     storage_root = pathlib.Path(config['storage_root'])
     if storage_root.parent.exists() and not storage_root.parent.is_dir():
