@@ -82,6 +82,11 @@ class ReceiverProcessor(object):
             logger.warning('No files found for given pattern ({})'.format(file_pattern))
             return
 
+        if not files:
+            logger.warning('No files matched (file_name: {}, extensions: {}'
+                           .format(file_pattern, repr(self.extensions)))
+            return
+
         newest_relative_path = newest_file.relative_to(self.storage_root).as_posix()
 
         logger.debug('Found matching files ({})'.format(len(files)))
@@ -94,13 +99,9 @@ class ReceiverProcessor(object):
             self.cache.pop(last)
         self.cache.put(newest_relative_path)
 
-        file = None
         for file in files:
             logger.debug('Adding file to queue ({})'.format(file))
             self.queue.put(file)
-        if file is None:
-            logger.warning('No files matched (file_name: {}, extensions: {}'
-                           .format(file_pattern, repr(self.extensions)))
 
     def find_matching_files(self, file_pattern):
         base_path = pl.Path(file_pattern)

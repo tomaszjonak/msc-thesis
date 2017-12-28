@@ -31,7 +31,7 @@ class DataReceiverService(object):
       w praktyce uniemozliwia to trzymanie jej w ramie, musi to byc jakas forma pamieci trwalej (np. dysk twardy)
     """
 
-    def __init__(self, address, storage_root, cache=None, **kwargs):
+    def __init__(self, address, storage_root, **kwargs):
         self.options = kwargs
         self.address = address
         if isinstance(storage_root, str):
@@ -42,9 +42,8 @@ class DataReceiverService(object):
             raise RuntimeError('Invalid storage root provided ({})'.format(repr(storage_root)))
 
         self.storage_root.mkdir(exist_ok=True, parents=True)
-        self.cache = cache or PersistentQueue.SqliteQueue(kwargs.get('cache_file', 'cache.db'))
 
-        self.thread = DataReceiverThread(address, cache, storage_root)
+        self.thread = DataReceiverThread(address, storage_root)
         self.thread.start()
 
     def is_running(self):

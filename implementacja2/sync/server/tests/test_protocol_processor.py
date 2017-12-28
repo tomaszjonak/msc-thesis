@@ -13,17 +13,13 @@ def get_vector_reader(vector_path):
     return StreamTokenReader.StreamTokenReader(stream, b'\r\n')
 
 
-def test_vector(server_root_path, mock_outstream, cache, vector_description):
+def test_vector(server_root_path, mock_outstream, vector_description):
     file, out_writer = mock_outstream
 
-    if vector_description.cache_initial:
-        cache.put(vector_description.cache_initial)
-
     vector_reader = get_vector_reader(vector_description.vector_path)
-    processor = spp.ServerProtocolProcessor(vector_reader, out_writer,
-                                            cache, server_root_path.name)
+    processor = spp.ServerProtocolProcessor(vector_reader, out_writer, server_root_path.name)
 
-    with pytest.raises(RuntimeError):
+    with pytest.raises(BrokenPipeError):
         processor.run()
 
     file.seek(0)
@@ -37,5 +33,3 @@ def test_vector(server_root_path, mock_outstream, cache, vector_description):
         for file_state in file_group_description.file_states:
             expected_file = pl.Path(storage_root, file_state.path)
             assert expected_file.read_bytes() == source_bytes[:file_state.size]
-
-    assert cache.get(wait_for_value=False) == vector_description.cache_expected
