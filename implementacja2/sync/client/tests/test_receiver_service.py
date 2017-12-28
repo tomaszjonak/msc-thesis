@@ -17,37 +17,37 @@ def receiver_service(*args, **kwargs):
         service_.stop()
 
 
-def test_creation(service_address, stage_queue, storage_path):
-    service_ = srv.ReceiverService(service_address, stage_queue, storage_path, retry_time=0.5)
+def test_creation(service_address, stage_queue, storage_path, cache):
+    service_ = srv.ReceiverService(service_address, stage_queue, storage_path, cache, retry_time=0.5)
     service_.stop()
 
 
 # TODO those tests are dedicated to KeepAliveWorker, move to utils
 @pytest.mark.timeout(2)  # timeout is in seconds
-def test_connection_service_exists(service_address, stage_queue, storage_path):
+def test_connection_service_exists(service_address, stage_queue, storage_path, cache):
     with ctx.listener_context(service_address) as s:
-        with receiver_service(service_address, stage_queue, storage_path, retry_time=0.5):
+        with receiver_service(service_address, stage_queue, storage_path, cache, retry_time=0.5):
             conn, _ = s.accept()
             conn.close()
 
 
 @pytest.mark.timeout(2)
-def test_connection_service_starts(service_address, stage_queue, storage_path):
-    with receiver_service(service_address, stage_queue, storage_path, retry_time=0.5):
+def test_connection_service_starts(service_address, stage_queue, storage_path, cache):
+    with receiver_service(service_address, stage_queue, storage_path, cache, retry_time=0.5):
         with ctx.listener_context(service_address) as s:
             conn, _ = s.accept()
             conn.close()
 
 
 @pytest.mark.timeout(2)
-def test_functional_one_element(service_address, stage_queue, storage_path):
+def test_functional_one_element(service_address, stage_queue, storage_path, cache):
     fname = 'top/kek'
     file = storage_path.joinpath(fname).with_suffix('.avi')  # extension from service defaults
     file.parent.mkdir(parents=True)
     file.write_bytes(b'')  # file creation
 
     with ctx.listener_context(service_address) as s:
-        with receiver_service(service_address, stage_queue, storage_path, retry_time=0.5) as service:
+        with receiver_service(service_address, stage_queue, storage_path, cache, retry_time=0.5) as service:
             assert service.is_running()
             conn, _ = s.accept()
             conn.send((fname + '\n').encode())
@@ -57,7 +57,7 @@ def test_functional_one_element(service_address, stage_queue, storage_path):
 
 
 @pytest.mark.timeout(3)
-def test_functional_vectors(service_address, queue_file, storage_path, extensions, file_vector):
+def test_functional_vectors(service_address, queue_file, storage_path, extensions, file_vector, cache):
     queue_view_1 = PersistentQueue.SqliteQueue(queue_file)
 
     expected_results = []
@@ -70,7 +70,7 @@ def test_functional_vectors(service_address, queue_file, storage_path, extension
             expected_results.append(file)
 
     with ctx.listener_context(service_address) as s:
-        with receiver_service(service_address, queue_view_1, storage_path,
+        with receiver_service(service_address, queue_view_1, storage_path, cache,
                               retry_time=0.5, extensions=extensions) as service:
             assert service.is_running()
             conn, _ = s.accept()
@@ -90,7 +90,7 @@ def test_functional_vectors(service_address, queue_file, storage_path, extension
 
 
 @pytest.mark.skip
-def test_synchronization_notification(service_address, queue_file, storage_path, client_queue):
+def test_synchronization_notification(service_address, queue_file, storage_path, client_queue, cache):
     queue_view1 = PersistentQueue.SqliteQueue(queue_file)
 
     ext = 'ext'
@@ -100,7 +100,7 @@ def test_synchronization_notification(service_address, queue_file, storage_path,
     file_with_ext.write_bytes(b'')
 
     with ctx.listener_context(service_address) as s:
-        with receiver_service(service_address, queue_view1, storage_path,
+        with receiver_service(service_address, queue_view1, storage_path, cache,
                               retry_time=0.5, extensions=[ext],
                               sync_queue=client_queue) as service:
             assert service.is_running()
@@ -114,7 +114,7 @@ def test_synchronization_notification(service_address, queue_file, storage_path,
 
 
 @pytest.mark.skip
-def test_synchroniaztion_notification(service_address, queue_file, storage_path, client_queue):
+def test_synchroniaztion_notification(service_address, queue_file, storage_path, client_queue, cache):
     queue_view1 = PersistentQueue.SqliteQueue(queue_file)
 
     ext = 'ext'
@@ -126,7 +126,7 @@ def test_synchroniaztion_notification(service_address, queue_file, storage_path,
         files.append(file)
 
     with ctx.listener_context(service_address) as s:
-        with receiver_service(service_address, queue_view1, storage_path,
+        with receiver_service(service_address, queue_view1, storage_path, cache,
                               retry_time=0.5, extensions=[ext],
                               sync_queue=client_queue) as service:
             assert service.is_running()

@@ -66,6 +66,15 @@ def ostream():
     return OStream(reader, writer)
 
 
+@pytest.fixture(scope='function')
+def cache():
+    f = tempfile.NamedTemporaryFile(delete=False)
+    cache_instance = PersistentQueue.SqliteQueue(f.name)
+    yield cache_instance
+    f.delete = True
+    f.close()
+
+
 @pytest.fixture(scope='session')
 def extensions():
     return ['avi', 'tmp', 'lvm']

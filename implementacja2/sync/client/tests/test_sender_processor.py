@@ -35,7 +35,7 @@ def test_operation_normal(istream, ostream, storage_path, stage_queue, server_qu
         sync_queue=server_queue
     )
 
-    with pytest.raises(RuntimeError):
+    with pytest.raises(BrokenPipeError):
         processor.run()
 
     assert ostream.reader.get_token() == test_file.encode()
@@ -98,7 +98,7 @@ def test_sync_basic(istream, ostream, stage_queue, storage_path, server_queue):
         sync_queue=server_queue
     )
 
-    with pytest.raises(RuntimeError):
+    with pytest.raises(Exception):
         processor.run()
 
     assert server_queue.get(timeout=2) == (storage_path.joinpath(expected_file), [ender_filename])

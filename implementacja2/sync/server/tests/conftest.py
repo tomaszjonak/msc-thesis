@@ -8,13 +8,6 @@ from ...utils import PersistentQueue
 
 
 @pytest.fixture(scope='function')
-def cache():
-    f = tempfile.NamedTemporaryFile(delete=False)
-    cache_instance = PersistentQueue.SqliteQueue(f.name)
-    return cache_instance
-
-
-@pytest.fixture(scope='function')
 def server_root_path():
     path = tempfile.TemporaryDirectory()
     return path
