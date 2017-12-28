@@ -1,6 +1,11 @@
+#!/usr/bin/env python
+
 import sync.server.DataReceiverService as srv
 import sync.utils.PersistentQueue as que
+
 import pathlib as pl
+import argparse
+import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -14,6 +19,41 @@ def main():
         'cache_path': 'state_storage/server.cache',
         'storage_root': 'state_storage/server_storage_root'
     }
+
+    parser = argparse.ArgumentParser(description='TODO make some description')
+    parser.add_argument('--config', '-c', action='store', help='json format config '
+                                                               'default one will be dumped to debug logs')
+    parser.add_argument('--options', '-o', action='append', nargs=2, metavar=('config.part.field', 'value'),
+                        help='this can be used multiple times to override config options (experimental, does not work'
+                             ' with compound values i.e nested dicts or lists)')
+
+    args = parser.parse_args()
+
+    if args.config:
+        logger.info('Pulling configuration from file (./{})'.format(args.config))
+        with open(args.config, 'r') as fd:
+            config = json.load(fd)
+    else:
+        logger.info('Using hardcoded configuration')
+
+    # Loop below overrides values in config based on scope
+    # i.e providing -o Sender.host 192.168.0.1 results in
+    # config['Sender']['host'] = '192.168.0.1'
+    # TODO: duplcates code from client.py - do i want separation or code reuse
+    for scope_str, value in args.options or []:
+        scope = scope_str.split('.')
+        curr = config
+        try:
+            for config_part in scope[:-1]:
+                curr = config[config_part]
+            curr[scope[-1]] = value
+        except KeyError as e:
+            print('Undefined config section (section: {}, tag: {}, value: {})'
+                  .format(e, repr(scope_str), value))
+            exit(-1)
+
+    logger.debug('Configuration state\n{}'.format(json.dumps(config, indent=2)))
+
     address = config['host'], int(config['port'])
     cache_path = pl.Path(config['cache_path'])
     if cache_path.parent.exists() and not cache_path.parent.is_dir():

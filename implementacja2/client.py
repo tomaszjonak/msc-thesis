@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sync.client.ReceiverService as receiver
 import sync.client.SenderService as sender
 import sync.utils.PersistentQueue as que
@@ -36,7 +38,7 @@ def main():
 
 
     parser = argparse.ArgumentParser(description='TODO make some description')
-    parser.add_argument('--config', '-c', action='store', help='json format config as specified in code, '
+    parser.add_argument('--config', '-c', action='store', help='json format config'
                                                                'default one will be dumped to debug logs')
     parser.add_argument('--options', '-o', action='append', nargs=2, metavar=('config.part.field', 'value'),
                         help='this can be used multiple times to override config options (experimental, does not work'
@@ -57,7 +59,7 @@ def main():
     # TODO: duplcates code from client.py - do i want separation or code reuse
     for scope_str, value in args.options or []:
         scope = scope_str.split('.')
-        curr = None
+        curr = config
         try:
             for config_part in scope[:-1]:
                 curr = config[config_part]
@@ -67,7 +69,7 @@ def main():
                   .format(e, repr(scope_str), value))
             exit(-1)
 
-    logger.debug('Configuration state00\n{}'.format(json.dumps(config, indent=2)))
+    logger.debug('Configuration state\n{}'.format(json.dumps(config, indent=2)))
 
     storage_root = pathlib.Path(config['storage_root'])
     if storage_root.parent.exists() and not storage_root.parent.is_dir():
