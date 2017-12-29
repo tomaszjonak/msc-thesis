@@ -4,7 +4,6 @@ import collections
 
 from ...utils import StreamProxy
 from ...utils import StreamTokenWriter
-from ...utils import PersistentQueue
 
 
 @pytest.fixture(scope='function')

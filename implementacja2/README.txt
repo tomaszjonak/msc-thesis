@@ -115,3 +115,9 @@ Host 2:
 
 Dodam w najblizszym czasie, jeszcze nie jest gotowa
 
+
+## Poziom szczegolowosci logow
+
+Nalezy zmienic wartosc root.level w pliku logging.json, najwieksza szczegolowosc daje wartosc DEBUG
+
+Szersza dokumentacja: https://docs.python.org/3/library/logging.config.html
