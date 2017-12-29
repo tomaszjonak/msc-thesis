@@ -1,6 +1,0 @@
-{
-  "chunk_size": 8192,
-  "separator": "\r\n",
-  "destination_folder": "received_data",
-  "path_parents_to_keep": 4
-}
