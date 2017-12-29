@@ -35,7 +35,7 @@ def main():
         'storage_root': 'client_storage',
 
         'stage_queue_path': 'state_storage/stage.queue',
-        'cache_path': 'state_storage/client.cache'
+        'cache_path': 'state_storage/client.cache',
     }
 
     parser = argparse.ArgumentParser(description='TODO make some description')
@@ -44,6 +44,8 @@ def main():
     parser.add_argument('--options', '-o', action='append', nargs=2, metavar=('config.part.field', 'value'),
                         help='this can be used multiple times to override config options (experimental, does not work'
                              ' with compound values i.e nested dicts or lists)')
+    parser.add_argument("--delete_acknowledged", action="store_true",
+                        help="Removes files acknowledged by server from disk storage")
 
     args = parser.parse_args()
 
@@ -125,7 +127,8 @@ def main():
         storage_root=storage_root,
         stage_queue=stage_queue_view1,
         retry_time=int(config['server']['retry_time']),
-        processor=config['server']['processor']
+        processor=config['server']['processor'],
+        delete_acknowledged=args.delete_acknowledged
     )
     services.append(sender_service)
 

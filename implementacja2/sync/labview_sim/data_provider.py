@@ -87,7 +87,7 @@ def main():
     parser.add_argument('--extensions', '-e', action='store', nargs='+', required=True,
                         help='specifies extensions which will be sent from folder (extension doesnt include dot,'
                              ' doesnt support compund extensions like tar.gz right now)')
-    parser.add_argument('--sleep', '-sl', action='store', type=int, default=0,
+    parser.add_argument('--sleep', '-sl', action='store', type=float, default=0,
                         help='if this option is present provider will send files every given seconds')
     parser.add_argument('--skip', '-sk', action='store', type=int, default=0,
                         help='skips sending of given amount of files, used to test synchronization')

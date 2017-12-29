@@ -6,13 +6,13 @@
   "handlers": {
     "console": {
       "formatter": "standard",
-      "level": "INFO",
+      "level": "DEBUG",
       "class": "logging.StreamHandler",
       "stream": "ext://sys.stdout"
     }
   },
   "root": {
-    "level": "INFO",
+    "level": "DEBUG",
     "handlers": ["console"]
   }
 }

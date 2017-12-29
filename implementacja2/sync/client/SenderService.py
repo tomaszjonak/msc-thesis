@@ -61,6 +61,7 @@ class SenderThread(Workers.KeepAliveWorker):
         self.storage_root = storage_root
         self.stage_queue = stage_queue
         self.processor = None
+        self.delete_acknowledged = kwargs.get('delete_acknowledged', False)
 
         processor_identifier = kwargs.get('processor', 'compression')
         try:
@@ -93,6 +94,7 @@ class SenderThread(Workers.KeepAliveWorker):
             writer=writer,
             storage_root=self.storage_root,
             stage_queue=self.stage_queue,
+            delete_acknowledged=self.delete_acknowledged
         )
 
         return proc

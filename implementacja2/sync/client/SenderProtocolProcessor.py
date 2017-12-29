@@ -23,7 +23,7 @@ class SenderProtocolProcessor(object):
     * Jedynym zadaniem dodatkowym obslugiwanym przez ten serwis
       jest przeprowadzenie transformacji (i.e kompresja przed wyslaniem)
     """
-    def __init__(self, reader, writer, stage_queue, storage_root, **kwargs):
+    def __init__(self, reader, writer, stage_queue, storage_root, delete_acknowledged=False, **kwargs):
         logger.debug('SenderProtocolProcessor::init')
         if not isinstance(reader, StreamTokenReader.StreamTokenReader):
             raise RuntimeError('Unsupported reader type')
@@ -51,6 +51,7 @@ class SenderProtocolProcessor(object):
         self.chunk_size = kwargs.get('chunk_size', 8192)
         self.cont = True
         self.queue_timeout = None
+        self.delete_acknowledged = delete_acknowledged
 
         # zmienne maszyny stanow
         self.operation = self._send_metadata
@@ -92,6 +93,9 @@ class SenderProtocolProcessor(object):
         if ack_path == self.file_path:
             self.stage_queue.pop(pl.Path(ack_path).as_posix())
             logger.debug('Acknowledge received ({})'.format(str(ack_path)))
+            if self.delete_acknowledged:
+                logger.debug('Deleting acknowledged file ({})'.format(ack_path))
+                self.file_obj.unlink()
         else:
             logger.error('Mismatched server acknowledge. Expected ({}), got ({})'
                          .format(self.file_path, ack_path))
@@ -119,11 +123,11 @@ class SenderProtocolProcessor(object):
 class CompressionEnabledSender(SenderProtocolProcessor):
     compressors = {'lvm': wavelet_lvm.encode_file}
 
-    def __init__(self, reader, writer, stage_queue, storage_root):
+    def __init__(self, *args, **kwargs):
         logger.info('CompressionEnabledSender::init')
         logger.info('Keep in mind this implementation puts constraints on several file extensions ({})'
                     .format(self.compressors.keys()))
-        super(CompressionEnabledSender, self).__init__(reader, writer, stage_queue, storage_root)
+        super(CompressionEnabledSender, self).__init__(*args, **kwargs)
 
     def _send_metadata(self):
         logger.debug('_send_metadata')

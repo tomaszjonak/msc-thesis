@@ -88,6 +88,10 @@ Struktura pliku konfiguracyjnego (wartosci domyslne):
 Zmiana wartosci za pomoca opcji w przypadku zagniezdzonym:
 $ ./client.py -o server.host 192.168.0.1 -o storage_root /sciezka/do/katalogu/pomiarow
 
+### Usuwanie plikow po otrzymaniu odpowiedzi z serwera
+
+Aby uzyc tego trybu nalezy dodac flage --delete_acknowledged przy odpalaniu klienta
+
 TODO: szerszy opis konfiguracji klienta
 
 ## Rozruch testowy na localhoscie (jak bylo testowane)
