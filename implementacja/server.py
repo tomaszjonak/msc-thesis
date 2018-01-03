@@ -15,7 +15,13 @@ def main():
     config = {
         'host': '127.0.0.1',
         'port': 50123,
-        'storage_root': 'server_storage'
+        'storage_root': 'server_storage',
+
+        'decompression': {
+            'lvm': 'bzip2',
+            'avi': None,
+            'mp4': None
+        }
     }
 
     parser = argparse.ArgumentParser(description='TODO make some description')

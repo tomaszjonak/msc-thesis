@@ -2,7 +2,7 @@ from ..utils import Workers
 from ..utils import StreamTokenReader
 from ..utils import StreamTokenWriter
 from ..utils import StreamProxy
-from . import SenderProtocolProcessor
+from . import SenderProtocolProcessor as spp
 import logging
 
 logger = logging.getLogger(__name__)
@@ -33,11 +33,11 @@ class SenderService(object):
     * Serwis ponawia polaczenie analogicznie do odbierajcego z labview
     * Schemat kompresji jest wymienny, istnieje mozliwosc wyboru schematu kompresji w zaleznosci od rozszerzenia pliku
     """
-    def __init__(self, address, storage_root, stage_queue, **kwargs):
+    def __init__(self, address, storage_root, stage_queue, compression_settings, **kwargs):
         self.address = address
         self.storage_root = storage_root
         self.stage_queue = stage_queue
-        self.thread = SenderThread(address, storage_root, stage_queue, **kwargs)
+        self.thread = SenderThread(address, storage_root, stage_queue, compression_settings, **kwargs)
         self.thread.start()
 
     def is_alive(self):
@@ -53,21 +53,17 @@ class SenderService(object):
 
 class SenderThread(Workers.KeepAliveWorker):
     supported_processors = {
-        'basic': SenderProtocolProcessor.SenderProtocolProcessor,
-        'compression': SenderProtocolProcessor.CompressionEnabledSender
+        'basic': spp.SenderProtocolProcessor,
+        'compression': spp.CompressionEnabledSender
     }
 
-    def __init__(self, address, storage_root, stage_queue, **kwargs):
+    def __init__(self, address, storage_root, stage_queue, compression_settings, **kwargs):
         self.storage_root = storage_root
         self.stage_queue = stage_queue
         self.processor = None
         self.delete_acknowledged = kwargs.get('delete_acknowledged', False)
-
-        processor_identifier = kwargs.get('processor', 'compression')
-        try:
-            self.processor_impl = self.supported_processors[processor_identifier]
-        except KeyError:
-            raise SenderServiceException('Unsupported processor requested ({})'.format(processor_identifier))
+        spp.CompressionEnabledSender.verify_compression_settings(compression_settings)
+        self.compression_settings = compression_settings
 
         self.separator = kwargs.get('separator', b'\r\n')
         retry_time = kwargs.get('retry_time', 30)
@@ -89,12 +85,13 @@ class SenderThread(Workers.KeepAliveWorker):
         reader = StreamTokenReader.StreamTokenReader(stream, self.separator)
         writer = StreamTokenWriter.StreamTokenWriter(stream, self.separator)
 
-        proc = self.processor_impl(
+        proc = spp.CompressionEnabledSender(
             reader=reader,
             writer=writer,
             storage_root=self.storage_root,
             stage_queue=self.stage_queue,
-            delete_acknowledged=self.delete_acknowledged
+            delete_acknowledged=self.delete_acknowledged,
+            compression_settings=self.compression_settings
         )
 
         return proc

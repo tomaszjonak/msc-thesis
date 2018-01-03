@@ -3,7 +3,6 @@ import threading
 import socketserver
 import logging
 
-from ..utils import PersistentQueue
 from ..utils import StreamProxy
 from ..utils import StreamTokenReader
 from ..utils import StreamTokenWriter
@@ -105,4 +104,4 @@ class DataReceiverHandler(socketserver.BaseRequestHandler):
         reader = StreamTokenReader.StreamTokenReader(stream, b'\r\n')
         writer = StreamTokenWriter.StreamTokenWriter(stream, b'\r\n')
 
-        return proc.ServerDecompressionProcessor(reader=reader, writer=writer, storage_root=storage_root)
+        return proc.ServerProtocolProcessor(reader=reader, writer=writer, storage_root=storage_root)

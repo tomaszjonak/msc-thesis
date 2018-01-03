@@ -28,14 +28,20 @@ def main():
         'provider': {
             'host': '127.0.0.1',
             'port': 50321,
+            # TODO check whether to add mp4 to list
             'extensions': ['lvm', 'avi'],
             'retry_time': 30,
             'separator': '\n'
         },
         'storage_root': 'client_storage',
-
         'stage_queue_path': 'state_storage/stage.queue',
         'cache_path': 'state_storage/client.cache',
+
+        'compression': {
+            'avi': 'x264',
+            'lvm': 'bzip2',
+            'mp4': None
+        }
     }
 
     parser = argparse.ArgumentParser(description='TODO make some description')
@@ -128,7 +134,8 @@ def main():
         stage_queue=stage_queue_view1,
         retry_time=int(config['server']['retry_time']),
         processor=config['server']['processor'],
-        delete_acknowledged=args.delete_acknowledged
+        delete_acknowledged=args.delete_acknowledged,
+        compression_settings=config['compression']
     )
     services.append(sender_service)
 

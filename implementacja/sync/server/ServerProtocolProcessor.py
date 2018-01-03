@@ -1,5 +1,5 @@
 from ..utils import StreamTokenWriter, StreamTokenReader, FilesystemHelpers
-from ..wavelet_compression import wavelet_lvm
+from sync.compressors.wavelet import wavelet_lvm
 
 import pathlib as pl
 import numpy as np

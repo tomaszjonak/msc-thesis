@@ -1,13 +1,17 @@
 from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue
-from ..wavelet_compression import wavelet_lvm
 import pathlib as pl
 import logging
 import time
+from sync import compressors
 
 logger = logging.getLogger(__name__)
 
 
 class ClientProtocolError(RuntimeError):
+    pass
+
+
+class ClientConfigurationError(RuntimeError):
     pass
 
 
@@ -81,7 +85,7 @@ class SenderProtocolProcessor(object):
                 data_chunk = fd.read(self.chunk_size)
         self.writer.write_separator()
         stop = time.time()
-        logger.debug('File transfer took ended (took {} seconds)'.format(stop - start))
+        logger.debug('File transfer ended (took {} seconds)'.format(stop - start))
 
         self.operation = self._acknowledge_and_unstage
 
@@ -121,19 +125,26 @@ class SenderProtocolProcessor(object):
 
 
 class CompressionEnabledSender(SenderProtocolProcessor):
-    compressors = {'lvm': wavelet_lvm.encode_file}
+    compressors = {
+        'wavelet': (compressors.wavelet.wavelet_lvm.encode_file, compressors.wavelet.map_extension),
+        'x264': (compressors.x264.compress, compressors.x264.map_extension),
+        'bzip2': (compressors.bz2.compress, compressors.bz2.map_extension)
+    }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, compression_settings, **kwargs):
         logger.info('CompressionEnabledSender::init')
+
+        self.verify_compression_settings(compression_settings)
+        self.extension_map = compression_settings
+        self.expected_ack_value = None
         logger.info('Keep in mind this implementation puts constraints on several file extensions ({})'
-                    .format(self.compressors.keys()))
+                    .format(self.extension_map.keys()))
+
         super(CompressionEnabledSender, self).__init__(*args, **kwargs)
 
     def _send_metadata(self):
         logger.debug('_send_metadata')
         self.file_path = self.stage_queue.get(timeout=self.queue_timeout)
-        self.writer.write_token(self.file_path)
-
         self.file_obj = self.storage_root.joinpath(self.file_path)
 
         self.operation = self._transfer_file
@@ -143,23 +154,65 @@ class CompressionEnabledSender(SenderProtocolProcessor):
         extension = self.file_obj.suffix.lstrip('.')
 
         try:
-            compression_begin = time.time()
-            blob = self.compressors[extension](str(self.file_obj))
-
-            self.writer.write_token(str(len(blob)))
-            compression_end = time.time()
-            logger.debug('Compression done ({} s)'.format(compression_end - compression_begin))
+            compressor_tag = self.extension_map[extension]
+            compressor, extension_mapper = self.compressors[compressor_tag]
         except KeyError:
+            logger.debug('Null compression ({} file)'.format(extension))
+            self.writer.write_token(self.file_path)
             file_size = self.file_obj.stat().st_size
             self.writer.write_token(str(file_size))
-            logger.debug('No compression scheme for extension ({})'.format(extension))
             super(CompressionEnabledSender, self)._transfer_file()
             return
 
+        announced_file = str(self.file_obj
+                                 .relative_to(self.storage_root)
+                                 .with_suffix(extension_mapper(self.file_obj.suffix)))
+        self.writer.write_token(announced_file)
+        self.expected_ack_value = announced_file
+        self.file_obj = self.storage_root.joinpath(self.file_path)
+
+        compression_start = time.time()
+        # TODO big enough file may exhaust memory
+        compressed_bytes = compressor(self.file_obj)
+        compression_end = time.time()
+        logger.debug('Compression done ({} s)'.format(compression_end - compression_start))
+
+        self.writer.write_token(str(len(compressed_bytes)))
+
         transfer_start = time.time()
-        self.writer.write_bytes(blob)
+
+        self.writer.write_bytes(compressed_bytes)
+
         transfer_end = time.time()
-        logger.debug('Transfer done ({} s)'.format(transfer_end - transfer_start))
+        logger.debug('File transfer done ({} s)'.format(transfer_end - transfer_start))
+
         self.writer.write_separator()
 
         self.operation = self._acknowledge_and_unstage
+
+    def _acknowledge_and_unstage(self):
+        logger.debug('_acknowledge_and_unstage')
+        # TODO add some timeout
+        ack_path = self.reader.get_token().decode()
+
+        if ack_path == self.expected_ack_value:
+            self.stage_queue.pop(pl.Path(self.file_path).as_posix())
+            logger.debug('Acknowledge received ({})'.format(str(ack_path)))
+            if self.delete_acknowledged:
+                logger.debug('Deleting acknowledged file ({})'.format(ack_path))
+                self.file_obj.unlink()
+        else:
+            logger.error('Mismatched server acknowledge. Expected ({}), got ({})'
+                         .format(self.file_path, ack_path))
+
+        self.file_path = None
+        self.file_obj = None
+        self.expected_ack_value = None
+        self.operation = self._send_metadata
+
+    @classmethod
+    def verify_compression_settings(cls, settings):
+        unknown = {compressor for compressor in settings.values()
+                   if compressor and compressor not in cls.compressors.keys()}
+        if unknown:
+            raise ClientConfigurationError('Unsupported compressors specified ({})'.format(unknown))
