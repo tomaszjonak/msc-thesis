@@ -72,11 +72,12 @@ class DataReceiverThread(threading.Thread):
 
 
 class DataReceiverServer(socketserver.TCPServer, socketserver.ThreadingMixIn):
-    def __init__(self, address, handler_cls, storage_root, **kwargs):
+    def __init__(self, address, handler_cls, storage_root, decompression_settings, **kwargs):
         self.options = kwargs
         self.storage_root = storage_root
         self.cont = True
         self.allow_reuse_address = True
+        self.decompression_settings = decompression_settings
         super(DataReceiverServer, self).__init__(address, handler_cls)
 
     def shutdown(self):
@@ -87,10 +88,11 @@ class DataReceiverServer(socketserver.TCPServer, socketserver.ThreadingMixIn):
 class DataReceiverHandler(socketserver.BaseRequestHandler):
     def setup(self):
         self.storage_root = self.server.storage_root
+        self.decompression_settings = self.server.decompression_settings
 
     def handle(self):
         logger.info('Connection from {}'.format(self.client_address))
-        processor = self.prepare_processor(self.request, self.storage_root)
+        processor = self.prepare_processor(self.request, self.storage_root, self.decompression_settings)
         try:
             processor.run()
         except Exception as e:
@@ -98,10 +100,11 @@ class DataReceiverHandler(socketserver.BaseRequestHandler):
             logger.exception(e)
 
     @staticmethod
-    def prepare_processor(socket, storage_root):
+    def prepare_processor(socket, storage_root, decompression_settings):
         stream = StreamProxy.SocketStreamProxy(socket)
         # TODO czy ustawic konfigurowalny separator?
         reader = StreamTokenReader.StreamTokenReader(stream, b'\r\n')
         writer = StreamTokenWriter.StreamTokenWriter(stream, b'\r\n')
 
-        return proc.ServerProtocolProcessor(reader=reader, writer=writer, storage_root=storage_root)
+        return proc.ServerDecompressionProcessor(reader=reader, writer=writer, storage_root=storage_root,
+                                                 decompression_settings=decompression_settings)

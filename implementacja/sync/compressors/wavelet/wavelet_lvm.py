@@ -1,5 +1,6 @@
 import numpy as np
 import pathlib as pl
+import io
 
 from . import wavelet_commons as wcom
 from . import wavelet_encoder as wenc
@@ -50,6 +51,13 @@ def decode_with_indexing(packed_measurements):
     # concatenate it with results
     data_array = np.hstack((indices, decoded_measurements))
     return data_array
+
+
+def decode_to_bytestream(packed_measurements, fmt='%.6f', delimiter='\t'):
+    data_array = decode_with_indexing(packed_measurements)
+    outstream = io.BytesIO()
+
+    np.savetxt(outstream, data_array, fmt=fmt, delimiter=delimiter)
 
 
 def decode_to_file(file: pl.Path, packed_measurements, fmt='%.6f', delimiter='\t'):

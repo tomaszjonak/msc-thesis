@@ -1,5 +1,5 @@
 from ..utils import StreamTokenWriter, StreamTokenReader, FilesystemHelpers
-from sync.compressors.wavelet import wavelet_lvm
+from sync import compressors
 
 import pathlib as pl
 import numpy as np
@@ -7,6 +7,10 @@ import logging
 
 
 logger = logging.getLogger(__name__)
+
+
+class ServerConfigurationError(RuntimeError):
+    pass
 
 
 class ServerProtocolProcessor(object):
@@ -115,13 +119,18 @@ class ServerProtocolProcessor(object):
 
 
 class ServerDecompressionProcessor(ServerProtocolProcessor):
-    supported_compressors = {'lvm': wavelet_lvm.decode_with_indexing}
+    decompressors = {
+        'wavelet': (compressors.wavelet.wavelet_lvm.decode_to_bytestream, compressors.wavelet.remap_extension),
+        'bzip2': (compressors.bz2.decompress, compressors.bz2.remap_extension)
+    }
     fmt = '%.6f'
     delimiter = '\t'
 
     def __init__(self, reader: StreamTokenReader.StreamTokenReader, writer: StreamTokenWriter.StreamTokenWriter,
-                 storage_root: (str, pl.Path), **kwargs):
+                 storage_root: (str, pl.Path), decompression_settings, **kwargs):
         super(ServerDecompressionProcessor, self).__init__(reader, writer, storage_root, **kwargs)
+        self.verify_decompression_settings(decompression_settings)
+        self.extension_map = decompression_settings
 
     def _process_file_bytes(self):
         """
@@ -140,12 +149,14 @@ class ServerDecompressionProcessor(ServerProtocolProcessor):
             buffer += self.reader.get_bytes(chunk_size)
         buffer += self.reader.get_bytes(last_chunk_size)
 
-        suffix = path.suffix.lstrip('.')
+        suffix = path.suffixes[0].lstrip('.')
 
         self.operation = self._announce_response
 
         try:
-            data = self.supported_compressors[suffix](buffer)
+            decompressor_id = self.extension_map[suffix]
+            decompressor, suffix_mapper = self.decompressors[decompressor_id]
+            data = decompressor(buffer)
         except KeyError:
             logger.debug('No decompression scheme associated with extension, dumping raw to disk ({})'.format(suffix))
             path.write_bytes(buffer)
@@ -156,8 +167,11 @@ class ServerDecompressionProcessor(ServerProtocolProcessor):
             self.save_failed_file(buffer)
             return
 
+        dest_path = path.with_name(path.name.split('.')[0]).with_suffix(suffix_mapper(path.suffixes))
+        dest_path.write_bytes(data)
+
         # TODO currently its easy to just assume its lvm here, change to generic handling
-        np.savetxt(str(path), data, fmt=self.fmt, delimiter=self.delimiter)
+        # np.savetxt(str(path), data, fmt=self.fmt, delimiter=self.delimiter)
 
     def save_failed_file(self, buffer):
         name = self._file_description['filename']
@@ -165,3 +179,10 @@ class ServerDecompressionProcessor(ServerProtocolProcessor):
         file_path = error_loc.joinpath(name)
         file_path.parent.mkdir(parents=True, exist_ok=True)
         file_path.write_bytes(buffer)
+
+    @classmethod
+    def verify_decompression_settings(cls, settings):
+        unknown = {compressor for compressor in settings.values()
+                   if compressor and compressor not in cls.decompressors.keys()}
+        if unknown:
+            raise ServerConfigurationError('Unsupported compressors specified ({})'.format(unknown))

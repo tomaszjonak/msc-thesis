@@ -77,6 +77,7 @@ def work(socket, storage_root, extensions, sleep=0, skip=0):
             else:
                 logger.info('Sending {}'.format(str(file)))
                 socket.send((str(file) + '\n').encode())
+    exit(0)
 
 
 def main():

@@ -18,9 +18,7 @@ def main():
         'storage_root': 'server_storage',
 
         'decompression': {
-            'lvm': 'bzip2',
-            'avi': None,
-            'mp4': None
+            # 'lvm': 'bzip2'
         }
     }
 
@@ -66,7 +64,7 @@ def main():
     storage_root.parent.mkdir(exist_ok=True, parents=True)
 
     server = srv.DataReceiverServer(address=address, handler_cls=srv.DataReceiverHandler,
-                                    storage_root=storage_root)
+                                    storage_root=storage_root, decompression_settings=config['decompression'])
 
     logger.info('Listening {}'.format(address))
     server.serve_forever()
