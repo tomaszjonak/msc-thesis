@@ -358,7 +358,7 @@ i w analizowanym przypadku.
 \end_layout
 
 \begin_layout Chapter
-Opis problemu
+Analiza problemu
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:opis_problemu"
@@ -370,26 +370,395 @@ name "chap:opis_problemu"
 
 \begin_layout Standard
 Katedra metrologii prowadzi badania dotyczące odczytu informacji o pojazdach
- poruszających się po drodze za pomocą czujników magnetycznych.
+ poruszających się po drodze za pomocą zestawu sensorów.
  Czujniki takie zostały zamontowane na odcinku autostrady w miejscowości
- Gardawice.
- Stanowisko pomiarowe prócz czujników składa się z komputera połączonego
- bezpośrednio z czujnikami na którym zainstalowane jest oprogramowanie zbierając
-e z nich dane.
- Dodatkowo zamontowana jest kamera wykonująca krótkie sekwencje wideo przejeżdża
-jących samochodów.
- Dane te zapisywane są w pamięci trwałej komputera celem późniejszego przetransp
-ortowania do katedry oraz dalszej analizy.
- Codzienna komunikacja ze stanowiskiem pomiarowym prowadzona jest zdalnie.
+ Gardawice [link do papieru].
 \end_layout
 
 \begin_layout Standard
-Dostęp do stanowiska zapewnia bezprzewodowe łącze internetowe o małej przepustow
-ości.
- Uniemożliwia to łatwy przesył danych za pomocą powszechnie znanych metod
- takich jak ftp (ang File Transfer Protocol), scp (ang.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/stanowisko_pomiarowe.JPG
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat stanowiska pomiarowego
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W skład stanowiska pomiarowego wchodzą czujniki spięte z układem przetwarzania
+ do postaci cyfrowej, kamera oraz komputer.
+ Oprogramowanie napisane w środowisku LabVIEW odpowiada za zapisanie na
+ dysku sygnałów oraz sekwencji video zarejestrowanych w trakcie przejazdu
+ pojazdu.
+\end_layout
+
+\begin_layout Standard
+Komputer służący do przechowywania pomiarów jest również podłączony do sieci.
+ Pomiędzy stanowiskiem pomiarowym a komputerem na uczelni zestawiony jest
+ tunel VPN.
+ Pozwala to na zdalne zarządzanie środowiskiem przy jednoczesnym zapewnieniu
+ bezpieczeństwa komunikacji (szyfrowanie, uwierzytelnienie, integralność
+ danych).
+\end_layout
+
+\begin_layout Section*
+Struktura generowanych danych
+\end_layout
+
+\begin_layout Standard
+Każdy pomiar - przejazd pojazdu - generuje dwa pliki.
+ Pomiary o rozszerzeniu lvm który posiada strukturę csv (ang.
+ comma separated values) oraz wideo w formacie avi (ang.
+ Audio Video Interleave).
+ Pliki te posiadają tę samą nazwę oraz rozszerzenie odpowiednio avi bądź
+ lvm.
+\end_layout
+
+\begin_layout Standard
+Komórki pogrubione w tabelach 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:nazwa_pliku"
+
+\end_inset
+
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:nazwa_folderu"
+
+\end_inset
+
+ stanowią zmienne zależne od momentu wygenerowania pliku.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="8">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+M
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Rok
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Miesiąc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Dzień
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+_
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Godzina
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Minuta
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Sekunda
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat nazwy generowanego pliku
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:nazwa_pliku"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nazwa pliku koduje czas wykonania pomiaru, dokładny schemat generowanej
+ nazwy reprezentuje tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:nazwa_pliku"
+
+\end_inset
+
+.
+ Pliki zaś grupowane są w foldery odpowiadające dniom w których zostały
+ wygenerowane.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+M
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Rok
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+_
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Miesiąc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+_
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Dzień
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat nazwy generowanego folderu
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:nazwa_folderu"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schemat posiada dwa zaburzenia.
+\end_layout
+
+\begin_layout Itemize
+Pomiary zarejestrowane tuż przed północą mogą znaleźć się w folderze następnego
+ dnia
+\end_layout
+
+\begin_layout Itemize
+Plik avi może nie zostać stworzony
+\end_layout
+
+\begin_layout Standard
+Dziennie generowanych jest ok.
+ 8 tysięcy plików, średnia wielkość pliku avi wynosi 
+\end_layout
+
+\begin_layout Section*
+Jakość połączenia sieciowego
+\end_layout
+
+\begin_layout Standard
+Prędkość przesyłu danych ze stanowiska pomiarowego do uczelni została zmierzona
+ za pomocą programu scp, użyty został do tego celu plik ze skompresowanymi
+ pomiarami z jednego dnia (TODO: w sumie to i tak idzie w tunelu, wpadł
+ tam narzut na szyfrowanie, jak wstanie trzeba powtórzyć na gołym tcp, netcat).
+\end_layout
+
+\begin_layout Standard
+Średnia przepustowość wewnątrz tunelu została oszacowana na 12 kb/s co uniemożli
+wia przesył danych w czasie rzeczywistym przy zastosowaniu standardowych
+ rozwiązań takich jak FTP (ang.
+ File Transfer Protocol), SCP (ang.
  Secure Copy Protocol) czy program rsync.
- Wymagane jest zastosowanie kompresji, której poświęcony jest rozdział 
+ Odbiór danych wymaga fizycznego dostępu do maszyny i przekopiowania danych
+ na inny nośnik bądź zastosowania kompresji.
+ Szerszy opis relacji przepustowości do kompresji został przedstawiony w
+ rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:kompresja"
@@ -397,6 +766,11 @@ reference "chap:kompresja"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+Drugim istotnym aspektem połączenia jest jego dostępność, zaobserwowane
+ zostały przerwy w łączności sięgające tygodnia.
 \end_layout
 
 \begin_layout Chapter
