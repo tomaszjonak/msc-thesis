@@ -163,7 +163,7 @@ titleEN{Development of software for compressing, transmitting and storing
 
 
 \backslash
-shorttitle{TODO shorttile}
+shorttitle{Praca Magisterska}
 \end_layout
 
 \begin_layout Plain Layout
@@ -735,7 +735,295 @@ Plik avi może nie zostać stworzony
 
 \begin_layout Standard
 Dziennie generowanych jest ok.
- 8 tysięcy plików, średnia wielkość pliku avi wynosi 
+ 6 tysięcy par plików.
+ Ilość pomiarów jest ściśle związana z natężeniem ruchu drogowego, stąd
+ można zakładać okresowe wahania spowodowane np.
+ świętami (dopytać promotora w co wyzwala pomiar i.e, czy to nie leci cały
+ czas i robię analizę na podstawie danych na darmo).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Typ pliku
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+średnia wielkości [B]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mediana wielkości [B]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+odchylenie standardowe [B]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lvm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+929242
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+930822
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7307
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+avi
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+728431
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+806912
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+174228
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Jakieś tam własności plików generowanych
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:wielkosci_plikow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Pliki zawierające sygnał pomiarowy mają relatywnie stałą wielkość zgodnie
+ z danymi z tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:wielkosci_plikow"
+
+\end_inset
+
+.
+ W przypadku plików wideo obserwowana jest zdecydowanie większa wariancja.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/wielkosc_avi.jpeg
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Zależność wielkości pliku avi od momentu pomiaru
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:wielkosc_avi"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wielkosc_avi"
+
+\end_inset
+
+ widać, że wielkość pliku avi zmienia rośnie znacznie między godziną 6 a
+ 7 a następnie powraca do początkowego zakresu w okolicach godziny 18.
+ Wynika to z zależności szczegółowości filmu od naświetlenia sceny (citation
+ needed) co zaś przekłada się na ilość bitów potrzebnych na zakodowanie
+ filmu (citation needed).
+\end_layout
+
+\begin_layout Standard
+Pliki lvm składają się z 5 kolumn, pierwsza reprezentująca indeks próbki
+ oraz 6 kolejne zawierające wartości sygnałów z kolejnych kanałów (czujników)
+ w danym momencie.
+ Zobrazowanie przebiegów zawiera rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:przykladowe_pomiary"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/przykladowy_przebieg_sygnalow.jpeg
+	scale 23
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wizualizacja pomiaru
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:przykladowe_pomiary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -746,7 +1034,8 @@ Jakość połączenia sieciowego
 Prędkość przesyłu danych ze stanowiska pomiarowego do uczelni została zmierzona
  za pomocą programu scp, użyty został do tego celu plik ze skompresowanymi
  pomiarami z jednego dnia (TODO: w sumie to i tak idzie w tunelu, wpadł
- tam narzut na szyfrowanie, jak wstanie trzeba powtórzyć na gołym tcp, netcat).
+ tam narzut na szyfrowanie, jak wstanie trzeba powtórzyć na gołym tcp, np
+ netcatem).
 \end_layout
 
 \begin_layout Standard
