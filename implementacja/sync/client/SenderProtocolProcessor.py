@@ -101,8 +101,8 @@ class SenderProtocolProcessor(object):
                 logger.debug('Deleting acknowledged file ({})'.format(ack_path))
                 self.file_obj.unlink()
         else:
-            logger.error('Mismatched server acknowledge. Expected ({}), got ({})'
-                         .format(self.file_path, ack_path))
+            logger.error('Mismatched server acknowledge. Expected ({}, type {}), got ({}, type {})'
+                         .format(self.file_path, type(self.file_path), ack_path, type(ack_path)))
 
         self.file_path = None
         self.file_obj = None
