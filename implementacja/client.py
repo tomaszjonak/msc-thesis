@@ -38,7 +38,7 @@ def main():
         'cache_path': 'state_storage/client.cache',
 
         'compression': {
-#          'avi': 'x264',
+#            'avi': 'x264',
             'lvm': 'bzip2',
             'mp4': None
         }
@@ -86,6 +86,7 @@ def main():
     storage_root.mkdir(exist_ok=True, parents=True)
 
     stage_queue_path = config['stage_queue_path']
+
     # Using same sqlite connection from multiple threads fails miserably, thus 3 'views'
     stage_queue_view1 = que.SqliteQueue(stage_queue_path)
     stage_queue_view2 = que.SqliteQueue(stage_queue_path)
