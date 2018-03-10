@@ -126,7 +126,7 @@ class SenderProtocolProcessor(object):
 
 class CompressionEnabledSender(SenderProtocolProcessor):
     compressors = {
-        'wavelet': (compressors.wavelet.wavelet_lvm.encode_file, compressors.wavelet.map_extension),
+#        'wavelet': (compressors.wavelet.wavelet_lvm.encode_file, compressors.wavelet.map_extension),
         'x264': (compressors.x264.compress, compressors.x264.map_extension),
         'bzip2': (compressors.bz2.compress, compressors.bz2.map_extension)
     }
