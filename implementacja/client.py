@@ -38,7 +38,7 @@ def main():
         'cache_path': 'state_storage/client.cache',
 
         'compression': {
-            'avi': 'x264',
+#          'avi': 'x264',
             'lvm': 'bzip2',
             'mp4': None
         }
