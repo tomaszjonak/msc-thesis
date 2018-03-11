@@ -1,6 +1,7 @@
 from ..utils import PersistentQueue
 from ..utils import StreamTokenReader
 import pathlib as pl
+import time
 import logging
 
 logger = logging.getLogger(__name__)
@@ -76,6 +77,7 @@ class ReceiverProcessor(object):
 
     def _process_files(self):
         file_pattern = self.reader.get_token().decode()
+        time.sleep(0.5)
         try:
             files, _, newest_file = self.find_matching_files(file_pattern)
         except ValueError:
@@ -110,12 +112,13 @@ class ReceiverProcessor(object):
         # we want to send file path relative to storage root, thus base storage_root is included
         # into path only for existence check
         full_paths = (self.storage_root.joinpath(file) for file in possible_files)
-        valid_paths = [path for path in full_paths if path.exists()]
+        valid_paths = (path for path in full_paths if path.exists())
         if not valid_paths:
             return [], None, None
         last_created = max(valid_paths, key=lambda file: file.stat().st_ctime_ns)
         first_created = min(valid_paths, key=lambda file: file.stat().st_ctime_ns)
-        return [path.relative_to(self.storage_root).as_posix() for path in valid_paths], last_created, first_created
+        results = [path.relative_to(self.storage_root).as_posix() for path in valid_paths]
+        return results, last_created, first_created
 
     def stop(self):
         self.reader.timeout = 1

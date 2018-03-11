@@ -159,6 +159,7 @@ class CompressionEnabledSender(SenderProtocolProcessor):
         except KeyError:
             logger.debug('Null compression ({} file)'.format(extension))
             self.writer.write_token(self.file_path)
+            self.expected_ack_value = self.file_path
             file_size = self.file_obj.stat().st_size
             self.writer.write_token(str(file_size))
             super(CompressionEnabledSender, self)._transfer_file()
@@ -203,7 +204,7 @@ class CompressionEnabledSender(SenderProtocolProcessor):
                 self.file_obj.unlink()
         else:
             logger.error('Mismatched server acknowledge. Expected ({}, type {}), got ({}, type {})'
-                         .format(self.file_path, type(self.file_path), ack_path, type(ack_path)))
+                         .format(self.expected_ack_value, type(self.expected_ack_value), ack_path, type(ack_path)))
 
         self.file_path = None
         self.file_obj = None
