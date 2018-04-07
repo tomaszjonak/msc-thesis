@@ -284,6 +284,10 @@ name "chap:Wstep"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Głównymi zaletami edytora \SpecialChar LyX
  jest automatyczna numeracja obiektów – rysunków,
  tabel, algorytmów, wzorów, rozdziałów, bibliografii i innych.
@@ -292,6 +296,11 @@ Głównymi zaletami edytora \SpecialChar LyX
 a, gdy przeniesie jeden podrozdział w inne miejsce swojej pracy.
  Numeracją zajmie się \SpecialChar LyX
  poprzez mechanizm etykiet.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -309,10 +318,12 @@ Zakres pracy
 \end_layout
 
 \begin_layout Standard
-Praca obejmuje dobór protokołów sieciowych do transportu danych, analizę
- metod kompresji oraz dobór, implementację aplikacji komunikujących stronę
- kliencką oraz serwerową oraz określenie i implementację mechanizmu ochrony
- przed utratą danych (synchronizacji).
+Praca obejmuje analizę danych generowanych przez stanowisko pomiarowe, oszacowan
+ie strumienia generowanych danych oraz przepustowości łącza, dobór metod
+ kompresji do problemu, zaprojektowanie oraz implementację protokołu siecowego
+ do przesyłu danych w sieci o małej przepustowości, implementację aplikacji
+ komunikujących stronę kliencką oraz serwerową oraz określenie i implementację
+ mechanizmu ochrony przed utratą danych (synchronizacji).
 \end_layout
 
 \begin_layout Section*
@@ -327,8 +338,8 @@ reference "chap:opis_problemu"
 
 \end_inset
 
- przedstawiono informacje na temat stanowiska pomiarowego oraz wymogów względem
- projektu.
+ przedstawiono informacje na temat stanowiska pomiarowego oraz analizę sposobu
+ generowania danych.
  W rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -353,8 +364,18 @@ reference "chap:kompresja"
 
 \end_inset
 
- zawiera analizę dostępnych algorytmów kompresji oraz porównanie ich skutecznośc
-i w analizowanym przypadku.
+ zawiera opis formatów generowanych danych, listę popularnych schematów
+ kompresji oraz analizę ich sprawności w badanym przypadku oraz wybór schematu
+ zastosowanego w implementowanym rozwiązaniu.
+ Rozdział 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Architektura-rozwiazania"
+
+\end_inset
+
+ opisuje sposób działania programów klienckiego i serwerowego, dostępne
+ alternatywne podejścia oraz powody ich zastosowania.
 \end_layout
 
 \begin_layout Chapter
@@ -396,7 +417,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Schemat stanowiska pomiarowego
+Schemat stanowiska pomiarowego (dodac ref do oryginalu)
 \end_layout
 
 \end_inset
@@ -730,7 +751,15 @@ Pomiary zarejestrowane tuż przed północą mogą znaleźć się w folderze nas
 \end_layout
 
 \begin_layout Itemize
-Plik avi może nie zostać stworzony
+Plik avi może nie zostać wygenerowany
+\end_layout
+
+\begin_layout Standard
+Na potrzeby oszacowania generowanych danych przeanalizowano zestaw wygenerowany
+ pomiędzy 11.11.2017 a 10.12.2017.
+ W tym przedziale czasowym stanowisko pobierało pomiary bez przerw które
+ mogłyby zaburzyć dalsze oszacowania takich jak przerwy w zasilaniu czy
+ zapełnienie powierzchni dyskowej.
 \end_layout
 
 \begin_layout Standard
@@ -809,7 +838,7 @@ lvm
 \begin_inset Text
 
 \begin_layout Plain Layout
-929242
+838487
 \end_layout
 
 \end_inset
@@ -818,7 +847,7 @@ lvm
 \begin_inset Text
 
 \begin_layout Plain Layout
-930822
+840305
 \end_layout
 
 \end_inset
@@ -827,7 +856,7 @@ lvm
 \begin_inset Text
 
 \begin_layout Plain Layout
-7307
+6773
 \end_layout
 
 \end_inset
@@ -847,7 +876,7 @@ avi
 \begin_inset Text
 
 \begin_layout Plain Layout
-728431
+504104
 \end_layout
 
 \end_inset
@@ -856,7 +885,7 @@ avi
 \begin_inset Text
 
 \begin_layout Plain Layout
-806912
+555008
 \end_layout
 
 \end_inset
@@ -865,7 +894,7 @@ avi
 \begin_inset Text
 
 \begin_layout Plain Layout
-174228
+133490
 \end_layout
 
 \end_inset
@@ -903,16 +932,16 @@ name "tab:wielkosci_plikow"
 \end_layout
 
 \begin_layout Standard
-Pliki zawierające sygnał pomiarowy mają relatywnie stałą wielkość zgodnie
- z danymi z tabeli 
+Zgodnie z tabelą 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:wielkosci_plikow"
 
 \end_inset
 
-.
- W przypadku plików wideo obserwowana jest zdecydowanie większa wariancja.
+ pliki avi posiadają o 2 rzędy wielkości większą wariancję niż pliki avi,
+ należy więc spodziewać się skokowych zmian w obciążeniu systemu wysyłania
+ rozumianego jako wartość strumienia danych na sekundę.
 \end_layout
 
 \begin_layout Standard
@@ -924,7 +953,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/wielkosc_avi.jpeg
+	filename img/wielkosci_dobowe_avi.jpeg
 	scale 25
 
 \end_inset
@@ -957,32 +986,25 @@ name "rys:wielkosc_avi"
 \end_layout
 
 \begin_layout Standard
-Na rysunku 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:wielkosc_avi"
 
 \end_inset
 
- widać, że wielkość pliku avi zmienia rośnie znacznie między godziną 6 a
- 7 a następnie powraca do początkowego zakresu w okolicach godziny 18.
- Wynika to z zależności szczegółowości filmu od naświetlenia sceny (citation
- needed) co zaś przekłada się na ilość bitów potrzebnych na zakodowanie
- filmu (citation needed).
+ przedstawia zależność wielkości filmu (pliku avi) od godziny jego wykonania,
+ uśrednienie zostało dokonane z dokładnością do minut.
+ Najistotniejsze zmiany wielkości plików występują ok godziny 7 oraz 16
+ które w analizowanym okresie pokrywają się z godzinami wschodu i zachodu
+ słońca.
+ Na podstawie wykresu można stwierdzić, że zmiana związana z cyklem słonecznym
+ jest najistotniejszym składnikiem wariancji.
 \end_layout
 
 \begin_layout Standard
-Pliki lvm składają się z 5 kolumn, pierwsza reprezentująca indeks próbki
- oraz 6 kolejne zawierające wartości sygnałów z kolejnych kanałów (czujników)
- w danym momencie.
- Zobrazowanie przebiegów zawiera rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:przykladowe_pomiary"
-
-\end_inset
-
-.
+Na wykresie można zaobserwować również zerowy pomiar, w projekcie aplikacji
+ należy zatem uwzględnić możliwość obsłużenia takiego wypadku.
 \end_layout
 
 \begin_layout Standard
@@ -992,10 +1014,9 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
 \begin_inset Graphics
-	filename img/przykladowy_przebieg_sygnalow.jpeg
-	scale 23
+	filename img/wielkosci_dobowe_lvm.jpeg
+	scale 25
 
 \end_inset
 
@@ -1006,15 +1027,18 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wizualizacja pomiaru
+Zależność wielkości pliku lvm od momentu pomiaru
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:przykladowe_pomiary"
+name "rys:wielkosci_lvm"
 
 \end_inset
 
@@ -1024,24 +1048,162 @@ name "rys:przykladowe_pomiary"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wielkosci_lvm"
+
+\end_inset
+
+został wyskalowany podobnie do 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wielkosc_avi"
+
+\end_inset
+
+.
+ Dzięki temu zabiegowi można zauważyć różnicę w zmienności wielkości obu
+ typów plików.
+ Elementem wartym odnotowania jest kolejna 
+\begin_inset Quotes pld
+\end_inset
+
+szpilka
+\begin_inset Quotes prd
+\end_inset
+
+ oznaczająca pomiar zerowej wielkości.
+\end_layout
+
+\begin_layout Standard
+Wewnętrzna struktura poszczególnych typów plików jest ściśle związana z
+ zastosowanymi schematami kompresji i zostanie omówiona w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:kompresja"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection*
+Średni strumień danych
+\end_layout
+
+\begin_layout Standard
+Metryką użytą do planowania struktury rozwiązania został średni strumień
+ danych, jego wartość wyliczona została dzieląc sumę danych wygenerowanych
+ w ciągu badanego okresu przez ilość sekund składających się na ten okres.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $S=\frac{V}{T}\,[\frac{B}{s}]$
+\end_inset
+
+, s - strumień, V - ilość danych w bajtach, T - czas
+\end_layout
+
+\begin_layout Standard
+Obliczenia przeprowadzono dla 30 pełnych dni (11.11 - 10.12) po 24 godziny.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $T=30*24*60*60=2592000\,s$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sumaryczny strumień danych obliczony na podstawie danych z plików lvm_results.csv
+ oraz avi_results.csv.
+ Zawierają one kolumny z czasem pomiaru oraz wielkością pliku z danymi pomiarowy
+mi.
+ Zostały one wygenerowane na podstawie stanu przestrzeni dyskowej stanowiska
+ pomiarowego w dniu 20.02.2018r.
+ Dostępne do wglądu w <gdziekolwiek ta praca będzie dostępna>.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{avi}=84359710\,kB$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{lvm}=140709087\,kB$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V=V_{avi}+V_{lvm}=225068797\,kB$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Na podstawie powyższych danych średni strumień wynosi.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $S=\frac{225068797\,kB}{2592000\,s}\thickapprox86.8\,\frac{kB}{s}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Należy również pamiętać o zmienności dobowej w wielkości plików avi.
 \end_layout
 
 \begin_layout Section*
-Jakość połączenia sieciowego
+Łącze sieciowe
 \end_layout
 
 \begin_layout Standard
 Prędkość przesyłu danych ze stanowiska pomiarowego do uczelni została zmierzona
  za pomocą programu scp, użyty został do tego celu plik ze skompresowanymi
- pomiarami z jednego dnia (TODO: w sumie to i tak idzie w tunelu, wpadł
- tam narzut na szyfrowanie, jak wstanie trzeba powtórzyć na gołym tcp, np
- netcatem).
+ pomiarami z jednego dnia 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(TODO: w sumie to i tak idzie w tunelu, wpadł tam narzut na szyfrowanie,
+ jak wstanie trzeba powtórzyć na gołym tcp, np netcatem).
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Średnia przepustowość wewnątrz tunelu została oszacowana na 12 kb/s co uniemożli
-wia przesył danych w czasie rzeczywistym przy zastosowaniu standardowych
- rozwiązań takich jak FTP (ang.
+Średnia przepustowość wewnątrz tunelu została oszacowana na 12 kb/s jest
+ to wielkość ponad 4 razy mniejsza od średniego strumienia danych.
+ Uniemożliwia to bezpośrednie zastosowanie standardowych narzędzi stosowanych
+ do przesyłania plików FTP (ang.
+ File Transfer Protocol), SCP (ang.
+ Secure Copy Protocol) czy program rsync.
+\end_layout
+
+\begin_layout Standard
+W obecnym schemacie pracy stanowiska odbiór danych wymaga manualnego przekopiowa
+nia pomiarów na nośnik i przewiezienia ich na uczelnię.
+\end_layout
+
+\begin_layout Standard
+co uniemożliwia przesył danych w czasie rzeczywistym przy zastosowaniu standardo
+wych rozwiązań takich jak FTP (ang.
  File Transfer Protocol), SCP (ang.
  Secure Copy Protocol) czy program rsync.
  Odbiór danych wymaga fizycznego dostępu do maszyny i przekopiowania danych
@@ -1062,6 +1224,164 @@ Drugim istotnym aspektem połączenia jest jego dostępność, zaobserwowane
  zostały przerwy w łączności sięgające tygodnia.
 \end_layout
 
+\begin_layout Section*
+Wymagania projektowe
+\end_layout
+
+\begin_layout Standard
+Analiza stanowiska pomiarowego prowadzi do następujących wniosków.
+\end_layout
+
+\begin_layout Itemize
+Ilość danych generowanych przez stanowisko pomiarowe nie jest stała w czasie
+\end_layout
+
+\begin_layout Itemize
+Częstotliwość pojawiania się nowych plików jest zmienna
+\end_layout
+
+\begin_layout Itemize
+Dane składowane są w podkatalogach konkretnego katalogu na dysku
+\end_layout
+
+\begin_layout Itemize
+Przepustowość łącza nie pozwala na bezpośredni przesył danych, wymagana
+ jest kompresja
+\end_layout
+
+\begin_layout Itemize
+Aplikacja zapisująca dane na dysku nie posiada mechanizmu pozwalającego
+ na rozgłoszenie 
+\begin_inset Quotes pld
+\end_inset
+
+zdarzenia
+\begin_inset Quotes prd
+\end_inset
+
+ utworzenia nowego pliku
+\end_layout
+
+\begin_layout Itemize
+Wielkość plików avi posiada zdecydowanie większą zmienność niż lvm.
+\end_layout
+
+\begin_layout Itemize
+Nazwy plików posiadają regularną strukturę, pozwala to na ich porządkowanie
+ w czasie bez użycia metadanych pliku
+\end_layout
+
+\begin_layout Standard
+Wymagania projektowe:
+\end_layout
+
+\begin_layout Itemize
+Dane dostarczone na serwer uczelni mają zachować informacje kluczowe do
+ dalszej obróbki, w przypadku plików sygnałowych/video nie wyklucza to kompresji
+ stratnej
+\end_layout
+
+\begin_layout Itemize
+System ma automatycznie nawiązywać ponowne połączenie w przypadku problemów
+ z siecią, przewidywana jest duża niestabilność połączenia sieciowego.
+\end_layout
+
+\begin_layout Itemize
+W przypadku utraty połączenia sieciowego aplikacja ma być w stanie przechować
+ informacje o generowanych plikach i ponowić wysyłanie po odzyskaniu połączenia
+\end_layout
+
+\begin_layout Itemize
+Parametry działania mają mieć formę konfigurowalną w postaci przełączników
+ przy starcie aplikacji bądź plików konfiguracyjnych
+\end_layout
+
+\begin_layout Standard
+Wymagane parametry konfigurowalne:
+\end_layout
+
+\begin_layout Itemize
+Adres klienta
+\end_layout
+
+\begin_layout Itemize
+Adres serwera
+\end_layout
+
+\begin_layout Itemize
+Ścieżka do folderu w którym generowane są pomiary
+\end_layout
+
+\begin_layout Itemize
+Ścieżka do folderu na przesłane pomiary
+\end_layout
+
+\begin_layout Itemize
+Mapowanie pomiędzy typami plików a schematami kompresji
+\end_layout
+
+\begin_layout Itemize
+Lista typów plików do przesłania
+\end_layout
+
+\begin_layout Chapter
+Kompresja
+\end_layout
+
+\begin_layout Standard
+Jak zaznaczono w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:opis_problemu"
+
+\end_inset
+
+dostępna prędkość łącza nie pozwala na przesyłanie plików bez użycia metod
+ kompresji, próba takiego działania doprowadziłaby do narastania listy plików
+ do wysłania a więc ewentualnego wyczerpania się przestrzeni dyskowej bądź
+ pamięci ram i zablokowania dalszego działania systemu wysyłki jak również
+ stanowiska pomiarowego.
+ W tym rozdziale obliczony zostanie wymagany współczynnik kompresji, przedstawio
+ne zostaną wewnętrzne struktury plików, dostępne metody kompresji oraz test
+ ich sprawności na podstawie danych pomiarowych z dnia 06.10.2017.
+\end_layout
+
+\begin_layout Standard
+Kompresja jest sposobem kodowania informacji za pomocą zapisu (systemu)
+ który wymaga mniej bitów niż zapis oryginalny.
+ Kompresję dzieli się na dwie główne kategorie, stratną i bezstratną.
+ 
+\end_layout
+
+\begin_layout Standard
+Kompresja bezstratna pozwala na odtworzenie informacji która jest identyczna
+ (np.
+ binarnie) z oryginałem, stosuje się ją w przypadku gdy utrata jakiejkolwiek
+ informacji prowadzi do utraty użyteczności odtworzonych danych.
+ Przykładem sytuacji wymagającej zastosowania tego schematu jest przesył
+ kodu javascript strony internetowej z serwera do przeglądarki, utrata informacj
+i doprowadziłaby do błędu interpretera i problemów z wyświetlaniem strony.
+ Przykładami schematów kompresji bezstratnej są BZip2, LZMA oraz DEFLATE.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Kompresja stratna stosowana jest do danych sygnałowych w których można odrzucić
+ część informacji nie tracąc merytorcznej wartości, 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Stopień kompresji
+\end_layout
+
 \begin_layout Chapter
 Warstwa sieciowa
 \begin_inset CommandInset label
@@ -1073,21 +1393,26 @@ name "chap:warstwa_sieciowa"
 
 \end_layout
 
-\begin_layout Standard
-Ta
-\end_layout
+\begin_layout Section*
+\begin_inset Note Note
+status open
 
 \begin_layout Section*
 Różnice w konwencjach dostępu do dysku w windowsie i linuxie
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Posix jest pikny a windows niekoniecznie.
  Struktura na linuchu to drzewo o jednym rodzicu, partycje można montować
  jakkolwiek.
  Windows uczynił z partycji najważniejszych mieszkańców, w pracy zastosowano
  unifikację do modelu posixowego ze względu na większe doświadczenie autora
  i niechęć do windy.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -1871,6 +2196,17 @@ name "tab:scenariusze_bledow"
 \end_layout
 
 \begin_layout Standard
+W tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:scenariusze_bledow"
+
+\end_inset
+
+ komórki zawierające X oznaczają błąd komponentu.
+\end_layout
+
+\begin_layout Standard
 W praktyce do podjęcia decyzji o obsłudze błędu potrzebne są trzy informacje.
 \end_layout
 
@@ -1943,18 +2279,22 @@ Kolejki dyskowe
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Jednak dziala poprawnie ale to bagno zapewnilo mi godziny debugowania.
  W duzym skrocie pythonowe api do sqlite3 nie mowi wprost w ktorym momencie
  transakcja zostanie zamknieta co prowadzi do mozliwosci zalegania niepotrzebnyc
 h wpisow (plikow ktore otrzymaly ack) w bazie dyskowej.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sytuacja ta ma miejsce jesli zbiorcza transakcja zawierajaca ostatnia serie
  operacji zostanie przerwana przez nagle zakonczenie pracy klienta.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Mozliwe gotowe implementacje:
 \end_layout
 
@@ -1971,14 +2311,19 @@ RabbitMQ, platforma twórców frameworku Spring, popularna w komercyjnych
 Redis, kolejna popularna komercyjnie zabawka zapewniajaca interesujaca wlasnosc
  (persistance) ale jak sami pisza snapshoty sa co pare minut, niezbyt pewne
  w tym przypadku.
- Speed over persistence
+ 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Tu epistoła na temat tego że instalowanie czegokolwiek na stanowisku pomiarowym
  jest co najmniej problematyczne.
  Wstawienie jakichś informacji o tym jak duzo walenia sie bylo z sqlite3
  w pythonie i braku kontroli nad czasem trwania transakcji etc.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -1997,11 +2342,70 @@ Jak podano w warstwie sieciowej dane wchodza srednio tyle bajtow na sekunde
  a przepustowosc jest taka, wymagana jest kompresja plikow.
 \end_layout
 
+\begin_layout Standard
+Pliki lvm składają się z 7 kolumn, pierwsza reprezentująca indeks próbki
+ oraz 6 zawierających wartości sygnałów z kolejnych kanałów (czujników)
+ w danym momencie.
+ Zobrazowanie przebiegów zawiera rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:przykladowe_pomiary"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/przykladowy_przebieg_sygnalow.jpeg
+	scale 23
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wizualizacja pomiaru
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:przykladowe_pomiary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+\begin_inset Note Note
+status open
+
 \begin_layout Section*
 Ogolnie z czym to sie je i jak rozroznia
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Ze stratne i bezstratne.
  Dlaczego waga przykladana do sprawnosci kompresji jest zdecydowanie wyzsza
  od wagi czasu.
@@ -2009,9 +2413,15 @@ Ze stratne i bezstratne.
  Co mozna jeszcze wykombinowac
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Proponowane podejscia do kompresji
-\end_layout
+\begin_inset Note Note
+status open
 
 \begin_layout Itemize
 Wszystko na jedno kopyto, lista popularnych rozwiazan, testy.
@@ -2021,11 +2431,16 @@ Wszystko na jedno kopyto, lista popularnych rozwiazan, testy.
 Dobranie algorytmu per rozszerzenie na podstawie analizy danych wchodzacych
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Krotka wzmianka ze siec jest podstawowym bottleneckiem i nie ma powodu by
  sie bujac z szybkoscia, ogolne algorytmy sa fajne ale skoro znamy formaty
  i estymate danych wejsciowych (z przeanalizowanych danych do kilku dni
  wstecz - miesiaca optymalnie) to mozna dopasowac lepiej
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -2033,18 +2448,22 @@ Dobor algorytmu do CSV
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 LVM to tak pod spodem csv rozdzielane tabami, bardzo regularne dane, mozna
  podejrzewac ze istnieja schematy kompresji przeznaczone specjalnie dla
  nich.
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Testy wszystkich klasycznych schematow kompresji bezstratnej, poszukac po
  internetach czy nie ma jakiejs rozprawki naukowej na ten temat.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Przedstawic mozliwosc zastosowania kompresji stratnej na tym algorytmie
  falkowym, wrzucic info ze zostal zaimplementowany w pythonie w ramach pracy,
  zrobic analize za i przeciw do jego zastosowania.
@@ -2053,28 +2472,42 @@ Przedstawic mozliwosc zastosowania kompresji stratnej na tym algorytmie
  pomiescic i czy sa dostepne na trafficu gdzies).
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Dobor algorytmu do AVI
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Krotka informacja z jakiego powodu w ogole sa trzymane, sprawdzic jakiej
  jakosci sa obecnie i jak mocno mozna je znieksztalcic.
  Jak pamietam sa to dane pomocnicze do weryfikacji eksperymentow na sygnalach.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Wsrod sensownych propozycji jest chwilowo h.264 i w sumie tyle, dobrac ze
  dwa.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sprawdzic jak jest z licencjami na tego typu kompresje.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Przetestowac, wybrac ten z najwieksza sprawnoscia i tyle.
  Dobieranie parametrow o ile wystapi zlac i wrzucic w kierunki rozwoju pracy.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -2082,8 +2515,17 @@ Podsumowanie rozdzialu
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Wybrano ten do csv i ten do avi.
  Spodziewany jest taki a smaki przeplyw i czy to wystarczy w warunkach roboczych.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -2165,6 +2607,10 @@ name "chap:Podsumowanie"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Niniejsza praca zawiera wprowadzenie do obsługi edytora \SpecialChar LyX
 .
  W szczególności w rozdziale 
@@ -2201,7 +2647,7 @@ reference "chap:kompresja"
  dotyczy często popełnianych błędów.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Typowe podsumowanie pracy dyplomowej może rozpocząć się od akapitu 
 \begin_inset Quotes pld
 \end_inset
@@ -2214,11 +2660,16 @@ W pracy przedstawiono wyniki badań autora nad zastosowaniem ...
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "bibliografia"
 options "bibtotoc,bst/IEEEtran"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
