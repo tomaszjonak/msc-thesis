@@ -310,7 +310,8 @@ Cel pracy
 \begin_layout Standard
 Niniejsza praca powstała w celu zaprojektowania oraz wdrożenia systemu służącego
  automatycznemu przesyłowi danych ze stanowiska pomiarowego do przestrzeni
- magazynowania w katedrze metrologii wydziału EAIiIB AGH.
+ magazynowania w katedrze metrologii wydziału EAIiIB AGH w warunkach ograniczone
+j przepustowości łącza.
 \end_layout
 
 \begin_layout Section*
@@ -320,10 +321,9 @@ Zakres pracy
 \begin_layout Standard
 Praca obejmuje analizę danych generowanych przez stanowisko pomiarowe, oszacowan
 ie strumienia generowanych danych oraz przepustowości łącza, dobór metod
- kompresji do problemu, zaprojektowanie oraz implementację protokołu siecowego
- do przesyłu danych w sieci o małej przepustowości, implementację aplikacji
- komunikujących stronę kliencką oraz serwerową oraz określenie i implementację
- mechanizmu ochrony przed utratą danych (synchronizacji).
+ kompresji, opracowanie mechanizmu ochrony przed utratą danych oraz projekt
+ oraz implementację oprogramowania realizującego pobór, kompresję, przesył
+ oraz składowanie danych.
 \end_layout
 
 \begin_layout Section*
@@ -379,6 +379,119 @@ reference "chap:Architektura-rozwiazania"
 \end_layout
 
 \begin_layout Chapter
+Wstęp teoretyczny 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+nazwac to jakos
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Kompresja danych
+\end_layout
+
+\begin_layout Standard
+W przetwarzaniu danych jest to transformacja zmieniająca reprezentację informacj
+i na taką która wymaga mniej bitów.
+ Wyróżniamy kompresje stratną i bezstratną.
+ Kompresja bezstratna zakłada możliwość usunięcia danych które nie prowadzą
+ do zmniejszenia ilości informacji, przykładem tego typu kompresji jest
+ kodowanie Huffmana (ang.
+ Huffman coding)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "huffman_encoding"
+
+\end_inset
+
+.
+ Kompresja stratna stosowana jest w przypadku gdy można wyróżnić mniej istotne
+ dane i je odrzucić, przykładem takiej sytuacji jest zmniejszenie ilości
+ kolorów w reprezentacji graficznej oraz usunięcie szumu w zapisie dźwiękowym.
+ Przykładami tego typu kompresji są standardy JPEG
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jpeg_paper"
+
+\end_inset
+
+ oraz H.264
+\begin_inset CommandInset citation
+LatexCommand cite
+key "h264_paper"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section*
+Struktura pliku video
+\end_layout
+
+\begin_layout Standard
+Plik wideo składa się z jednego bądź więcej 
+\series bold
+strumieni danych
+\series default
+ (ang.
+ data stream).
+ Strumień danych jest reprezentacją jednego bądź więcej sygnałów z użyciem
+ danego 
+\series bold
+formatu kodowania
+\series default
+.
+ Format taki zazwyczaj posiada zestaw pożądanych cech takie jak dostosowanie
+ do przesyłu bądź składowania czy szyfrowanie.
+ Za przetworzenie danych do wybranego formatu odpowiada 
+\series bold
+enkoder
+\series default
+, który razem z 
+\series bold
+dekoderem 
+\series default
+służącym do odwrócenia tego procesu stanowią 
+\series bold
+kodek
+\series default
+.
+ Kodekiem nazywamy urządzenie, bibliotekę bądź program udostępniające możliwość
+ enkodowania i dekodowania wybranych sygnałów.
+ Inną istotną czynnością jest 
+\series bold
+konwersja
+\series default
+ - sposób na transformację strumieni danych pomiędzy formatami.
+ Przykładem oprogramowania realizującego powyższe czynności jest ffmpeg,
+ zestaw kodeków oraz narzędzi pozwalających na przetwarzanie danych.
+ Przykładowym zastosowaniem jest konwersja z formatu avi do formatu H.264.
+\end_layout
+
+\begin_layout Section*
+AVI
+\end_layout
+
+\begin_layout Section*
+TCP
+\end_layout
+
+\begin_layout Section*
+UDP
+\end_layout
+
+\begin_layout Section*
+Berkeley sockets
+\end_layout
+
+\begin_layout Chapter
 Analiza problemu
 \begin_inset CommandInset label
 LatexCommand label
@@ -393,7 +506,17 @@ name "chap:opis_problemu"
 Katedra metrologii prowadzi badania dotyczące odczytu informacji o pojazdach
  poruszających się po drodze za pomocą zestawu sensorów.
  Czujniki takie zostały zamontowane na odcinku autostrady w miejscowości
- Gardawice [link do papieru].
+ Gardawice 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+[link do papieru]
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -417,7 +540,17 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Schemat stanowiska pomiarowego (dodac ref do oryginalu)
+Schemat stanowiska pomiarowego 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(dodac ref do oryginalu)
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -434,8 +567,8 @@ Schemat stanowiska pomiarowego (dodac ref do oryginalu)
 W skład stanowiska pomiarowego wchodzą czujniki spięte z układem przetwarzania
  do postaci cyfrowej, kamera oraz komputer.
  Oprogramowanie napisane w środowisku LabVIEW odpowiada za zapisanie na
- dysku sygnałów oraz sekwencji video zarejestrowanych w trakcie przejazdu
- pojazdu.
+ dysku przebiegów czasowych sygnałów oraz sekwencji video zarejestrowanych
+ w trakcie przejazdu pojazdu.
 \end_layout
 
 \begin_layout Standard
@@ -2607,6 +2740,14 @@ name "chap:Podsumowanie"
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "bibliografia"
+options "bibtotoc,bst/IEEEtran"
+
+\end_inset
+
+
 \begin_inset Note Note
 status open
 
@@ -2655,17 +2796,6 @@ Typowe podsumowanie pracy dyplomowej może rozpocząć się od akapitu
 W pracy przedstawiono wyniki badań autora nad zastosowaniem ...
  do ....
 \begin_inset Quotes prd
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset bibtex
-LatexCommand bibtex
-bibfiles "bibliografia"
-options "bibtotoc,bst/IEEEtran"
-
 \end_inset
 
 
