@@ -397,12 +397,12 @@ Kompresja danych
 \end_layout
 
 \begin_layout Standard
-W przetwarzaniu danych jest to transformacja zmieniająca reprezentację informacj
-i na taką która wymaga mniej bitów.
+Jest to transformacja która reprezentuje tą samą informację za pomocą mniejszej
+ ilości bitów.
  Wyróżniamy kompresje stratną i bezstratną.
- Kompresja bezstratna zakłada możliwość usunięcia danych które nie prowadzą
- do zmniejszenia ilości informacji, przykładem tego typu kompresji jest
- kodowanie Huffmana (ang.
+ Kompresja bezstratna zakłada istnienie nadmiarowości (redundancji) w wejściowej
+ reprezentacji informacji którą można wykryć i usunać, przykładem tego typu
+ kompresji jest kodowanie Huffmana (ang.
  Huffman coding)
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -432,7 +432,7 @@ key "h264_paper"
 \end_layout
 
 \begin_layout Section*
-Struktura pliku video
+Podstawowe pojęcia obróbki plików multimedialnych
 \end_layout
 
 \begin_layout Standard
@@ -442,41 +442,200 @@ strumieni danych
 \series default
  (ang.
  data stream).
- Strumień danych jest reprezentacją jednego bądź więcej sygnałów z użyciem
- danego 
+ Strumień danych jest reprezentacją jednego bądź więcej sygnałów zapisanych
+ w pewnym 
 \series bold
-formatu kodowania
+formacie
 \series default
 .
- Format taki zazwyczaj posiada zestaw pożądanych cech takie jak dostosowanie
- do przesyłu bądź składowania czy szyfrowanie.
- Za przetworzenie danych do wybranego formatu odpowiada 
-\series bold
-enkoder
-\series default
-, który razem z 
-\series bold
-dekoderem 
-\series default
-służącym do odwrócenia tego procesu stanowią 
+ Format taki zazwyczaj posiada zestaw pożądanych cech takich jak dostosowanie
+ do przesyłu bądź składowania czy szyfrowania.
+ Reprezentacja danych zawarta w pliku zazwyczaj różni się od postaci która
+ jest zdatna do odtworzenia (wyświetlenia, odegrania) i wymaga przetworzenia.
+ Format podstawowy danego typu nazywany jest formatem nieprzetworzonym (ang.
+ raw).
+ W przypadku danych video reprezentacją nieprzetworzoną może być macierz
+ pikseli.
+ Transformacje wizyjne prowadzone są na tego typu reprezentacji.
+\end_layout
+
+\begin_layout Standard
+Do przetworzenia danych stosowany jest 
 \series bold
 kodek
 \series default
-.
- Kodekiem nazywamy urządzenie, bibliotekę bądź program udostępniające możliwość
- enkodowania i dekodowania wybranych sygnałów.
- Inną istotną czynnością jest 
-\series bold
-konwersja
-\series default
- - sposób na transformację strumieni danych pomiędzy formatami.
- Przykładem oprogramowania realizującego powyższe czynności jest ffmpeg,
- zestaw kodeków oraz narzędzi pozwalających na przetwarzanie danych.
- Przykładowym zastosowaniem jest konwersja z formatu avi do formatu H.264.
+, jest to urządzenie, biblioteka bądź program udostępniający dwie składowe.
+\end_layout
+
+\begin_layout Itemize
+Enkoder
+\end_layout
+
+\begin_layout Itemize
+Dekoder
+\end_layout
+
+\begin_layout Standard
+Enkoder służy konwersji strumienia do danego formatu - enkdowoanie.
+ Dekoder realizuje odwrotną funkcjonalność - dekodowanie.
+ Format wejściowy dla obu czynności nie jest wyspecyfikowany.
+ Konwersja może mieć miejsce zarówno z danych nieprzetworzonych jak i dowolnego
+ innego formatu.
+\end_layout
+
+\begin_layout Standard
+Przykładem oprogramowania realizującego funkcje kodeka jest pakiet ffmpeg.
+ Zawiera on bogaty zestaw zestaw kodeków.
+ Można za jego pomocą zrealizować konwersję z formatu MJPEG do H.264 która
+ jest stosowana w pracy.
+\end_layout
+
+\begin_layout Section*
+Kontener (plik multimedialny)
+\end_layout
+
+\begin_layout Standard
+Jest to rodzina formatów plików służący do przechowywania i synchronizacji
+ wielu strumieni danych jednocześnie.
+ Tego typu strumienie nazywane są ścieżkami.
+ Dodatkową funkcjonalnością realizowaną przez kontener jest przechowywanie
+ informacji służących do synchronizacji ścieżek w czasie.
+ W przypadku plików wideo pozwala to na zagwarantowanie, że dźwięk i obraz
+ w filmie nie będą się przesuwać względem siebie.
+\end_layout
+
+\begin_layout Standard
+Specyfikacje formatów kontenerów zazwyczaj nie ustalają z góry jakie formaty
+ strumieni danych mają zostać użyte.
+ Informacja taka jest składowana razem ze ścieżkami w tzw.
+ metadanych zawartych w pliku.
+ Tym sposobem informacja o kodowaniu jest zapisywana razem z danymi.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ho2015handbookContainers"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Przykładem zastosowania kontenera jest przechowywanie filmu w formacie MP4
+ który zawiera ścieżkę z obrazem, ścieżkę z dźwiękiem w języku angielskim
+ oraz napisy w języku polskim.
+ Dźwięk zsynchronizowany jest z ruchem ust aktorów na ścieżce audio a napisy
+ wyświetlają się zgodnie z sekwencjami ze ścieżki dźwiękowej.
 \end_layout
 
 \begin_layout Section*
 AVI
+\end_layout
+
+\begin_layout Standard
+Format kontenerów (ang.
+ Audio Video Interleave) multimedialnych składających się ze ścieżek audio,
+ video oraz tekstu.
+ Wprowadzony do użytku przez Microsoft w Listopadzie 1992 jako część pakietu
+ Video for Windows.
+ AVI bazuje na standardzie RIFF (ang.
+ Resource Interchange File Format).
+\end_layout
+
+\begin_layout Standard
+Standard RIFF dzieli plik na segmenty (ang.
+ chunk) które można zagnieżdżać bądź szeregować (segment typu list).
+ Każdy segment identyfikowany jest przez ciąg 4 bajtów, kod FourCC (ang.
+ four character code).
+ Kody tego typu stosowane są do identyfikowania kodeków, oraz formatów kompresji
+, kolorów czy kodowania pikseli.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fourCCspec"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Format AVI zdefiniowany jest jako pojedynczy segment o identyfikatorze 
+\begin_inset Quotes pld
+\end_inset
+
+AVI 
+\begin_inset Quotes prd
+\end_inset
+
+ (spacja na ostatnim znaku).
+ W którym zagnieżdżone są dwa segmenty typu LIST.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "microsoftAviSpec"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+hdrl
+\end_layout
+
+\begin_layout Itemize
+movi
+\end_layout
+
+\begin_layout Standard
+Lista hdrl zaczyna się segmentem avih który opisuje główny nagłówek pliku
+ AVI, zawiera on informacje takie jak ilość strumieni danych, odstęp w mikroseku
+ndach pomiędzy ramkami video, wymiary ramki czy obecność elementów opcjonalnych.
+ Następnie pojawia się jeden bądź więcej segmentów strl typu LIST.
+ Segment tego typu składa się z segmentu z dwóch części obowiązkowych: strh
+ - nagłówka ścieżki, segmentu strf - formatu ścieżki oraz dwóch opcjonalnych:
+ nagłówka danych ścieżki - strd i nazwy ścieżki - strn.
+\end_layout
+
+\begin_layout Standard
+Nagłówek ścieżki zawiera typ ścieżki (audio, video, tekst lub midi), informacje
+ o synchronizacji czasowej oraz pakiet metadanych dotyczących układu ścieżki
+ w pliku.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "strh"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Segmenty opcjonalne zawierają odpowiednio: dane specyficzne dla kodeka danej
+ ścieżki oraz nazwę ścieżki.
+\end_layout
+
+\begin_layout Standard
+Specyfikacja AVI pozwala na dowolny format strumieni danych, z interesujących
+ z perspektywy pracy formatów należy wymienić:
+\end_layout
+
+\begin_layout Itemize
+Raw - brak kompresji
+\end_layout
+
+\begin_layout Itemize
+Motion JPEG - każda ramka video jest oddzielnym obrazem w formacie JPEG
+\end_layout
+
+\begin_layout Itemize
+MPEG-4
+\end_layout
+
+\begin_layout Section*
+H.264/MPEG-4 AVC
 \end_layout
 
 \begin_layout Section*
