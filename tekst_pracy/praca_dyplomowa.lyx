@@ -735,7 +735,247 @@ key "h264patent"
 \end_layout
 
 \begin_layout Standard
+Wysoka kompresja strumienia uzyskiwana jest dzięki zastosowaniu szeregu
+ technik kodowania takich jak:
+\end_layout
 
+\begin_layout Itemize
+Inter-picture prediction
+\end_layout
+
+\begin_layout Itemize
+MBAFF (ang.
+ Macroblock-adaptive frame-field coding)
+\end_layout
+
+\begin_layout Itemize
+PAFF (ang.
+ Picture-adaptive frame-field coding)
+\end_layout
+
+\begin_layout Itemize
+CABAC (ang.
+ Context-adaptive binary arithmetic coding)
+\end_layout
+
+\begin_layout Itemize
+VLC (ang.
+ variable length coding)
+\end_layout
+
+\begin_layout Itemize
+VBSMC (Variable block-size motion compensation)
+\end_layout
+
+\begin_layout Standard
+Dekompozycja strumienia wejściowego jest wielopoziomowa, techniki aplikowane
+ są w zależności od zidentyfikowanych cech segmentów wytworzonych na poprzednich
+ etapach, dokładny opis zawarty jest w dokumencie dostarczanym przez autorów.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "h264_paper"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Motion Compensation
+\end_layout
+
+\begin_layout Standard
+Rodzina algorytmów służących przewidywaniu stanu ramki wideo na podstawie
+ poprzednich oraz przyszłych ramek.
+ Technika ta skupia się na popularnym w filmach sposobie zmiany sceny w
+ kolejnych ramkach.
+ Podstawowymi transformacjami które zmieniają sceny jest przesunięcie kamery
+ oraz poruszanie się obiektu na statycznej scenie.
+ Zakodowanie informacji o przesunięciach pozwala na zmniejszenie zestawu
+ informacji kodującego kolejne ramki obrazu co prowadzi do bardziej wydajnej
+ kompresji.
+ Standard H.264 używa algorytmu VBSMC należącego do tej rodziny.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/ramka_bazowa.jpg
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Kadr z filmu 
+\begin_inset Quotes pld
+\end_inset
+
+Elephants Dream
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:kadr_bazowy"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/ramka_roznicowa.jpg
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Różnica między kadrem z 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:kadr_bazowy"
+
+\end_inset
+
+ a kolejnym
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:roznica_kadrow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/ramka_przesunieta.jpg
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Różnica pomiędzy 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:kadr_bazowy"
+
+\end_inset
+
+a kolejnym przesuniętym w prawo o dwa piksele
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:roznica_z_kompensacja"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sytuację ilustruje kodowanie obrazu za pomocą składowania różnic pomiędzy
+ kolejnymi ramkami (klatkami/kadrami) filmu.
+ Różnicę podstawową reprezentuje rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:roznica_kadrow"
+
+\end_inset
+
+ zaś różnicę w którym wzięto pod uwagę ruch kamery rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:roznica_z_kompensacja"
+
+\end_inset
+
+.
+ Zapis z kompensacją zawiera zdecydowanie mniej informacji na rysunku co
+ przekłada się na bardziej regularny ciąg bitów.
+ Regularna struktura pozwala z kolei na dużo silniejszą kompresję co prowadzi
+ do mniejszego wynikowego rozmiaru pliku i mniejszego bit rate.
 \end_layout
 
 \begin_layout Section*
