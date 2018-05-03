@@ -591,7 +591,8 @@ movi
 Lista hdrl zaczyna się segmentem avih który opisuje główny nagłówek pliku
  AVI, zawiera on informacje takie jak ilość strumieni danych, odstęp w mikroseku
 ndach pomiędzy ramkami video, wymiary ramki czy obecność elementów opcjonalnych.
- Następnie pojawia się jeden bądź więcej segmentów strl typu LIST.
+ Następnie pojawia się jeden bądź więcej segmentów strl typu LIST opisujących
+ poszczególne ścieżki zawarte w pliku.
  Segment tego typu składa się z segmentu z dwóch części obowiązkowych: strh
  - nagłówka ścieżki, segmentu strf - formatu ścieżki oraz dwóch opcjonalnych:
  nagłówka danych ścieżki - strd i nazwy ścieżki - strn.
@@ -609,33 +610,132 @@ key "strh"
 \end_inset
 
 .
- 
+ Segmenty opcjonalne zawierają odpowiednio: dane specyficzne dla kodeka
+ danej ścieżki oraz nazwę ścieżki.
 \end_layout
 
 \begin_layout Standard
-Segmenty opcjonalne zawierają odpowiednio: dane specyficzne dla kodeka danej
- ścieżki oraz nazwę ścieżki.
+Lista movi zawiera same ścieżki, dane składowe ścieżki mogą być segmentami
+ bezpośrednio w liście movi bądź znajdować się w zagnieżdzoncyh listach
+ o typie 
+\begin_inset Quotes pld
+\end_inset
+
+rec 
+\begin_inset Quotes pld
+\end_inset
+
+.
+ Przynależność segmentu do strumienia odczytywana jest z kodu FourCC, który
+ zawiera również informacje o przeznaczeniu segmentu.
+ Wyróżnianie są cztery przeznaczenia.
+\end_layout
+
+\begin_layout Itemize
+db - wideo nieskompresowane
+\end_layout
+
+\begin_layout Itemize
+dc - wideo skompresowane
+\end_layout
+
+\begin_layout Itemize
+pc - zmiana palety kolorów
+\end_layout
+
+\begin_layout Itemize
+wb - dane audio
 \end_layout
 
 \begin_layout Standard
-Specyfikacja AVI pozwala na dowolny format strumieni danych, z interesujących
- z perspektywy pracy formatów należy wymienić:
+Kod segmentów listy movi na dwóch wyższych bajtach zawiera numer strumienia,
+ dwa niższe przeznaczenie.
+ Przykładowy segment nieskompresowanego wideo należący do strumienia pierwszego
+ identyfikujemy kodem 
+\begin_inset Quotes pld
+\end_inset
+
+01db
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Warto nadmienić że numerowanie zaczyna się od zera, w pliku z jednym strumienie
+m segmenty miałyby kod 
+\begin_inset Quotes pld
+\end_inset
+
+00xx
+\begin_inset Quotes prd
+\end_inset
+
+, gdzie xx oznacza typ strumienia.
 \end_layout
 
-\begin_layout Itemize
-Raw - brak kompresji
-\end_layout
+\begin_layout Standard
+Użycie 2 bajtów na identyfikację przynależności do strumienia warunkuje
+ również górną granicę ilości ścieżek w pliku avi, jest to 
+\begin_inset Formula $2^{8}=256$
+\end_inset
 
-\begin_layout Itemize
-Motion JPEG - każda ramka video jest oddzielnym obrazem w formacie JPEG
-\end_layout
-
-\begin_layout Itemize
-MPEG-4
+.
 \end_layout
 
 \begin_layout Section*
 H.264/MPEG-4 AVC
+\end_layout
+
+\begin_layout Standard
+In response to the need of a more efficient video coding technique for diversifi
+ed networks and applications,
+\end_layout
+
+\begin_layout Standard
+Standard kompresji ścieżek video.
+ Stworzony w ramach kolaboracji ITU-T VCEG oraz ISO/IEC MPEG, dwóch ciał
+ standaryzacyjnych odpowiedzialnych za formaty multimedialne.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "h264_paper"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Celem tego standardu jest zapewnienie wysokiej jakości wideo przy istotnym
+ zmniejszeniu szerokości pasma wymaganego do zapisu/przesyłu danych wideo.
+ W porównaniu ze swoim poprzednikiem, standardem H.263 czy standardem MPEG-4
+ part 2 H.264 wymaga o 50% mniej zasobów na zakodowanie strumienia.
+ Wartość ta liczona jest w bitach na sekundę filmu (ang.
+ bit rate).
+\end_layout
+
+\begin_layout Standard
+Standard ten jest szeroko wykorzystywany w kodowaniu filmów w sieci, korzystają
+ z niego między innymi serwisy Youtube, Vimeo, Itunes Store, używany jest
+ również w dyskach typu Blu-ray.
+ Używany jest również do dostarczania audycji telewizyjnych - standardy
+ ISDB-T, DVB-T or DVB-T2.
+\end_layout
+
+\begin_layout Standard
+H.264 jest standardem częściowo objętym patentami, komercyjne wykorzystanie
+ dekoderów wymaga wykupienia stosownych licencji.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "h264patent"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Section*
