@@ -273,10 +273,10 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Chapter
-Wstęp
+Wprowadzenie
 \begin_inset CommandInset label
 LatexCommand label
-name "chap:Wstep"
+name "chap:wprowadzenie"
 
 \end_inset
 
@@ -1375,7 +1375,367 @@ czy udp jest w ogóle interesujące z perspektywy pracy?
 \end_layout
 
 \begin_layout Subsection*
-Berkeley socket
+Berkeley sockets
+\end_layout
+
+\begin_layout Standard
+API (ang.
+ application programming interface) służący do realizowania komunikacji
+ za pomocą gniazd (ang.
+ socket).
+ Pozwala na użycie protokołów transportowych, zarówno sieciowych (TCP, UDP)
+ jak i realizujących komunikację pomiędzy procesami na jednej maszynie (Unix
+ Sockets).
+ Zostały wprowadzone w wersji 4.2 systemu operacyjnego BSD z rodziny Unix
+ w 1983 roku.
+ Ze względu na szerokie stosowanie stały się częścią standardu POSIX.
+ Obecnie dostępne we wszystkich systemach spełniających ten standard oraz
+ od 1990 w systemach z rodziny Windows.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "winsocks"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Socket jest abstrakcyjnym obiektem za pomocą którego dany proces prowadzi
+ interakcje z innym procesem lokalnym bądź zdalnym.
+ Elementem pośredniczącym w takiej komunikacji jest jądro systemu operacyjnego
+ mające dostęp do innych procesów w przypadku komunikacji lokalnej oraz
+ do sterowników kart sieciowych w przypadku komunikacji zdalnej.
+\end_layout
+
+\begin_layout Standard
+Wydziela się dwa główne tryby pracy z gniazdami:
+\end_layout
+
+\begin_layout Itemize
+pakietowy
+\end_layout
+
+\begin_layout Itemize
+strumieniowy
+\end_layout
+
+\begin_layout Standard
+Podział ten jest ściśle związany z protokołami które reprezentuje socket.
+ Tryb pakietowy zakłada wysyłanie i odbieranie pojedynczych pakietów, tryb
+ strumieniowy otwiera zaś pomost za pomocą którego wysyłana jest arbitralna
+ ilość danych.
+ Obie funkcjonalności realizuje się za pomocą tego samego zestawu funkcji
+ systemowych jednak różni się obsługa informacji zwrotnej z wywołania.
+\end_layout
+
+\begin_layout Standard
+API dostarczane jest użytkownikowi w postaci zestawu plików nagłówkowych
+ oraz bibliotek dynamicznie linkowanych języka C.
+ Taki sposób udostępniania podyktowany jest językiem w jakim napisane są
+ systemy operacyjne - zarówno Windows jak i Linux napisane zostały w C -
+ oraz możliwością wywoływania tego typu interfejsów w innych językach.
+ Przykładowo pliki wykonywalne języka C++ można automatycznie linkować z
+ bibliotekami w języku C, język Python udostępnia do tego bibliotekę ctypes
+ oraz uogólniony język Cython.
+ W przypadku języków interpretowanych implementacje maszyn wirtualnych napisane
+ są w języku C co pozwala na udostępnienie tego interfejsu w językach bazujących
+ na danej maszynie wirtualnej - przykładem będzie tu JVM oraz języki Java,
+ Scala i Kotlin.
+\end_layout
+
+\begin_layout Subsection*
+Opis interfejsu
+\end_layout
+
+\begin_layout Standard
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:socket_calls"
+
+\end_inset
+
+ zawiera zestaw wywołań wymagany do rozpoczęcia komunikacji za pomocą dowolnego
+ protokołu z użyciem gniazd w systemie operacyjnym Linux.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nazwa Wywołania
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Plik nagłówkowy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Opis
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+socket()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tworzy nowe gniazdo zadanego typu oraz zwraca jego deskryptor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bind()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Łączy gniazdo z systemowym zasobem, w przypadku protokołu TCP jest to para
+ (adres ip, port) reprezentująca port na konkretnym interfejsie sieciowym.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+listen()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ustawia socket w tryb pasywny, nasłuchujący na przychodzące połączenia.
+ Używany po stronie serwera.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+connect()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Funkcje interfejsu socket 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:socket_calls"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Parametry danego wywołania oraz dokładny opis można uzyskać wpisując w konsoli
+ polecenie:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+man <nazwa wywołania bez nawiasów>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wynik polecenia dla wywołania connect() przedstawia rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:man_connect"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/man_connect.JPG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Opis wywołania connect()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:man_connect"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Sekwencja nawiązywania połączenia
 \end_layout
 
 \begin_layout Chapter
@@ -1974,6 +2334,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename img/wielkosci_dobowe_avi.jpeg
+	lyxscale 50
 	scale 25
 
 \end_inset
@@ -2034,8 +2395,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename img/wielkosci_dobowe_lvm.jpeg
+	lyxscale 50
 	scale 25
 
 \end_inset
