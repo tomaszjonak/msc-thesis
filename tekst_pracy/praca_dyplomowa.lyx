@@ -843,6 +843,17 @@ name "rys:kadr_bazowy"
 \end_inset
 
 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(c) copyright 2006, Blender Foundation / Netherlands Media Art Institute
+ / www.elephantsdream.org
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -890,6 +901,17 @@ reference "rys:kadr_bazowy"
 \begin_inset CommandInset label
 LatexCommand label
 name "rys:roznica_kadrow"
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(c) copyright 2006, Blender Foundation / Netherlands Media Art Institute
+ / www.elephantsdream.org
+\end_layout
 
 \end_inset
 
@@ -945,6 +967,17 @@ name "rys:roznica_z_kompensacja"
 \end_inset
 
 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(c) copyright 2006, Blender Foundation / Netherlands Media Art Institute
+ / www.elephantsdream.org
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -979,15 +1012,370 @@ reference "rys:roznica_z_kompensacja"
 \end_layout
 
 \begin_layout Section*
+Model TCP/IP
+\end_layout
+
+\begin_layout Standard
+Abstrakcyjny model opisujący komunikację pomiędzy komputerami połączonymi
+ internetem.
+ Model ten opisuje pełen schemat komunikacji specyfikując sposób pakowania,
+ adresowania, kierowania (ang.
+ routing) i odbioru danych.
+ Składa się z czterech warstw abstrakcji które służą klasyfikacji protokołów
+ składowych.
+ Zaczynając od najniższej:
+\end_layout
+
+\begin_layout Enumerate
+Warstwa łącza (ang.
+ link layer)
+\end_layout
+
+\begin_layout Enumerate
+Warstwa sieci (ang.
+ internet layer)
+\end_layout
+
+\begin_layout Enumerate
+Warstwa transportowa (ang.
+ transport layer)
+\end_layout
+
+\begin_layout Enumerate
+Warstwa aplikacji (ang.
+ application layer)
+\end_layout
+
+\begin_layout Standard
+Warstwa łącza opisuje transmisję danych wewnątrz pojedynczego segmentu sieci.
+ Komunikacja ta odbywa się za pomocą kanału fizycznego bezpośrednio łączącego
+ dwie maszyny.
+ Opisują adresację oraz sposób enkodowania.
+ Adres warstwy łącza zwyczajowo nazywany jest adresem MAC (ang.
+ Media Access Control).
+ Przykładem tego rozwiązania jest połączenie kablem typu twisted-pair (tzw.
+ skrętka) i użycie protokołu Ethernet.
+\end_layout
+
+\begin_layout Standard
+Warstwa sieci opisuje komunikację urządzeń zlokalizowanych w różnych sieciach
+ oraz sposób odnalezienia drogi do sieci docelowej (routing).
+ Najpopularniejszym protokołem w tej warstwie jest Internet Protocol w wersji
+ 4.
+ Protokół ten wprowadza również adresację warstwy sieciowej, tzw.
+ adresy IP.
+ Warstwa ta nie definiuje mechanizmów gwarantujących dotarcie danych do
+ odbiorcy oraz nie specyfikuje kolejności w jakiej kwanty danych (pakiety)
+ odbierze maszyna docelowa.
+\end_layout
+
+\begin_layout Standard
+Warstwa transportowa opisuje sposób komunikacji pomiędzy usługami znajdującymi
+ się na dwóch urządzeniach, wprowadza oddzielną adresację pozwalającą na
+ rozróżnienie usług udostępnianych przez pojedyncze urządzenie - portów.
+ Protokoły tej warstwy odpowiadają za poprawne współdzielenie kanału komunikacyj
+nego przez wiele usług, serializację, deserializację, retransmisję oraz
+ odtwarzanie oryginalnej kolejności danych.
+ Najpopularniejszymi protokołami tej warstwy są UDP (ang.
+ User Datagram Protocol) oraz TCP (Transfer Control Protocol).
+\end_layout
+
+\begin_layout Standard
+Warstwa aplikacji definiuje sposób komunikacji pomiędzy serwisami.
+ Jest to najszersza warstwa ze względu na potrzebę dostosowania do konkretnych
+ problemów.
+ Popularnym protokołem tej warstwy jest protokół HTTP (ang.
+ Hypertext Transfer Protocol) służący transferowi i modyfikacji multimediów.
+\end_layout
+
+\begin_layout Subsection*
+Datagram
+\end_layout
+
+\begin_layout Standard
+Termin używany do opisu kwantu danych używanego przez dany protokół.
+ Składa się z nagłówka (ang.
+ header), danych (ang.
+ payload) oraz opcjonalnego 
+\begin_inset Quotes pld
+\end_inset
+
+trailera
+\begin_inset Quotes prd
+\end_inset
+
+ (pol.
+ stopka).
+ W zależności od protokołu z perspektywy którego prowadzona jest analiza
+ danymi może być datagram innego protokołu, prowadzi to do struktury kapsułkowej.
+ Datagram najniższej warstwy zawierał będzie szereg headerów kolejnych protokołó
+w oraz finalne dane i trailer.
+ Ilustruje to rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:datagram"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/payload.jpg
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowy datagram protokołu HTTP w sieci TCP/IP
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:datagram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
 TCP
 \end_layout
 
-\begin_layout Section*
+\begin_layout Standard
+Protokół warstwy transportowej.
+ Odpowiada za komunikację pomiędzy dwoma urządzeniami, tzw.
+ hostami, komunikującymi się za pomocą sieci internetowej.
+ Z perspektywy użytkownika najważniejszymi cechami protokołu TCP są:
+\end_layout
+
+\begin_layout Itemize
+uporządkowany przesył danych (ang.
+ ordered data transfer)
+\end_layout
+
+\begin_layout Itemize
+retransmisja zgubionych pakietów (ang.
+ packet retranssmision)
+\end_layout
+
+\begin_layout Itemize
+zgodność danych nadanych z odebranymi (ang.
+ error-free transmission)
+\end_layout
+
+\begin_layout Itemize
+kontrola przepływu do odbiorcy (ang.
+ flow control)
+\end_layout
+
+\begin_layout Itemize
+kontrola przepływu po sieci (ang.
+ congestion control)
+\end_layout
+
+\begin_layout Standard
+TCP jest protokołem stanowym, wymaga otwarcia połączenia (ang.
+ connection) do którego należą wysyłane pakiety.
+ Dane odbierane od nadawcy oraz dostarczane do klienta nie posiadają wymagań
+ co do struktury, traktowane są jak strumień bajtów (ang.
+ bytestream), którego przygotowanie i odczytanie zgodnie z wybranym zestawem
+ reguł - protokołem warstwy aplikacji.
+ Początek i koniec strumienia sygnalizują odpowiednie sekwencje kontrolne
+ protokołu.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Wstawić tu tcp header?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Sekwencja otwarcia połączenia
+\end_layout
+
+\begin_layout Standard
+Nagłówek TCP posiada 9 bitów kontrolnych posiadających odpowiednie 3 literowe
+ skróty:
+\end_layout
+
+\begin_layout Itemize
+CWR
+\end_layout
+
+\begin_layout Itemize
+ECE
+\end_layout
+
+\begin_layout Itemize
+URG
+\end_layout
+
+\begin_layout Itemize
+ACK
+\end_layout
+
+\begin_layout Itemize
+PSH
+\end_layout
+
+\begin_layout Itemize
+RST
+\end_layout
+
+\begin_layout Itemize
+SYN
+\end_layout
+
+\begin_layout Itemize
+FIN
+\end_layout
+
+\begin_layout Standard
+Do nawiązania połączenia wykorzystywane są bity SYN oraz ACK, w nawiązaniu
+ połączenia wyróżniamy klienta - stronę nawiązującą połączenie oraz serwer
+ - stronę nasłuchującą.
+ Sekwencja ma następującą postać.
+\end_layout
+
+\begin_layout Enumerate
+Klient wysyła pakiet z flagą SYN
+\end_layout
+
+\begin_layout Enumerate
+Serwer odpowiada pakietem z flagami SYN oraz ACK
+\end_layout
+
+\begin_layout Enumerate
+Klient wysyła pakiet z flagą ACK
+\end_layout
+
+\begin_layout Standard
+Po odebraniu ostatniego pakietu sesję uznaje się za poprawnie zainicjowaną
+ i obie strony mogą przejść do przesyłu i odbioru danych.
+\end_layout
+
+\begin_layout Subsubsection*
+Retransmisje
+\end_layout
+
+\begin_layout Standard
+Nagłówek pakietu TCP posiada dwa 32 bitowe pola służące śledzeniu kolejności
+ pakietów i potwierdzenia ich odbioru.
+ Są to odpowiednio numer sekwencyjny (ang.
+ sequence number) oraz numer potwierdzenia (ang.
+ acknowledgement number).
+ Na każdy wysłany pakiet o danym numerze sekwencyjnym N oczekiwany jest
+ pakiet nadany przez serwer z flagą ACK oraz numerem sekwencyjnym o wartości
+ N.
+\end_layout
+
+\begin_layout Standard
+Potrzebę retransmisji można zidentyfikować na podstawie przekroczenia wartości
+ oczekiwania (ang.
+ timeout) na potwierdzenie danego pakietu oraz bazując na otrzymanej sekwencji
+ potwierdzeń.
+ Ilustruje to poniższy przykład.
+\end_layout
+
+\begin_layout Standard
+W przypadku gdy pakiet zostanie zgubiony (o numerze sekwencyjnym N+1), zgodnie
+ z protokołem odbiorca nie może wysłać pakietu ACK z wartością N+1 ani żadną
+ następną aż do otrzymania pakietu, ponownie wysyła więc pakiet ACK dla
+ ostatniego poprawnie odebranego pakietu (numer N).
+ Otrzymanie trzykrotnie potwierdzenia dla pakietu N sygnalizuje nadawcy
+ potrzebę retransmisji pakietu N+1.
+\end_layout
+
+\begin_layout Subsubsection*
+Sekwencja zamknięcia
+\end_layout
+
+\begin_layout Standard
+Poprawne zamknięcie sesji wykorzystuje flagi FIN oraz ACK.
+ Może zostać zainicjowana przez każdą ze stron.
+ Na potrzeby przykładu użyte zostały nazwy inicjator i odbiorca.
+\end_layout
+
+\begin_layout Enumerate
+Inicjator wysyła pakiet z flagą FIN
+\end_layout
+
+\begin_layout Enumerate
+Odbiorca wysyła pakiet z flagą ACK
+\end_layout
+
+\begin_layout Enumerate
+Odbiorca wysyła pakiet z flagą FIN
+\end_layout
+
+\begin_layout Enumerate
+Inicjator wysyła pakiet z flagą ACK
+\end_layout
+
+\begin_layout Standard
+Kroki 2 oraz 3 mogą zostać zrealizowane za pomocą jednego pakietu wysłanego
+ przez odbiorcę.
+ Wysłanie pakietu FIN przez nadawcę sygnalizuje odbiorcy że nie otrzyma
+ od niego więcej danych, sesję zamkniętą z jednej strony nazywamy half-open
+ (pol.
+ pół-otwartą).
+\end_layout
+
+\begin_layout Subsection*
 UDP
 \end_layout
 
-\begin_layout Section*
-Berkeley sockets
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+czy udp jest w ogóle interesujące z perspektywy pracy?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Berkeley socket
 \end_layout
 
 \begin_layout Chapter
