@@ -1374,7 +1374,7 @@ czy udp jest w ogóle interesujące z perspektywy pracy?
 
 \end_layout
 
-\begin_layout Subsection*
+\begin_layout Section*
 Berkeley sockets
 \end_layout
 
@@ -1471,11 +1471,11 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="3">
+<lyxtabular version="3" rows="14" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="35page%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1559,6 +1559,7 @@ bind()
 \begin_layout Plain Layout
 Łączy gniazdo z systemowym zasobem, w przypadku protokołu TCP jest to para
  (adres ip, port) reprezentująca port na konkretnym interfejsie sieciowym.
+ Używany po stronie serwera.
 \end_layout
 
 \end_inset
@@ -1595,7 +1596,7 @@ Ustawia socket w tryb pasywny, nasłuchujący na przychodzące połączenia.
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1604,7 +1605,7 @@ connect()
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1613,11 +1614,278 @@ connect()
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nawiązuje połączenie na zadany adres, przydzielając losowy port z puli 1024-6553
+5.
+ Używany po stronie klienta.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+accept()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tworzy nowy socket reprezentujący nawiązane połączenie po stronie klienta,
+ wywołanie używane po stronie serwera.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+recv()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h.>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Służy odbieraniu danych z socketu.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+send()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Służy nadawaniu danych za pomocą socketu.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+shutdown()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inicjuje sekwencję zamykającą dane połączenie.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+close()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<unistd.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwalnia zasoby systemowe odpowiadające danemu socketowi.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+getsockopt()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sprawdza dany atrybut gniazda.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setsockopt()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/socket.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ustawia dany atrybut gniazda.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+select()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<sys/select.h>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pozwala uśpić dany wątek systemowy do czasu pojawienia się danych na jednym
+ bądź więcej socketach.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+poll()
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<poll.h>
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+Analogicznie do select(), pozwala również zakończyć oczekiwanie po interwale
+ bądź sprawdzić dostępność danych nie blokując obecnego wątku.
 \end_layout
 
 \end_inset
@@ -1734,8 +2002,471 @@ name "rys:man_connect"
 
 \end_layout
 
-\begin_layout Subsubsection*
-Sekwencja nawiązywania połączenia
+\begin_layout Subsection*
+Nawiązywanie połączenia TCP
+\end_layout
+
+\begin_layout Standard
+Po stronie serwera wymagane są następujące czynności:
+\end_layout
+
+\begin_layout Enumerate
+Zdefiniowanie struktury typu sockaddr_in zawierającej informacje o typie
+ adresu oraz jego wartości, w przypadku TCP będzie to rodzina AF_INET reprezentu
+jąca adres protokołu IP oraz port protokołu TCP.
+\end_layout
+
+\begin_layout Enumerate
+Stworzenie gniazda za pomocą wywołania funkcji socket() z parametrami AF_INET,
+ SOCK_STREAM, IPPROTO_TCP
+\end_layout
+
+\begin_layout Enumerate
+Skojarzenie adresu oraz gniazda za pomocą funkcji bind()
+\end_layout
+
+\begin_layout Enumerate
+Rozpoczęcie nasłuchiwania, tzw.
+ otworzenie portu, za pomocą funkcji listen()
+\end_layout
+
+\begin_layout Enumerate
+Wywołanie funkcji accept() tworzącej nowe gniazdo dla każdego połączenia
+ przychodzącego
+\end_layout
+
+\begin_layout Enumerate
+Interakcje z procesem zdalnym używając funkcji recv() oraz send()
+\end_layout
+
+\begin_layout Enumerate
+Zamknięcie połączenia używając funkcji shutdown()
+\end_layout
+
+\begin_layout Enumerate
+Zwolnienie gniazd odpowiadających za połączenie funkcją close()
+\end_layout
+
+\begin_layout Standard
+Kod reprezentujący powyższe czynności reprezentuje listing 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+jak to tagować?
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#define ADRES_SERWERA "127.0.0.1"
+\end_layout
+
+\begin_layout Plain Layout
+
+#define PORT_SERWERA 15123
+\end_layout
+
+\begin_layout Plain Layout
+
+#define DLUGOSC_KOLEJKI_OCZEKUJACYCH_POLACZEN 10
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+int main() 
+\end_layout
+
+\begin_layout Plain Layout
+
+{   
+\end_layout
+
+\begin_layout Plain Layout
+
+  struct sockaddr_in endpoint = {
+\end_layout
+
+\begin_layout Plain Layout
+
+    .sin_family = AF_INET,
+\end_layout
+
+\begin_layout Plain Layout
+
+    .sin_port = htons(PORT_SERWERA),
+\end_layout
+
+\begin_layout Plain Layout
+
+    .sin_addr.s_addr = inet_addr(ADRES_SERWERA)
+\end_layout
+
+\begin_layout Plain Layout
+
+  };
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  int socket_descriptor = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  bind(socket_descriptor, (struct sockaddr*)&endpoint, sizeof(endpoint));
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  listen(socket_descriptor, DLUGOSC_KOLEJKI_OCZEKUJACYCH_POLACZEN);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  for (;;) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    int connection_descriptor = accept(socket_descriptor, NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+    /*
+\end_layout
+
+\begin_layout Plain Layout
+
+      Interakcje z klientem
+\end_layout
+
+\begin_layout Plain Layout
+
+    */
+\end_layout
+
+\begin_layout Plain Layout
+
+    shutdown(connection_descriptor, SHUT_RDWR);
+\end_layout
+
+\begin_layout Plain Layout
+
+    close(connection_descriptor);
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  return 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W programie odwołania do danego gniazda wykonywane są za pomocą unikalnego
+ numeru nadawanego nowo wytworzonemu socketowi.
+ Wywołania systemowe następnie mapują ten identyfikator na właściwe zasoby.
+ W programie wyróżnione są dwa typy gniazd, służące przyjmowaniu połączeń
+ oraz reprezentujące pojedyncze połączenie.
+ Funkcja listen inicjuje kolejkę w jądrze systemu operacyjnego, pozwala
+ ona na przechowanie połączeń przychodzących do czasu gdy program jest w
+ stanie je obsłużyć.
+\end_layout
+
+\begin_layout Standard
+Od strony klienckiej wymagane są następujące kroki:
+\end_layout
+
+\begin_layout Enumerate
+Stworzenie struktury reprezentujący adres ip oraz port z którym nawiązane
+ zostanie połączenie
+\end_layout
+
+\begin_layout Enumerate
+Stworzenie gniazda używając funkcji socket() z parametrami odpowiadającymi
+ połączeniu TCP
+\end_layout
+
+\begin_layout Enumerate
+Wywołanie funkcji connect() przekazując adres z punktu 1 oraz socket z punktu
+ 2.
+\end_layout
+
+\begin_layout Enumerate
+Interakcje za pomocą gniazda używając funkcji send() i recv()
+\end_layout
+
+\begin_layout Enumerate
+zamknięcie połączenia funkcją shutdown()
+\end_layout
+
+\begin_layout Enumerate
+zwolnienie deskryptora funkcją close()
+\end_layout
+
+\begin_layout Standard
+Kod reprezentujący klienta łączącego się z serwerem z listingu 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+tego wyżej
+\end_layout
+
+\end_inset
+
+ przedstawia listing 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+otaguj to jakos
+\end_layout
+
+\end_inset
+
+.
+ Ponownie pominięto obsługę błędów.
+ Oba programy znajdują się w załącznikach do pracy.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#define ADRES_SERWERA "127.0.0.1"
+\end_layout
+
+\begin_layout Plain Layout
+
+#define PORT_SERWERA 15123
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+int main() {
+\end_layout
+
+\begin_layout Plain Layout
+
+  struct sockaddr_in endpoint = {
+\end_layout
+
+\begin_layout Plain Layout
+
+    .sin_family = AF_INET,
+\end_layout
+
+\begin_layout Plain Layout
+
+    .sin_port = htons(PORT_SERWERA),
+\end_layout
+
+\begin_layout Plain Layout
+
+    .sin_addr.s_addr = inet_addr(ADRES_SERWERA)
+\end_layout
+
+\begin_layout Plain Layout
+
+  };
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  int socket_descriptor = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  connect(socket_descriptor, (struct sockaddr*)&endpoint, sizeof(endpoint));
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  /*
+\end_layout
+
+\begin_layout Plain Layout
+
+    interakcje z serwerem
+\end_layout
+
+\begin_layout Plain Layout
+
+  */
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  shutdown(socket_descriptor, SHUT_RDWR);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  close(socket_descriptor);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  return 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W tym wypadku tworzony jest jedynie socket reprezentujący połączenie.
+ Wywołanie funkcji connect wymaga, aby urządzenie reprezentujące drugą stronę
+ połączenia posiadało socket w stanie listen, w momencie kiedy kod serwera
+ wywoła instrukcję accept.
+ Pełny schemat interakcji klient serwer reprezentuje rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:client_server"
+
+\end_inset
+
+.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+zrobić ładniejszy diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/client_server_diagram.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Komunikacja klient serwer z użyciem gniazd
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:client_server"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
