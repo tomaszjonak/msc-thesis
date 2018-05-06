@@ -3439,6 +3439,10 @@ Lista typów plików do przesłania
 \end_layout
 
 \begin_layout Chapter
+Projekt systemu
+\end_layout
+
+\begin_layout Section
 Kompresja
 \end_layout
 
@@ -3460,31 +3464,59 @@ ne zostaną wewnętrzne struktury plików, dostępne metody kompresji oraz test
  ich sprawności na podstawie danych pomiarowych z dnia 06.10.2017.
 \end_layout
 
-\begin_layout Standard
-Kompresja jest sposobem kodowania informacji za pomocą zapisu (systemu)
- który wymaga mniej bitów niż zapis oryginalny.
- Kompresję dzieli się na dwie główne kategorie, stratną i bezstratną.
- 
+\begin_layout Subsubsection*
+Dobor algorytmu do CSV
 \end_layout
 
 \begin_layout Standard
-Kompresja bezstratna pozwala na odtworzenie informacji która jest identyczna
- (np.
- binarnie) z oryginałem, stosuje się ją w przypadku gdy utrata jakiejkolwiek
- informacji prowadzi do utraty użyteczności odtworzonych danych.
- Przykładem sytuacji wymagającej zastosowania tego schematu jest przesył
- kodu javascript strony internetowej z serwera do przeglądarki, utrata informacj
-i doprowadziłaby do błędu interpretera i problemów z wyświetlaniem strony.
- Przykładami schematów kompresji bezstratnej są BZip2, LZMA oraz DEFLATE.
+Pliki lvm składają się z 7 kolumn, pierwsza reprezentująca indeks próbki
+ oraz 6 zawierających wartości sygnałów z kolejnych kanałów (czujników)
+ w danym momencie.
+ Zobrazowanie przebiegów zawiera rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:przykladowe_pomiary"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
+\begin_inset Float figure
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
-Kompresja stratna stosowana jest do danych sygnałowych w których można odrzucić
- część informacji nie tracąc merytorcznej wartości, 
+\align center
+\begin_inset Graphics
+	filename img/przykladowy_przebieg_sygnalow.jpeg
+	lyxscale 40
+	scale 23
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wizualizacja pomiaru
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:przykladowe_pomiary"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3492,11 +3524,70 @@ Kompresja stratna stosowana jest do danych sygnałowych w których można odrzuc
 
 \end_layout
 
-\begin_layout Section*
-Stopień kompresji
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+LVM to tak pod spodem csv rozdzielane tabami, bardzo regularne dane, mozna
+ podejrzewac ze istnieja schematy kompresji przeznaczone specjalnie dla
+ nich.
+ 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Plain Layout
+Testy wszystkich klasycznych schematow kompresji bezstratnej, poszukac po
+ internetach czy nie ma jakiejs rozprawki naukowej na ten temat.
+\end_layout
+
+\begin_layout Plain Layout
+Przedstawic mozliwosc zastosowania kompresji stratnej na tym algorytmie
+ falkowym, wrzucic info ze zostal zaimplementowany w pythonie w ramach pracy,
+ zrobic analize za i przeciw do jego zastosowania.
+ Pamietac o tym ze przy zerowym sygnale mocno odksztalca.
+ Badania ilosciowe j/w (idealnie dane z miesiaca, nie wiem tylko gdzie to
+ pomiescic i czy sa dostepne na trafficu gdzies).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Dobor algorytmu do AVI
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Krotka informacja z jakiego powodu w ogole sa trzymane, sprawdzic jakiej
+ jakosci sa obecnie i jak mocno mozna je znieksztalcic.
+ Jak pamietam sa to dane pomocnicze do weryfikacji eksperymentow na sygnalach.
+\end_layout
+
+\begin_layout Plain Layout
+Wsrod sensownych propozycji jest chwilowo h.264 i w sumie tyle, dobrac ze
+ dwa.
+\end_layout
+
+\begin_layout Plain Layout
+Sprawdzic jak jest z licencjami na tego typu kompresje.
+\end_layout
+
+\begin_layout Plain Layout
+Przetestowac, wybrac ten z najwieksza sprawnoscia i tyle.
+ Dobieranie parametrow o ile wystapi zlac i wrzucic w kierunki rozwoju pracy.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Warstwa sieciowa
 \begin_inset CommandInset label
 LatexCommand label
@@ -3507,13 +3598,9 @@ name "chap:warstwa_sieciowa"
 
 \end_layout
 
-\begin_layout Section*
+\begin_layout Standard
 \begin_inset Note Note
 status open
-
-\begin_layout Section*
-Różnice w konwencjach dostępu do dysku w windowsie i linuxie
-\end_layout
 
 \begin_layout Plain Layout
 Posix jest pikny a windows niekoniecznie.
@@ -3529,7 +3616,7 @@ Posix jest pikny a windows niekoniecznie.
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Section
 Synchronizacja danych
 \begin_inset CommandInset label
 LatexCommand label
@@ -4345,7 +4432,7 @@ yjnej.
  Do rozpatrzenia pozostają dwa przypadki.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Subsection*
 Zerwanie dostępu do serwera
 \end_layout
 
@@ -4362,7 +4449,7 @@ nia pamięci przez kolejkę (bądź przestrzeni dyskowej, w zależności od wybr
  po ponownym nawiązaniu połączenia.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Subsection*
 Zatrzymanie działania klienta
 \end_layout
 
@@ -4388,7 +4475,7 @@ Sprawdzenie wszystkich plików znajdujących się w katalogu roboczym i podrzęd
  nowszych.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Subsection*
 Kolejki dyskowe
 \end_layout
 
@@ -4434,219 +4521,6 @@ Tu epistoła na temat tego że instalowanie czegokolwiek na stanowisku pomiarowy
  Wstawienie jakichś informacji o tym jak duzo walenia sie bylo z sqlite3
  w pythonie i braku kontroli nad czasem trwania transakcji etc.
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Chapter
-Kompresja
-\begin_inset CommandInset label
-LatexCommand label
-name "chap:kompresja"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Jak podano w warstwie sieciowej dane wchodza srednio tyle bajtow na sekunde
- a przepustowosc jest taka, wymagana jest kompresja plikow.
-\end_layout
-
-\begin_layout Standard
-Pliki lvm składają się z 7 kolumn, pierwsza reprezentująca indeks próbki
- oraz 6 zawierających wartości sygnałów z kolejnych kanałów (czujników)
- w danym momencie.
- Zobrazowanie przebiegów zawiera rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:przykladowe_pomiary"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/przykladowy_przebieg_sygnalow.jpeg
-	scale 23
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Wizualizacja pomiaru
-\end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:przykladowe_pomiary"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-\begin_inset Note Note
-status open
-
-\begin_layout Section*
-Ogolnie z czym to sie je i jak rozroznia
-\end_layout
-
-\begin_layout Plain Layout
-Ze stratne i bezstratne.
- Dlaczego waga przykladana do sprawnosci kompresji jest zdecydowanie wyzsza
- od wagi czasu.
- Dlaczego w tym wypadku bedzie per plik.
- Co mozna jeszcze wykombinowac
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-Proponowane podejscia do kompresji
-\begin_inset Note Note
-status open
-
-\begin_layout Itemize
-Wszystko na jedno kopyto, lista popularnych rozwiazan, testy.
-\end_layout
-
-\begin_layout Itemize
-Dobranie algorytmu per rozszerzenie na podstawie analizy danych wchodzacych
-\end_layout
-
-\begin_layout Plain Layout
-Krotka wzmianka ze siec jest podstawowym bottleneckiem i nie ma powodu by
- sie bujac z szybkoscia, ogolne algorytmy sa fajne ale skoro znamy formaty
- i estymate danych wejsciowych (z przeanalizowanych danych do kilku dni
- wstecz - miesiaca optymalnie) to mozna dopasowac lepiej
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-Dobor algorytmu do CSV
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-LVM to tak pod spodem csv rozdzielane tabami, bardzo regularne dane, mozna
- podejrzewac ze istnieja schematy kompresji przeznaczone specjalnie dla
- nich.
- 
-\end_layout
-
-\begin_layout Plain Layout
-Testy wszystkich klasycznych schematow kompresji bezstratnej, poszukac po
- internetach czy nie ma jakiejs rozprawki naukowej na ten temat.
-\end_layout
-
-\begin_layout Plain Layout
-Przedstawic mozliwosc zastosowania kompresji stratnej na tym algorytmie
- falkowym, wrzucic info ze zostal zaimplementowany w pythonie w ramach pracy,
- zrobic analize za i przeciw do jego zastosowania.
- Pamietac o tym ze przy zerowym sygnale mocno odksztalca.
- Badania ilosciowe j/w (idealnie dane z miesiaca, nie wiem tylko gdzie to
- pomiescic i czy sa dostepne na trafficu gdzies).
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-Dobor algorytmu do AVI
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Krotka informacja z jakiego powodu w ogole sa trzymane, sprawdzic jakiej
- jakosci sa obecnie i jak mocno mozna je znieksztalcic.
- Jak pamietam sa to dane pomocnicze do weryfikacji eksperymentow na sygnalach.
-\end_layout
-
-\begin_layout Plain Layout
-Wsrod sensownych propozycji jest chwilowo h.264 i w sumie tyle, dobrac ze
- dwa.
-\end_layout
-
-\begin_layout Plain Layout
-Sprawdzic jak jest z licencjami na tego typu kompresje.
-\end_layout
-
-\begin_layout Plain Layout
-Przetestowac, wybrac ten z najwieksza sprawnoscia i tyle.
- Dobieranie parametrow o ile wystapi zlac i wrzucic w kierunki rozwoju pracy.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section*
-Podsumowanie rozdzialu
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Wybrano ten do csv i ten do avi.
- Spodziewany jest taki a smaki przeplyw i czy to wystarczy w warunkach roboczych.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Chapter
-Architektura rozwiązania
-\begin_inset CommandInset label
-LatexCommand label
-name "chap:Architektura-rozwiazania"
 
 \end_inset
 
@@ -4725,62 +4599,6 @@ name "chap:Podsumowanie"
 LatexCommand bibtex
 bibfiles "bibliografia"
 options "bibtotoc,bst/IEEEtran"
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Niniejsza praca zawiera wprowadzenie do obsługi edytora \SpecialChar LyX
-.
- W szczególności w rozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:opis_problemu"
-
-\end_inset
-
- przedstawiono podstawowe informacje na temat wstawiania rysunków w \SpecialChar LyX
-, w
- rozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:warstwa_sieciowa"
-
-\end_inset
-
- omówiono wstawianie tabel i algorytmów, w rozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:synchronizacja_danych"
-
-\end_inset
-
- przedstawiono sposób wstawiania i odnoszenia się do wzorów, natomiast bardzo
- istotny dla studentów rozdział 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:kompresja"
-
-\end_inset
-
- dotyczy często popełnianych błędów.
-\end_layout
-
-\begin_layout Plain Layout
-Typowe podsumowanie pracy dyplomowej może rozpocząć się od akapitu 
-\begin_inset Quotes pld
-\end_inset
-
-W pracy przedstawiono wyniki badań autora nad zastosowaniem ...
- do ....
-\begin_inset Quotes prd
-\end_inset
-
-
-\end_layout
 
 \end_inset
 
