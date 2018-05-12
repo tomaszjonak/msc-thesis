@@ -2469,6 +2469,95 @@ name "rys:client_server"
 
 \end_layout
 
+\begin_layout Subsection*
+Budowa socketu
+\end_layout
+
+\begin_layout Standard
+Stos sieciowy, będący w systemach z rodziny Windows i Linux częścią jądra
+ systemu operacyjnego dla każdego aktywnego połączenia utrzymuje strukturę
+ danych TCB (ang.
+ TCP control block) oraz dwa bufory, do obsługi danych wychodzących i przychodzą
+cych.
+ Za nadawanie i odbieranie danych odpowiedzialna jest karta sieciowa, która
+ za pomocą zdefiniowanego mechanizmu (przerwanie lub odpytywanie przez jądro)
+ raportuje przychodzące dane.
+ Dane te są następnie szeregowane zgodnie z numerami sekwencyjnymi i składowanie
+ w buforze przychodzącym do momentu odebrania ich przez klienta przy użyciu
+ funkcji recv().
+\end_layout
+
+\begin_layout Standard
+Socket obsługujący połączenie po stronie jądra składa się ze struktury kontrolne
+j TCP (ang.
+ TCP control block) reprezentującej stan połączenia oraz zestaw parametrów
+ opisujących połączenie (częstotliwość wysyłania, numer sekwencyjny, licznik
+ bezczynności) oraz dwie kolejki, odpowiadające za dane przychodzące oraz
+ wychodzące.
+\end_layout
+
+\begin_layout Standard
+Za nadawanie i odbieranie bezpośrednio odpowiada NIC (ang.
+ network interface card) karta sieciowa.
+ Której sterownik współpracując z tzw.
+ stosem sieciowym odpowiada za poprawne stworzenie bądź zinterpretowanie
+ nagłówków kolejnych warstw stosu TCP/IP i umieszczenie bądź pobranie danych
+ w kolejkach.
+ Sytuację przedstawia rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:tcp_socket_stack"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/socket_example.jpg
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Elementy odpowiedzialne za komunikację TCP z użyciem socketów
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:tcp_socket_stack"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Analiza problemu
 \begin_inset CommandInset label
@@ -3465,7 +3554,7 @@ ne zostaną wewnętrzne struktury plików, dostępne metody kompresji oraz test
 \end_layout
 
 \begin_layout Subsubsection*
-Dobor algorytmu do CSV
+Dobor metody kompresji do danych pomiarowych
 \end_layout
 
 \begin_layout Standard
@@ -3555,7 +3644,7 @@ Przedstawic mozliwosc zastosowania kompresji stratnej na tym algorytmie
 \end_layout
 
 \begin_layout Subsubsection*
-Dobor algorytmu do AVI
+Dobor metody kompresji do danych wideo
 \end_layout
 
 \begin_layout Standard
