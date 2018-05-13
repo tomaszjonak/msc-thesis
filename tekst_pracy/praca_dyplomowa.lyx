@@ -2414,16 +2414,6 @@ reference "rys:client_server"
 \end_inset
 
 .
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-zrobić ładniejszy diagram
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -2435,7 +2425,8 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/client_server_diagram.png
+	filename img/klient_serwer_berkeley.png
+	scale 60
 
 \end_inset
 
@@ -2656,8 +2647,24 @@ Każdy pomiar - przejazd pojazdu - generuje dwa pliki.
  Pomiary o rozszerzeniu lvm który posiada strukturę csv (ang.
  comma separated values) oraz wideo w formacie avi (ang.
  Audio Video Interleave).
- Pliki te posiadają tę samą nazwę oraz rozszerzenie odpowiednio avi bądź
- lvm.
+ Pliki te posiadają tą samą nazwę oraz rozszerzenie odpowiednio avi i lvm,
+ zgodną ze schematem przedstawionym w tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:nazwa_pliku"
+
+\end_inset
+
+ oraz ścieżkę o regularnej strukturze zgodną ze schematem przedstawionym
+ w tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:nazwa_folderu"
+
+\end_inset
+
+.
+ Wszystkie ścieżki znajdują się w jednym katalogu głównym.
 \end_layout
 
 \begin_layout Standard
@@ -3348,7 +3355,7 @@ mi.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $V=V_{avi}+V_{lvm}=225068797\,kB$
+\begin_inset Formula $V=V_{avi}+V_{lvm}=225068797kB$
 \end_inset
 
 
@@ -3359,7 +3366,7 @@ Na podstawie powyższych danych średni strumień wynosi.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $S=\frac{225068797\,kB}{2592000\,s}\thickapprox86.8\,\frac{kB}{s}$
+\begin_inset Formula $S=\frac{225068797\,kB}{2592000\,s}\approx86.8\,\frac{kB}{s}$
 \end_inset
 
 
@@ -3529,6 +3536,256 @@ Lista typów plików do przesłania
 
 \begin_layout Chapter
 Projekt systemu
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Projekt-systemu"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Podsumowując informacje z rozdziału 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:opis_problemu"
+
+\end_inset
+
+ zadaniem aplikacji jest przesłanie danych z komputera będącego częścią
+ stanowiska pomiarowego do maszyny służącej składowaniu danych na terenie
+ uczelni.
+ Podstawowym zadaniem systemu jest:
+\end_layout
+
+\begin_layout Enumerate
+Pobranie danych ze stanowiska pomiarowego
+\end_layout
+
+\begin_layout Enumerate
+Bezstratny przesył sieciowy
+\end_layout
+
+\begin_layout Enumerate
+Zapisanie danych na serwerze
+\end_layout
+
+\begin_layout Standard
+Ograniczenia projektu:
+\end_layout
+
+\begin_layout Itemize
+Aplikacja zapisująca dane z kart pomiarowych do dysku nie może być modyfikowana
+\end_layout
+
+\begin_layout Itemize
+Przepustowość łącza jest mniejsza niż strumień danych generowanych przez
+ stanowisko pomiarowe
+\end_layout
+
+\begin_layout Itemize
+Połączenie pomiędzy stanowiskiem pomiarowym a uczelnią jest często zrywane
+\end_layout
+
+\begin_layout Itemize
+Przepustowość łącza jest niższa niż strumień danych generowanych przez stanowisk
+o
+\end_layout
+
+\begin_layout Itemize
+Instalacja dodatkowych programów/bibliotek na maszynie stanowiska pomiarowego
+ jest trudna ze względu na problemy z połączeniem i przepustowością
+\end_layout
+
+\begin_layout Standard
+Dla uproszczenia opisu projektu w pracy użyty został zestaw pojęć dodatkowych.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Host - 
+\series default
+odnosi się do komputera podpiętego do sieci.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Windows - 
+\series default
+host będący częścią stanowiska pomiarowego.
+ Od zainstalowanego systemu operacyjnego.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Linux - 
+\series default
+host na terenie uczelni.
+ Od zainstalowanego systemu operacyjnego.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Serwis - 
+\series default
+aplikacja działająca na danym hoście.
+ Jeden host może mieć wiele uruchomionych serwisów.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Labview - 
+\series default
+serwis odpowiedzialny za odebranie danych z kart pomiarowych i zapis na
+ dysku.
+ Od języka programowania w którym napisano aplikację.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sender
+\series default
+ 
+\series bold
+-
+\series default
+ serwis odpowiedzialny za interakcję z labview znajdujący się na windowsie.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Receiver
+\series default
+ 
+\series bold
+-
+\series default
+ serwis odpowiedzialny za zapisywanie danych na hoście uczelnianym.
+\end_layout
+
+\begin_layout Standard
+Wymóg zastosowania kompresji oraz brak możliwości modyfikowania labview
+ wprowadza potrzebę umieszczenia na windowsie serwisu którego zadaniami
+ są:
+\end_layout
+
+\begin_layout Itemize
+Monitorowanie stanu maszyny w poszukiwaniu nowych plików
+\end_layout
+
+\begin_layout Itemize
+Kompresja zgodnie z zadanym schematem
+\end_layout
+
+\begin_layout Itemize
+Transmisja skompresowanych danych
+\end_layout
+
+\begin_layout Standard
+Zadaniami aplikacji na hoście uczelnianym jest:
+\end_layout
+
+\begin_layout Itemize
+Odebranie transmitowanych danych
+\end_layout
+
+\begin_layout Itemize
+Dekompresja, jeśli potrzebna
+\end_layout
+
+\begin_layout Itemize
+Zapisanie danych na dysku twardym maszyny
+\end_layout
+
+\begin_layout Standard
+Serwis labview w momencie analizowania problemu nie posiadał możliwości
+ raportowania zapisania nowych danych.
+ Utrzymanie takiego stanu rzeczy, gdzie serwis labview jest nieświadomy
+ istnienia innego serwisu odpowiedzialnego za pobór i wysyłanie danych wymaga
+ aktywnego monitorowania danej części systemu operacyjnego.
+ Do realizacji monitoringu tego typu zdarzeń można zastosować dwa podejścia.
+\end_layout
+
+\begin_layout Enumerate
+Zaimplementowanie logiki monitorującej stan dysku w interwałach w ramach
+ serwisu Sender.
+\end_layout
+
+\begin_layout Enumerate
+Użycie systemowego interfejsu służącego monitorowaniu plików, takiego jak
+ subsystem Inotify 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "inotify"
+
+\end_inset
+
+ bądź funckja ReadDirectoryChangesW 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wininotify"
+
+\end_inset
+
+ w systemach Windowsowych
+\end_layout
+
+\begin_layout Standard
+Wadą podejścia pierwszego jest opóźnienie rozpoczęcia wysyłania względem
+ faktycznego pojawienia się danych na dysku, wymaga to zastosowania dodatkowego
+ wątku odpowiedzialnego za tą jedną czynność.
+ Podejście drugie narzuca zaś dwa istotne ograniczenia, aplikacja używająca
+ interfejsu danego systemu operacyjnego nie może zostać uruchomiona na innym
+ bez zmian w kodzie oraz interfejsy te są bibliotekami w języku C co wymaga
+ napisania aplikacji w tym języku bądź zastosowania technik pozwalających
+ na wywołanie ich w innych językach.
+ Interfejsy tego typu są kompleksowe i wymagają istotnego nakładu pracy
+ na poprawne zastosowanie.
+\end_layout
+
+\begin_layout Standard
+W projekcie zastosowano alternatywne podejście, serwis Labview nasłuchuje
+ na połączenia TCP przychodzące z tej samej maszyny na wybranym porcie.
+ 
+\end_layout
+
+\begin_layout Section
+Warstwa sieciowa
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:warstwa_sieciowa"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Posix jest pikny a windows niekoniecznie.
+ Struktura na linuchu to drzewo o jednym rodzicu, partycje można montować
+ jakkolwiek.
+ Windows uczynił z partycji najważniejszych mieszkańców, w pracy zastosowano
+ unifikację do modelu posixowego ze względu na większe doświadczenie autora
+ i niechęć do windy.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -3669,35 +3926,6 @@ Sprawdzic jak jest z licencjami na tego typu kompresje.
 \begin_layout Plain Layout
 Przetestowac, wybrac ten z najwieksza sprawnoscia i tyle.
  Dobieranie parametrow o ile wystapi zlac i wrzucic w kierunki rozwoju pracy.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Warstwa sieciowa
-\begin_inset CommandInset label
-LatexCommand label
-name "chap:warstwa_sieciowa"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Posix jest pikny a windows niekoniecznie.
- Struktura na linuchu to drzewo o jednym rodzicu, partycje można montować
- jakkolwiek.
- Windows uczynił z partycji najważniejszych mieszkańców, w pracy zastosowano
- unifikację do modelu posixowego ze względu na większe doświadczenie autora
- i niechęć do windy.
 \end_layout
 
 \end_inset
