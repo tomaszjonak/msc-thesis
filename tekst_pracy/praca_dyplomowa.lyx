@@ -2616,6 +2616,16 @@ status open
 
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:schemat_stanowiska"
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
@@ -2631,11 +2641,81 @@ W skład stanowiska pomiarowego wchodzą czujniki spięte z układem przetwarzan
 
 \begin_layout Standard
 Komputer służący do przechowywania pomiarów jest również podłączony do sieci.
- Pomiędzy stanowiskiem pomiarowym a komputerem na uczelni zestawiony jest
- tunel VPN.
+ Pomiędzy stanowiskiem pomiarowym a siecią na uczelni zestawiony jest tunel
+ VPN (ang.
+ Virtual Private Network).
  Pozwala to na zdalne zarządzanie środowiskiem przy jednoczesnym zapewnieniu
  bezpieczeństwa komunikacji (szyfrowanie, uwierzytelnienie, integralność
  danych).
+\end_layout
+
+\begin_layout Standard
+Schemat sieciowy zaprezentowany został na rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_sieciowy"
+
+\end_inset
+
+.
+ Stanowisko z rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_stanowiska"
+
+\end_inset
+
+ zaprezentowane zostało jako Gardawice.
+ Interakcje z Gardawicami możliwe są za pomocą środowiska Cygwin które pozwala
+ używać maszyny z systemem operacyjnym Windows w konwencji Unixowej.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/schemat_sieciowy_stanowiska.jpg
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat sieciowy
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:schemat_sieciowy"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -2643,8 +2723,8 @@ Struktura generowanych danych
 \end_layout
 
 \begin_layout Standard
-Każdy pomiar - przejazd pojazdu - generuje dwa pliki.
- Pomiary o rozszerzeniu lvm który posiada strukturę csv (ang.
+Każdy pomiar - przejazd pojazdu - składa się z dwóch plików.
+ Danych o rozszerzeniu lvm który posiada strukturę csv (ang.
  comma separated values) oraz wideo w formacie avi (ang.
  Audio Video Interleave).
  Pliki te posiadają tą samą nazwę oraz rozszerzenie odpowiednio avi i lvm,
@@ -2664,7 +2744,6 @@ reference "tab:nazwa_folderu"
 \end_inset
 
 .
- Wszystkie ścieżki znajdują się w jednym katalogu głównym.
 \end_layout
 
 \begin_layout Standard
@@ -2937,6 +3016,126 @@ Schemat nazwy generowanego folderu
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:nazwa_folderu"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Katalogi z dniami pomiarowymi zgrupowane są w pojedynczej lokalizacji na
+ dysku, jej zawartość prezentuje rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:gardawice_katalog_pomiary"
+
+\end_inset
+
+.
+ Prócz katalogów z kolejnymi dniami w lokalizacji znajdują się foldery skompreso
+wane.
+ Są to ślady ręcznej ingerencji mającej na celu zmniejszenie ilości miejsca
+ na dysku zajmowanej przez pomiary oraz przygotowanie do przekopiowania
+ na zewnętrzny nośnik i przetransportowanie na uczelnię.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/gardawice_widok_pomiarow.JPG
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Katalog główny danych pomiarowych
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:gardawice_katalog_pomiary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zawartość katalogu zawierającego pomiary z 5 maja 2018 przedstawia rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:pomiary_z_jednego_dnia"
+
+\end_inset
+
+.
+ Zrzut ekranu został wykonany 13 maja, w ciągu 24h stanowisko pomiarowe
+ wygenerowało 11376 plików o łącznej wadze 7.1 Gigabajta.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/zawartosc_pojedynczego_folderu_z_pomiarami.JPG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Katalog z pomiarami z jednego dnia
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:pomiary_z_jednego_dnia"
 
 \end_inset
 
