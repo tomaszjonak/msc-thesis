@@ -2718,8 +2718,15 @@ name "rys:schemat_sieciowy"
 
 \end_layout
 
-\begin_layout Section*
+\begin_layout Section
 Struktura generowanych danych
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Struktura-generowanych-danych"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3148,7 +3155,7 @@ name "rys:pomiary_z_jednego_dnia"
 \end_layout
 
 \begin_layout Standard
-Schemat posiada dwa zaburzenia.
+Schemat generowania danych posiada dwa zaburzenia.
 \end_layout
 
 \begin_layout Itemize
@@ -3160,8 +3167,12 @@ Pomiary zarejestrowane tuż przed północą mogą znaleźć się w folderze nas
 Plik avi może nie zostać wygenerowany
 \end_layout
 
+\begin_layout Section
+Analiza ilościowa
+\end_layout
+
 \begin_layout Standard
-Na potrzeby oszacowania generowanych danych przeanalizowano zestaw wygenerowany
+Na potrzeby oszacowania strumienia danych przeanalizowano zestaw wygenerowany
  pomiędzy 11.11.2017 a 10.12.2017.
  W tym przedziale czasowym stanowisko pobierało pomiary bez przerw które
  mogłyby zaburzyć dalsze oszacowania takich jak przerwy w zasilaniu czy
@@ -3317,7 +3328,7 @@ avi
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Jakieś tam własności plików generowanych
+Własności statystyczne pomiarów
 \end_layout
 
 \end_inset
@@ -3500,7 +3511,7 @@ reference "chap:kompresja"
 .
 \end_layout
 
-\begin_layout Subsection*
+\begin_layout Section
 Średni strumień danych
 \end_layout
 
@@ -3575,7 +3586,7 @@ Na podstawie powyższych danych średni strumień wynosi.
 Należy również pamiętać o zmienności dobowej w wielkości plików avi.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Section
 Łącze sieciowe
 \end_layout
 
@@ -3633,7 +3644,7 @@ Drugim istotnym aspektem połączenia jest jego dostępność, zaobserwowane
  zostały przerwy w łączności sięgające tygodnia.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Section
 Wymagania projektowe
 \end_layout
 
@@ -3872,6 +3883,15 @@ Receiver
  serwis odpowiedzialny za zapisywanie danych na hoście uczelnianym.
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+Pomiar
+\series default
+ - pliki avi oraz csv.
+ Mają jednakową ścieżkę i nazwę pliku, różnią się rozszerzeniem.
+\end_layout
+
 \begin_layout Standard
 Wymóg zastosowania kompresji oraz brak możliwości modyfikowania labview
  wprowadza potrzebę umieszczenia na windowsie serwisu którego zadaniami
@@ -3906,6 +3926,10 @@ Dekompresja, jeśli potrzebna
 Zapisanie danych na dysku twardym maszyny
 \end_layout
 
+\begin_layout Section
+Odbiór danych
+\end_layout
+
 \begin_layout Standard
 Serwis labview w momencie analizowania problemu nie posiadał możliwości
  raportowania zapisania nowych danych.
@@ -3922,7 +3946,7 @@ Zaimplementowanie logiki monitorującej stan dysku w interwałach w ramach
 
 \begin_layout Enumerate
 Użycie systemowego interfejsu służącego monitorowaniu plików, takiego jak
- subsystem Inotify 
+ subsystem inotify 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "inotify"
@@ -3936,7 +3960,7 @@ key "wininotify"
 
 \end_inset
 
- w systemach Windowsowych
+ w systemach z rodziny Windows
 \end_layout
 
 \begin_layout Standard
@@ -3953,13 +3977,182 @@ Wadą podejścia pierwszego jest opóźnienie rozpoczęcia wysyłania względem
 \end_layout
 
 \begin_layout Standard
-W projekcie zastosowano alternatywne podejście, serwis Labview nasłuchuje
- na połączenia TCP przychodzące z tej samej maszyny na wybranym porcie.
+Z powodu powyższych niedogodności podjęto decyzję o modyfikacji serwisu
+ Labview, na potrzeby raportowania zapisanych serwis Labview nasłuchuje
+ na połączenia TCP przychodzące z tej samej maszyny na porcie 6341.
+ Za pomocą tego połączenia serwis nadaje ścieżki do pomiarów po ich zapisaniu
+ na dysk odseparowane znakiem nowej linii.
+ Funkcjonalność tą można przetestować używając programów netcat bądź telnet.
+ Rys.
  
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:labview_nadaje"
+
+\end_inset
+
+ przedstawia pliki zaraportowane przez Labview odebrane za pomocą programu
+ netcat.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/sciezki_z_labview.JPG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ścieżki nadawane przez serwis Labview
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:labview_nadaje"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
-Warstwa sieciowa
+Schemat przesyłu
+\end_layout
+
+\begin_layout Standard
+Sekwencję wysyłania pojedynczego pomiaru przedstawia Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:przeslanie_pliku"
+
+\end_inset
+
+.
+ Działanie serwisów będących częścią systemu rozszerzono o moment zapisania
+ przez Labview danych do dysku ze względu na istotność w przepływie danych.
+ W schemacie pominięto nawiązywanie połączeń pomiędzy komponentami.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/schemat_przeslania_pliku.jpg
+	lyxscale 50
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat przesłania pomiaru
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:przeslanie_pliku"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Labview zapisuje pomiary na dysku
+\end_layout
+
+\begin_layout Enumerate
+Labview raportuje pojawienie się pomiarów do Sendera (wysłanie ścieżki bez
+ rozszerzenia)
+\end_layout
+
+\begin_layout Enumerate
+Sender sprawdza obecność pomiarów na dysku
+\end_layout
+
+\begin_layout Enumerate
+Sender pobiera dane z plików, opcjonalnie wykonuje transformacje szykujące
+ dane do wysłania (kompresja)
+\end_layout
+
+\begin_layout Enumerate
+Dane zostają wysłane do Receivera i opcjonalne zdekodowane (dekompresja)
+\end_layout
+
+\begin_layout Enumerate
+Receiver zapisuje dane do dysku
+\end_layout
+
+\begin_layout Enumerate
+Receiver raportuje poprawne zapisanie danych
+\end_layout
+
+\begin_layout Enumerate
+(opcjonalnie) Sender usuwa pliki z przestrzeni dyskowej
+\end_layout
+
+\begin_layout Standard
+Krok trzeci jest wymagany ze względu na zaburzenie generowania plików wymienione
+ w sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Struktura-generowanych-danych"
+
+\end_inset
+
+.
+ W tym momencie działania aplikacji gwarantowane jest istnienie pliku lvm.
+ Ze względu na podobieństwo logiki obsługującej brak danego pliku aplikacja
+ sprawdza istnienie każdego z nich.
+\end_layout
+
+\begin_layout Section
+Komunikacja sieciowa
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:warstwa_sieciowa"
@@ -4133,7 +4326,7 @@ Przetestowac, wybrac ten z najwieksza sprawnoscia i tyle.
 \end_layout
 
 \begin_layout Section
-Synchronizacja danych
+Synchronizacja
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:synchronizacja_danych"
