@@ -3926,63 +3926,187 @@ Dekompresja, jeśli potrzebna
 Zapisanie danych na dysku twardym maszyny
 \end_layout
 
-\begin_layout Section
-Odbiór danych
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/podstawowy_schemat_serwisow.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat rozwiązania
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:schemat_rozwiazania"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Serwis labview w momencie analizowania problemu nie posiadał możliwości
- raportowania zapisania nowych danych.
- Utrzymanie takiego stanu rzeczy, gdzie serwis labview jest nieświadomy
- istnienia innego serwisu odpowiedzialnego za pobór i wysyłanie danych wymaga
- aktywnego monitorowania danej części systemu operacyjnego.
- Do realizacji monitoringu tego typu zdarzeń można zastosować dwa podejścia.
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_rozwiazania"
+
+\end_inset
+
+.
+ Przedstawia wysokopoziomowy schemat elementów będących częścią projektu
+ oraz podstawowe kanały komunikacyjne.
+ W ramach pracy zaprojektowano serwisy Sender oraz Receiver, schemat komunikacji
+ pomiędzy nimi oraz sposób odbioru danych generowanych przez serwis Labview.
+\end_layout
+
+\begin_layout Section
+Odbiór danych
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Odbiór-danych"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Serwis Labview został zaprojektowany jako narzędzie do odbioru i składowania
+ danych pomiarowych w przestrzeni dyskowej komputera Gardawice.
+ Projekt nie zakładał możliwości automatycznego raportowania bądź przesyłu
+ danych do kolejnych narzędzi.
+ Dalszy przesył wymaga jednak informacji o pojawieniu się nowych danych.
+ Zidentyfikowano następujące metody pozyskania informacji:
 \end_layout
 
 \begin_layout Enumerate
-Zaimplementowanie logiki monitorującej stan dysku w interwałach w ramach
- serwisu Sender.
+Serwis Labview nawiązuje połączenie bezpośrednio z serwisem Receiver, nadaje
+ pliki za pomocą ustalonego protokołu, projekt nie wymaga serwisu Sender
 \end_layout
 
 \begin_layout Enumerate
-Użycie systemowego interfejsu służącego monitorowaniu plików, takiego jak
- subsystem inotify 
+Serwis Labview nawiązuje połączenie z serwisem Sender i przesyła dane za
+ pomocą ustalonego protokołu
+\end_layout
+
+\begin_layout Enumerate
+Serwis Sender monitoruje stan dysku samodzielnie identyfikując nowe pliki
+\end_layout
+
+\begin_layout Enumerate
+Serwis Sender subskrybuje zdarzenia systemowe mówiące o pojawieniu się nowych
+ plików
+\end_layout
+
+\begin_layout Enumerate
+Serwis Labview za pomocą wybranego kanału udostępnia informację o pojawieniu
+ się nowego pliku za pomocą ustalonego protokołu
+\end_layout
+
+\begin_layout Standard
+Projekt zakłada zerową bądź minimalną ingerencję w obecny schemat pracy
+ serwisu Labview ze względu na jego sprawdzone i długoterminowe poprawne
+ działanie.
+ Propozycje pierwsza oraz druga wymagają głębokiej ingerencji w obecny schemat
+ pracy tego serwisu i zostały z tego powodu odrzucone.
+\end_layout
+
+\begin_layout Standard
+Propozycja druga zakłada periodyczne sprawdzanie stanu dysku i porównywanie
+ z poprzednim odczytem a następnie identyfikowanie nowych plików na podstawie
+ różnicy tych stanów.
+ Wprowadza to do projektowanego systemu opóźnienie w wykryciu plików.
+ W pesymistycznym przypadku jest ono równe interwałowi pomiędzy kolejnymi
+ sprawdzeniami.
+ Ponadto systemy operacyjne dostarczają odpowiednich wywołań do raportowania
+ tego typu zdarzeń w czasie rzeczywistym.
+ Takie podejście zawiera propozycja czwarta.
+ W systemach z rodziny Linux odpowiada za to subsystem inotify 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "inotify"
 
 \end_inset
 
- bądź funckja ReadDirectoryChangesW 
+, rodzina Windows posiada zaś wywołanie ReadDirectoryChangesW 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "wininotify"
 
 \end_inset
 
- w systemach z rodziny Windows
+.
+ Istotną wadą tego podejścia jest wymóg zastosowania języków C, C++ lub
+ metod wywoływania funkcji tych języków w innych językach, takich jak ctypes
+ w języku Python
+\begin_inset CommandInset citation
+LatexCommand cite
+key "python-ctypes"
+
+\end_inset
+
+.
+ Szerszy opis wad języków C oraz C++ w proponowanym projekcie znajduje się
+ w podrozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Język-programowania"
+
+\end_inset
+
+.
+ Stosowanie interfejsów służących wywoływaniu funkcji pomiędzy językami
+ jest zagadnieniem kompleksowym i wymagającym istotnego nakładu pracy.
+ Ponadto użycie metody która nie jest agnostyczna względem systemu operacyjnego
+ utrudnia lokalne testowanie.
 \end_layout
 
 \begin_layout Standard
-Wadą podejścia pierwszego jest opóźnienie rozpoczęcia wysyłania względem
- faktycznego pojawienia się danych na dysku, wymaga to zastosowania dodatkowego
- wątku odpowiedzialnego za tą jedną czynność.
- Podejście drugie narzuca zaś dwa istotne ograniczenia, aplikacja używająca
- interfejsu danego systemu operacyjnego nie może zostać uruchomiona na innym
- bez zmian w kodzie oraz interfejsy te są bibliotekami w języku C co wymaga
- napisania aplikacji w tym języku bądź zastosowania technik pozwalających
- na wywołanie ich w innych językach.
- Interfejsy tego typu są kompleksowe i wymagają istotnego nakładu pracy
- na poprawne zastosowanie.
+Podejście piąte wymaga utworzenia dodatkowego elementu raportującego w ramach
+ serwisu Labview.
+ Zmiana ta jest dużo mniej inwazyjna niż podejścia pierwsze i drugie, nie
+ wymaga zmiany podstawowego schematu pracy serwisu czyli odbioru i zapisu
+ danych na dysku twardym.
+ Została ona zaakceptowana przez właściciela serwisu Labview (Promotora).
+ Kanałem komunikacyjnym jest w tym wypadku połączenie TCP klient-serwer
+ gdzie serwerem jest Labview a klientem Sender.
+ Nasłuch odbywa się na porcie 6341.
 \end_layout
 
 \begin_layout Standard
-Z powodu powyższych niedogodności podjęto decyzję o modyfikacji serwisu
- Labview, na potrzeby raportowania zapisanych serwis Labview nasłuchuje
- na połączenia TCP przychodzące z tej samej maszyny na porcie 6341.
- Za pomocą tego połączenia serwis nadaje ścieżki do pomiarów po ich zapisaniu
- na dysk odseparowane znakiem nowej linii.
- Funkcjonalność tą można przetestować używając programów netcat bądź telnet.
+Od momentu nawiązania połączenia po każdym pojawieniu się nowych danych
+ Labview nadaje ścieżkę względem katalogu bazowego pomiarów oraz znak nowej
+ linii.
+ Ścieżka nie zawiera rozszerzenia pliku, zadaniem Sendera jest zidentyfikowanie
+ obecności poszczególnych plików oraz ewentualne dalsze działanie.
+ Funkcjonalność tą można przetestować używając programów netcat bądź telnet
+ w roli klienta.
  Rys.
  
 \begin_inset CommandInset ref
@@ -4032,6 +4156,25 @@ name "rys:labview_nadaje"
 
 
 \end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W przypadku komunikacji serwisów Labview i Sender wybór połączeń TCP w roli
+ kanału komunikacyjnego podyktowany został uniwersalnością.
+ Rozwiązanie to jest dostępne zarówno w systemach Linux jak i Windows.
+ Ponadto oferuje uporządkowany - w sensie kolejności bitów - strumień danych
+ z gwarancją braku zniekształceń.
+\end_layout
+
+\begin_layout Section
+Język programowania
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Język-programowania"
 
 \end_inset
 
