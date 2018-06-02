@@ -1,0 +1,10 @@
+preset,percent_of_original,compression_time
+fast,2.36,0.65
+faster,2.25,0.56
+medium,2.33,0.72
+slow,2.30,0.84
+slower,2.20,1.02
+superfast,2.94,0.42
+ultrafast,5.09,0.47
+veryfast,1.90,0.48
+veryslow,2.00,1.41

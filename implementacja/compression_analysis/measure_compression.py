@@ -30,8 +30,9 @@ import zlib
 import csv
 import sys
 import pathlib as pl
-sys.path.append('..')
-from sync.wavelet_compression import wavelet_lvm
+sys.path.append('.')
+from sync.compressors import wavelet
+import multiprocessing
 
 
 def measure_lvm_compression(result_writer, path):
@@ -45,7 +46,7 @@ def measure_lvm_compression(result_writer, path):
 
         row.append(len(result))
 
-    wavelet_len = len(wavelet_lvm.encode_file(path))
+    wavelet_len = len(wavelet.wavelet_lvm.encode_file(path))
     row.append(wavelet_len)
 
     result_writer.writerow(row)
@@ -83,23 +84,18 @@ def measure_avi_compression(result_writer, path):
     result_writer.writerow(row)
 
 
-def main():
-    if len(sys.argv) > 1:
-        root_path = pl.Path(sys.argv[1])
-        if not (root_path.exists() and root_path.is_dir()):
-            raise FileNotFoundError(str(root_path))
-    else:
-        root_path = pl.Path('../client_storage/R2017_10_06')
+def lvm_worker(root_path):
+    lvm_results_path = pl.Path('lvm_results2.csv')
+    with lvm_results_path.open('w') as fd:
+        writer = csv.writer(fd)
+        writer.writerow(['file_name', 'original_size', 'lzma', 'bz2', 'zlib', 'wavelets'])
+        files = list(root_path.rglob('*.lvm'))
+        for file in files:
+            measure_lvm_compression(writer, file)
 
-    # lvm_results_path = pl.Path('lvm_results.csv')
-    # with lvm_results_path.open('w') as fd:
-    #     writer = csv.writer(fd)
-    #     writer.writerow(['file_name', 'original_size', 'lzma', 'bz2', 'zlib', 'wavelets'])
-    #     files = list(root_path.rglob('*.lvm'))
-    #     for file in files:
-    #         measure_lvm_compression(writer, file)
 
-    avi_results_path = pl.Path('avi_results.csv')
+def avi_worker(root_path):
+    avi_results_path = pl.Path('avi_results2.csv')
     with avi_results_path.open('w') as fd:
         writer = csv.writer(fd)
         writer.writerow(['file_name', 'original_size', 'lzma', 'bz2', 'zlib', 'x264'])
@@ -108,5 +104,39 @@ def main():
         for file in files:
             measure_avi_compression(writer, file)
 
+
+def main():
+    if len(sys.argv) > 1:
+        root_path = pl.Path(sys.argv[1])
+        if not (root_path.exists() and root_path.is_dir()):
+            raise FileNotFoundError(str(root_path))
+    else:
+        root_path = pl.Path('../client_storage/R2017_10_06')
+
+    workers = (
+        multiprocessing.Process(target=lvm_worker, args=(root_path,)),
+        multiprocessing.Process(target=avi_worker, args=(root_path,))
+    )
+
+    [worker.start() for worker in workers]
+    [worker.join() for worker in workers]
+
+    # lvm_results_path = pl.Path('lvm_results2.csv')
+    # with lvm_results_path.open('w') as fd:
+    #     writer = csv.writer(fd)
+    #     writer.writerow(['file_name', 'original_size', 'lzma', 'bz2', 'zlib', 'wavelets'])
+    #     files = list(root_path.rglob('*.lvm'))
+    #     for file in files:
+    #         measure_lvm_compression(writer, file)
+    #
+    # avi_results_path = pl.Path('avi_results2.csv')
+    # with avi_results_path.open('w') as fd:
+    #     writer = csv.writer(fd)
+    #     writer.writerow(['file_name', 'original_size', 'lzma', 'bz2', 'zlib', 'x264'])
+    #     files = list(root_path.rglob('*.avi'))
+    #     print('Analysing {} files'.format(len(files)))
+    #     for file in files:
+    #         measure_avi_compression(writer, file)
+    #
 
 main()
