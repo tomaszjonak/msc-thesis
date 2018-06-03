@@ -50,13 +50,13 @@ def main():
 
     stats = stddf.describe()
     stats.to_csv('wavelet_compression_summary.csv', float_format='%.6f')
-    #
-    # matplotlib.style.use('ggplot')
-    # stats.boxplot()
-    # plt.title('Wykres pudelkowy bledu sredniokwadratowego kompresji falkowej')
-    # plt.xlabel('Kanal pomiaru')
-    # plt.ylabel('Wartosc bledu')
-    # plt.show()
+
+    matplotlib.style.use('ggplot')
+    stats.boxplot()
+    plt.title('Wykres pudelkowy bledu sredniokwadratowego kompresji falkowej')
+    plt.xlabel('Kanal pomiaru')
+    plt.ylabel('Wartosc bledu')
+    plt.show()
 
     # max_mean_column = stddf.max().argmax()
     # max_row_index = stddf[max_mean_column].argmax()
