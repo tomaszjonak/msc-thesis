@@ -343,7 +343,7 @@ reference "chap:opis_problemu"
  W rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "chap:warstwa_sieciowa"
+reference "chap:protokół_przesyłu"
 
 \end_inset
 
@@ -9995,40 +9995,6 @@ Pomiar
 \end_layout
 
 \begin_layout Standard
-Wymóg zastosowania kompresji oraz brak możliwości modyfikowania labview
- wprowadza potrzebę umieszczenia na windowsie serwisu którego zadaniami
- są:
-\end_layout
-
-\begin_layout Itemize
-Monitorowanie stanu maszyny w poszukiwaniu nowych plików
-\end_layout
-
-\begin_layout Itemize
-Kompresja zgodnie z zadanym schematem
-\end_layout
-
-\begin_layout Itemize
-Transmisja skompresowanych danych
-\end_layout
-
-\begin_layout Standard
-Zadaniami aplikacji na hoście uczelnianym jest:
-\end_layout
-
-\begin_layout Itemize
-Odebranie transmitowanych danych
-\end_layout
-
-\begin_layout Itemize
-Dekompresja, jeśli potrzebna
-\end_layout
-
-\begin_layout Itemize
-Zapisanie danych na dysku twardym maszyny
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -10487,12 +10453,15 @@ name "sec:Odbiór-danych"
 \end_layout
 
 \begin_layout Standard
-Serwis Labview został zaprojektowany jako narzędzie do odbioru i składowania
- danych pomiarowych w przestrzeni dyskowej komputera Gardawice.
- Projekt nie zakładał możliwości automatycznego raportowania bądź przesyłu
- danych do kolejnych narzędzi.
- Dalszy przesył wymaga jednak informacji o pojawieniu się nowych danych.
- Zidentyfikowano następujące metody pozyskania informacji:
+Serwis Labview z perspektywy projektu jest aktorem zewnętrznym odpowiedzialnym
+ za zapisanie danych w przestrzeni dyskowej komputera Gardawice.
+ Zadaniem systemu zaprojektowanego w pracy jest dostosowanie się do sposobu
+ działania tego serwisu i transport danych.
+ Oryginalna wersja Labview nie zakładała interakcji z innymi komponentami
+ i raportowania bądź przesyłu plików.
+ Automatyczny transport danych na uczelnię wymaga rozpoznania pojawienia
+ się nowych danych i ich przechwycenia, zidentyfikowano następujące metody
+ realizacji tej czynności:
 \end_layout
 
 \begin_layout Enumerate
@@ -10523,20 +10492,19 @@ Serwis Labview za pomocą wybranego kanału udostępnia informację o pojawieniu
 Projekt zakłada zerową bądź minimalną ingerencję w obecny schemat pracy
  serwisu Labview ze względu na jego sprawdzone i długoterminowe poprawne
  działanie.
- Propozycje pierwsza oraz druga wymagają głębokiej ingerencji w obecny schemat
- pracy tego serwisu i zostały z tego powodu odrzucone.
+ Propozycje pierwsza oraz druga zostały odrzucone ponieważ łamią to założenie.
 \end_layout
 
 \begin_layout Standard
-Propozycja druga zakłada periodyczne sprawdzanie stanu dysku i porównywanie
+Propozycja trzecia zakłada periodyczne sprawdzanie stanu dysku i porównywanie
  z poprzednim odczytem a następnie identyfikowanie nowych plików na podstawie
  różnicy tych stanów.
  Wprowadza to do projektowanego systemu opóźnienie w wykryciu plików.
  W pesymistycznym przypadku jest ono równe interwałowi pomiędzy kolejnymi
  sprawdzeniami.
- Ponadto systemy operacyjne dostarczają odpowiednich wywołań do raportowania
- tego typu zdarzeń w czasie rzeczywistym.
- Takie podejście zawiera propozycja czwarta.
+ Ponadto systemy operacyjne dostarczają wywołania systemowe do raportowania
+ tego typu zdarzeń bez opóźnień.
+ Na ich wykorzystaniu opiera się propozycja czwarta.
  W systemach z rodziny Linux odpowiada za to subsystem inotify 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -10552,9 +10520,13 @@ key "wininotify"
 \end_inset
 
 .
- Istotną wadą tego podejścia jest wymóg zastosowania języków C, C++ lub
- metod wywoływania funkcji tych języków w innych językach, takich jak ctypes
- w języku Python
+ Istotną wadą tego podejścia jest wymóg zastosowania języka C w którym napisane
+ są te wywołania bądź języka C++ który posiada możliwość wywoływania funkcji
+ języka C.
+ Można również skorzystać z bibliotek FFI (ang.
+ foreign function interface) które pozwalają na wywołanie funkcji języka
+ C w wybranym języku.
+ Przykładem takiej biblioteki jest ctypes dostępne w Pythonie 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "python-ctypes"
@@ -10562,19 +10534,8 @@ key "python-ctypes"
 \end_inset
 
 .
- Szerszy opis wad języków C oraz C++ w proponowanym projekcie znajduje się
- w podrozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Język-programowania"
-
-\end_inset
-
-.
- Stosowanie interfejsów służących wywoływaniu funkcji pomiędzy językami
- jest zagadnieniem kompleksowym i wymagającym istotnego nakładu pracy.
- Ponadto użycie metody która nie jest agnostyczna względem systemu operacyjnego
- utrudnia lokalne testowanie.
+ Propozycja ta została odrzucona ponieważ prowadzi ona do utraty przenośności
+ kodu.
 \end_layout
 
 \begin_layout Standard
@@ -10583,18 +10544,19 @@ Podejście piąte wymaga utworzenia dodatkowego elementu raportującego w ramach
  Zmiana ta jest dużo mniej inwazyjna niż podejścia pierwsze i drugie, nie
  wymaga zmiany podstawowego schematu pracy serwisu czyli odbioru i zapisu
  danych na dysku twardym.
- Została ona zaakceptowana przez właściciela serwisu Labview (Promotora).
- Kanałem komunikacyjnym jest w tym wypadku połączenie TCP klient-serwer
- gdzie serwerem jest Labview a klientem Sender.
- Nasłuch odbywa się na porcie 6341.
+ Została ona zaakceptowana przez Promotora.
+ Kanałem komunikacyjnym jest w tym wypadku raportowanie za pomocą protokołu
+ TCP na interfejsie lokalnym.
 \end_layout
 
 \begin_layout Standard
-Od momentu nawiązania połączenia po każdym pojawieniu się nowych danych
+Serwis Labview nasłuchuje na porcie 6341 na połączenia przychodzące.
+ Od momentu nawiązania połączenia po każdym pojawieniu się nowych danych
  Labview nadaje ścieżkę względem katalogu bazowego pomiarów oraz znak nowej
  linii.
  Ścieżka nie zawiera rozszerzenia pliku, zadaniem Sendera jest zidentyfikowanie
- obecności poszczególnych plików oraz ewentualne dalsze działanie.
+ obecności plików na podstawie skonfigurowanych rozszerzeń oraz ewentualne
+ dalsze działanie.
  Funkcjonalność tą można przetestować używając programów netcat bądź telnet
  w roli klienta.
  Rys.
@@ -10658,21 +10620,17 @@ W przypadku komunikacji serwisów Labview i Sender wybór połączeń TCP w roli
  Rozwiązanie to jest dostępne zarówno w systemach Linux jak i Windows.
  Od kanału komunikacyjnego wymagany jest uporządkowany - w sensie kolejności
  bitów bądź pakietów - strumień danych z gwarancją braku zniekształceń.
- Te same gwarancje daje większość mechanizmów IPC (ang.
- Inter-process communication) dostępnych w wybranym systemie.
- Na przykład 
-\begin_inset Quotes pld
-\end_inset
-
-Named Pipe
-\begin_inset Quotes prd
-\end_inset
-
- w systemach zgodnych ze standardem POSIX.
 \end_layout
 
 \begin_layout Section
 Schemat przesyłu
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Schemat-przesyłu"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -10780,15 +10738,13 @@ reference "sec:Struktura-generowanych-danych"
 
 .
  W tym momencie działania aplikacji gwarantowane jest istnienie pliku lvm.
- Ze względu na podobieństwo logiki obsługującej brak danego pliku aplikacja
- sprawdza istnienie każdego z nich.
 \end_layout
 
 \begin_layout Section
-Komunikacja sieciowa
+Protokół przesyłu
 \begin_inset CommandInset label
 LatexCommand label
-name "chap:warstwa_sieciowa"
+name "chap:protokół_przesyłu"
 
 \end_inset
 
@@ -10796,61 +10752,551 @@ name "chap:warstwa_sieciowa"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Posix jest pikny a windows niekoniecznie.
- Struktura na linuchu to drzewo o jednym rodzicu, partycje można montować
- jakkolwiek.
- Windows uczynił z partycji najważniejszych mieszkańców, w pracy zastosowano
- unifikację do modelu posixowego ze względu na większe doświadczenie autora
- i niechęć do windy.
+Co ja tu chce napisać
 \end_layout
 
-\end_inset
-
-
+\begin_layout Itemize
+Przesył musi być bezstratny i uporządkowany
 \end_layout
 
-\begin_layout Subsubsection*
-Dobor metody kompresji do danych wideo
+\begin_layout Itemize
+Tcp daje te cechy ale operuje na strumieniach a nie datagramach, wymagana
+ jest serializacja i deserializacja, czyli wylowienie danych dotyczacych
+ pojedynczego pliku ze strumienia
+\end_layout
+
+\begin_layout Itemize
+serializajce mozna zaprojektowac samodzielnie albo uzyc http ktore zalatwia
+ temat serializacji i deserializacji
+\end_layout
+
+\begin_layout Itemize
+Z http podstawowym jest problem w postaci nawiazywania polaczenia per plik
+ co wymaga robienia wielokrotnie tcp handshake, problematyczne w przypadku
+ ograniczonych zasobow sieciowych
+\end_layout
+
+\begin_layout Itemize
+Mozna zaadresowac ten problem uzywajac naglowka Connection: keep-alive w
+ http 1.0, http 1.1 standardowo uzywa polaczen utrzymywanych
+\end_layout
+
+\begin_layout Itemize
+Http wprowadza zestaw bezuzytecznych z perspektywy pracy naglowkow i.e host
+ resource etc
+\end_layout
+
+\begin_layout Itemize
+Zamiast tego wybrano schemat bazujacy na protokole tcp ktory nie zawiera
+ naglowkow, zamiast tego sekwencja danych idzie bezposrenio
 \end_layout
 
 \begin_layout Standard
+Wymagania względem protokołu przesyłu:
+\end_layout
+
+\begin_layout Enumerate
+Bezstratny i uporządkowany - plik dostarczony do odbiorcy musi mieć taką
+ samą strukturę jak oryginał
+\end_layout
+
+\begin_layout Enumerate
+Unikalna identyfikacja plików - nie może wystąpić sytuacja w której jeden
+ pomiar nadpisuje inny
+\end_layout
+
+\begin_layout Enumerate
+Potwierdzenie odbioru - nadawca musi wiedzieć czy wysłanie powiodło się,
+ jeśli nie być w stanie wykonać retransmisję
+\end_layout
+
+\begin_layout Standard
+Wymóg pierwszy jest ściśle związany z warstwą transportową modelu TCP/IP
+ i spełniany przez protokół TCP.
+ Został on zastosowany w pracy jako medium transportowe.
+ Protokół ten operuje na strumieniach stąd od jego użytkownika wymagane
+ jest przetworzenie obiektów na ciąg bajtów (serializacja) który zostanie
+ nadany za pomocą strumienia a następnie odtworzenie obiektów po stronie
+ odbiorcy (deserializacja).
+ Serializacja wymaga wybrania reprezentacji która pozwoli odbiorcy jednoznacznie
+ podzielić strumień na części odpowiadające za poszczególne obiekty.
+\end_layout
+
+\begin_layout Standard
+Oddzielenie danych należących do poszczególnych obiektów można osiągnąć
+ za pomocą ustalonych ciągów bitów.
+ tzw preambuł.
+ Program odbierający po napotkaniu preambuły w strumieniu może interpretować
+ kolejne bajty zgodnie z regułami deserializacji.
+ Zagadnienie sprowadza się do wybrania odwracalnego przekształcenia danych
+ dyskretnych (plików) na strumień bajtów.
+\end_layout
+
+\begin_layout Standard
+Dostępne są dwa podejścia:
+\end_layout
+
+\begin_layout Enumerate
+Zastosowanie protokołu posiadającego reguły serializacji i deserializacji
+ opartego o TCP
+\end_layout
+
+\begin_layout Enumerate
+Stworzenie własnego protokołu
+\end_layout
+
+\begin_layout Subsection*
+HTTP
+\end_layout
+
+\begin_layout Standard
+Protokołem spełniającym założenia podejścia pierwszego jest protokół TCP.
+ Jego zastosowanie pozwala użytkownikowi operować na plikach, strumień TCP
+ jest w całości zarządzany przez ten protokół.
+ Reprezentacja pojedynczego obiektu zapisywana do strumienia nazywana jest
+ zapytaniem (ang.
+ request) i posiada następującą strukturę 
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-Krotka informacja z jakiego powodu w ogole sa trzymane, sprawdzic jakiej
- jakosci sa obecnie i jak mocno mozna je znieksztalcic.
- Jak pamietam sa to dane pomocnicze do weryfikacji eksperymentow na sygnalach.
+cytat do request-line
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+<metoda> <zasób> HTTP/<wersja>
+\backslash
+r
+\backslash
+n
 \end_layout
 
 \begin_layout Plain Layout
-Wsrod sensownych propozycji jest chwilowo h.264 i w sumie tyle, dobrac ze
- dwa.
+
+<nazwa nagłówka>: <wartość nagłówka>
+\backslash
+r
+\backslash
+n
 \end_layout
 
 \begin_layout Plain Layout
-Sprawdzic jak jest z licencjami na tego typu kompresje.
+
+Content-Length: <długość danych>
+\backslash
+r
+\backslash
+n
 \end_layout
 
 \begin_layout Plain Layout
-Przetestowac, wybrac ten z najwieksza sprawnoscia i tyle.
- Dobieranie parametrow o ile wystapi zlac i wrzucic w kierunki rozwoju pracy.
+
+
+\backslash
+r
+\backslash
+n
+\end_layout
+
+\begin_layout Plain Layout
+
+<dane>
+\backslash
+r
+\backslash
+n
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+r
+\backslash
+n
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+W schemacie pominięto elementy protokołu nie posiadające zastosowania z
+ perspektywy pracy takie jak nagłówek Host czy rozróżnienia pomiędzy metodami
+ używanymi w zapytaniach.
+\end_layout
+
+\begin_layout Standard
+Schemat ten zakłada, że elementy preambuły oddzielone są znakami powrotu
+ karetki (
+\backslash
+r) i nowej linii (
+\backslash
+n).
+ Częścią preambuły jest również nagłówek Content-Length oznaczający długość
+ faktycznych danych w strumieniu.
+ Protokół wspiera również inne sposoby raportowania długości obiektu.
+ W wersji 1.0 koniec obiektu może oznaczać zamknięcie połączenia TCP przez
+ nadawcę.
+\end_layout
+
+\begin_layout Standard
+Z perspektywy łącza o mocno ograniczonej przepustowości protokół HTTP posiada
+ istotną wadę, w podstawowym trybie działania połączenie a więc strumień
+ otwierany jest na czas pojedynczego zapytania i związanej z nim odpowiedzi
+ prowadzi to do częstej wymiany sekwencji inicjalizacyjncyh oraz zamykających
+ i ponownego rozruchu algorytmu Slow-Start 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+cytowanie do tego algorytmu
+\end_layout
+
+\end_inset
+
+.
+ W projektowanym wypadku zamykanie połączenia nie przynosi żadnych korzyści
+ a prowadzi do wymiany dodatkowych pakietów kontrolnych.
+ Aby uniknąć tego problemu można zastosować nagłówek 
+\series bold
+Connection: keep-alive
+\series default
+ bądź wersję 1.1 protokołu która z definicji wykorzystuje pojedyncze połączenie
+ TCP do wysyłania wielu żądań.
+\end_layout
+
+\begin_layout Subsection*
+Własna implementacja
+\end_layout
+
+\begin_layout Standard
+Protokół HTTP oferuje bogaty generyczny sposób interakcji z zasobami na
+ zdalnych maszynach.
+ W przypadku badanym w pracy wymagane są jedynie ścieżka pliku, jego długość
+ oraz transmisja samej zawartości.
+ Zaproponowano uproszczony protokół wykorzystujący pojedyncze połączenie
+ TCP.
+ Do opisu pliku wykorzystuje on trójkę uporządkowaną przedstawioną na poniższym
+ schemacie.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+<ścieżka pliku>
+\backslash
+r
+\backslash
+n<długość pliku>
+\backslash
+r
+\backslash
+n<dane>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ścieżka pliku jest skonstruowana analogicznie do raportu pliku generowanego
+ przez Labview, zawiera jednak rozszerzenie (odpowiednio avi bądź lvm).
+ Składa się ze znaków ASCII i jest terminowana sekwencją znaków '
+\backslash
+r
+\backslash
+n' (powrót karetki, nowa linia).
+ Znaki te zarówno na systemach Linux jak i Windows nie mogą stanowić części
+ ścieżki, stąd ich zastosowanie jest dozwolone.
+\end_layout
+
+\begin_layout Standard
+W analogiczny sposób zapisywana jest do strumienia długość pliku.
+ Reprezentowana jest ona za pomocą znaków ASCII.
+\end_layout
+
+\begin_layout Standard
+Zastosowanie pól zakończonych sekwencją terminującą zamiast stałej długości
+ pozwala na arbitralnie długie ścieżki oraz wielkości plików.
+ Długość pliku definiuje ile bajtów od następnej sekwencji '
+\backslash
+r
+\backslash
+n' należy traktować jako zawartość danego pliku.
+\end_layout
+
+\begin_layout Standard
+Sekwencję deserializacji przedstawia rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:receiver_deserializacja"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/schemat_dekodowania_pliku.jpg
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sekwencja deserializacji danych
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:receiver_deserializacja"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dodatkową czynnością nie będącą elementem deserializacji jest wysłanie do
+ nadawcy potwierdzenia nadania pliku, potwierdzenie stanowi ścieżka identyfikują
+ca plik.
+ Mechanizm ten opisany jest w sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Synchronizacja"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
 Synchronizacja
 \begin_inset CommandInset label
 LatexCommand label
-name "chap:synchronizacja_danych"
+name "sec:Synchronizacja"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Projektowany system musi być odporny na szereg czynników zaburzających,
+ najistotniejszym z nich jest zerwanie połączenia sieciowego.
+\end_layout
+
+\begin_layout Standard
+W pracy zidentyfikowano uwzględniono błędy następujących komponentów:
+\end_layout
+
+\begin_layout Itemize
+Receiver
+\end_layout
+
+\begin_layout Itemize
+Sender
+\end_layout
+
+\begin_layout Itemize
+Labview
+\end_layout
+
+\begin_layout Itemize
+Połączenie sieciowe
+\end_layout
+
+\begin_layout Standard
+Podstawowym błędem który może pojawić się w trakcie działania aplikacji
+ jest zerwanie połączenia sieciowego.
+ Serwisy odpowiedzialne za nadawanie i odbiór danych muszą posiadać logikę
+ pozwalającą na ponowne nawiązywanie połączenia.
+ Funkcjonalność tą realizują dwie klasy, TCPServer z biblioteki socketserver
+ oraz KeepAliveWorker napisany na potrzeby pracy.
+\end_layout
+
+\begin_layout Standard
+KeepAliveWorker dziedziczy po klasie Thread z biblioteki threading.
+ Realizuje on funkcjonalność klienta TCP i pozwala na dalsze rozszerzanie
+ celem interakcji z serwerem za pomocą wybranego protokołu.
+\end_layout
+
+\begin_layout Standard
+W pracy przeanalizowano szereg scenariuszy błędów które przedstawia tabela
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:scenariusze_bledow-1"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Scenariusze błędów
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:scenariusze_bledow-1"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
