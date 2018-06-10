@@ -10089,6 +10089,393 @@ reference "rys:schemat_rozwiazania"
 \end_layout
 
 \begin_layout Section
+Język programowania
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Język-programowania"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Kryteria wyboru języka:
+\end_layout
+
+\begin_layout Enumerate
+Wieloplatformowość - kod powinien nie wymagać żadnych zmian przed uruchomieniem
+ na Windowsie i Linuxie
+\end_layout
+
+\begin_layout Enumerate
+Szybkie prototypowanie - najwolniejszym elementem systemu jest połączenie
+ sieciowe, z tego powodu zastosowanie języków wykorzystujących procesor
+ w sposób bardziej efektywny nie zmienia responsywności systemu.
+ Język powinien m.in automatycznie zarządzać pamięcią
+\end_layout
+
+\begin_layout Enumerate
+Bogata biblioteka standardowa - ze względu na trudności w dostępie do stanowiska
+ pomiarowego doinstalowywanie nowych zależności należy ograniczyć do minimum.
+ Absolutnym minimum jest biblioteka do obsługi połączeń TCP.
+\end_layout
+
+\begin_layout Standard
+Języki C i C++ nie spełniają żadnego z założeń.
+ Wymagają kompilacji na docelową platformę, nie posiadają warstwy abstrakcji
+ do interakcji ze stosem sieciowym oraz wymagają ręcznego zarządzania pamięcią.
+ Benefitem ich stosowania jest bezpośredni dostęp do aspektów systemowych
+ takich jak subsystem inotify na systemach Linux.
+ Do interkacji sieciowych w języku C wykorzystywane są bezpośrednio berkeley
+ sockets, w języku C++ można zastosować to samo podejście bądź bibliotekę
+ boost::asio.
+ W przypadku programów pisanych zarówno na systemu Linux i Windows wymagane
+ jest zastosowanie różnych kompilatorów oraz samodzielne wypracowanie warstw
+ abstrakcji celem osiągnięcia przenośności kodu.
+\end_layout
+
+\begin_layout Standard
+Z powodu powyższych problemów zastosowano język Python.
+ Spełnia on założenia wymienione na początku podrozdziału.
+ Prócz powyższych cech kod w tym języku jest interpretowany a nie kompilowany
+ co zdejmuje z użytkownika wymóg stworzenia systemu budowania dostosowanego
+ do obu docelowych platform.
+ Uruchomienie kodu wymaga skopiowania źródeł na platformę docelową i uruchomieni
+a interpretera z odpowiednią ścieżką.
+\end_layout
+
+\begin_layout Standard
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:python_biblioteki"
+
+\end_inset
+
+ przedstawia zestawienie funkcjonalności wymaganych przez projekt oraz ich
+ dostępność w języku.
+ Przez bibliotekę standardową rozumie się zestaw bibliotek które są instalowane
+ razem z interpreterem języka, programem python i nie wymagają doinstalowywania.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="20page%">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="25page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zagadnienie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nazwa biblioteki
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Uwagi
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Monitorowanie i manipulacja stanem dysku
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pathlib
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępna w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Obsługa połączeń sieciowych
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+socket, socketserver
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępne w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Przetwarzanie parametrów podawanych z konsoli
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+argparse
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępna w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rejestrowanie i przetwarzanie czasu
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+datetime
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępna w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kompresja i dekompresja
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lzma, bz2, zlib
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępne w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kolejki dyskowe
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+brak
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępne w postaci zewnętrznych bibliotek, nie koniecznie napisanych w pythonie
+ z możliwością wywołania z tego języka
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kompresja x264
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+brak stabilnych
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pakiet ffmpeg wymaga uruchomienia jako oddzielny proces i przekierowania
+ danych
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Uruchamianie i manipulacja procesami systemowymi
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+subprocess
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępna w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Zestawienie zagadnień wymaganych w projekcie i dostępności bibliotek
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:python_biblioteki"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Analogiczny poziom abstrakcji oferuje język Ruby jednak nie został on zastosowan
+y ze względu na dłuższe doświadczenie autora z językiem Python.
+\end_layout
+
+\begin_layout Section
 Odbiór danych
 \begin_inset CommandInset label
 LatexCommand label
@@ -10282,17 +10669,6 @@ Named Pipe
 \end_inset
 
  w systemach zgodnych ze standardem POSIX.
-\end_layout
-
-\begin_layout Section
-Język programowania
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Język-programowania"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
