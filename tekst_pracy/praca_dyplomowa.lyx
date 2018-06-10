@@ -10752,46 +10752,6 @@ name "chap:protokół_przesyłu"
 \end_layout
 
 \begin_layout Standard
-Co ja tu chce napisać
-\end_layout
-
-\begin_layout Itemize
-Przesył musi być bezstratny i uporządkowany
-\end_layout
-
-\begin_layout Itemize
-Tcp daje te cechy ale operuje na strumieniach a nie datagramach, wymagana
- jest serializacja i deserializacja, czyli wylowienie danych dotyczacych
- pojedynczego pliku ze strumienia
-\end_layout
-
-\begin_layout Itemize
-serializajce mozna zaprojektowac samodzielnie albo uzyc http ktore zalatwia
- temat serializacji i deserializacji
-\end_layout
-
-\begin_layout Itemize
-Z http podstawowym jest problem w postaci nawiazywania polaczenia per plik
- co wymaga robienia wielokrotnie tcp handshake, problematyczne w przypadku
- ograniczonych zasobow sieciowych
-\end_layout
-
-\begin_layout Itemize
-Mozna zaadresowac ten problem uzywajac naglowka Connection: keep-alive w
- http 1.0, http 1.1 standardowo uzywa polaczen utrzymywanych
-\end_layout
-
-\begin_layout Itemize
-Http wprowadza zestaw bezuzytecznych z perspektywy pracy naglowkow i.e host
- resource etc
-\end_layout
-
-\begin_layout Itemize
-Zamiast tego wybrano schemat bazujacy na protokole tcp ktory nie zawiera
- naglowkow, zamiast tego sekwencja danych idzie bezposrenio
-\end_layout
-
-\begin_layout Standard
 Wymagania względem protokołu przesyłu:
 \end_layout
 
