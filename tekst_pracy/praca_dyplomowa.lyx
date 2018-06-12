@@ -10741,6 +10741,675 @@ reference "sec:Struktura-generowanych-danych"
 \end_layout
 
 \begin_layout Section
+Architektura serwisu Sender
+\end_layout
+
+\begin_layout Standard
+Serwis sender odpowiedzialny jest za:
+\end_layout
+
+\begin_layout Itemize
+Odbiór informacji o pojawieniu się nowych plików
+\end_layout
+
+\begin_layout Itemize
+Monitorowanie stanu dysku w Gardawicach
+\end_layout
+
+\begin_layout Itemize
+Kompresję
+\end_layout
+
+\begin_layout Itemize
+Przesył danych
+\end_layout
+
+\begin_layout Itemize
+Usuwanie plików zapisanych na serwerze
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/schemat_klienta.jpg
+	lyxscale 70
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat serwisu Sender
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:sender_arch"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schemat serwisu z rozbiciem na składowe komponenty przedstawia rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:sender_arch"
+
+\end_inset
+
+.
+ Serwis sender dostosowany jest do współbieżnego przetwarzania zdarzeń.
+ Jego głównymi komponentami są wątek odbiorczy (receiver thread) oraz wątek
+ nadawczy (sender thread).
+ Wątek odbiorcy odpowiedzialny jest za komunikację z serwisem labview, wątek
+ nadawcy zaś za komunikację z serwisem sender oraz przygotowanie danych
+ do przesyłu 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+wypchnij kompresję do oddzielnego wątku
+\end_layout
+
+\end_inset
+
+.
+ Taki schemat pozwala na jednoczesne blokujące oczekiwanie na nowe pliki
+ oraz blokujące nadawanie plików.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Dodaj schemat na osi czasu
+\end_layout
+
+\end_inset
+
+.
+ Wątek synchronizacyjny podobnie jak nadawczy odpowiedzialny jest za identyfikow
+anie plików na dysku, różnica polega na sposobie identyfikacji nowych plików.
+ Zagadnienie szerzej opisuje sekcja 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Synchronizacja"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/schemat_dziedziczenia_klient_watki.jpg
+	lyxscale 70
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagram klas wątków
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:client_thread_class_diagram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schemat dziedziczenia z perspektywy wątków serwisu Sender przedstawia diagram
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:client_thread_class_diagram"
+
+\end_inset
+
+.
+ Zarówno wątek nadawczy jak i odbiorczy dziedziczą po klasie Workers.KeepAliveWor
+ker, spowodowane jest to podobieństwem logiki odpowiedzialnej za nawiązywanie
+ połączeń i obsługę błędów połączenia.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/maszyna_stanow_polaczenia.jpg
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Maszyna stanów nawiązywania połączenia
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:connection_state_machine"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Maszynę stanów połączenia realizowaną przez klasę KeepAliveWorker przedstawia
+ schemat 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:connection_state_machine"
+
+\end_inset
+
+.
+ W momencie uruchomienia wątku oraz po błędzie osiągany jest stan try_establish
+ podczas którego następuje próba nawiązania połączenia, w przypadku błędu
+ wątek przechodzi do stanu sleep który usypia wątek na ustalony czas po
+ czym wraca do próby nawiązania połączenia.
+ Stan terminalny osiągany jest po wywołaniu metody stop() na obiekcie reprezentu
+jącym wątek.
+\end_layout
+
+\begin_layout Standard
+Poprawne nawiązanie połączenia prowadzi do wywołania metody work() która
+ definiowana jest w klasach dziedziczących i odpowiada za jego obsługę.
+ Interfejs oferowany przez klasę Thread z biblioteki threading wymaga od
+ klasy KeepAliveWorker zdefiniowania metody run().
+ Zostaje ona wywołana w momencie uruchomienia wątku.
+\end_layout
+
+\begin_layout Standard
+Elementem synchronizującym pracę wyżej wymienionych wątków jest kolejka
+ plików czekających na wysłanie, w projekcie pod nazwą stage queue.
+ Zawiera ona dwuelementowe krotki zawierające ścieżkę do pliku oraz czas
+ dodania do kolejki.
+ Czas dodania jest informacją służącą ręcznemu sprawdzaniu stanu kolejki.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/persistent_queue_class_diagram.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagram klas kolejki
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:queue_class_diagram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zgodnie z diagramem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:queue_class_diagram"
+
+\end_inset
+
+ w pracy wykorzystano interfejs o nazwie PersistentQueue oraz jego realizację.
+ Prócz wymogów względem sposobu użytkowania narzucanego przez interfejs
+ od jego realizacji wymaga się utrzymania stanu kolejki w przypadku nagłego
+ zakończenia programu spowodowanego na przykład odcięciem zasilania.
+ Założenia tego nie spełnia standardowa synchronizowana kolejka dostępna
+ w bibliotece queue.
+\end_layout
+
+\begin_layout Standard
+Wprowadzenie interfejsu w miejsce konkretnej implementacji ułatwia ewentualną
+ wymianę kolejki dyskowej.
+ W pracy zdecydowano się na dedykowane rozwiązanie bazowane na plikowej
+ bazie danych SQlite 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+cytacik
+\end_layout
+
+\end_inset
+
+ oraz sterowniku Sqlite3 dostępnym w języku Python.
+\end_layout
+
+\begin_layout Standard
+Interfejs kolejki został zaprojektowany z myślą o przechowywaniu stanu w
+ przypadku nagłego zamknięcia programu.
+ Przypadek taki może zdarzyć się w momencie odcięcia zasilania od maszyny
+ bądź innych zdarzeń losowych.
+ Sposobem przechowania danych w takim przypadku jest zapisywanie stanu do
+ dysku.
+ W przypadku pracy implementację kolejki oparto o plikową bazę danych Sqlite
+ oraz jej sterownik w języku Python Sqlite3.
+ Decyzja ta została podjęta ze względu na problemy z instalowaniem zewnętrznego
+ oprogramowania w Gardawicach.
+ W trakcie rozwoju projektu można wymienić ten komponent na jedno z popularnych
+ obecnie rozwiązań do kolejkowania zadań takich jak RabitMQ czy Celery.
+ Wśród analizowanych rozwiązań znalazł się również Redis jednak nie zapewnia
+ on zrzutu każdego zadania do dysku, zapisy stanu odbywają się co interwał.
+ Może to prowadzić do utraty danych.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="50page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Metoda
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Argumenty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Typ zwracany
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Opis
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+put
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ścieżka
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dodaje element do kolejki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+get
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ścieżka
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwraca element z kolejki zgodnie ze strategią implementacji (FIFO, LIFO,
+ etc)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pop
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ścieżka
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Usuwa element z kolejki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+len
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+integer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwraca długość kolejki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+get_all
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lista ścieżek
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwraca wszystkie elementy z kolejki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Opis metod interfejsu PersistentQueue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:queue_interface_description"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:queue_interface_description"
+
+\end_inset
+
+ przedstawia metody wymagane przez interfejs kolejki.
+ Rozdzielenie metod pop i get pozwala na zachowanie obecnie przetwarzanego
+ elementu w kolejce w przypadku błędu.
+ Metoda pop wołana jest po uzyskaniu potwierdzenia poprawnego zapisania
+ pliku przez serwis Receiver.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO: zmien to na komponent i przypilnuj aby wszedzie byly z malej albo
+ duzej litery
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Section
+Architektura serwisu Receiver
+\end_layout
+
+\begin_layout Section
 Protokół przesyłu
 \begin_inset CommandInset label
 LatexCommand label
