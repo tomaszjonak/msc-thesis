@@ -9897,101 +9897,12 @@ Przepustowość łącza jest mniejsza niż strumień danych generowanych przez
 \end_layout
 
 \begin_layout Itemize
-Połączenie pomiędzy stanowiskiem pomiarowym a uczelnią jest często zrywane
-\end_layout
-
-\begin_layout Itemize
-Przepustowość łącza jest niższa niż strumień danych generowanych przez stanowisk
-o
+Połączenie pomiędzy stanowiskiem pomiarowym a uczelnią może zostać zerwane
 \end_layout
 
 \begin_layout Itemize
 Instalacja dodatkowych programów/bibliotek na maszynie stanowiska pomiarowego
  jest trudna ze względu na problemy z połączeniem i przepustowością
-\end_layout
-
-\begin_layout Standard
-Dla uproszczenia opisu projektu w pracy użyty został zestaw pojęć dodatkowych.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Host - 
-\series default
-odnosi się do komputera podpiętego do sieci.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Windows - 
-\series default
-host będący częścią stanowiska pomiarowego.
- Od zainstalowanego systemu operacyjnego.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Linux - 
-\series default
-host na terenie uczelni.
- Od zainstalowanego systemu operacyjnego.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Serwis - 
-\series default
-aplikacja działająca na danym hoście.
- Jeden host może mieć wiele uruchomionych serwisów.
- 
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Labview - 
-\series default
-serwis odpowiedzialny za odebranie danych z kart pomiarowych i zapis na
- dysku.
- Od języka programowania w którym napisano aplikację.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Sender
-\series default
- 
-\series bold
--
-\series default
- serwis odpowiedzialny za interakcję z labview znajdujący się na windowsie.
- 
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Receiver
-\series default
- 
-\series bold
--
-\series default
- serwis odpowiedzialny za zapisywanie danych na hoście uczelnianym.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Pomiar
-\series default
- - pliki avi oraz csv.
- Mają jednakową ścieżkę i nazwę pliku, różnią się rozszerzeniem.
 \end_layout
 
 \begin_layout Standard
@@ -10004,7 +9915,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename img/podstawowy_schemat_serwisow.jpg
-	scale 50
+	scale 70
 
 \end_inset
 
@@ -10047,402 +9958,26 @@ reference "rys:schemat_rozwiazania"
 
 \end_inset
 
-.
- Przedstawia wysokopoziomowy schemat elementów będących częścią projektu
- oraz podstawowe kanały komunikacyjne.
- W ramach pracy zaprojektowano serwisy Sender oraz Receiver, schemat komunikacji
- pomiędzy nimi oraz sposób odbioru danych generowanych przez serwis Labview.
+ przedstawia najistotniejsze elementy projektu.
+ Elementy podzielone zostały na dwie grupy oznaczające maszyny na których
+ się znajdują.
+ Liniami oznaczono kanały służące komunikacji bądź przesyłowi danych.
+ Ze względu na istotną rolę w projekcie diagram zawiera również dyski twarde
+ obu maszyn.
+ W pracy zaprojektowano komponenty Sender, Receiver oraz kanały komunikacyjne
+ 2, 4.
+ Linie 3 i 5 oznaczają interakcje z dyskiem i stanowią cześć komunikacji
+ kanałów odpowiednio 2 i 4.
+\end_layout
+
+\begin_layout Standard
+Komponent Labview jest elementem zewnętrznym z perspektywy pracy.
+ Sender reaguje na zdarzenie zapisania pomiaru na dysk generowane przez
+ ten komponent ale nie wpływa na jego stan.
 \end_layout
 
 \begin_layout Section
-Język programowania
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Język-programowania"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Kryteria wyboru języka:
-\end_layout
-
-\begin_layout Enumerate
-Wieloplatformowość - kod powinien nie wymagać żadnych zmian przed uruchomieniem
- na Windowsie i Linuxie
-\end_layout
-
-\begin_layout Enumerate
-Szybkie prototypowanie - najwolniejszym elementem systemu jest połączenie
- sieciowe, z tego powodu zastosowanie języków wykorzystujących procesor
- w sposób bardziej efektywny nie zmienia responsywności systemu.
- Język powinien m.in automatycznie zarządzać pamięcią
-\end_layout
-
-\begin_layout Enumerate
-Bogata biblioteka standardowa - ze względu na trudności w dostępie do stanowiska
- pomiarowego doinstalowywanie nowych zależności należy ograniczyć do minimum.
- Absolutnym minimum jest biblioteka do obsługi połączeń TCP.
-\end_layout
-
-\begin_layout Standard
-Języki C i C++ nie spełniają żadnego z założeń.
- Wymagają kompilacji na docelową platformę, nie posiadają warstwy abstrakcji
- do interakcji ze stosem sieciowym oraz wymagają ręcznego zarządzania pamięcią.
- Benefitem ich stosowania jest bezpośredni dostęp do aspektów systemowych
- takich jak subsystem inotify na systemach Linux.
- Do interkacji sieciowych w języku C wykorzystywane są bezpośrednio berkeley
- sockets, w języku C++ można zastosować to samo podejście bądź bibliotekę
- boost::asio.
- W przypadku programów pisanych zarówno na systemu Linux i Windows wymagane
- jest zastosowanie różnych kompilatorów oraz samodzielne wypracowanie warstw
- abstrakcji celem osiągnięcia przenośności kodu.
-\end_layout
-
-\begin_layout Standard
-Z powodu powyższych problemów zastosowano język Python.
- Spełnia on założenia wymienione na początku podrozdziału.
- Prócz powyższych cech kod w tym języku jest interpretowany a nie kompilowany
- co zdejmuje z użytkownika wymóg stworzenia systemu budowania dostosowanego
- do obu docelowych platform.
- Uruchomienie kodu wymaga skopiowania źródeł na platformę docelową i uruchomieni
-a interpretera z odpowiednią ścieżką.
-\end_layout
-
-\begin_layout Standard
-Tabela 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:python_biblioteki"
-
-\end_inset
-
- przedstawia zestawienie funkcjonalności wymaganych przez projekt oraz ich
- dostępność w języku.
- Przez bibliotekę standardową rozumie się zestaw bibliotek które są instalowane
- razem z interpreterem języka, programem python i nie wymagają doinstalowywania.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="9" columns="3">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="20page%">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="25page%">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zagadnienie
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Nazwa biblioteki
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Uwagi
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Monitorowanie i manipulacja stanem dysku
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-pathlib
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dostępna w bibliotece standardowej
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Obsługa połączeń sieciowych
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-socket, socketserver
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dostępne w bibliotece standardowej
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Przetwarzanie parametrów podawanych z konsoli
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-argparse
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dostępna w bibliotece standardowej
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Rejestrowanie i przetwarzanie czasu
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-datetime
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dostępna w bibliotece standardowej
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Kompresja i dekompresja
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-lzma, bz2, zlib
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dostępne w bibliotece standardowej
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Kolejki dyskowe
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-brak
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dostępne w postaci zewnętrznych bibliotek, nie koniecznie napisanych w pythonie
- z możliwością wywołania z tego języka
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Kompresja x264
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-brak stabilnych
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Pakiet ffmpeg wymaga uruchomienia jako oddzielny proces i przekierowania
- danych
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Uruchamianie i manipulacja procesami systemowymi
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-subprocess
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dostępna w bibliotece standardowej
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Zestawienie zagadnień wymaganych w projekcie i dostępności bibliotek
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:python_biblioteki"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Analogiczny poziom abstrakcji oferuje język Ruby jednak nie został on zastosowan
-y ze względu na dłuższe doświadczenie autora z językiem Python.
-\end_layout
-
-\begin_layout Section
-Odbiór danych
+Identyfikowanie nowych pomiarów
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Odbiór-danych"
@@ -10453,50 +9988,28 @@ name "sec:Odbiór-danych"
 \end_layout
 
 \begin_layout Standard
-Serwis Labview z perspektywy projektu jest aktorem zewnętrznym odpowiedzialnym
- za zapisanie danych w przestrzeni dyskowej komputera Gardawice.
- Zadaniem systemu zaprojektowanego w pracy jest dostosowanie się do sposobu
- działania tego serwisu i transport danych.
- Oryginalna wersja Labview nie zakładała interakcji z innymi komponentami
- i raportowania bądź przesyłu plików.
- Automatyczny transport danych na uczelnię wymaga rozpoznania pojawienia
- się nowych danych i ich przechwycenia, zidentyfikowano następujące metody
- realizacji tej czynności:
+Kluczowym z perspektywy pracy jest zidentyfikowanie pojawienia się nowych
+ pomiarów.
+ Pierwotnie Labview po wykonaniu każdego pomiaru zapisywało parę plików
+ (lvm, avi) na dysku i kończyło działanie.
+ Identyfikację nowych pomiarów można przeprowadzić na szereg sposobów:
 \end_layout
 
 \begin_layout Enumerate
-Serwis Labview nawiązuje połączenie bezpośrednio z serwisem Receiver, nadaje
- pliki za pomocą ustalonego protokołu, projekt nie wymaga serwisu Sender
+Sender monitoruje stan dysku samodzielnie identyfikując nowe pliki
 \end_layout
 
 \begin_layout Enumerate
-Serwis Labview nawiązuje połączenie z serwisem Sender i przesyła dane za
- pomocą ustalonego protokołu
-\end_layout
-
-\begin_layout Enumerate
-Serwis Sender monitoruje stan dysku samodzielnie identyfikując nowe pliki
-\end_layout
-
-\begin_layout Enumerate
-Serwis Sender subskrybuje zdarzenia systemowe mówiące o pojawieniu się nowych
- plików
+Sender subskrybuje zdarzenia systemowe mówiące o pojawieniu się nowych plików
 \end_layout
 
 \begin_layout Enumerate
 Serwis Labview za pomocą wybranego kanału udostępnia informację o pojawieniu
- się nowego pliku za pomocą ustalonego protokołu
+ się nowego pliku
 \end_layout
 
 \begin_layout Standard
-Projekt zakłada zerową bądź minimalną ingerencję w obecny schemat pracy
- serwisu Labview ze względu na jego sprawdzone i długoterminowe poprawne
- działanie.
- Propozycje pierwsza oraz druga zostały odrzucone ponieważ łamią to założenie.
-\end_layout
-
-\begin_layout Standard
-Propozycja trzecia zakłada periodyczne sprawdzanie stanu dysku i porównywanie
+Propozycja pierwsza zakłada periodyczne sprawdzanie stanu dysku i porównywanie
  z poprzednim odczytem a następnie identyfikowanie nowych plików na podstawie
  różnicy tych stanów.
  Wprowadza to do projektowanego systemu opóźnienie w wykryciu plików.
@@ -10504,7 +10017,10 @@ Propozycja trzecia zakłada periodyczne sprawdzanie stanu dysku i porównywanie
  sprawdzeniami.
  Ponadto systemy operacyjne dostarczają wywołania systemowe do raportowania
  tego typu zdarzeń bez opóźnień.
- Na ich wykorzystaniu opiera się propozycja czwarta.
+\end_layout
+
+\begin_layout Standard
+Na ich wykorzystaniu opiera się propozycja druga.
  W systemach z rodziny Linux odpowiada za to subsystem inotify 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -10512,7 +10028,7 @@ key "inotify"
 
 \end_inset
 
-, rodzina Windows posiada zaś wywołanie ReadDirectoryChangesW 
+, Windows posiada zaś funckję systemową ReadDirectoryChangesW 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "wininotify"
@@ -10539,36 +10055,16 @@ key "python-ctypes"
 \end_layout
 
 \begin_layout Standard
-Podejście piąte wymaga utworzenia dodatkowego elementu raportującego w ramach
- serwisu Labview.
- Zmiana ta jest dużo mniej inwazyjna niż podejścia pierwsze i drugie, nie
- wymaga zmiany podstawowego schematu pracy serwisu czyli odbioru i zapisu
- danych na dysku twardym.
- Została ona zaakceptowana przez Promotora.
- Kanałem komunikacyjnym jest w tym wypadku raportowanie za pomocą protokołu
- TCP na interfejsie lokalnym.
+Podejście piąte wymaga utworzenia dodatkowego elementu raportującego w Labview.
+ Zmiana taka nie wpływa na cykl działania aplikacji, wymaga jednak modyfikacji
+ istniejącego rozwiązania.
+ Została ona zaakceptowana i wprowadzona przez Promotora.
 \end_layout
 
 \begin_layout Standard
-Serwis Labview nasłuchuje na porcie 6341 na połączenia przychodzące.
- Od momentu nawiązania połączenia po każdym pojawieniu się nowych danych
- Labview nadaje ścieżkę względem katalogu bazowego pomiarów oraz znak nowej
- linii.
- Ścieżka nie zawiera rozszerzenia pliku, zadaniem Sendera jest zidentyfikowanie
- obecności plików na podstawie skonfigurowanych rozszerzeń oraz ewentualne
- dalsze działanie.
- Funkcjonalność tą można przetestować używając programów netcat bądź telnet
- w roli klienta.
- Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:labview_nadaje"
-
-\end_inset
-
- przedstawia pliki zaraportowane przez Labview odebrane za pomocą programu
- netcat.
+System pomiarowy nasłuchuje na porcie 6341 protokołu TCP, w przypadku nawiązania
+ połączenia wysyła on za jego pomocą ścieżki do pomiarów rozdzielone znakiem
+ nowej linii po ich zapisaniu do dysku.
 \end_layout
 
 \begin_layout Standard
@@ -10615,15 +10111,24 @@ name "rys:labview_nadaje"
 \end_layout
 
 \begin_layout Standard
-W przypadku komunikacji serwisów Labview i Sender wybór połączeń TCP w roli
- kanału komunikacyjnego podyktowany został uniwersalnością.
- Rozwiązanie to jest dostępne zarówno w systemach Linux jak i Windows.
- Od kanału komunikacyjnego wymagany jest uporządkowany - w sensie kolejności
- bitów bądź pakietów - strumień danych z gwarancją braku zniekształceń.
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:labview_nadaje"
+
+\end_inset
+
+ przedstawia pliki zaraportowane przez Labview odebrane za pomocą programu
+ netcat.
+ Z rysunku można zaobserwować, że nadawane są ścieżki relatywne, należy
+ je interpretować względem katalogu bazowego pomiarów.
+ Ponadto nie posiadają one rozszerzenia.
+ Zadaniem odbiorcy jest uzupełnienie ścieżki o powyższe informacje.
 \end_layout
 
 \begin_layout Section
-Schemat przesyłu
+Schemat działania systemu
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Schemat-przesyłu"
@@ -10634,7 +10139,8 @@ name "sec:Schemat-przesyłu"
 \end_layout
 
 \begin_layout Standard
-Sekwencję wysyłania pojedynczego pomiaru przedstawia Rys.
+Schemat przesyłu z uwzględnieniem danych z poprzedniego podrozdziału prezentuje
+ rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10643,9 +10149,6 @@ reference "rys:przeslanie_pliku"
 \end_inset
 
 .
- Działanie serwisów będących częścią systemu rozszerzono o moment zapisania
- przez Labview danych do dysku ze względu na istotność w przepływie danych.
- W schemacie pominięto nawiązywanie połączeń pomiędzy komponentami.
 \end_layout
 
 \begin_layout Standard
@@ -10693,22 +10196,24 @@ name "rys:przeslanie_pliku"
 
 \end_layout
 
-\begin_layout Enumerate
-Labview zapisuje pomiary na dysku
+\begin_layout Standard
+Czynności wykonywane przez system 
 \end_layout
 
 \begin_layout Enumerate
-Labview raportuje pojawienie się pomiarów do Sendera (wysłanie ścieżki bez
- rozszerzenia)
+Labview zapisuje pomiar na dysku
 \end_layout
 
 \begin_layout Enumerate
-Sender sprawdza obecność pomiarów na dysku
+Labview raportuje pojawienie się pomiaru do Sendera
 \end_layout
 
 \begin_layout Enumerate
-Sender pobiera dane z plików, opcjonalnie wykonuje transformacje szykujące
- dane do wysłania (kompresja)
+Sender konstruuje pełne ścieżki i sprawdza obecność plików na dysku
+\end_layout
+
+\begin_layout Enumerate
+Sender pobiera dane i opcjonalnie kompresuje
 \end_layout
 
 \begin_layout Enumerate
@@ -10724,11 +10229,11 @@ Receiver raportuje poprawne zapisanie danych
 \end_layout
 
 \begin_layout Enumerate
-(opcjonalnie) Sender usuwa pliki z przestrzeni dyskowej
+(opcjonalnie) Sender usuwa nadane pliki z przestrzeni dyskowej
 \end_layout
 
 \begin_layout Standard
-Krok trzeci jest wymagany ze względu na zaburzenie generowania plików wymienione
+Sprawdzenie istnienia plików wymagane jest ze względu na zaburzenie wymienione
  w sekcji 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10737,35 +10242,51 @@ reference "sec:Struktura-generowanych-danych"
 \end_inset
 
 .
- W tym momencie działania aplikacji gwarantowane jest istnienie pliku lvm.
-\end_layout
-
-\begin_layout Section
-Architektura serwisu Sender
+ Plik avi w szczególnych przypadkach może nie zostać wygenerowany.
 \end_layout
 
 \begin_layout Standard
-Serwis sender odpowiedzialny jest za:
+W schematach działania Sendera i Receivera pominięto sekwencje nawiązywania
+ połączenia, zostaną one przedstawione w sekcjach 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Architektura-serwisu-Sender"
+
+\end_inset
+
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Architektura-serwisu-Receiver"
+
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Itemize
-Odbiór informacji o pojawieniu się nowych plików
+\begin_layout Subsection
+Sender
 \end_layout
 
-\begin_layout Itemize
-Monitorowanie stanu dysku w Gardawicach
+\begin_layout Standard
+Z perspektywy systemu czynność pojawienia się nowych pomiarów jest zdarzeniem
+ asynchronicznym które powinno zostać obsłużone w momencie zajścia, uniemożliwia
+ to zastosowania aplikacji pracującej z użyciem jednego wątku wykonania.
+ Wymagane jest w tym miejscu zastosowanie współbieżności która pozwoli na
+ jednoczesne nadawanie plików oraz odbieranie informacji o nowych pomiarach.
+ Prowadzi to również do potrzeby zastosowania kolejki która przechowa informację
+ o ich istnieniu pomiędzy pojawieniem się na dysku a nadaniem.
 \end_layout
 
-\begin_layout Itemize
-Kompresję
-\end_layout
+\begin_layout Standard
+Prowadzi to do schematu przedstawionego na rys 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:sender_arch-1"
 
-\begin_layout Itemize
-Przesył danych
-\end_layout
+\end_inset
 
-\begin_layout Itemize
-Usuwanie plików zapisanych na serwerze
+.
 \end_layout
 
 \begin_layout Standard
@@ -10801,7 +10322,7 @@ Schemat serwisu Sender
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:sender_arch"
+name "rys:sender_arch-1"
 
 \end_inset
 
@@ -10814,47 +10335,12 @@ name "rys:sender_arch"
 \end_layout
 
 \begin_layout Standard
-Schemat serwisu z rozbiciem na składowe komponenty przedstawia rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:sender_arch"
-
-\end_inset
-
-.
- Serwis sender dostosowany jest do współbieżnego przetwarzania zdarzeń.
- Jego głównymi komponentami są wątek odbiorczy (receiver thread) oraz wątek
- nadawczy (sender thread).
- Wątek odbiorcy odpowiedzialny jest za komunikację z serwisem labview, wątek
- nadawcy zaś za komunikację z serwisem sender oraz przygotowanie danych
- do przesyłu 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-wypchnij kompresję do oddzielnego wątku
-\end_layout
-
-\end_inset
-
-.
- Taki schemat pozwala na jednoczesne blokujące oczekiwanie na nowe pliki
- oraz blokujące nadawanie plików.
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Dodaj schemat na osi czasu
-\end_layout
-
-\end_inset
-
-.
- Wątek synchronizacyjny podobnie jak nadawczy odpowiedzialny jest za identyfikow
-anie plików na dysku, różnica polega na sposobie identyfikacji nowych plików.
- Zagadnienie szerzej opisuje sekcja 
+Za odbieranie informacji o nowych plikach odpowiedzialny jest wątek ReceiverThre
+ad, za nadawanie danych wątek SenderThread, informacje przechowywane są
+ w kolejce StageQueue.
+ Częścią aplikacji są również kolejka synchronizacyjna SyncQueue oraz wątek
+ odpowiadający za synchronizację SynchronizationThread, ich rola została
+ opsiana w sekcji 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Synchronizacja"
@@ -10862,6 +10348,7 @@ reference "sec:Synchronizacja"
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Standard
@@ -10873,9 +10360,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/schemat_dziedziczenia_klient_watki.jpg
+	filename img/receiver_thread_flow.jpg
 	lyxscale 70
-	scale 75
+	scale 60
 
 \end_inset
 
@@ -10886,7 +10373,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Diagram klas wątków
+Schemat pracy wątku ReceiverThread
 \end_layout
 
 \end_inset
@@ -10897,7 +10384,7 @@ Diagram klas wątków
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:client_thread_class_diagram"
+name "rys:receiver_thread"
 
 \end_inset
 
@@ -10910,18 +10397,19 @@ name "rys:client_thread_class_diagram"
 \end_layout
 
 \begin_layout Standard
-Schemat dziedziczenia z perspektywy wątków serwisu Sender przedstawia diagram
+Schemat pracy wątku ReceiverThread przedstawia rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:client_thread_class_diagram"
+reference "rys:receiver_thread"
 
 \end_inset
 
 .
- Zarówno wątek nadawczy jak i odbiorczy dziedziczą po klasie Workers.KeepAliveWor
-ker, spowodowane jest to podobieństwem logiki odpowiedzialnej za nawiązywanie
- połączeń i obsługę błędów połączenia.
+ Wątek zostaje uśpiony do czasu pojawienia się danych w buforze połączenia,
+ w przypadku gdy dane nie zawierają pełnej ścieżki wątek czeka na więcej
+ danych po czym konstruuje pełną ścieżkę, sprawdza obecność plików na dysku
+ i dodaje plik do kolejki plików do wysłania.
 \end_layout
 
 \begin_layout Standard
@@ -10933,8 +10421,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/maszyna_stanow_polaczenia.jpg
-	scale 70
+	filename img/sender_thread_flow.jpg
+	lyxscale 80
+	scale 80
 
 \end_inset
 
@@ -10945,7 +10434,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Maszyna stanów nawiązywania połączenia
+Schemat pracy wątku SenderThread
 \end_layout
 
 \end_inset
@@ -10956,7 +10445,7 @@ Maszyna stanów nawiązywania połączenia
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:connection_state_machine"
+name "rys:sender_thread"
 
 \end_inset
 
@@ -10969,37 +10458,33 @@ name "rys:connection_state_machine"
 \end_layout
 
 \begin_layout Standard
-Maszynę stanów połączenia realizowaną przez klasę KeepAliveWorker przedstawia
- schemat 
+Schemt pracy wątku SenderThread przedstawia rys.
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:connection_state_machine"
+reference "rys:sender_thread"
 
 \end_inset
 
 .
- W momencie uruchomienia wątku oraz po błędzie osiągany jest stan try_establish
- podczas którego następuje próba nawiązania połączenia, w przypadku błędu
- wątek przechodzi do stanu sleep który usypia wątek na ustalony czas po
- czym wraca do próby nawiązania połączenia.
- Stan terminalny osiągany jest po wywołaniu metody stop() na obiekcie reprezentu
-jącym wątek.
+ Wątek może zostać uśpiony w przypadku gdy kolejka jest pusta, zostanie
+ wybudzony w momencie pojawienia się w niej danych do przetworzenia.
+ Po pobraniu ścieżki sprawdzane jest rozszerzenie pliku, na tej podstawie
+ dobierany jest schemat kompresji bądź jego brak.
+ Na schemacie uproszczony został schemat wysyłania pliku bez kompresji,
+ w pracy podobnie jak w przypadku kompresowanym odczytuje on z dysku i nadaje
+ plik za pomocą ustalonej wielkości fragmentów.
+ Jest to zabezpieczenie przed nadmiernym wykorzystaniem pamięci ram przez
+ aplikację w przypadku przetwarzania dużych plików.
+\end_layout
+
+\begin_layout Subsection
+Receiver
 \end_layout
 
 \begin_layout Standard
-Poprawne nawiązanie połączenia prowadzi do wywołania metody work() która
- definiowana jest w klasach dziedziczących i odpowiada za jego obsługę.
- Interfejs oferowany przez klasę Thread z biblioteki threading wymaga od
- klasy KeepAliveWorker zdefiniowania metody run().
- Zostaje ona wywołana w momencie uruchomienia wątku.
-\end_layout
-
-\begin_layout Standard
-Elementem synchronizującym pracę wyżej wymienionych wątków jest kolejka
- plików czekających na wysłanie, w projekcie pod nazwą stage queue.
- Zawiera ona dwuelementowe krotki zawierające ścieżkę do pliku oraz czas
- dodania do kolejki.
- Czas dodania jest informacją służącą ręcznemu sprawdzaniu stanu kolejki.
+Serwis Receiver zrealizowany został jednowątkowo, oczekiwane jest od niego
+ wysłanie potwierdzenia po zapisaniu każdego pliku na dysku.
 \end_layout
 
 \begin_layout Standard
@@ -11011,7 +10496,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/persistent_queue_class_diagram.jpg
+	filename img/sender_component_scheme.jpg
+	lyxscale 80
+	scale 60
 
 \end_inset
 
@@ -11022,7 +10509,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Diagram klas kolejki
+Schemat pracy komponentu Receiver 
 \end_layout
 
 \end_inset
@@ -11033,7 +10520,7 @@ Diagram klas kolejki
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:queue_class_diagram"
+name "rys:receiver_component"
 
 \end_inset
 
@@ -11046,354 +10533,35 @@ name "rys:queue_class_diagram"
 \end_layout
 
 \begin_layout Standard
-Zgodnie z diagramem 
+Rys.
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:queue_class_diagram"
+reference "rys:receiver_component"
 
 \end_inset
 
- w pracy wykorzystano interfejs o nazwie PersistentQueue oraz jego realizację.
- Prócz wymogów względem sposobu użytkowania narzucanego przez interfejs
- od jego realizacji wymaga się utrzymania stanu kolejki w przypadku nagłego
- zakończenia programu spowodowanego na przykład odcięciem zasilania.
- Założenia tego nie spełnia standardowa synchronizowana kolejka dostępna
- w bibliotece queue.
-\end_layout
-
-\begin_layout Standard
-Wprowadzenie interfejsu w miejsce konkretnej implementacji ułatwia ewentualną
- wymianę kolejki dyskowej.
- W pracy zdecydowano się na dedykowane rozwiązanie bazowane na plikowej
- bazie danych SQlite 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-cytacik
-\end_layout
-
-\end_inset
-
- oraz sterowniku Sqlite3 dostępnym w języku Python.
-\end_layout
-
-\begin_layout Standard
-Interfejs kolejki został zaprojektowany z myślą o przechowywaniu stanu w
- przypadku nagłego zamknięcia programu.
- Przypadek taki może zdarzyć się w momencie odcięcia zasilania od maszyny
- bądź innych zdarzeń losowych.
- Sposobem przechowania danych w takim przypadku jest zapisywanie stanu do
- dysku.
- W przypadku pracy implementację kolejki oparto o plikową bazę danych Sqlite
- oraz jej sterownik w języku Python Sqlite3.
- Decyzja ta została podjęta ze względu na problemy z instalowaniem zewnętrznego
- oprogramowania w Gardawicach.
- W trakcie rozwoju projektu można wymienić ten komponent na jedno z popularnych
- obecnie rozwiązań do kolejkowania zadań takich jak RabitMQ czy Celery.
- Wśród analizowanych rozwiązań znalazł się również Redis jednak nie zapewnia
- on zrzutu każdego zadania do dysku, zapisy stanu odbywają się co interwał.
- Może to prowadzić do utraty danych.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top" width="35page%">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Metoda
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Argumenty
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Typ zwracany
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Opis
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-put
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-ścieżka
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dodaje element do kolejki
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-get
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-ścieżka
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zwraca element z kolejki zgodnie ze strategią implementacji (FIFO, LIFO,
- etc)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-pop
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-ścieżka
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Usuwa element z kolejki
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-len
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-integer
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zwraca długość kolejki
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-get_all
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-lista ścieżek
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zwraca wszystkie elementy z kolejki
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Opis metod interfejsu PersistentQueue
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:queue_interface_description"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Tabela 
+ przedstawia schemat pracy komponentu Receiver.
+ W sposób abstrakcyjny oznaczono czynności dotyczące sposobu odebrania pliku,
+ zostaną one omówione w sekcji 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:queue_interface_description"
+reference "chap:protokół_przesyłu"
 
 \end_inset
 
- przedstawia metody wymagane przez interfejs kolejki.
- Rozdzielenie metod pop i get pozwala na zachowanie obecnie przetwarzanego
- elementu w kolejce w przypadku błędu.
- Metoda pop wołana jest po uzyskaniu potwierdzenia poprawnego zapisania
- pliku przez serwis Receiver.
+.
+ Na diagramie można zauważyć, że dane odbierane nie są buforowane po stronie
+ użytkownika, w przypadku szybkich łączy może to prowadzić do zapełnienia
+ bufora odbiorczego połączenia po stronie systemu operacyjnego.
+ W analizowanym przypadku takie ryzyko nie istnieje.
+ Prędkość zapisu do dysku przewyższa prędkość transmisji sieciowej.
  
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-TODO: zmien to na komponent i przypilnuj aby wszedzie byly z malej albo
- duzej litery
+niby da się to sprawdzić winsatem ale musiałbym mieć admina w gardawicach
 \end_layout
 
 \end_inset
@@ -11401,8 +10569,86 @@ TODO: zmien to na komponent i przypilnuj aby wszedzie byly z malej albo
 
 \end_layout
 
-\begin_layout Section
-Architektura serwisu Receiver
+\begin_layout Standard
+Ważną z perspektywy pracy jest strategia zapisywania danych na serwerze
+ docelowym, projekt zakłada odtworzenie struktury katalogów z pomiarami
+ obecnej w Gardawicach na serwerze uczelnianym.
+ Kluczowym w tym wypadku jest wybór katalogu bazowego w konfiguracji serwisu
+ Receiver.
+ W przypadku skonfigurowania katalogu bazowego na
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/var/server_storage/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+przesłany plik o ścieżce
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+R2018_03_11/M180311_182125.lvm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+zostanie zapisany w
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/var/server_storage/R2018_03_11/M180311_182125.lvm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Odstępem od tej reguły jest przypadek gdy dekompresja się nie powiedzie,
+ w takim przypadku pomiar zostanie zapisany w
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/var/server_storage/failed_decompression/R2018_03_11/M180311_182125.lvm
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -11417,57 +10663,72 @@ name "chap:protokół_przesyłu"
 \end_layout
 
 \begin_layout Standard
-Wymagania względem protokołu przesyłu:
-\end_layout
-
-\begin_layout Enumerate
-Bezstratny i uporządkowany - plik dostarczony do odbiorcy musi mieć taką
- samą strukturę jak oryginał
-\end_layout
-
-\begin_layout Enumerate
-Unikalna identyfikacja plików - nie może wystąpić sytuacja w której jeden
- pomiar nadpisuje inny
-\end_layout
-
-\begin_layout Enumerate
-Potwierdzenie odbioru - nadawca musi wiedzieć czy wysłanie powiodło się,
- jeśli nie być w stanie wykonać retransmisję
+Głównym wymaganiem względem przesyłu plików jest jego bezstratność i uporządkowa
+nie.
+ Strumień bajtów nadawany przez Sendera musi być identyczny ze strumieniem
+ odczytanym przez Receivera.
+ W przypadku pracy powyższe cechy gwarantuje użycie protokołu TCP w warstwie
+ transportowej.
 \end_layout
 
 \begin_layout Standard
-Wymóg pierwszy jest ściśle związany z warstwą transportową modelu TCP/IP
- i spełniany przez protokół TCP.
- Został on zastosowany w pracy jako medium transportowe.
- Protokół ten operuje na strumieniach stąd od jego użytkownika wymagane
- jest przetworzenie obiektów na ciąg bajtów (serializacja) który zostanie
- nadany za pomocą strumienia a następnie odtworzenie obiektów po stronie
- odbiorcy (deserializacja).
- Serializacja wymaga wybrania reprezentacji która pozwoli odbiorcy jednoznacznie
- podzielić strumień na części odpowiadające za poszczególne obiekty.
+Zgodnie z modelem TCP/IP protokół ten dostarcza jedynie pomost pomiędzy
+ procesami na dwóch różnych maszynach, zadaniem użytkownika jest dobranie
+ bądź skonstruowanie protokołu warstwy aplikacji który zrealizuje zakładaną
+ czynność, w przypadku pracy przesył plików.
 \end_layout
 
 \begin_layout Standard
-Oddzielenie danych należących do poszczególnych obiektów można osiągnąć
- za pomocą ustalonych ciągów bitów.
- tzw preambuł.
- Program odbierający po napotkaniu preambuły w strumieniu może interpretować
- kolejne bajty zgodnie z regułami deserializacji.
- Zagadnienie sprowadza się do wybrania odwracalnego przekształcenia danych
- dyskretnych (plików) na strumień bajtów.
+Konstrukcja własnego protokołu posiada wymóg stworzenia reguł transformacji
+ danych z formy dyskretnej - pojedynczego pliku - na ciągłą, strumień bajtów
+ która będzie zdatna do jednoznacznego odczytu przez odbiorcę.
+ W szczególności wymaga to wykrycia w strumieniu granic pomiędzy kolejnymi
+ plikami.
+ Działanie takie jest proste w wypadku danych o stałej długości, odbiorca
+ każdorazowo odczytuje ze strumienia fragment danych o zadanej długości
+ i przetwarza zgodnie z ustalonymi regułami.
+ W przypadku analizowanym w pracy nie można założyć stałej długości pliku.
+ Z tego powodu wymagane jest zastosowanie reprezentacji która jednoznacznie
+ wyznaczy koniec pliku.
 \end_layout
 
 \begin_layout Standard
-Dostępne są dwa podejścia:
+Podstawowym podejściem w przypadku przetwarzania strumieniowego jest używanie
+ sekwencji terminującej, ustalonej z góry sekwencji bajtów która rozdziela
+ pakiety danych (pliki), podejście takie zastosowano w przypadku rozgłaszania
+ nowych pomiarów przez serwis labview, znak nowej linii nie może być częścią
+ poprawnej ścieżki więc może zostać bezpiecznie zastosowany jako separator.
+ Podczas przesyłu plików binarnych nie można zastosować tego podejścia ponieważ
+ istnieje prawdopodobieństwo napotkania dowolnej sekwencji w ciele przesyłanego
+ pliku.
+ Zamiast tego nadawana jest długość pliku w bajtach przed jego zawartością,
+ tym samym dostarczana jest odbiorcy informacja gdzie zaczyna się kolejny
+ plik.
+ Podejście takie stosuje protokół HTTP w wersji 1.1 używając nagłówka Content-Len
+gth.
+\end_layout
+
+\begin_layout Standard
+Innym podejściem jest otwieranie połączenia na czas nadawania pojedynczego
+ pliku, tym sposobem jego koniec sygnalizowany jest przez zamknięcie połączenia.
+ Podejście takie dozwolone jest w standardzie HTTP 1.0 w przypadku braku
+ nagłówka Content-Length.
+\end_layout
+
+\begin_layout Standard
+W pracy aby przesłać plik wymagane są następujące informacje:
 \end_layout
 
 \begin_layout Enumerate
-Zastosowanie protokołu posiadającego reguły serializacji i deserializacji
- opartego o TCP
+Ścieżka do pliku
 \end_layout
 
 \begin_layout Enumerate
-Stworzenie własnego protokołu
+Długość pliku
+\end_layout
+
+\begin_layout Enumerate
+Informacje o sposobie dekompresji (jeśli stosowana)
 \end_layout
 
 \begin_layout Subsection*
@@ -11475,22 +10736,62 @@ HTTP
 \end_layout
 
 \begin_layout Standard
-Protokołem spełniającym założenia podejścia pierwszego jest protokół TCP.
- Jego zastosowanie pozwala użytkownikowi operować na plikach, strumień TCP
- jest w całości zarządzany przez ten protokół.
- Reprezentacja pojedynczego obiektu zapisywana do strumienia nazywana jest
- zapytaniem (ang.
- request) i posiada następującą strukturę 
-\begin_inset Note Note
+\begin_inset Float figure
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
-cytat do request-line
+\align center
+\begin_inset Graphics
+	filename img/http_example.JPG
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowa para zapytanie odpowiedź protokołu HTTP
 \end_layout
 
 \end_inset
 
-:
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:http_example"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:http_example"
+
+\end_inset
+
+ przedstawia przykładową komunikację za pomocą prokołu HTTP.
+ Kolorem czerwonym oznaczono zapytanie, kolorem niebieskim odpowiedź.
+ Protokół dzieli komunikację na pary zapytanie-odpowiedź (ang.
+ request - response).
+ Strukturę zapytania http przedstawia poniższy listing.
 \end_layout
 
 \begin_layout Standard
@@ -11527,6 +10828,11 @@ n
 
 \begin_layout Plain Layout
 
+...
+\end_layout
+
+\begin_layout Plain Layout
+
 
 \backslash
 r
@@ -11537,6 +10843,80 @@ n
 \begin_layout Plain Layout
 
 <dane>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zapytanie zaczyna się linią determinującą zasób którego dotyczy zapytanie,
+ metodę interakcji z zasobem i wersję protokołu za pomocą której przeprowadzana
+ jest komunikacja.
+ Ilość nagłówków nie jest z góry ustalona, podobnie jak kolejność, ich koniec
+ oznaczany jest dwoma następującymi po sobie sekwencjami znaków 
+\begin_inset Quotes pld
+\end_inset
+
+
+\backslash
+r
+\backslash
+n
+\begin_inset Quotes prd
+\end_inset
+
+, powrotu karetki i nowej linii.
+ Pozostałą część stanowi ciało zapytania.
+ W przypadku przedstawionym na rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:http_example"
+
+\end_inset
+
+ ciało posiada zerową długość.
+ 
+\end_layout
+
+\begin_layout Standard
+Zasoby określane są ścieżkami względem umownego zasobu bazowego określanego
+ podobnie jak katalog root w systemach Unixowych, znakiem 
+\begin_inset Quotes pld
+\end_inset
+
+/
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Metody definiują sposób interakcji z zasobem, nie mają one jednak zastosowania
+ w przypadku pracy poza metodą PUT służącą stworzeniu zasobu.
+\end_layout
+
+\begin_layout Standard
+Odpowiedź posiada następującą strukturę
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+HTTP/<wersja> <kod statusu> <tekst statusu>
+\backslash
+r
+\backslash
+n
+\end_layout
+
+\begin_layout Plain Layout
+
+<nazwa nagłówka>: <wartość nagłówka>
 \backslash
 r
 \backslash
@@ -11552,37 +10932,123 @@ r
 n
 \end_layout
 
+\begin_layout Plain Layout
+
+<dane>
+\end_layout
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-W schemacie pominięto elementy protokołu nie posiadające zastosowania z
- perspektywy pracy takie jak nagłówek Host czy rozróżnienia pomiędzy metodami
- używanymi w zapytaniach.
+Zasady konstrukcji podobne jak w przypadku zapytania, różnicę stanowi pierwsza
+ linia oraz reguły dyktujące jakie nagłówki bądź sposób prezentacji danych
+ zostanie zastosowany w odpowiedzi w zależności od zawartości zapytania.
 \end_layout
 
 \begin_layout Standard
-Schemat ten zakłada, że elementy preambuły oddzielone są znakami powrotu
- karetki (
+Schemat ten jest łatwy do dopasowania w przypadku pracy.
+ Zasób jednoznaczny ze ścieżką względną do pomiaru gdzie zasób bazowy oznacza
+ katalog pomiarów.
+ Pozwala to na odtworzenie struktury katalogów z Gardawic na maszynie znajdujące
+j się na uczelni.
+ W ciele zapytania zawartość pliku którego długość ograniczy nagłówek Content-Le
+ngth.
+ HTTP uwzględnia również sposób kompresji danych za pomocą nagłówka Content-Enco
+ding.
+\end_layout
+
+\begin_layout Standard
+Przykład tak skonstruowanego zapytania przedstawia poniższy listing
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+PUT /R2018_05_15/M180515_220003.avi HTTP/1.1
 \backslash
-r) i nowej linii (
+r
 \backslash
-n).
- Częścią preambuły jest również nagłówek Content-Length oznaczający długość
- faktycznych danych w strumieniu.
- Protokół wspiera również inne sposoby raportowania długości obiektu.
- W wersji 1.0 koniec obiektu może oznaczać zamknięcie połączenia TCP przez
- nadawcę.
+n
+\end_layout
+
+\begin_layout Plain Layout
+
+Content-Length: <długość pliku>
+\backslash
+r
+\backslash
+n
+\end_layout
+
+\begin_layout Plain Layout
+
+Content-Encoding: <identyfikator metody kompresji>
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+r
+\backslash
+n
+\end_layout
+
+\begin_layout Plain Layout
+
+<zawartość pliku>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proponowana odpowiedź
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+HTTP/1.1 200 OK
+\backslash
+r
+\backslash
+n
+\end_layout
+
+\begin_layout Plain Layout
+
+Content-Length: 0
+\backslash
+r
+\backslash
+n
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Z perspektywy łącza o mocno ograniczonej przepustowości protokół HTTP posiada
  istotną wadę, w podstawowym trybie działania połączenie a więc strumień
  otwierany jest na czas pojedynczego zapytania i związanej z nim odpowiedzi
- prowadzi to do częstej wymiany sekwencji inicjalizacyjncyh oraz zamykających
- i ponownego rozruchu algorytmu Slow-Start 
+ prowadzi to do częstej wymiany sekwencji inicjalizacyjncyh oraz zamykających.
+ 
 \begin_inset Note Note
 status open
 
@@ -11592,13 +11058,9 @@ cytowanie do tego algorytmu
 
 \end_inset
 
-.
  W projektowanym wypadku zamykanie połączenia nie przynosi żadnych korzyści
  a prowadzi do wymiany dodatkowych pakietów kontrolnych.
- Aby uniknąć tego problemu można zastosować nagłówek 
-\series bold
-Connection: keep-alive
-\series default
+ Aby uniknąć tego problemu można zastosować nagłówek Connection: keep-alive
  bądź wersję 1.1 protokołu która z definicji wykorzystuje pojedyncze połączenie
  TCP do wysyłania wielu żądań.
 \end_layout
@@ -11610,9 +11072,14 @@ Własna implementacja
 \begin_layout Standard
 Protokół HTTP oferuje bogaty generyczny sposób interakcji z zasobami na
  zdalnych maszynach.
- W przypadku badanym w pracy wymagane są jedynie ścieżka pliku, jego długość
- oraz transmisja samej zawartości.
- Zaproponowano uproszczony protokół wykorzystujący pojedyncze połączenie
+ W projektowanym przypadku wymagane są jedynie ścieżka pliku, oraz jego
+ wielkość.
+ Przesyłanie sekwencji dodatkowych nagłówków nie przynosi istotnych korzyści
+ a prowadzi do przesłania nadmiarowych danych.
+\end_layout
+
+\begin_layout Standard
+Zaproponowano uproszczony protokół wykorzystujący pojedyncze połączenie
  TCP.
  Do opisu pliku wykorzystuje on trójkę uporządkowaną przedstawioną na poniższym
  schemacie.
@@ -11633,7 +11100,7 @@ n<długość pliku>
 \backslash
 r
 \backslash
-n<dane>
+n<zawartość pliku>
 \end_layout
 
 \end_inset
@@ -11644,11 +11111,19 @@ n<dane>
 \begin_layout Standard
 Ścieżka pliku jest skonstruowana analogicznie do raportu pliku generowanego
  przez Labview, zawiera jednak rozszerzenie (odpowiednio avi bądź lvm).
- Składa się ze znaków ASCII i jest terminowana sekwencją znaków '
+ Składa się ze znaków ASCII i jest terminowana sekwencją znaków 
+\begin_inset Quotes pld
+\end_inset
+
+
 \backslash
 r
 \backslash
-n' (powrót karetki, nowa linia).
+n
+\begin_inset Quotes prd
+\end_inset
+
+.
  Znaki te zarówno na systemach Linux jak i Windows nie mogą stanowić części
  ścieżki, stąd ich zastosowanie jest dozwolone.
 \end_layout
@@ -11666,6 +11141,28 @@ Zastosowanie pól zakończonych sekwencją terminującą zamiast stałej długo�
 r
 \backslash
 n' należy traktować jako zawartość danego pliku.
+\end_layout
+
+\begin_layout Standard
+Informacje o schemacie kompresji przechowywane są przez rozszerzenie będące
+ częścią ścieżki, odpowiednie mapowanie rozszerzenia na schemat kompresji
+ musi zostać skonfigurowane po obu stronach komunikacji.
+\end_layout
+
+\begin_layout Standard
+W odpowiedzi oczekiwana jest ścieżka piku zakończona sekwencją 
+\begin_inset Quotes pld
+\end_inset
+
+
+\backslash
+r
+\backslash
+n
+\begin_inset Quotes prd
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -11724,20 +11221,6 @@ name "rys:receiver_deserializacja"
 
 \end_layout
 
-\begin_layout Standard
-Dodatkową czynnością nie będącą elementem deserializacji jest wysłanie do
- nadawcy potwierdzenia nadania pliku, potwierdzenie stanowi ścieżka identyfikują
-ca plik.
- Mechanizm ten opisany jest w sekcji 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Synchronizacja"
-
-\end_inset
-
-.
-\end_layout
-
 \begin_layout Section
 Synchronizacja
 \begin_inset CommandInset label
@@ -11750,12 +11233,217 @@ name "sec:Synchronizacja"
 \end_layout
 
 \begin_layout Standard
-Projektowany system musi być odporny na szereg czynników zaburzających,
- najistotniejszym z nich jest zerwanie połączenia sieciowego.
+Wymogiem pracy jest zagwarantowanie przesłania wszystkich plików, system
+ musi być w stanie przetrwać awarię poszczególnych elementów i wznowić poprawne
+ działanie bez utraty danych.
+ Aby zabezpieczyć się przed tego typu sytuacją zidentyfikowano szereg możliwych
+ awarii oraz scenariusze przywrócenia poprawnego działania systemu.
+ Najważniejszymi przypadkami są
+\end_layout
+
+\begin_layout Enumerate
+Uszkodzenie dysku twardego na stanowisku pomiarowym
+\end_layout
+
+\begin_layout Enumerate
+Zerwanie połączenia sieciowego między Gardawicami a uczelnią
+\end_layout
+
+\begin_layout Enumerate
+Odcięcie zasilania na stanowisku pomiarowym
+\end_layout
+
+\begin_layout Enumerate
+Awaria Sendera
+\end_layout
+
+\begin_layout Enumerate
+Awaria Receivera
 \end_layout
 
 \begin_layout Standard
-W pracy zidentyfikowano uwzględniono błędy następujących komponentów:
+W każdym badanym przypadku najważniejsze jest zachowanie pozycji w sekwencji
+ wygenerowanych plików.
+ Stanem zerowym układu jest moment w którym serwer nie posiada żadnego zapisaneg
+o pliku a kolejka dyskowa jest pusta.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/queue_state_basic.jpg
+	lyxscale 60
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Podstawowy stan systemu
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:queue_basic_state"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:queue_basic_state"
+
+\end_inset
+
+ obrazuje informacje które dostępne są w systemie po awarii.
+ Stan kolejki uznaje się 
+\end_layout
+
+\begin_layout Subsection
+Odcięcie zasilania w Gardawicach
+\end_layout
+
+\begin_layout Standard
+Wymagane jest ponowne uruchomienie aplikacji, realizacja tej czynności jest
+ niezależna od projektu i wymaga jej dodania do skryptów rozruchowych systemu
+ operacyjnego.
+\end_layout
+
+\begin_layout Standard
+Ponowny rozruch prowadzi do utracenia stanu aplikacji zapisanego w pamięci
+ ram.
+ Jest to nieszkodliwe w przypadku połączeń sieciowych, ich stan zostanie
+ poprawnie ustalony po ponownym nawiązaniu.
+\end_layout
+
+\begin_layout Standard
+Danymi które muszą zostać przechowane w przypadku awarii jest stan kolejki
+ danych do wysłania.
+ Po ponownym nawiązaniu połączenia z Labview komponent ten zacznie wysyłać
+ ścieżki do nowych pomiarów.
+\end_layout
+
+\begin_layout Standard
+W przypadku zastosowania kolejki plików trzymanej w pamięci ram awaria prowadzi
+ do zignorowania plików które znajdowały się w kolejce przed awarią.
+ Aby zapobiec takiej sytuacji należy zastosować kolejkę która przechowuje
+ stan w przypadku awarii, w przypadku analizowanym w pracy kolejka taka
+ będzie przechowywała stan na dysku twardym.
+ 
+\end_layout
+
+\begin_layout Standard
+Istotnym jest obsługa błędu w trakcie operacji zapisu, kolejka musi zachować
+ stan sprzed rozpoczęcia nieukończonej operacji.
+ Wymagana gwarancje przypominają cechy wymagane od transakcji w bazach danych.
+ W szczególności 
+\end_layout
+
+\begin_layout Enumerate
+Atomowość - modyfikacja kolejki musi zostać zakończona i zapisana albo wycofana,
+ wzbronione są stany pośrednie
+\end_layout
+
+\begin_layout Enumerate
+Izolacja - modyfikacja nie może być widoczna dla konsumentów kolejki dopóki
+ nie zostanie w całości wykonana
+\end_layout
+
+\begin_layout Enumerate
+Trwałość - w przypadku błędu systemu dokonane modyfikacje muszą zostać przechowa
+ne
+\end_layout
+
+\begin_layout Subsection
+Zerwanie połączenia sieciowego
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/maszyna_stanow_polaczenia.jpg
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Maszyna stanów nawiązywania połączenia
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:connection_state_machine"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Odcięcie zasilania/Awaria maszyny w Gardawiach
+\end_layout
+
+\begin_layout Subsection
+Awaria komponentu Labview
+\end_layout
+
+\begin_layout Subsection
+Awaria komponentu Sender
+\end_layout
+
+\begin_layout Standard
+Projektowany system musi być odporny na szereg czynników zaburzających,
+ w pracy uwzględniono błędy następujących komponentów:
 \end_layout
 
 \begin_layout Itemize
@@ -11772,6 +11460,12 @@ Labview
 
 \begin_layout Itemize
 Połączenie sieciowe
+\end_layout
+
+\begin_layout Standard
+Prawdopodobieństwo wystąpienia poszczególnych błędów nie jest jednakowe,
+ najczęściej obserwowanymi jest zerwanie połączenia pomiędzy uczelnią a
+ stanowiskiem pomiarowym.
 \end_layout
 
 \begin_layout Standard
@@ -12826,6 +12520,1026 @@ Tu epistoła na temat tego że instalowanie czegokolwiek na stanowisku pomiarowy
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Język programowania
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Język-programowania"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Kryteria wyboru języka:
+\end_layout
+
+\begin_layout Enumerate
+Wieloplatformowość - kod powinien nie wymagać żadnych zmian przed uruchomieniem
+ na Windowsie i Linuxie
+\end_layout
+
+\begin_layout Enumerate
+Szybkie prototypowanie - najwolniejszym elementem systemu jest połączenie
+ sieciowe, z tego powodu zastosowanie języków wykorzystujących procesor
+ w sposób bardziej efektywny nie zmienia responsywności systemu.
+ Język powinien m.in automatycznie zarządzać pamięcią
+\end_layout
+
+\begin_layout Enumerate
+Bogata biblioteka standardowa - ze względu na trudności w dostępie do stanowiska
+ pomiarowego doinstalowywanie nowych zależności należy ograniczyć do minimum.
+ Absolutnym minimum jest biblioteka do obsługi połączeń TCP.
+\end_layout
+
+\begin_layout Standard
+Języki C i C++ nie spełniają żadnego z założeń.
+ Wymagają kompilacji na docelową platformę, nie posiadają warstwy abstrakcji
+ do interakcji ze stosem sieciowym oraz wymagają ręcznego zarządzania pamięcią.
+ Benefitem ich stosowania jest bezpośredni dostęp do aspektów systemowych
+ takich jak subsystem inotify na systemach Linux.
+ Do interkacji sieciowych w języku C wykorzystywane są bezpośrednio berkeley
+ sockets, w języku C++ można zastosować to samo podejście bądź bibliotekę
+ boost::asio.
+ W przypadku programów pisanych zarówno na systemu Linux i Windows wymagane
+ jest zastosowanie różnych kompilatorów oraz samodzielne wypracowanie warstw
+ abstrakcji celem osiągnięcia przenośności kodu.
+\end_layout
+
+\begin_layout Standard
+Z powodu powyższych problemów zastosowano język Python.
+ Spełnia on założenia wymienione na początku podrozdziału.
+ Prócz powyższych cech kod w tym języku jest interpretowany a nie kompilowany
+ co zdejmuje z użytkownika wymóg stworzenia systemu budowania dostosowanego
+ do obu docelowych platform.
+ Uruchomienie kodu wymaga skopiowania źródeł na platformę docelową i uruchomieni
+a interpretera z odpowiednią ścieżką.
+\end_layout
+
+\begin_layout Standard
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:python_biblioteki"
+
+\end_inset
+
+ przedstawia zestawienie funkcjonalności wymaganych przez projekt oraz ich
+ dostępność w języku.
+ Przez bibliotekę standardową rozumie się zestaw bibliotek które są instalowane
+ razem z interpreterem języka, programem python i nie wymagają doinstalowywania.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="20page%">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="25page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zagadnienie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nazwa biblioteki
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Uwagi
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Monitorowanie i manipulacja stanem dysku
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pathlib
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępna w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Obsługa połączeń sieciowych
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+socket, socketserver
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępne w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Przetwarzanie parametrów podawanych z konsoli
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+argparse
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępna w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rejestrowanie i przetwarzanie czasu
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+datetime
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępna w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kompresja i dekompresja
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lzma, bz2, zlib
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępne w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kolejki dyskowe
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+brak
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępne w postaci zewnętrznych bibliotek, nie koniecznie napisanych w pythonie
+ z możliwością wywołania z tego języka
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kompresja x264
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+brak stabilnych
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pakiet ffmpeg wymaga uruchomienia jako oddzielny proces i przekierowania
+ danych
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Uruchamianie i manipulacja procesami systemowymi
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+subprocess
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dostępna w bibliotece standardowej
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Zestawienie zagadnień wymaganych w projekcie i dostępności bibliotek
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:python_biblioteki"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Analogiczny poziom abstrakcji oferuje język Ruby jednak nie został on zastosowan
+y ze względu na dłuższe doświadczenie autora z językiem Python.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Architektura-serwisu-Sender"
+
+\end_inset
+
+Architektura serwisu Sender
+\end_layout
+
+\begin_layout Standard
+Serwis sender odpowiedzialny jest za:
+\end_layout
+
+\begin_layout Itemize
+Odbiór informacji o pojawieniu się nowych plików
+\end_layout
+
+\begin_layout Itemize
+Monitorowanie stanu dysku w Gardawicach
+\end_layout
+
+\begin_layout Itemize
+Kompresję
+\end_layout
+
+\begin_layout Itemize
+Przesył danych
+\end_layout
+
+\begin_layout Itemize
+Usuwanie plików zapisanych na serwerze
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/schemat_klienta.jpg
+	lyxscale 70
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat serwisu Sender
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:sender_arch"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schemat serwisu z rozbiciem na składowe komponenty przedstawia rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:sender_arch"
+
+\end_inset
+
+.
+ Serwis sender dostosowany jest do współbieżnego przetwarzania zdarzeń.
+ Jego głównymi komponentami są wątek odbiorczy (receiver thread) oraz wątek
+ nadawczy (sender thread).
+ Wątek odbiorcy odpowiedzialny jest za komunikację z serwisem labview, wątek
+ nadawcy zaś za komunikację z serwisem sender oraz przygotowanie danych
+ do przesyłu 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+wypchnij kompresję do oddzielnego wątku
+\end_layout
+
+\end_inset
+
+.
+ Taki schemat pozwala na jednoczesne blokujące oczekiwanie na nowe pliki
+ oraz blokujące nadawanie plików.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Dodaj schemat na osi czasu
+\end_layout
+
+\end_inset
+
+.
+ Wątek synchronizacyjny podobnie jak nadawczy odpowiedzialny jest za identyfikow
+anie plików na dysku, różnica polega na sposobie identyfikacji nowych plików.
+ Zagadnienie szerzej opisuje sekcja 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Synchronizacja"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/schemat_dziedziczenia_klient_watki.jpg
+	lyxscale 70
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagram klas wątków
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:client_thread_class_diagram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schemat dziedziczenia z perspektywy wątków serwisu Sender przedstawia diagram
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:client_thread_class_diagram"
+
+\end_inset
+
+.
+ Zarówno wątek nadawczy jak i odbiorczy dziedziczą po klasie Workers.KeepAliveWor
+ker, spowodowane jest to podobieństwem logiki odpowiedzialnej za nawiązywanie
+ połączeń i obsługę błędów połączenia.
+\end_layout
+
+\begin_layout Standard
+Maszynę stanów połączenia realizowaną przez klasę KeepAliveWorker przedstawia
+ schemat 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:connection_state_machine"
+
+\end_inset
+
+.
+ W momencie uruchomienia wątku oraz po błędzie osiągany jest stan try_establish
+ podczas którego następuje próba nawiązania połączenia, w przypadku błędu
+ wątek przechodzi do stanu sleep który usypia wątek na ustalony czas po
+ czym wraca do próby nawiązania połączenia.
+ Stan terminalny osiągany jest po wywołaniu metody stop() na obiekcie reprezentu
+jącym wątek.
+\end_layout
+
+\begin_layout Standard
+Poprawne nawiązanie połączenia prowadzi do wywołania metody work() która
+ definiowana jest w klasach dziedziczących i odpowiada za jego obsługę.
+ Interfejs oferowany przez klasę Thread z biblioteki threading wymaga od
+ klasy KeepAliveWorker zdefiniowania metody run().
+ Zostaje ona wywołana w momencie uruchomienia wątku.
+\end_layout
+
+\begin_layout Standard
+Elementem synchronizującym pracę wyżej wymienionych wątków jest kolejka
+ plików czekających na wysłanie, w projekcie pod nazwą stage queue.
+ Zawiera ona dwuelementowe krotki zawierające ścieżkę do pliku oraz czas
+ dodania do kolejki.
+ Czas dodania jest informacją służącą ręcznemu sprawdzaniu stanu kolejki.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/persistent_queue_class_diagram.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagram klas kolejki
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:queue_class_diagram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zgodnie z diagramem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:queue_class_diagram"
+
+\end_inset
+
+ w pracy wykorzystano interfejs o nazwie PersistentQueue oraz jego realizację.
+ Prócz wymogów względem sposobu użytkowania narzucanego przez interfejs
+ od jego realizacji wymaga się utrzymania stanu kolejki w przypadku nagłego
+ zakończenia programu spowodowanego na przykład odcięciem zasilania.
+ Założenia tego nie spełnia standardowa synchronizowana kolejka dostępna
+ w bibliotece queue.
+\end_layout
+
+\begin_layout Standard
+Wprowadzenie interfejsu w miejsce konkretnej implementacji ułatwia ewentualną
+ wymianę kolejki dyskowej.
+ W pracy zdecydowano się na dedykowane rozwiązanie bazowane na plikowej
+ bazie danych SQlite 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+cytacik
+\end_layout
+
+\end_inset
+
+ oraz sterowniku Sqlite3 dostępnym w języku Python.
+\end_layout
+
+\begin_layout Standard
+Interfejs kolejki został zaprojektowany z myślą o przechowywaniu stanu w
+ przypadku nagłego zamknięcia programu.
+ Przypadek taki może zdarzyć się w momencie odcięcia zasilania od maszyny
+ bądź innych zdarzeń losowych.
+ Sposobem przechowania danych w takim przypadku jest zapisywanie stanu do
+ dysku.
+ W przypadku pracy implementację kolejki oparto o plikową bazę danych Sqlite
+ oraz jej sterownik w języku Python Sqlite3.
+ Decyzja ta została podjęta ze względu na problemy z instalowaniem zewnętrznego
+ oprogramowania w Gardawicach.
+ W trakcie rozwoju projektu można wymienić ten komponent na jedno z popularnych
+ obecnie rozwiązań do kolejkowania zadań takich jak RabitMQ czy Celery.
+ Wśród analizowanych rozwiązań znalazł się również Redis jednak nie zapewnia
+ on zrzutu każdego zadania do dysku, zapisy stanu odbywają się co interwał.
+ Może to prowadzić do utraty danych.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="35page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Metoda
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Argumenty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Typ zwracany
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Opis
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+put
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ścieżka
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dodaje element do kolejki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+get
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ścieżka
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwraca element z kolejki zgodnie ze strategią implementacji (FIFO, LIFO,
+ etc)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pop
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ścieżka
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Usuwa element z kolejki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+len
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+integer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwraca długość kolejki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+get_all
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lista ścieżek
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zwraca wszystkie elementy z kolejki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Opis metod interfejsu PersistentQueue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:queue_interface_description"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:queue_interface_description"
+
+\end_inset
+
+ przedstawia metody wymagane przez interfejs kolejki.
+ Rozdzielenie metod pop i get pozwala na zachowanie obecnie przetwarzanego
+ elementu w kolejce w przypadku błędu.
+ Metoda pop wołana jest po uzyskaniu potwierdzenia poprawnego zapisania
+ pliku przez serwis Receiver.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO: zmien to na komponent i przypilnuj aby wszedzie byly z malej albo
+ duzej litery
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Architektura-serwisu-Receiver"
+
+\end_inset
+
+Architektura serwisu Receiver
 \end_layout
 
 \begin_layout Chapter
