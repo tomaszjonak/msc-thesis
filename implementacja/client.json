@@ -12,9 +12,9 @@
     "retry_time": 30,
     "separator": "\n"
   },
-  "storage_root": "/tmp/client_storage",
-  "stage_queue_path": "/tmp/state_storage/stage.queue",
-  "cache_path": "/tmp/state_storage/client.cache",
+  "storage_root": "client_storage",
+  "stage_queue_path": "state_storage/stage.queue",
+  "cache_path": "state_storage/client.cache",
 
   "compression": {
     "avi": "x264",

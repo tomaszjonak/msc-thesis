@@ -112,9 +112,10 @@ class ReceiverProcessor(object):
         # we want to send file path relative to storage root, thus base storage_root is included
         # into path only for existence check
         full_paths = (self.storage_root.joinpath(file) for file in possible_files)
-        valid_paths = (path for path in full_paths if path.exists())
+        valid_paths = [path for path in full_paths if path.exists()]
         if not valid_paths:
             return [], None, None
+
         last_created = max(valid_paths, key=lambda file: file.stat().st_ctime_ns)
         first_created = min(valid_paths, key=lambda file: file.stat().st_ctime_ns)
         results = [path.relative_to(self.storage_root).as_posix() for path in valid_paths]

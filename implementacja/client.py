@@ -82,7 +82,7 @@ def main():
 
     storage_root = pathlib.Path(config['storage_root'])
     if storage_root.parent.exists() and not storage_root.parent.is_dir():
-        logger.error('')
+        logger.error('Invalid path provided as storage_root')
     storage_root.mkdir(exist_ok=True, parents=True)
 
     stage_queue_path = config['stage_queue_path']

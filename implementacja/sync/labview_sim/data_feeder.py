@@ -73,10 +73,10 @@ def _work(sock, extensions, root_path, **kwargs):
     send_all(sock, payload)
     logger.info("Sent {}".format(seed))
 
-
+# R2017_10_06
 def get_file_paths(extensions: list, root_path: str):
     current_time = datetime.now()
-    folder_name = current_time.strftime('M%y%m%d')
+    folder_name = current_time.strftime('R%Y_%m_%d')
     file_name_seed = current_time.strftime('M%y%m%d-%H%M%S')
 
     folder_path = pathlib.Path(root_path, folder_name)
