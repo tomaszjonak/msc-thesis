@@ -1,0 +1,24 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 50123,
+    "retry_time": 30,
+    "processor": "compression"
+  },
+  "provider": {
+    "host": "127.0.0.1",
+    "port": 50321,
+    "extensions": ["lvm", "avi"],
+    "retry_time": 30,
+    "separator": "\n"
+  },
+  "storage_root": "/tmp/client_storage",
+  "stage_queue_path": "/tmp/state_storage/stage.queue",
+  "cache_path": "/tmp/state_storage/client.cache",
+
+  "compression": {
+    "avi": "x264",
+    "lvm": "bzip2",
+    "mp4": null
+  }
+}

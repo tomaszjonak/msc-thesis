@@ -2,7 +2,6 @@ from ..utils import StreamTokenWriter, StreamTokenReader, FilesystemHelpers
 from sync import compressors
 
 import pathlib as pl
-import numpy as np
 import logging
 
 
@@ -169,9 +168,6 @@ class ServerDecompressionProcessor(ServerProtocolProcessor):
 
         dest_path = path.with_name(path.name.split('.')[0]).with_suffix(suffix_mapper(path.suffixes))
         dest_path.write_bytes(data)
-
-        # TODO currently its easy to just assume its lvm here, change to generic handling
-        # np.savetxt(str(path), data, fmt=self.fmt, delimiter=self.delimiter)
 
     def save_failed_file(self, buffer):
         name = self._file_description['filename']

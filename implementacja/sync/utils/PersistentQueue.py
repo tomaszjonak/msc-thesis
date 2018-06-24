@@ -144,7 +144,8 @@ class SqliteQueue(Queue):
         return record[0]
 
     def __del__(self):
-        self.connection.close()
+        if hasattr(self, "connection"):
+            self.connection.close()
 
 
 DefaultQueue = SqliteQueue

@@ -34,7 +34,7 @@ class SyncProcessor(object):
         # there should be sane way to pick catalogues just from given day
         # but its pretty deep into internal structure of produced data
         files_in_root_dir = (file for file in self.storage_root.iterdir()
-                             if not file.is_dir() and lower < file.lstat().st_ctime_ns < upper
+                             if not file.is_dir() and lower <= file.lstat().st_ctime_ns <= upper
                              and file.suffix.strip('.') in self.extensions)
 
         files = files_in_root_dir

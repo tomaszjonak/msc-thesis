@@ -55,7 +55,7 @@ class ReceiverService(object):
 
 
 class ReceiverThread(Workers.KeepAliveWorker):
-    def __init__(self, address, stage_queue, storage_root, cache, sync_queue=None,**kwargs):
+    def __init__(self, address, stage_queue, storage_root, cache, sync_queue=None, **kwargs):
         self.address = address
         self.queue = stage_queue
         self.storage_root = storage_root
