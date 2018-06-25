@@ -2940,7 +2940,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-M
+R
 \end_layout
 
 \end_inset
@@ -3166,6 +3166,13 @@ Plik avi może nie zostać wygenerowany
 
 \begin_layout Section
 Analiza ilościowa
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Analiza-ilościowa"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -14343,48 +14350,903 @@ name "chap:Testy"
 
 \end_layout
 
-\begin_layout Section*
-Rozwazane stanowiska testowe
+\begin_layout Section
+Testy jednostkowe
 \end_layout
 
-\begin_layout Itemize
-Local loopback
-\end_layout
-
-\begin_layout Itemize
-Virtual Box
-\end_layout
-
-\begin_layout Itemize
-Docker
-\end_layout
-
-\begin_layout Section*
-Sposoby ograniczenia mozliwosci sieci w kazdym przypadku
+\begin_layout Section
+Testy przepustowości
 \end_layout
 
 \begin_layout Standard
-https://docs.docker.com/engine/userguide/networking/default_network/build-bridges/
+Celem zbadania przepustowości aplikacji w konfiguracji realizującej kompresje
+ stworzono środowisko testowe z interfejsem sieciowym posiadającym ograniczoną
+ przepustowość.
 \end_layout
 
 \begin_layout Standard
-https://github.com/magnific0/wondershaper
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/schemat_sieciowy_test_przepustowosc.png
+	lyxscale 60
+	scale 70
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Section*
-Testowe zbiory danych
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat stanowiska testowego
 \end_layout
 
-\begin_layout Section*
-Schemat generatora
+\end_inset
+
+
 \end_layout
 
-\begin_layout Section*
-Weryfikacja reczna
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:schemat_stanowiska_test_obciazeniowy"
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Section*
-Weryfikacja automatyczna
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_stanowiska_test_obciazeniowy"
+
+\end_inset
+
+ przedstawia schemat stanowiska testowego.
+ Wykorzystano komputer osobisty z systemem operacyjnym Windows 10 oraz dwie
+ maszyny wirtualne służące przeprowadzeniu testu, nazwane zgodnie z komponentami
+ które zostaną na nich uruchomione.
+ Na maszynie wirtualnej vm-sender uruchomiono ponadto narzędzie symulujące
+ komponent Labview.
+ Na wykresie wyróżniono interfejsy sieciowe oraz adresy IP z nimi związane.
+\end_layout
+
+\begin_layout Standard
+Sieć 192.168.0.0 służy do konfiguracji obu maszyn ze stacji roboczej za pomocą
+ konsoli zdalnej SSH.
+ Sieć 172.16.0.0 symuluje połączenie w warunkach roboczych systemu.
+ Do ograniczenia przepustowości łącza wykorzystano program TC dostępny w
+ systemie operacyjnym ubuntu.
+ Wykorzystuje on subsystem jądra systemu jądra operacyjnego systemu o nazwie
+ netlink do kontroli nad ilością nadawanych pakietów.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/test_tc_rate_limiting.PNG
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wykorzystanie programu tc do ograniczenia przepustowości
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_tc_rate_limiting"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_tc_rate_limiting"
+
+\end_inset
+
+ przedstawia sekwencję programu tc wykorzystaną do ograniczenia przepustowości.
+ Na potrzeby symulacji przepustowość ograniczono do 12 KB
+\backslash
+s przy opóźnieniu 200ms.
+ Komenda nie zwraca informacji na wyjście standardowe (ang.
+ standard output), z tego powodu sprawdzony został kod błędu znajdujący
+ się w zmiennej $?.
+ Poprawność ustawienie zweryfikowano również za pomocą komendy show.
+ Warto zauważyć, że program tc operuje na interfejsach sieciowych, stąd
+ w komendach użyty jest identyfikator interfejsu - enp0s9.
+ Ten sam zestaw komend został wykonany na maszynie vm-receiver.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/iperf3_start.PNG
+	scale 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Początek działania programu iperf3
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_rate_limiting_verif"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_rate_limiting_verif"
+
+\end_inset
+
+ przedstawia rozruch aplikacji iperf3 służącej weryfikacji przepustowości
+ sieci.
+ Składa się ona z dwóch komponentów - klienta oraz serwera.
+ Serwer został uruchomiony na maszynie vm-receiver z opcją nasłuchu na porcie
+ 50123.
+ Klient został uruchomiony na maszynie vm-sender z poleceniem połączenia
+ się na adres 172.16.0.1 port 50123 odpowiadający serwerowi.
+ Ponadto ustawiono opcję wypisywania wyjścia w kilobajtach na sekundę oraz
+ czas trwania testu na 100 sekund.
+ Program wypisuje dane cząstkowe co sekundę.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/iperf3_end.PNG
+	scale 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Podsumowanie działania programu iperf3
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_rate_limiting_end"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_rate_limiting_end"
+
+\end_inset
+
+ przedstawia ostatnie cząstkowe wartości oraz podsumowanie działania programu.
+ Przepustowość nadawania została oszacowana na 12.2 KB/s a przepustowość
+ odbioru na 11.2 KB/s.
+ Ustawienia programu tc nie zostały odwzorowane dokładnie jednak można uznać
+ że warunki symulacji reprezentują dostatecznie dobrze środowisko docelowe.
+\end_layout
+
+\begin_layout Standard
+W ramach testu wykorzystano komponent data_provider który jest w stanie
+ zasymulować działanie Labview, wymaga on podania ścieżki do katalogu z
+ pomiarami.
+ Wysyła on informacje o nowych pomiarach co skonfigurowany interwał.
+ Kolejność wysyłania plików jest zgodna z danymi czasowymi zawartymi w nazwach
+ plików oraz katalogów z pomiarami.
+ Kod źródłowy symulatora znajduje się w źródłach pracy (implementacja/sync/labvi
+ew_sim/data_provider.py).
+\end_layout
+
+\begin_layout Standard
+Do poprawnego przeprowadzenia symulacji wymagana jest średni interwał pomiędzy
+ kolejnymi rozgłoszeniami par pomiarów.
+ Do wyliczenia pomiarów użyto ponownie zestawu danych z sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Analiza-ilościowa"
+
+\end_inset
+
+.
+ Zastosowano następującą formułę:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $N=165249$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $T=28$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\triangle T=\frac{T*24*60*60*s}{N}=\frac{2419200}{165249}\,\frac{s}{pomiar}=14.64\:\frac{s}{pomiar}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+gdzie
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $N-$
+\end_inset
+
+liczba wygenerowanych plików
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $T-$
+\end_inset
+
+liczba dni
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\triangle T-$
+\end_inset
+
+interwał pomiędzy pomiarami
+\end_layout
+
+\begin_layout Standard
+Na potrzeby testu nadawano dane wygenerowane na stanowisku w Gardawicach
+ dnia 06.10.2017.
+\end_layout
+
+\begin_layout Standard
+Rozruch wykonano za pomocą komendy
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+python3 sync/labview_sim/data_provider.py -hs 127.0.0.1 -p 50321 -s client_storage
+ --extensions lvm avi --sleep 14.64
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Flaga
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Wartość
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Opis
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-hs
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+127.0.0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Adres IP symulatora
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-p
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50321
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Port TCP symulatora
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+client_storage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Katalog bazowy pomiarów
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–extensions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lvm avi
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rozgłaszane roszerzenia plików
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–sleep
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.64
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Czas pomiędzy kolejnymi rozgłoszeniami
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Argumenty rozruchowe symulatora
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:rys_provider_args"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:rys_provider_args"
+
+\end_inset
+
+ przedstawia flagi z jakimi został uruchomiony symulator Labview.
+ Aplikacja nasłuchuje na interfejsie lokalnym porcie 50321, katalog z pomiarami
+ został zdefiniowany relatywnie do katalogu rozruchu aplikacji, monitorowane
+ rozszerzenia ustawione zostały zgodnie z wymaganiami pracy a wartość opóźnienia
+ zgodnie z wyliczoną wartością.
+\end_layout
+
+\begin_layout Standard
+Komponent Receiver został uruchomiony za pomocą następującej komendy
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+python3 server.py -c server.json
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/test_receiver_config.PNG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Konfiguracja testowa komponentu Receiver
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_receiver_configuration"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_receiver_configuration"
+
+\end_inset
+
+ przedstawia konfigurację komponentu Sender na potrzeby testu.
+ Został on skonfigurowany do nasłuchu pod adresem 127.16.0.1:50123 odpowiadającym
+ sieci testowej, katalog bazowy pomiarów przyjął wartość server_storage.
+ Ponadto pliki lvm zostaną zdekompresowane po odebraniu.
+\end_layout
+
+\begin_layout Standard
+Komponent Sender został uruchomiony za pomocą następującej komendy
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+python3 client.py -c client.json
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/test_sender_config.PNG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Konfiguracja testowa komponentu Sender
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_sender_config"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_sender_config"
+
+\end_inset
+
+ przedstawia konfigurację komponentu Receiver na potrzeby testu.
+ Wartości par host:port klauzul 
+\begin_inset Quotes pld
+\end_inset
+
+server
+\begin_inset Quotes prd
+\end_inset
+
+ i 
+\begin_inset Quotes pld
+\end_inset
+
+provider
+\begin_inset Quotes prd
+\end_inset
+
+ odpowiadają konfiguracjom symulatora oraz Receivera.
+ Zarówno Sender jak i symulator Labview zostały uruchomione na maszynie
+ vm-sender.
+ Ponadto obie aplikacje współdzielą katalog w którym zostały uruchomione,
+ stąd katalog bazowy pomiarów - client_storage - wskazuje w obu przypadkach
+ na tą samą lokalizację.
+ Schemat kompresji zgodnie z wnioskami z sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Kompresja"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Wartością testu jest stan kolejki dyskowej, w przypadku dostatecznej przepustowo
+ści jej długość powinna posiadać obserwowalną maksymalną wartość.
+ Narastająca ilość plików oznacza niedostateczną przepustowość.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/test_queue_monitor_script.PNG
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Skrypt monitorujący stan kolejki
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_monitoring_script"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_monitoring_script"
+
+\end_inset
+
+ przedstawia skrypt w języku Python za pomocą którego monitorowano stan
+ kolejki dyskowej.
+ Przyjmuje on dwa argumenty
+\end_layout
+
+\begin_layout Enumerate
+Ścieżkę do pliku przechowującego stan kolejki
+\end_layout
+
+\begin_layout Enumerate
+Ścieżkę do logu stanu kolejki
+\end_layout
+
+\begin_layout Standard
+W trakcie działania wykonuje on zapytanie SELECT count(*) FROM queue które
+ zlicza ilość wpisów w tabeli, każdy wpis odpowiada pojedynczemu elementowi
+ w kolejce.
+ Wartość następnie jest zapisywana w formacie CSV do pliku razem z czasem
+ wykonania pomiaru.
+ Skrypt został uruchomiony w następujący sposób.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+python3 measure.py state_storage/stage.queue state_storage/queue.log
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Skrypt uruchomiono w tym samym katalogu co komponent Sender oraz symulator
+ Labview.
 \end_layout
 
 \begin_layout Chapter
