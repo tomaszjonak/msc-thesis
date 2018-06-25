@@ -1,7 +1,7 @@
 {
-  "host": "127.0.0.1",
+  "host": "172.16.0.1",
   "port": 50123,
-  "storage_root": "/tmp/server_storage",
+  "storage_root": "server_storage",
 
   "decompression": {
     "lvm": "bzip2"

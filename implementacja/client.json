@@ -1,6 +1,6 @@
 {
   "server": {
-    "host": "127.0.0.1",
+    "host": "172.16.0.1",
     "port": 50123,
     "retry_time": 30,
     "processor": "compression"
