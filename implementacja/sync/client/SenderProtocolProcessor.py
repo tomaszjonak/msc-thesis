@@ -2,6 +2,7 @@ from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue
 import pathlib as pl
 import logging
 import time
+import os
 from sync import compressors
 
 logger = logging.getLogger(__name__)
@@ -125,9 +126,11 @@ class SenderProtocolProcessor(object):
 
 
 class CompressionEnabledSender(SenderProtocolProcessor):
+    ffmpeg = os.environ.get("FFMPEG_PATH", "ffmpeg")
+
     compressors = {
-        'wavelet': (compressors.wavelet.wavelet_lvm.encode_file, compressors.wavelet.map_extension),
-        'x264': (compressors.x264.Compressor("ffmpeg"), compressors.x264.map_extension),
+        # 'wavelet': (compressors.wavelet.wavelet_lvm.encode_file, compressors.wavelet.map_extension),
+        'x264': (compressors.x264.Compressor(ffmpeg), compressors.x264.map_extension),
         'bzip2': (compressors.bz2.compress, compressors.bz2.map_extension)
     }
 
@@ -141,7 +144,6 @@ class CompressionEnabledSender(SenderProtocolProcessor):
                     .format(self.extension_map.keys()))
 
         # TODO: add to settings
-        ffmpeg_path = ''
 
         super(CompressionEnabledSender, self).__init__(*args, **kwargs)
 

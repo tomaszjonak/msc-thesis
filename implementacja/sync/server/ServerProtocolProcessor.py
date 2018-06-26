@@ -119,7 +119,7 @@ class ServerProtocolProcessor(object):
 
 class ServerDecompressionProcessor(ServerProtocolProcessor):
     decompressors = {
-        'wavelet': (compressors.wavelet.wavelet_lvm.decode_to_bytestream, compressors.wavelet.remap_extension),
+        # 'wavelet': (compressors.wavelet.wavelet_lvm.decode_to_bytestream, compressors.wavelet.remap_extension),
         'bzip2': (compressors.bz2.decompress, compressors.bz2.remap_extension)
     }
     fmt = '%.6f'

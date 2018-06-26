@@ -8,7 +8,7 @@ import argparse
 import logging
 import itertools
 
-logging.basicConfig()
+logging.basicConfig(format="%(asctime)s [%(name)s|%(threadName)s] %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 

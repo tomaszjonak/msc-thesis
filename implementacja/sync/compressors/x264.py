@@ -33,7 +33,7 @@ class Compressor(object):
         return bytes_
 
 
-def compress(file: pathlib.Path, preset='slow', crf=32):
+def compress(file: pathlib.Path, preset='veryslow', crf=32):
     temp_path = pathlib.Path('temp.mp4')
     if temp_path.exists():
         temp_path.unlink()
