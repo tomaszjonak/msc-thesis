@@ -13,8 +13,8 @@
     "separator": "\n"
   },
   "storage_root": "client_storage",
-  "stage_queue_path": "state_storage/stage.queue",
-  "cache_path": "state_storage/client.cache",
+  "stage_queue_path": "../simulation_state/client_state/stage.queue",
+  "cache_path": "../simulation_state/client_state/client.cache",
 
   "compression": {
     "avi": "x264",

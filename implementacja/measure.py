@@ -14,6 +14,6 @@ def main():
         except Exception as e:
             print(e)
         finally:
-            time.sleep(10)
+            time.sleep(float(sys.argv[3]))
 
 main()

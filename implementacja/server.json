@@ -1,7 +1,7 @@
 {
   "host": "172.16.0.1",
   "port": 50123,
-  "storage_root": "server_storage",
+  "storage_root": "../simulation_state/server_storage",
 
   "decompression": {
     "lvm": "bzip2"
