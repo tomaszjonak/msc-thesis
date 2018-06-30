@@ -3595,57 +3595,154 @@ name "sec:Łącze-sieciowe"
 \end_layout
 
 \begin_layout Standard
-Prędkość przesyłu danych ze stanowiska pomiarowego do uczelni została zmierzona
- za pomocą programu scp, użyty został do tego celu plik ze skompresowanymi
- pomiarami z jednego dnia 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-(TODO: w sumie to i tak idzie w tunelu, wpadł tam narzut na szyfrowanie,
- jak wstanie trzeba powtórzyć na gołym tcp, np netcatem).
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Średnia przepustowość wewnątrz tunelu została oszacowana na 12 kb/s jest
- to wielkość ponad 7 razy mniejsza od średniego strumienia danych.
- Uniemożliwia to bezpośrednie zastosowanie standardowych narzędzi stosowanych
- do przesyłania plików FTP (ang.
- File Transfer Protocol), SCP (ang.
- Secure Copy Protocol) czy program rsync.
-\end_layout
-
-\begin_layout Standard
-W obecnym schemacie pracy stanowiska odbiór danych wymaga manualnego przekopiowa
-nia pomiarów na nośnik i przewiezienia ich na uczelnię.
-\end_layout
-
-\begin_layout Standard
-co uniemożliwia przesył danych w czasie rzeczywistym przy zastosowaniu standardo
-wych rozwiązań takich jak FTP (ang.
- File Transfer Protocol), SCP (ang.
- Secure Copy Protocol) czy program rsync.
- Odbiór danych wymaga fizycznego dostępu do maszyny i przekopiowania danych
- na inny nośnik bądź zastosowania kompresji.
- Szerszy opis relacji przepustowości do kompresji został przedstawiony w
- podrozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Kompresja"
+Przepustowość łącza zbadano z użyciem narzędzia iPerf 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "iperf"
 
 \end_inset
 
 .
+ Pomiar został przeprowadzony pomiędzy maszynami traffic2 oraz stanowiskiem
+ pomiarowym.
+ Pomiar odbywa się w schemacie klient-serwer, w badanym przypadku rolę klienta
+ przyjęła maszyna w miejscowości Gardawice.
 \end_layout
 
 \begin_layout Standard
-Drugim istotnym aspektem połączenia jest jego dostępność, zaobserwowane
- zostały przerwy w łączności sięgające tygodnia.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/iperf_gardawice_to_mint_client.PNG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wyjście standardowe klienta iPerf w miejscowości Gardawice
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:iperf_gardawice"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:iperf_gardawice"
+
+\end_inset
+
+ przedstawia rezultat działania aplikacji iPerf widziany z komputera w miejscowo
+ści Gardawice.
+ Nawiązano połączenie z komputerem traffic2 nasłuchującym pod adresem IP
+ 10.8.0.42 na porcie TCP 31337.
+ Opcja -t definiuje czas pomiaru w sekundach, trwał on godzinę.
+ Ostatnia linia na rysunku prezentuje podsumowanie pomiarów, zmierzona przepusto
+wość wyniosła 58.1 kB/s.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/iperf_gardawice_to_mint_server.PNG
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wyjście standardowe serwera iPerf na maszynie traffic2 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:iperf_traffic2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:iperf_traffic2"
+
+\end_inset
+
+ przedstawia wynik pomiarów zaraportowany na maszynie traffic2.
+ Argumenty rozruchowe aplikacji zawierają flagę -s odpowiadającą za uruchomienie
+ aplikacji w trybie serwerowym.
+ Flagi -B i -p sterują odpowiednio adresem IP i portem TCP na których nasłuchuje
+ aplikacja.
+ Rysunek zwiera rezultaty trzech pomiarów, gdzie pomiar o identyfikatorze
+ 4 odpowiada pomiarowi przedstawionemu na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:iperf_gardawice"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Wynikowa przepustowość zaraportowana przez serwer jest o 0.1 kB/s niższa
+ niż w przypadku klienta.
+ Może to być spowodowane buforowaniem danych przez stos sieciowy maszyny
+ nadającej.
+ W dalszej części pracy przyjęto, że przepustowość łącza wynosi 58 kB/s.
 \end_layout
 
 \begin_layout Section
@@ -3697,7 +3794,7 @@ oraz przepustowości sieci (strumieniu wyjściowym)
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $S_{out}=12\,\frac{kB}{s}$
+\begin_inset Formula $S_{out}=58\,\frac{kB}{s}$
 \end_inset
 
 
@@ -3709,7 +3806,7 @@ wymagany stopień kompresji aby zrównać strumień generowany z maksymalnym
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $c_{r}=\frac{S_{in}}{S_{out}}=\frac{86.8}{12}\approx7.23$
+\begin_inset Formula $c_{r}=\frac{S_{in}}{S_{out}}=\frac{86.8}{58}\approx1.5$
 \end_inset
 
 
@@ -3721,7 +3818,7 @@ W trakcie porównań użyto procentowej miary mówiącej jaką częścią rozmia
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\eta=\frac{V_{compressed}}{V_{original}}\cdot100\%=\frac{12}{86.8}\cdot100\%\approx13.8\%$
+\begin_inset Formula $\eta=\frac{V_{compressed}}{V_{original}}\cdot100\%=\frac{58}{86.8}\cdot100\%\approx66.8\%$
 \end_inset
 
 
@@ -3731,17 +3828,6 @@ W trakcie porównań użyto procentowej miary mówiącej jaką częścią rozmia
 Powyższa kalkulacja nie bierze pod uwagę narzutu wprowadzanego przez protokoły
  sieciowe użyte w trakcie przesyłu.
  
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-12kb/s wyszło używając scp które leci szyfrowane, można przypuszczać że
- przepustowość jest wyższa i wyrówna narzut na protokoły sieciowe 
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -10252,34 +10338,6 @@ reference "sec:Struktura-generowanych-danych"
  Plik avi w szczególnych przypadkach może nie zostać wygenerowany.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-W schematach działania Sendera i Receivera pominięto sekwencje nawiązywania
- połączenia, zostaną one przedstawione w sekcjach 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Architektura-serwisu-Sender"
-
-\end_inset
-
- i 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Architektura-serwisu-Receiver"
-
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Sender
 \end_layout
@@ -12570,6 +12628,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename img/stream_operations.jpg
+	lyxscale 80
+	scale 80
 
 \end_inset
 
