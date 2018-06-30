@@ -1,6 +1,9 @@
 import abc
 import sqlite3
 import time
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Queue(abc.ABC):
@@ -57,6 +60,27 @@ class Queue(abc.ABC):
         pass
 
 
+def retry(fn):
+    """
+    Wraps function into retry logic in case of sqlite3 exceptions
+    :param fn:
+    :return:
+    """
+    def wrapped( *args, **kwargs):
+        i = 0
+        while True:
+            try:
+                return fn(*args, **kwargs)
+            except sqlite3.OperationalError as e:
+                i += 1
+                if i > 3:
+                    logger.error("Db connection failure exceeded retry limit")
+                    raise e
+                else:
+                    logger.warning("Db connection failure, retrying ({})".format(e))
+    return wrapped
+
+
 class SqliteQueue(Queue):
     """
     Implementacja kolejki dyskowej z wykorzystaniem bazy danych sqlite. Warto zwrocic uwage ze get zwraca str(element)
@@ -82,11 +106,13 @@ class SqliteQueue(Queue):
     def set_order(self, order):
         self.get_impl = self.ORDER_MAP[order]
 
+    @retry
     def _setup_scheme(self):
         # TODO test queue size trends on working system
         # TODO check whether indexing by timestamp gives any performance difference
         self.connection.execute(r'CREATE TABLE queue (timestamp DATETIME, element TEXT)')
 
+    @retry
     def put(self, element):
         try:
             value = str(element)
@@ -102,10 +128,12 @@ class SqliteQueue(Queue):
     def get(self, wait_for_value=True, timeout=None):
         return self.waiting_get(timeout=timeout) if wait_for_value else self.instant_get()
 
+    @retry
     def get_all(self):
         result = self.connection.execute("""SELECT element FROM queue""").fetchall()
         return [x for (x,) in result]
 
+    @retry
     def waiting_get(self, timeout=None):
         """
         :return: str - element z kolejki (w zaleznosci od paramteru order)
@@ -124,6 +152,7 @@ class SqliteQueue(Queue):
 
         return record[0]
 
+    @retry
     def instant_get(self):
         """
         :return: value if any present in queue else none
@@ -131,6 +160,7 @@ class SqliteQueue(Queue):
         record = self.connection.execute(self.get_impl).fetchone()
         return record[0] if record else None
 
+    @retry
     def pop(self, element):
         """
         Jesli pojawi sie wiecej niz jeden element o takiej samej wartosci wszystkie zostana usuniete.
@@ -139,6 +169,7 @@ class SqliteQueue(Queue):
         self.connection.execute(r'DELETE FROM queue where element=?', (element,))
         self.connection.commit()
 
+    @retry
     def len(self):
         record = self.connection.execute(r'SELECT count(*) from queue').fetchone()
         return record[0]
@@ -146,6 +177,5 @@ class SqliteQueue(Queue):
     def __del__(self):
         if hasattr(self, "connection"):
             self.connection.close()
-
 
 DefaultQueue = SqliteQueue

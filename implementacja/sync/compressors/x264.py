@@ -1,8 +1,17 @@
 import pathlib
 import subprocess
 import logging
+import os
 
 logger = logging.getLogger(__name__)
+
+ffmpeg_path = os.environ.get("FFMPEG_PATH", "ffmpeg")
+try:
+    subprocess.check_call([ffmpeg_path, "-version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+except subprocess.CalledProcessError:
+    logger.error("Bad ffmpeg path provided, set FFMPEG_PATH env variable to proper value")
+    exit(-1)
+
 
 # TODO rewrite with some form of piping instead of buffer file
 class Compressor(object):
@@ -21,7 +30,7 @@ class Compressor(object):
         if self.temp_path.exists():
             self.temp_path.unlink()
 
-        create_cmd = ['ffmpeg', '-i', str(file),
+        create_cmd = [ffmpeg_path, '-i', str(file),
                       '-preset', preset,
                       '-crf', str(crf),
                       '-c:v', 'libx264',

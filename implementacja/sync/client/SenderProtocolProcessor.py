@@ -2,6 +2,7 @@ from ..utils import StreamTokenWriter, StreamTokenReader, PersistentQueue
 import pathlib as pl
 import logging
 import time
+import subprocess
 import os
 from sync import compressors
 
@@ -135,7 +136,7 @@ class CompressionEnabledSender(SenderProtocolProcessor):
     }
 
     def __init__(self, *args, compression_settings, **kwargs):
-        logger.info('CompressionEnabledSender::init')
+        logger.info('CompressionEnabledSender::init (ffmpeg path: {})'.format(self.ffmpeg))
 
         self.verify_compression_settings(compression_settings)
         self.extension_map = compression_settings
@@ -169,6 +170,9 @@ class CompressionEnabledSender(SenderProtocolProcessor):
             self.writer.write_token(str(file_size))
             super(CompressionEnabledSender, self)._transfer_file()
             return
+        except subprocess.CalledProcessError as e:
+            logger.debug("Ffmpeg gave up, sending raw {}".format(e))
+            super(CompressionEnabledSender, self)._transfer_file()
 
         announced_file = str(self.file_obj
                                  .relative_to(self.storage_root)

@@ -77,11 +77,12 @@ class ReceiverProcessor(object):
 
     def _process_files(self):
         file_pattern = self.reader.get_token().decode()
-        time.sleep(0.5)
+        # time.sleep(0.5)
         try:
             files, _, newest_file = self.find_matching_files(file_pattern)
-        except ValueError:
-            logger.warning('No files found for given pattern ({})'.format(file_pattern))
+        except Exception as e:
+            logger.warning('No files found for given pattern (files: {})'.format(file_pattern))
+            logger.debug(e)
             return
 
         if not files:

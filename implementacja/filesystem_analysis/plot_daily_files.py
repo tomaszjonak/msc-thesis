@@ -4,7 +4,7 @@ import matplotlib.dates as mdates
 
 data = pd.read_csv('daily_files_cut.csv', header=None, index_col=0, parse_dates=True)
 data.rename({0: 'Dzien pomiaru', 1: 'Ilosc plikow avi', 2: 'Ilosc plikow csv'})
-
+# print(data.head())
 # fig, ax = plt.subplots()
 
 # ax = data.plot(style=['o', 'x'], ms=6, grid=True, legend=True,
