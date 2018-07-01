@@ -78,7 +78,7 @@
 \pdf_bookmarksopenlevel 2
 \pdf_breaklinks true
 \pdf_pdfborder true
-\pdf_colorlinks true
+\pdf_colorlinks false
 \pdf_backref false
 \pdf_pdfusetitle true
 \papersize default
@@ -147,7 +147,7 @@ shortauthor{T.
 
 
 \backslash
-titlePL{Opracowanie oprogramowania do kompresji, przesylu oraz skladowania
+titlePL{Opracowanie oprogramowania do kompresji, przesyłu oraz składowania
  danych ze zdalnego systemu pomiaru parametrow ruchu drogowego}
 \end_layout
 
@@ -217,7 +217,7 @@ acknowledgements{Wymaga odkomentowania linijek w aghdpl.cls}
 
 
 \backslash
-date{2017} 
+date{2018} 
 \end_layout
 
 \begin_layout Plain Layout
@@ -272,31 +272,11 @@ LatexCommand tableofcontents
 
 \end_layout
 
-\begin_layout Chapter
-Wprowadzenie
+\begin_layout Chapter*
+Wstęp
 \begin_inset CommandInset label
 LatexCommand label
-name "chap:wprowadzenie"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Głównymi zaletami edytora \SpecialChar LyX
- jest automatyczna numeracja obiektów – rysunków,
- tabel, algorytmów, wzorów, rozdziałów, bibliografii i innych.
- Oznacza to, że użytkownik może skupić się na tekście – nie musi myśleć
- o tym, czy numeracja w tekście i przy danym rysunku lub tabeli będzie prawidłow
-a, gdy przeniesie jeden podrozdział w inne miejsce swojej pracy.
- Numeracją zajmie się \SpecialChar LyX
- poprzez mechanizm etykiet.
-\end_layout
+name "chap:wstep"
 
 \end_inset
 
@@ -310,8 +290,8 @@ Cel pracy
 \begin_layout Standard
 Niniejsza praca powstała w celu zaprojektowania oraz wdrożenia systemu służącego
  automatycznemu przesyłowi danych ze stanowiska pomiarowego do przestrzeni
- magazynowania w katedrze metrologii wydziału EAIiIB AGH w warunkach ograniczone
-j przepustowości łącza.
+ magazynowania w Katedrze Metrologii i Elektroniki wydziału EAIiIB AGH w
+ warunkach ograniczonej przepustowości łącza.
 \end_layout
 
 \begin_layout Section*
@@ -322,7 +302,7 @@ Zakres pracy
 Praca obejmuje analizę danych generowanych przez stanowisko pomiarowe, oszacowan
 ie strumienia generowanych danych oraz przepustowości łącza, dobór metod
  kompresji, opracowanie mechanizmu ochrony przed utratą danych oraz projekt
- oraz implementację oprogramowania realizującego pobór, kompresję, przesył
+ i implementację oprogramowania realizującego pobór, kompresję, przesył
  oraz składowanie danych.
 \end_layout
 
@@ -331,51 +311,52 @@ Układ pracy
 \end_layout
 
 \begin_layout Standard
-W rozdziale 
+Rozdział 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Wstęp-teoretyczny"
+
+\end_inset
+
+ zawiera opisy technologii użytych w pracy takich jak kompresja, protokół
+ TCP oraz gniazda sieciowe.
+ Rozdział 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:opis_problemu"
 
 \end_inset
 
- przedstawiono informacje na temat stanowiska pomiarowego oraz analizę sposobu
- generowania danych.
- W rozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:protokół_przesyłu"
-
-\end_inset
-
- omówiono dostępne rozwiązania przesyłu danych.
- W rozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:synchronizacja_danych"
-
-\end_inset
-
- przedstawiono przewidywane problemy w środowisku pracy oraz możliwe sposoby
- ich rozwiązania.
+ opisuje funkcjonowanie stanowiska pomiarowego, analizę sprawności kompresji
+ generowanych danych pomiarowych, oszacowanie przepustowości łącza oraz
+ wymagania względem projektu oprogramowania.
  Rozdział 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "chap:kompresja"
+reference "chap:Projekt-systemu"
 
 \end_inset
 
- zawiera opis formatów generowanych danych, listę popularnych schematów
- kompresji oraz analizę ich sprawności w badanym przypadku oraz wybór schematu
- zastosowanego w implementowanym rozwiązaniu.
- Rozdział 
+ zawiera projekty komponentów składających się na system przesyłu, strategię
+ działania w przypadku błędów środowiska oraz opis implementacji oprogramowania.
+ Zachowanie implementacji w warunkach symulacyjnych oraz w środku docelowym
+ opisuje rozdział 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "chap:Architektura-rozwiazania"
+reference "chap:Testy"
 
 \end_inset
 
- opisuje sposób działania programów klienckiego i serwerowego, dostępne
- alternatywne podejścia oraz powody ich zastosowania.
+.
+ Na rozdział 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Podsumowanie"
+
+\end_inset
+
+ składają się wnioski z poprzedzających rozdziałów, proponowane ścieżki
+ rozwoju pracy oraz podsumowanie.
 \end_layout
 
 \begin_layout Chapter
@@ -3516,7 +3497,6 @@ name "sec:Średni-strumień-danych"
 Metryką użytą do planowania struktury rozwiązania został średni strumień
  danych, jego wartość wyliczona została dzieląc sumę danych wygenerowanych
  w ciągu badanego okresu przez ilość sekund składających się na ten okres.
- 
 \end_layout
 
 \begin_layout Standard
@@ -3524,6 +3504,17 @@ Metryką użytą do planowania struktury rozwiązania został średni strumień
 \end_inset
 
 , s - strumień, V - ilość danych w bajtach, T - czas
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+S=\frac{V}{T}\,[\frac{B}{s}]
+\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3584,7 +3575,7 @@ Należy również pamiętać o zmienności dobowej w wielkości plików avi.
 \end_layout
 
 \begin_layout Section
-Łącze sieciowe
+Przepustowość łącza sieciowego
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Łącze-sieciowe"
@@ -3679,6 +3670,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename img/iperf_gardawice_to_mint_server.PNG
+	lyxscale 85
+	scale 85
 
 \end_inset
 
@@ -3742,7 +3735,7 @@ Wynikowa przepustowość zaraportowana przez serwer jest o 0.1 kB/s niższa
  niż w przypadku klienta.
  Może to być spowodowane buforowaniem danych przez stos sieciowy maszyny
  nadającej.
- W dalszej części pracy przyjęto, że przepustowość łącza wynosi 58 kB/s.
+ W dalszej części pracy przyjęto przepustowość łącza wynoszącą 58 kB/s.
 \end_layout
 
 \begin_layout Section
@@ -3983,19 +3976,6 @@ name "tab:kompresja_bezstratna"
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-TODO: zrobic na takim samym zbiorze danych jak dla avi oddzielnie od lvm
 \end_layout
 
 \end_inset
