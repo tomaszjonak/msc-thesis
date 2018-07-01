@@ -35,7 +35,7 @@ class KeepAliveWorker(threading.Thread):
     def _try_establishing(self):
         try:
             self.socket = socket.create_connection(self.address)
-        except (ConnectionRefusedError, ConnectionError):
+        except Exception:
             logger.warning('Connection refused, sleeping...')
             time.sleep(self.connection_retry_interval)
         else:
