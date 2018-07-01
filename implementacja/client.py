@@ -2,6 +2,7 @@
 
 import sync.client.ReceiverService as receiver
 import sync.client.SenderService as sender
+import sync.client.AviFinder as finder
 import sync.utils.PersistentQueue as que
 import sync.client.SynchronizationService as sc
 
@@ -91,6 +92,7 @@ def main():
     stage_queue_view1 = que.SqliteQueue(stage_queue_path)
     stage_queue_view2 = que.SqliteQueue(stage_queue_path)
     stage_queue_view3 = que.SqliteQueue(stage_queue_path)
+    stage_queue_view4 = que.SqliteQueue(stage_queue_path)
 
     cache = que.SqliteQueue(config['cache_path'])
 
@@ -113,6 +115,15 @@ def main():
     )
     services.append(sync_service)
 
+    avi_queue = queue.Queue()
+    logger.info('Starting avi finder service')
+    avi_service = finder.AviFinderService(
+        avi_queue=avi_queue,
+        stage_queue=stage_queue_view4,
+        storage_root=storage_root,
+    )
+    services.append(avi_service)
+
     labview_address = (config['provider']['host'], int(config['provider']['port']))
     logger.info('Starting receiver service')
     receiver_service = receiver.ReceiverService(
@@ -121,6 +132,7 @@ def main():
         storage_root,
         cache,
         sync_queue,
+        avi_queue=avi_queue,
         extensions=config['provider']['extensions'],
         separator=config['provider']['separator'],
         retry_time=int(config['provider']['retry_time'])

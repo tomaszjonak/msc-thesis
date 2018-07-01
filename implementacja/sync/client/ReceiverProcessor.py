@@ -12,7 +12,8 @@ class ReceiverProcessorError(RuntimeError):
 
 
 class ReceiverProcessor(object):
-    def __init__(self, reader, queue, storage_root, supported_extensions, cache, sync_queue=None):
+    def __init__(self, reader, queue, storage_root, supported_extensions, cache,
+                 sync_queue=None, avi_queue=None):
         if not isinstance(queue, PersistentQueue.Queue):
             raise ReceiverProcessorError('Queue has to keep data despite program shutdown')
 
@@ -29,6 +30,7 @@ class ReceiverProcessor(object):
         self.queue = queue
         self.cache = cache
         self.sync_queue = sync_queue
+        self.avi_queue = avi_queue
         self.reader = reader
         self.extensions = ['.{}'.format(extension.strip('.')) for extension in supported_extensions]
 
@@ -112,7 +114,15 @@ class ReceiverProcessor(object):
         possible_files = (base_path.with_suffix(extension) for extension in self.extensions)
         # we want to send file path relative to storage root, thus base storage_root is included
         # into path only for existence check
-        full_paths = (self.storage_root.joinpath(file) for file in possible_files)
+        full_paths = [self.storage_root.joinpath(file) for file in possible_files]
+
+        # LabVIEW doesn not guarantee that avi file will exist while sending path
+        # separate logic is needed to handle this situation
+        if 'avi' in self.extensions:
+            avi_file_path = self.storage_root.joinpath(base_path.with_suffix('avi'))
+            if not avi_file_path.exists():
+                self.avi_queue.put(avi_file_path, timeout=10)
+
         valid_paths = [path for path in full_paths if path.exists()]
         if not valid_paths:
             return [], None, None
