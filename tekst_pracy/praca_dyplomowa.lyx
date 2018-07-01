@@ -370,788 +370,35 @@ name "chap:Wstęp-teoretyczny"
 
 \end_layout
 
-\begin_layout Section*
-Kompresja danych
+\begin_layout Standard
+Niniejszy rozdział zawiera opisy zagadnień oraz technologii użytych w pracy.
+ Zagadnienia dotyczą warstwy sieciowej za pomocą której realizowany jest
+ przesył danych, intera
 \end_layout
 
 \begin_layout Standard
-Jest to transformacja która reprezentuje tą samą informację za pomocą mniejszej
- ilości bitów.
- Wyróżniamy kompresje stratną i bezstratną.
- Kompresja bezstratna zakłada istnienie nadmiarowości (redundancji) w wejściowej
- reprezentacji informacji którą można wykryć i usunać, przykładem tego typu
- kompresji jest kodowanie Huffmana (ang.
- Huffman coding)
+Skupiono się na zagadnieniach sieciowych - protokole TCP oraz gniazdach
+ sieciowych, kompresji danych oraz strukturze plików multimedialnych.
+\end_layout
+
+\begin_layout Section
+Protokół TCP
+\end_layout
+
+\begin_layout Standard
+Protokół użyty w pracy jako kanał transportu danych pomiędzy dwoma maszynami.
+ W modelach OSI oraz TCP/IP kategoryzowany jest jako protokół transportowy
+ - pozwala na komunikację procesów na dwóch różnych maszynach które komunikują
+ się za pomocą sieci Internet.
+ Protokół oferuje następujące własności 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "huffman_encoding"
+after "1.1.5 Operation"
+key "RFC0793-outline"
 
 \end_inset
 
-.
- Kompresja stratna stosowana jest w przypadku gdy można wyróżnić mniej istotne
- dane i je odrzucić, przykładem takiej sytuacji jest zmniejszenie ilości
- kolorów w reprezentacji graficznej oraz usunięcie szumu w zapisie dźwiękowym.
- Przykładami tego typu kompresji są standardy JPEG
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jpeg_paper"
-
-\end_inset
-
- oraz H.264
-\begin_inset CommandInset citation
-LatexCommand cite
-key "h264_paper"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Section*
-Podstawowe pojęcia obróbki plików multimedialnych
-\end_layout
-
-\begin_layout Standard
-Plik wideo składa się z jednego bądź więcej 
-\series bold
-strumieni danych
-\series default
- (ang.
- data stream).
- Strumień danych jest reprezentacją jednego bądź więcej sygnałów zapisanych
- w pewnym 
-\series bold
-formacie
-\series default
-.
- Format taki zazwyczaj posiada zestaw pożądanych cech takich jak dostosowanie
- do przesyłu bądź składowania czy szyfrowania.
- Reprezentacja danych zawarta w pliku zazwyczaj różni się od postaci która
- jest zdatna do odtworzenia (wyświetlenia, odegrania) i wymaga przetworzenia.
- Format podstawowy danego typu nazywany jest formatem nieprzetworzonym (ang.
- raw).
- W przypadku danych video reprezentacją nieprzetworzoną może być macierz
- pikseli.
- Transformacje wizyjne prowadzone są na tego typu reprezentacji.
-\end_layout
-
-\begin_layout Standard
-Do przetworzenia danych stosowany jest 
-\series bold
-kodek
-\series default
-, jest to urządzenie, biblioteka bądź program udostępniający dwie składowe.
-\end_layout
-
-\begin_layout Itemize
-Enkoder
-\end_layout
-
-\begin_layout Itemize
-Dekoder
-\end_layout
-
-\begin_layout Standard
-Enkoder służy konwersji strumienia do danego formatu - enkdowoanie.
- Dekoder realizuje odwrotną funkcjonalność - dekodowanie.
- Format wejściowy dla obu czynności nie jest wyspecyfikowany.
- Konwersja może mieć miejsce zarówno z danych nieprzetworzonych jak i dowolnego
- innego formatu.
-\end_layout
-
-\begin_layout Standard
-Przykładem oprogramowania realizującego funkcje kodeka jest pakiet ffmpeg.
- Zawiera on bogaty zestaw zestaw kodeków.
- Można za jego pomocą zrealizować konwersję z formatu MJPEG do H.264 która
- jest stosowana w pracy.
-\end_layout
-
-\begin_layout Section*
-Kontener (plik multimedialny)
-\end_layout
-
-\begin_layout Standard
-Jest to rodzina formatów plików służący do przechowywania i synchronizacji
- wielu strumieni danych jednocześnie.
- Tego typu strumienie nazywane są ścieżkami.
- Dodatkową funkcjonalnością realizowaną przez kontener jest przechowywanie
- informacji służących do synchronizacji ścieżek w czasie.
- W przypadku plików wideo pozwala to na zagwarantowanie, że dźwięk i obraz
- w filmie nie będą się przesuwać względem siebie.
-\end_layout
-
-\begin_layout Standard
-Specyfikacje formatów kontenerów zazwyczaj nie ustalają z góry jakie formaty
- strumieni danych mają zostać użyte.
- Informacja taka jest składowana razem ze ścieżkami w tzw.
- metadanych zawartych w pliku.
- Tym sposobem informacja o kodowaniu jest zapisywana razem z danymi.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ho2015handbookContainers"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Przykładem zastosowania kontenera jest przechowywanie filmu w formacie MP4
- który zawiera ścieżkę z obrazem, ścieżkę z dźwiękiem w języku angielskim
- oraz napisy w języku polskim.
- Dźwięk zsynchronizowany jest z ruchem ust aktorów na ścieżce audio a napisy
- wyświetlają się zgodnie z sekwencjami ze ścieżki dźwiękowej.
-\end_layout
-
-\begin_layout Section*
-AVI
-\end_layout
-
-\begin_layout Standard
-Format kontenerów (ang.
- Audio Video Interleave) multimedialnych składających się ze ścieżek audio,
- video oraz tekstu.
- Wprowadzony do użytku przez Microsoft w Listopadzie 1992 jako część pakietu
- Video for Windows.
- AVI bazuje na standardzie RIFF (ang.
- Resource Interchange File Format).
-\end_layout
-
-\begin_layout Standard
-Standard RIFF dzieli plik na segmenty (ang.
- chunk) które można zagnieżdżać bądź szeregować (segment typu list).
- Każdy segment identyfikowany jest przez ciąg 4 bajtów, kod FourCC (ang.
- four character code).
- Kody tego typu stosowane są do identyfikowania kodeków, oraz formatów kompresji
-, kolorów czy kodowania pikseli.
-\begin_inset CommandInset citation
-LatexCommand cite
-key "fourCCspec"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Format AVI zdefiniowany jest jako pojedynczy segment o identyfikatorze 
-\begin_inset Quotes pld
-\end_inset
-
-AVI 
-\begin_inset Quotes prd
-\end_inset
-
- (spacja na ostatnim znaku).
- W którym zagnieżdżone są dwa segmenty typu LIST.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "microsoftAviSpec"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-hdrl
-\end_layout
-
-\begin_layout Itemize
-movi
-\end_layout
-
-\begin_layout Standard
-Lista hdrl zaczyna się segmentem avih który opisuje główny nagłówek pliku
- AVI, zawiera on informacje takie jak ilość strumieni danych, odstęp w mikroseku
-ndach pomiędzy ramkami video, wymiary ramki czy obecność elementów opcjonalnych.
- Następnie pojawia się jeden bądź więcej segmentów strl typu LIST opisujących
- poszczególne ścieżki zawarte w pliku.
- Segment tego typu składa się z segmentu z dwóch części obowiązkowych: strh
- - nagłówka ścieżki, segmentu strf - formatu ścieżki oraz dwóch opcjonalnych:
- nagłówka danych ścieżki - strd i nazwy ścieżki - strn.
-\end_layout
-
-\begin_layout Standard
-Nagłówek ścieżki zawiera typ ścieżki (audio, video, tekst lub midi), informacje
- o synchronizacji czasowej oraz pakiet metadanych dotyczących układu ścieżki
- w pliku.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "strh"
-
-\end_inset
-
-.
- Segmenty opcjonalne zawierają odpowiednio: dane specyficzne dla kodeka
- danej ścieżki oraz nazwę ścieżki.
-\end_layout
-
-\begin_layout Standard
-Lista movi zawiera same ścieżki, dane składowe ścieżki mogą być segmentami
- bezpośrednio w liście movi bądź znajdować się w zagnieżdzoncyh listach
- o typie 
-\begin_inset Quotes pld
-\end_inset
-
-rec 
-\begin_inset Quotes pld
-\end_inset
-
-.
- Przynależność segmentu do strumienia odczytywana jest z kodu FourCC, który
- zawiera również informacje o przeznaczeniu segmentu.
- Wyróżnianie są cztery przeznaczenia.
-\end_layout
-
-\begin_layout Itemize
-db - wideo nieskompresowane
-\end_layout
-
-\begin_layout Itemize
-dc - wideo skompresowane
-\end_layout
-
-\begin_layout Itemize
-pc - zmiana palety kolorów
-\end_layout
-
-\begin_layout Itemize
-wb - dane audio
-\end_layout
-
-\begin_layout Standard
-Kod segmentów listy movi na dwóch wyższych bajtach zawiera numer strumienia,
- dwa niższe przeznaczenie.
- Przykładowy segment nieskompresowanego wideo należący do strumienia pierwszego
- identyfikujemy kodem 
-\begin_inset Quotes pld
-\end_inset
-
-01db
-\begin_inset Quotes prd
-\end_inset
-
-.
- Warto nadmienić że numerowanie zaczyna się od zera, w pliku z jednym strumienie
-m segmenty miałyby kod 
-\begin_inset Quotes pld
-\end_inset
-
-00xx
-\begin_inset Quotes prd
-\end_inset
-
-, gdzie xx oznacza typ strumienia.
-\end_layout
-
-\begin_layout Standard
-Użycie 2 bajtów na identyfikację przynależności do strumienia warunkuje
- również górną granicę ilości ścieżek w pliku avi, jest to 
-\begin_inset Formula $2^{8}=256$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Section*
-H.264/MPEG-4 AVC
-\end_layout
-
-\begin_layout Standard
-In response to the need of a more efficient video coding technique for diversifi
-ed networks and applications,
-\end_layout
-
-\begin_layout Standard
-Standard kompresji ścieżek video.
- Stworzony w ramach kolaboracji ITU-T VCEG oraz ISO/IEC MPEG, dwóch ciał
- standaryzacyjnych odpowiedzialnych za formaty multimedialne.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "h264_paper"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Celem tego standardu jest zapewnienie wysokiej jakości wideo przy istotnym
- zmniejszeniu szerokości pasma wymaganego do zapisu/przesyłu danych wideo.
- W porównaniu ze swoim poprzednikiem, standardem H.263 czy standardem MPEG-4
- part 2 H.264 wymaga o 50% mniej zasobów na zakodowanie strumienia.
- Wartość ta liczona jest w bitach na sekundę filmu (ang.
- bit rate).
-\end_layout
-
-\begin_layout Standard
-Standard ten jest szeroko wykorzystywany w kodowaniu filmów w sieci, korzystają
- z niego między innymi serwisy Youtube, Vimeo, Itunes Store, używany jest
- również w dyskach typu Blu-ray.
- Używany jest również do dostarczania audycji telewizyjnych - standardy
- ISDB-T, DVB-T or DVB-T2.
-\end_layout
-
-\begin_layout Standard
-H.264 jest standardem częściowo objętym patentami, komercyjne wykorzystanie
- dekoderów wymaga wykupienia stosownych licencji.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "h264patent"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Wysoka kompresja strumienia uzyskiwana jest dzięki zastosowaniu szeregu
- technik kodowania takich jak:
-\end_layout
-
-\begin_layout Itemize
-Inter-picture prediction
-\end_layout
-
-\begin_layout Itemize
-MBAFF (ang.
- Macroblock-adaptive frame-field coding)
-\end_layout
-
-\begin_layout Itemize
-PAFF (ang.
- Picture-adaptive frame-field coding)
-\end_layout
-
-\begin_layout Itemize
-CABAC (ang.
- Context-adaptive binary arithmetic coding)
-\end_layout
-
-\begin_layout Itemize
-VLC (ang.
- variable length coding)
-\end_layout
-
-\begin_layout Itemize
-VBSMC (Variable block-size motion compensation)
-\end_layout
-
-\begin_layout Standard
-Dekompozycja strumienia wejściowego jest wielopoziomowa, techniki aplikowane
- są w zależności od zidentyfikowanych cech segmentów wytworzonych na poprzednich
- etapach, dokładny opis zawarty jest w dokumencie dostarczanym przez autorów.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "h264_paper"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection*
-Motion Compensation
-\end_layout
-
-\begin_layout Standard
-Rodzina algorytmów służących przewidywaniu stanu ramki wideo na podstawie
- poprzednich oraz przyszłych ramek.
- Technika ta skupia się na popularnym w filmach sposobie zmiany sceny w
- kolejnych ramkach.
- Podstawowymi transformacjami które zmieniają sceny jest przesunięcie kamery
- oraz poruszanie się obiektu na statycznej scenie.
- Zakodowanie informacji o przesunięciach pozwala na zmniejszenie zestawu
- informacji kodującego kolejne ramki obrazu co prowadzi do bardziej wydajnej
- kompresji.
- Standard H.264 używa algorytmu VBSMC należącego do tej rodziny.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/ramka_bazowa.jpg
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Kadr z filmu 
-\begin_inset Quotes pld
-\end_inset
-
-Elephants Dream
-\begin_inset Quotes prd
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:kadr_bazowy"
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-(c) copyright 2006, Blender Foundation / Netherlands Media Art Institute
- / www.elephantsdream.org
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/ramka_roznicowa.jpg
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Różnica między kadrem z 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:kadr_bazowy"
-
-\end_inset
-
- a kolejnym
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:roznica_kadrow"
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-(c) copyright 2006, Blender Foundation / Netherlands Media Art Institute
- / www.elephantsdream.org
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/ramka_przesunieta.jpg
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Różnica pomiędzy 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:kadr_bazowy"
-
-\end_inset
-
-a kolejnym przesuniętym w prawo o dwa piksele
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:roznica_z_kompensacja"
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-(c) copyright 2006, Blender Foundation / Netherlands Media Art Institute
- / www.elephantsdream.org
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Sytuację ilustruje kodowanie obrazu za pomocą składowania różnic pomiędzy
- kolejnymi ramkami (klatkami/kadrami) filmu.
- Różnicę podstawową reprezentuje rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:roznica_kadrow"
-
-\end_inset
-
- zaś różnicę w którym wzięto pod uwagę ruch kamery rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:roznica_z_kompensacja"
-
-\end_inset
-
-.
- Zapis z kompensacją zawiera zdecydowanie mniej informacji na rysunku co
- przekłada się na bardziej regularny ciąg bitów.
- Regularna struktura pozwala z kolei na dużo silniejszą kompresję co prowadzi
- do mniejszego wynikowego rozmiaru pliku i mniejszego bit rate.
-\end_layout
-
-\begin_layout Section*
-Model TCP/IP
-\end_layout
-
-\begin_layout Standard
-Abstrakcyjny model opisujący komunikację pomiędzy komputerami połączonymi
- internetem.
- Model ten opisuje pełen schemat komunikacji specyfikując sposób pakowania,
- adresowania, kierowania (ang.
- routing) i odbioru danych.
- Składa się z czterech warstw abstrakcji które służą klasyfikacji protokołów
- składowych.
- Zaczynając od najniższej:
-\end_layout
-
-\begin_layout Enumerate
-Warstwa łącza (ang.
- link layer)
-\end_layout
-
-\begin_layout Enumerate
-Warstwa sieci (ang.
- internet layer)
-\end_layout
-
-\begin_layout Enumerate
-Warstwa transportowa (ang.
- transport layer)
-\end_layout
-
-\begin_layout Enumerate
-Warstwa aplikacji (ang.
- application layer)
-\end_layout
-
-\begin_layout Standard
-Warstwa łącza opisuje transmisję danych wewnątrz pojedynczego segmentu sieci.
- Komunikacja ta odbywa się za pomocą kanału fizycznego bezpośrednio łączącego
- dwie maszyny.
- Opisują adresację oraz sposób enkodowania.
- Adres warstwy łącza zwyczajowo nazywany jest adresem MAC (ang.
- Media Access Control).
- Przykładem tego rozwiązania jest połączenie kablem typu twisted-pair (tzw.
- skrętka) i użycie protokołu Ethernet.
-\end_layout
-
-\begin_layout Standard
-Warstwa sieci opisuje komunikację urządzeń zlokalizowanych w różnych sieciach
- oraz sposób odnalezienia drogi do sieci docelowej (routing).
- Najpopularniejszym protokołem w tej warstwie jest Internet Protocol w wersji
- 4.
- Protokół ten wprowadza również adresację warstwy sieciowej, tzw.
- adresy IP.
- Warstwa ta nie definiuje mechanizmów gwarantujących dotarcie danych do
- odbiorcy oraz nie specyfikuje kolejności w jakiej kwanty danych (pakiety)
- odbierze maszyna docelowa.
-\end_layout
-
-\begin_layout Standard
-Warstwa transportowa opisuje sposób komunikacji pomiędzy usługami znajdującymi
- się na dwóch urządzeniach, wprowadza oddzielną adresację pozwalającą na
- rozróżnienie usług udostępnianych przez pojedyncze urządzenie - portów.
- Protokoły tej warstwy odpowiadają za poprawne współdzielenie kanału komunikacyj
-nego przez wiele usług, serializację, deserializację, retransmisję oraz
- odtwarzanie oryginalnej kolejności danych.
- Najpopularniejszymi protokołami tej warstwy są UDP (ang.
- User Datagram Protocol) oraz TCP (Transfer Control Protocol).
-\end_layout
-
-\begin_layout Standard
-Warstwa aplikacji definiuje sposób komunikacji pomiędzy serwisami.
- Jest to najszersza warstwa ze względu na potrzebę dostosowania do konkretnych
- problemów.
- Popularnym protokołem tej warstwy jest protokół HTTP (ang.
- Hypertext Transfer Protocol) służący transferowi i modyfikacji multimediów.
-\end_layout
-
-\begin_layout Subsection*
-Datagram
-\end_layout
-
-\begin_layout Standard
-Termin używany do opisu kwantu danych używanego przez dany protokół.
- Składa się z nagłówka (ang.
- header), danych (ang.
- payload) oraz opcjonalnego 
-\begin_inset Quotes pld
-\end_inset
-
-trailera
-\begin_inset Quotes prd
-\end_inset
-
- (pol.
- stopka).
- W zależności od protokołu z perspektywy którego prowadzona jest analiza
- danymi może być datagram innego protokołu, prowadzi to do struktury kapsułkowej.
- Datagram najniższej warstwy zawierał będzie szereg headerów kolejnych protokołó
-w oraz finalne dane i trailer.
- Ilustruje to rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:datagram"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/payload.jpg
-	scale 50
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Przykładowy datagram protokołu HTTP w sieci TCP/IP
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:datagram"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection*
-TCP
-\end_layout
-
-\begin_layout Standard
-Protokół warstwy transportowej.
- Odpowiada za komunikację pomiędzy dwoma urządzeniami, tzw.
- hostami, komunikującymi się za pomocą sieci internetowej.
- Z perspektywy użytkownika najważniejszymi cechami protokołu TCP są:
+:
 \end_layout
 
 \begin_layout Itemize
@@ -1180,27 +427,25 @@ kontrola przepływu po sieci (ang.
 \end_layout
 
 \begin_layout Standard
-TCP jest protokołem stanowym, wymaga otwarcia połączenia (ang.
- connection) do którego należą wysyłane pakiety.
- Dane odbierane od nadawcy oraz dostarczane do klienta nie posiadają wymagań
- co do struktury, traktowane są jak strumień bajtów (ang.
- bytestream), którego przygotowanie i odczytanie zgodnie z wybranym zestawem
- reguł - protokołem warstwy aplikacji.
- Początek i koniec strumienia sygnalizują odpowiednie sekwencje kontrolne
- protokołu.
+Uporządkowanie oraz brak błędów przesyłu są podstawowymi wymaganiami względem
+ transportu plików, stanowią podstawę wykorzystania tego protokołu do realizacji
+ projektu.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Wstawić tu tcp header?
-\end_layout
+TCP jest protokołem stanowym, kanał komunikacyjny nazywany jest połączeniem
+ (ang.
+ connection).
+ Jego nawiązanie oraz zamknięcie realizowane jest za pomocą odpowiednich
+ sekwencji wiadomości: otwarcia oraz zamknięcia 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "sekcja 2.7"
+key "RFC0793-outline"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1208,46 +453,10 @@ Sekwencja otwarcia połączenia
 \end_layout
 
 \begin_layout Standard
-Nagłówek TCP posiada 9 bitów kontrolnych posiadających odpowiednie 3 literowe
- skróty:
-\end_layout
-
-\begin_layout Itemize
-CWR
-\end_layout
-
-\begin_layout Itemize
-ECE
-\end_layout
-
-\begin_layout Itemize
-URG
-\end_layout
-
-\begin_layout Itemize
-ACK
-\end_layout
-
-\begin_layout Itemize
-PSH
-\end_layout
-
-\begin_layout Itemize
-RST
-\end_layout
-
-\begin_layout Itemize
-SYN
-\end_layout
-
-\begin_layout Itemize
-FIN
-\end_layout
-
-\begin_layout Standard
-Do nawiązania połączenia wykorzystywane są bity SYN oraz ACK, w nawiązaniu
- połączenia wyróżniamy klienta - stronę nawiązującą połączenie oraz serwer
- - stronę nasłuchującą.
+Nawiązanie połączenia jest realizowane za pomocą przesłania serii pakietów
+ posiadających odpowiednie flagi - SYN oraz ACK.
+ W nawiązaniu połączenia wyróżniamy klienta - stronę nawiązującą połączenie
+ oraz serwer - stronę nasłuchującą.
  Sekwencja ma następującą postać.
 \end_layout
 
@@ -1264,8 +473,16 @@ Klient wysyła pakiet z flagą ACK
 \end_layout
 
 \begin_layout Standard
-Po odebraniu ostatniego pakietu sesję uznaje się za poprawnie zainicjowaną
- i obie strony mogą przejść do przesyłu i odbioru danych.
+Po odebraniu ostatniego pakietu sesję uznaje się za poprawnie zainicjalizowaną
+ i obie strony mogą przejść do przesyłu i odbioru danych 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "sekcja 3.4"
+key "RFC0793-outline"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1297,7 +514,15 @@ W przypadku gdy pakiet zostanie zgubiony (o numerze sekwencyjnym N+1), zgodnie
  następną aż do otrzymania pakietu, ponownie wysyła więc pakiet ACK dla
  ostatniego poprawnie odebranego pakietu (numer N).
  Otrzymanie trzykrotnie potwierdzenia dla pakietu N sygnalizuje nadawcy
- potrzebę retransmisji pakietu N+1.
+ potrzebę retransmisji pakietu N+1 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "sekcja 3.3"
+key "RFC0793-outline"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1305,9 +530,9 @@ Sekwencja zamknięcia
 \end_layout
 
 \begin_layout Standard
-Poprawne zamknięcie sesji wykorzystuje flagi FIN oraz ACK.
- Może zostać zainicjowana przez każdą ze stron.
- Na potrzeby przykładu użyte zostały nazwy inicjator i odbiorca.
+Zakończenie połączenia może zostać zainicjowane przez obie strony komunikacji.
+ Poprawne zamknięcie sesji wykorzystuje flagi FIN oraz ACK.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -1332,112 +557,70 @@ Kroki 2 oraz 3 mogą zostać zrealizowane za pomocą jednego pakietu wysłanego
  Wysłanie pakietu FIN przez nadawcę sygnalizuje odbiorcy że nie otrzyma
  od niego więcej danych, sesję zamkniętą z jednej strony nazywamy half-open
  (pol.
- pół-otwartą).
-\end_layout
-
-\begin_layout Subsection*
-UDP
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-czy udp jest w ogóle interesujące z perspektywy pracy?
-\end_layout
+ pół-otwartą) 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "sekcja 3.5"
+key "RFC0793-outline"
 
 \end_inset
 
-
+.
 \end_layout
 
-\begin_layout Section*
-Berkeley sockets
+\begin_layout Section
+Gniazda sieciowe
 \end_layout
 
 \begin_layout Standard
-API (ang.
- application programming interface) służący do realizowania komunikacji
- za pomocą gniazd (ang.
- socket).
- Pozwala na użycie protokołów transportowych, zarówno sieciowych (TCP, UDP)
- jak i realizujących komunikację pomiędzy procesami na jednej maszynie (Unix
- Sockets).
- Zostały wprowadzone w wersji 4.2 systemu operacyjnego BSD z rodziny Unix
- w 1983 roku.
- Ze względu na szerokie stosowanie stały się częścią standardu POSIX.
- Obecnie dostępne we wszystkich systemach spełniających ten standard oraz
- od 1990 w systemach z rodziny Windows.
- 
+Gniazdo (ang.
+ socket) jest abstrakcyjnym obiektem udostępnianym przez system operacyjny,
+ pozwala on na interakcję z innymi procesami zarówno w obrębie tej samej
+ maszyny jak i z użyciem połączenia sieciowego.
+\end_layout
+
+\begin_layout Standard
+W pracy gniazda zostały wykorzystane do realizacji komunikacji sieciowej
+ przy pomocy protokołu TCP.
+ Pierwotnie gniazda zostały wprowadzone do systemu operacyjnego BSD (ang.
+ Berkeley Software Distribution) w roku 1983 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Stevens:2003:UNP:940269"
+
+\end_inset
+
+.
+ Zmodyfikowana wersja specyfikacji gniazd jest również częścią standardu
+ POSIX (ang.
+ Portable Operating System Interface) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bidulock07implementingposix"
+
+\end_inset
+
+.
+ Od 1990 dostępne są również w w systemach z rodziny Windows 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "winsocks"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-Socket jest abstrakcyjnym obiektem za pomocą którego dany proces prowadzi
- interakcje z innym procesem lokalnym bądź zdalnym.
- Elementem pośredniczącym w takiej komunikacji jest jądro systemu operacyjnego
- mające dostęp do innych procesów w przypadku komunikacji lokalnej oraz
- do sterowników kart sieciowych w przypadku komunikacji zdalnej.
-\end_layout
-
-\begin_layout Standard
-Wydziela się dwa główne tryby pracy z gniazdami:
-\end_layout
-
-\begin_layout Itemize
-pakietowy
-\end_layout
-
-\begin_layout Itemize
-strumieniowy
-\end_layout
-
-\begin_layout Standard
-Podział ten jest ściśle związany z protokołami które reprezentuje socket.
- Tryb pakietowy zakłada wysyłanie i odbieranie pojedynczych pakietów, tryb
- strumieniowy otwiera zaś pomost za pomocą którego wysyłana jest arbitralna
- ilość danych.
- Obie funkcjonalności realizuje się za pomocą tego samego zestawu funkcji
- systemowych jednak różni się obsługa informacji zwrotnej z wywołania.
-\end_layout
-
-\begin_layout Standard
-API dostarczane jest użytkownikowi w postaci zestawu plików nagłówkowych
- oraz bibliotek dynamicznie linkowanych języka C.
- Taki sposób udostępniania podyktowany jest językiem w jakim napisane są
- systemy operacyjne - zarówno Windows jak i Linux napisane zostały w C -
- oraz możliwością wywoływania tego typu interfejsów w innych językach.
- Przykładowo pliki wykonywalne języka C++ można automatycznie linkować z
- bibliotekami w języku C, język Python udostępnia do tego bibliotekę ctypes
- oraz uogólniony język Cython.
- W przypadku języków interpretowanych implementacje maszyn wirtualnych napisane
- są w języku C co pozwala na udostępnienie tego interfejsu w językach bazujących
- na danej maszynie wirtualnej - przykładem będzie tu JVM oraz języki Java,
- Scala i Kotlin.
+.
 \end_layout
 
 \begin_layout Subsection*
-Opis interfejsu
+Wywołania systemowe
 \end_layout
 
 \begin_layout Standard
-Tabela 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:socket_calls"
-
-\end_inset
-
- zawiera zestaw wywołań wymagany do rozpoczęcia komunikacji za pomocą dowolnego
- protokołu z użyciem gniazd w systemie operacyjnym Linux.
- 
+Wywołania dostarczane są użytkownikowi za pomocą biblioteki oraz plików
+ nagłówkowych języka C.
+ W zależności od języka programowania jaki stosuje użytkownik wymagane jest
+ samodzielne operowanie wywołaniami bądź skorzystanie z bibliotek sieciowych
+ danego języka, które wewnętrznie używają gniazd systemowych.
 \end_layout
 
 \begin_layout Standard
@@ -1447,9 +630,21 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wywołania systemowe do obsługi gniazd w systemie Linux
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="14" columns="3">
+<lyxtabular version="3" rows="12" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -1566,7 +761,7 @@ listen()
 \begin_inset Text
 
 \begin_layout Plain Layout
-Ustawia socket w tryb pasywny, nasłuchujący na przychodzące połączenia.
+Ustawia gnizado w tryb pasywny, nasłuchujący na przychodzące połączenia.
  Używany po stronie serwera.
 \end_layout
 
@@ -1627,7 +822,7 @@ accept()
 \begin_inset Text
 
 \begin_layout Plain Layout
-Tworzy nowy socket reprezentujący nawiązane połączenie po stronie klienta,
+Tworzy nowy gnizado reprezentujący nawiązane połączenie po stronie klienta,
  wywołanie używane po stronie serwera.
 \end_layout
 
@@ -1657,7 +852,7 @@ recv()
 \begin_inset Text
 
 \begin_layout Plain Layout
-Służy odbieraniu danych z socketu.
+Służy odbieraniu danych z gniazda.
  
 \end_layout
 
@@ -1687,7 +882,7 @@ send()
 \begin_inset Text
 
 \begin_layout Plain Layout
-Służy nadawaniu danych za pomocą socketu.
+Służy nadawaniu danych za pomocą gniazda.
 \end_layout
 
 \end_inset
@@ -1745,7 +940,7 @@ close()
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zwalnia zasoby systemowe odpowiadające danemu socketowi.
+Zwalnia zasoby systemowe odpowiadające danemu gnizadu.
 \end_layout
 
 \end_inset
@@ -1781,7 +976,7 @@ Sprawdza dany atrybut gniazda.
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1790,7 +985,7 @@ setsockopt()
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1799,7 +994,7 @@ setsockopt()
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1809,79 +1004,7 @@ Ustawia dany atrybut gniazda.
 \end_inset
 </cell>
 </row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-select()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/select.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Pozwala uśpić dany wątek systemowy do czasu pojawienia się danych na jednym
- bądź więcej socketach.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-poll()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<poll.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Analogicznie do select(), pozwala również zakończyć oczekiwanie po interwale
- bądź sprawdzić dostępność danych nie blokując obecnego wątku.
-\end_layout
-
-\end_inset
-</cell>
-</row>
 </lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Funkcje interfejsu socket 
-\end_layout
 
 \end_inset
 
@@ -1904,35 +1027,21 @@ name "tab:socket_calls"
 \end_layout
 
 \begin_layout Standard
-Parametry danego wywołania oraz dokładny opis można uzyskać wpisując w konsoli
- polecenie:
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-man <nazwa wywołania bez nawiasów>
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Wynik polecenia dla wywołania connect() przedstawia rys.
- 
+Tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:man_connect"
+reference "tab:socket_calls"
 
 \end_inset
 
+ zawiera zestaw wywołań systemowych wymagany do rozpoczęcia komunikacji
+ za pomocą gniazd.
+ Sygnatury funkcji posiadają nieznaczne różnice w zależności od rozpatrywanego
+ systemu operacyjnego.
+\end_layout
 
+\begin_layout Subsection*
+Nawiązywanie połączenia TCP
 \end_layout
 
 \begin_layout Standard
@@ -1944,9 +1053,8 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/man_connect.JPG
-	lyxscale 50
-	scale 50
+	filename img/klient_serwer_berkeley.png
+	scale 60
 
 \end_inset
 
@@ -1957,7 +1065,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Opis wywołania connect()
+Komunikacja za pomocą protokołu TCP z użyciem gniazd
 \end_layout
 
 \end_inset
@@ -1968,7 +1076,7 @@ Opis wywołania connect()
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:man_connect"
+name "rys:socket_connection"
 
 \end_inset
 
@@ -1980,8 +1088,17 @@ name "rys:man_connect"
 
 \end_layout
 
-\begin_layout Subsection*
-Nawiązywanie połączenia TCP
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:socket_connection"
+
+\end_inset
+
+ przedstawia schemat połączenia za pomocą gniazd w konwencji klient-serwer.
+ Na rysunku wyszczególniono wywołania przygotowujące struktury danych oraz
+ sekwencje inicjalizacyjną oraz zamykającą protokołu TCP.
 \end_layout
 
 \begin_layout Standard
@@ -2023,20 +1140,6 @@ Zamknięcie połączenia używając funkcji shutdown()
 
 \begin_layout Enumerate
 Zwolnienie gniazd odpowiadających za połączenie funkcją close()
-\end_layout
-
-\begin_layout Standard
-Kod reprezentujący powyższe czynności reprezentuje listing 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-jak to tagować?
-\end_layout
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
@@ -2189,13 +1292,9 @@ int main()
 
 \begin_layout Standard
 W programie odwołania do danego gniazda wykonywane są za pomocą unikalnego
- numeru nadawanego nowo wytworzonemu socketowi.
- Wywołania systemowe następnie mapują ten identyfikator na właściwe zasoby.
- W programie wyróżnione są dwa typy gniazd, służące przyjmowaniu połączeń
- oraz reprezentujące pojedyncze połączenie.
- Funkcja listen inicjuje kolejkę w jądrze systemu operacyjnego, pozwala
- ona na przechowanie połączeń przychodzących do czasu gdy program jest w
- stanie je obsłużyć.
+ numeru nadawanego nowo utworzonemu gniazdu.
+ Wywołania systemowe następnie modyfikują wybrane zasoby na podstawie identyfika
+tora.
 \end_layout
 
 \begin_layout Standard
@@ -2203,7 +1302,7 @@ Od strony klienckiej wymagane są następujące kroki:
 \end_layout
 
 \begin_layout Enumerate
-Stworzenie struktury reprezentujący adres ip oraz port z którym nawiązane
+Stworzenie struktury reprezentujący adres IP oraz port TCP z którym nawiązane
  zostanie połączenie
 \end_layout
 
@@ -2213,8 +1312,8 @@ Stworzenie gniazda używając funkcji socket() z parametrami odpowiadającymi
 \end_layout
 
 \begin_layout Enumerate
-Wywołanie funkcji connect() przekazując adres z punktu 1 oraz socket z punktu
- 2.
+Wywołanie funkcji connect() przekazując adres z punktu 1 oraz gniazdo z
+ punktu 2.
 \end_layout
 
 \begin_layout Enumerate
@@ -2226,33 +1325,7 @@ zamknięcie połączenia funkcją shutdown()
 \end_layout
 
 \begin_layout Enumerate
-zwolnienie deskryptora funkcją close()
-\end_layout
-
-\begin_layout Standard
-Kod reprezentujący klienta łączącego się z serwerem z listingu 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-tego wyżej
-\end_layout
-
-\end_inset
-
- przedstawia listing 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-otaguj to jakos
-\end_layout
-
-\end_inset
-
-.
- Ponownie pominięto obsługę błędów.
- Oba programy znajdują się w załącznikach do pracy.
+zwolnienie gniazda funkcją close()
 \end_layout
 
 \begin_layout Standard
@@ -2379,108 +1452,14 @@ int main() {
 \end_layout
 
 \begin_layout Standard
-W tym wypadku tworzony jest jedynie socket reprezentujący połączenie.
- Wywołanie funkcji connect wymaga, aby urządzenie reprezentujące drugą stronę
- połączenia posiadało socket w stanie listen, w momencie kiedy kod serwera
- wywoła instrukcję accept.
- Pełny schemat interakcji klient serwer reprezentuje rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:client_server"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/klient_serwer_berkeley.png
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Komunikacja klient serwer z użyciem gniazd
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:client_server"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+Wywołanie funkcji connect wymaga, aby urządzenie reprezentujące drugą stronę
+ połączenia posiadało gniazdo w stanie nasłuchu (ang.
+ listen).
+ Stan ten uzyskiwany jest w momencie gdy kod serwera wywoła instrukcję accept.
 \end_layout
 
 \begin_layout Subsection*
-Budowa socketu
-\end_layout
-
-\begin_layout Standard
-Stos sieciowy, będący w systemach z rodziny Windows i Linux częścią jądra
- systemu operacyjnego dla każdego aktywnego połączenia utrzymuje strukturę
- danych TCB (ang.
- TCP control block) oraz dwa bufory, do obsługi danych wychodzących i przychodzą
-cych.
- Za nadawanie i odbieranie danych odpowiedzialna jest karta sieciowa, która
- za pomocą zdefiniowanego mechanizmu (przerwanie lub odpytywanie przez jądro)
- raportuje przychodzące dane.
- Dane te są następnie szeregowane zgodnie z numerami sekwencyjnymi i składowanie
- w buforze przychodzącym do momentu odebrania ich przez klienta przy użyciu
- funkcji recv().
-\end_layout
-
-\begin_layout Standard
-Socket obsługujący połączenie po stronie jądra składa się ze struktury kontrolne
-j TCP (ang.
- TCP control block) reprezentującej stan połączenia oraz zestaw parametrów
- opisujących połączenie (częstotliwość wysyłania, numer sekwencyjny, licznik
- bezczynności) oraz dwie kolejki, odpowiadające za dane przychodzące oraz
- wychodzące.
-\end_layout
-
-\begin_layout Standard
-Za nadawanie i odbieranie bezpośrednio odpowiada NIC (ang.
- network interface card) karta sieciowa.
- Której sterownik współpracując z tzw.
- stosem sieciowym odpowiada za poprawne stworzenie bądź zinterpretowanie
- nagłówków kolejnych warstw stosu TCP/IP i umieszczenie bądź pobranie danych
- w kolejkach.
- Sytuację przedstawia rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:tcp_socket_stack"
-
-\end_inset
-
-.
+Budowa gniazda
 \end_layout
 
 \begin_layout Standard
@@ -2525,6 +1504,234 @@ name "rys:tcp_socket_stack"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:tcp_socket_stack"
+
+\end_inset
+
+ przedstawia komunikację TCP z użyciem gniazd.
+ Wyszczególniono trzy niezależne komponenty: aplikację użytkownika, jądro
+ systemu operacyjnego w którym zrealizowany jest stos sieciowy oraz kartę
+ sieciową (ang.
+ Network Interface Card), oznaczona na rysunku skrótem NIC.
+ Komunikacja pomiędzy użytkownikiem a jądrem prowadzona jest za pomocą gniazda.
+ Jądro komunikuje się z kartą sieciową za pomocą pamięci współdzielonej
+ oraz przerwań.
+ Kolorem niebieskim oznaczono zestaw struktur danych odpowiadający pojedynczemu
+ połączeniu po stronie jądra systemu.
+ Składają się na niego kolejki nadawcza oraz odbiorcza i blok kontrolny
+ połączenia (TCB, ang.
+ TCP control block).
+\end_layout
+
+\begin_layout Standard
+Użytkownik realizujący komunikację z pomocą gniazda zapisuje dane do kolejki
+ nadawczej bądź odczytuje z kolejki odbiorczej.
+ W trakcie nadawania dane są pobierane z kolejki nadawczej, dzielone na
+ pakiety i przekazywane do karty sieciowej w celu nadania.
+ W trakcie odbioru karta sieciowa przekazuje odebrane pakiety do jądra systemu
+ za pomocą pamięci współdzielonej gdzie są one szeregowane na podstawie
+ numerów sekwencyjnych a następnie dane zapisywane są w kolejce odbiorczej.
+\end_layout
+
+\begin_layout Standard
+W przypadku gdy wątek program wykona wywołanie recv() a kolejka odbioru
+ będzie pusta zostanie on uśpiony przez system operacyjny do czasu pojawienia
+ się danych do odebrania, sytuację taką nazywamy wywołaniem blokującym.
+ Analogiczna sytuacja ma miejsce w przypadku zapisu gdy kolejka nadawcza
+ jest pełna.
+\end_layout
+
+\begin_layout Standard
+Istnieją metody informowania aplikacji o tym czy odczyt bądź zapis będzie
+ blokujący, służą do tego wywołania select oraz poll jednak nie zostały
+ one zastosowane w pracy.
+\end_layout
+
+\begin_layout Section
+Kompresja danych
+\end_layout
+
+\begin_layout Standard
+W przypadku gdy prędkość generowania danych przekracza przepustowość łącza
+ sieciowego może dojść do wyczerpania zasobów systemowych - pamięci ram
+ oraz pojemności dysku twardego.
+ W celu przeciwdziałania takiemu zdarzeniu wymagane jest zastosowanie transforma
+cji która zmniejszy objętość danych - ilość bitów potrzebnych na jej przechowani
+e.
+ Transformacja taka nazywana jest kompresją.
+\end_layout
+
+\begin_layout Standard
+Wyróżnia się dwie główne rodziny metod kompresji, stratne oraz bezstratne
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Salomon:2009:HDC:1708069"
+
+\end_inset
+
+.
+ Rozróżnienie prowadzone jest w oparciu o wynik dekompresji.
+ Jeśli reprezentacja skompresowana pozwala na odtworzenie oryginalnego pliku
+ metodę nazywamy bezstratną.
+ Stosuje się je w przypadku danych których integralność jest kluczowa, takich
+ jak skompilowane programy komputerowe czy kod źródłowy.
+ Przykładem takiego kodowania jest kodowanie Huffmana (ang.
+ Huffman coding) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "huffman_encoding"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Kompresja stratna odrzuca część informacji w celu osiągnięcia większego
+ stopnia kompresji.
+ Stosuje się ją w przypadkach w których niesiona informacja może zostać
+ odtworzona pomimo zaburzeń, stosuje się ją między innymi w celu transportu
+ strumieni wideo.
+\end_layout
+
+\begin_layout Standard
+Wynik kompresji bezstratnej zawiera kompletną informację niesioną przez
+ reprezentację oryginalną, zastosowanie transformacji odwrotnej do kompresji
+ odtwarza plik oryginalny.
+ W przypadku kompresji stratnej zmiana reprezentacji prowadzi do utraty
+ części informacji.
+ Stosuje się ją w przypadku plików graficznych, wideo oraz ścieżek dźwiękowych.
+ Przykładami tego typu kompresji są standardy JPEG 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jpeg_paper"
+
+\end_inset
+
+ oraz H.264 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "h264_paper"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Sprawność kompresji mierzona jest za pomocą stosunku wielkości reprezentacji
+ wyjściowej do wejściowej.
+ Wartość ta nazywana jest współczynnikiem kompresji 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Salomon:2009:HDC:1708069"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\eta=\frac{V_{out}}{V_{in}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Podstawowe pojęcia obróbki plików multimedialnych
+\end_layout
+
+\begin_layout Standard
+Plik wideo składa się z jednego bądź więcej strumieni danych (ang.
+ data stream).
+ Strumień danych jest reprezentacją jednego bądź więcej sygnałów zapisanych
+ w pewnym formacie.
+ Format taki zazwyczaj posiada zestaw pożądanych cech takich jak dostosowanie
+ do przesyłu bądź składowania czy szyfrowania.
+ Reprezentacja danych zawarta w pliku zazwyczaj różni się od postaci która
+ jest zdatna do odtworzenia (wyświetlenia, odegrania) i wymaga przetworzenia.
+ Format podstawowy danego typu nazywany jest formatem nieprzetworzonym (ang.
+ raw).
+ W przypadku danych video reprezentacją nieprzetworzoną może być macierz
+ pikseli.
+ Transformacje wizyjne prowadzone są na tego typu reprezentacji.
+\end_layout
+
+\begin_layout Standard
+Do przetworzenia danych stosowany jest kodek, jest to urządzenie, biblioteka
+ bądź program udostępniający dwie składowe.
+\end_layout
+
+\begin_layout Itemize
+Enkoder
+\end_layout
+
+\begin_layout Itemize
+Dekoder
+\end_layout
+
+\begin_layout Standard
+Enkoder służy konwersji strumienia do danego formatu.
+ Dekoder realizuje odwrotną funkcjonalność.
+ Przekształcenie może mieć miejsce zarówno z danych nieprzetworzonych jak
+ i dowolnego innego formatu.
+\end_layout
+
+\begin_layout Standard
+Przykładem oprogramowania realizującego funkcje kodeka jest pakiet ffmpeg.
+ Zawiera on bogaty zestaw zestaw kodeków.
+ Można za jego pomocą zrealizować konwersję z formatu MJPEG do H.264 stosowaną
+ w pracy.
+\end_layout
+
+\begin_layout Subsection*
+Kontener
+\end_layout
+
+\begin_layout Standard
+Jest to rodzina formatów plików służący do przechowywania i synchronizacji
+ wielu strumieni danych jednocześnie.
+ Tego typu strumienie nazywane są ścieżkami.
+ Dodatkową funkcjonalnością realizowaną przez kontener jest przechowywanie
+ informacji służących do synchronizacji ścieżek w czasie.
+ W przypadku plików wideo pozwala to na zagwarantowanie, że dźwięk i obraz
+ w filmie nie będą się przesuwać względem siebie.
+\end_layout
+
+\begin_layout Standard
+Specyfikacje formatów kontenerów zazwyczaj nie ustalają z góry jakie formaty
+ strumieni danych mają zostać użyte.
+ Informacja taka jest składowana razem ze ścieżkami w tzw.
+ metadanych zawartych w pliku.
+ Tym sposobem informacja o kodowaniu jest zapisywana razem z danymi 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ho2015handbookContainers"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Przykładem zastosowania kontenera jest przechowywanie filmu w formacie MP4
+ który zawiera ścieżkę z obrazem, ścieżkę z dźwiękiem w języku angielskim
+ oraz napisy w języku polskim.
+ Dźwięk zsynchronizowany jest z ruchem ust aktorów na ścieżce audio a napisy
+ wyświetlają się zgodnie z sekwencjami ze ścieżki dźwiękowej.
 \end_layout
 
 \begin_layout Chapter
