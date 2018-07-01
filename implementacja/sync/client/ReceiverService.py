@@ -34,11 +34,12 @@ class ReceiverService(object):
     * Kolejka musi byc w stanie przechowac swoj stan w przypadku naglego zakonczenia
       dzialania programu (np. odciecie zasilania)
     """
-    def __init__(self, address, stage_queue, storage_root, cache, sync_queue=None, **kwargs):
+    def __init__(self, address, stage_queue, storage_root, cache, sync_queue=None, avi_queue=None, **kwargs):
         if not isinstance(stage_queue, PersistentQueue.Queue):
             raise ReceiverServiceError('Unsupported queue type ({})'.format(repr(stage_queue)))
 
-        self.thread = ReceiverThread(address, stage_queue, storage_root, cache, sync_queue=sync_queue, **kwargs)
+        self.thread = ReceiverThread(address, stage_queue, storage_root, cache,
+                                     sync_queue=sync_queue, avi_queue=avi_queue, **kwargs)
         logger.info('Starting receiver service')
         self.thread.start()
 
@@ -55,11 +56,13 @@ class ReceiverService(object):
 
 
 class ReceiverThread(Workers.KeepAliveWorker):
-    def __init__(self, address, stage_queue, storage_root, cache, sync_queue=None, **kwargs):
+    def __init__(self, address, stage_queue, storage_root, cache,
+                 sync_queue=None, avi_queue=None, **kwargs):
         self.address = address
         self.queue = stage_queue
         self.storage_root = storage_root
         self.cache = cache
+        self.avi_queue = avi_queue
 
         self.sync_queue = sync_queue
         self.processor = None
@@ -86,6 +89,7 @@ class ReceiverThread(Workers.KeepAliveWorker):
             storage_root=self.storage_root,
             supported_extensions=self.extensions,
             sync_queue=self.sync_queue,
+            avi_queue=self.avi_queue,
             cache=self.cache
         )
         return proc

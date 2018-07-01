@@ -44,11 +44,12 @@ class AviFinderThread(threading.Thread):
         self.name = 'AviFinderThread'
         self.files = {}
 
-    def work(self):
+    def run(self):
+        logger.debug("main loop started")
         while self.cont:
-            self._work()
+            self.work()
 
-    def _work(self):
+    def work(self):
         try:
             new_path = self.avi_queue.get(timeout=self.interval)
             logger.debug("Adding avi path to find ({})".format(new_path))
@@ -58,16 +59,16 @@ class AviFinderThread(threading.Thread):
             self.files[new_path] = dt.datetime.now()
 
         to_remove = []
-        for path, insertion_time in self.files:
+        for path, insertion_time in self.files.items():
             if path.exists():
                 relative_path = path.relative_to(self.storage_root).as_posix()
                 self.stage_queue.put(relative_path)
-                logger.debug("")
+                logger.debug("Found path, pushing to queue")
                 to_remove.append(path)
                 continue
 
             if dt.datetime.now() - insertion_time >= self.monitoring_time:
-                logger.warning("Path has not been found ({})".format(path))
+                logger.warning("Path timed out, removing ({})".format(path))
                 to_remove.append(path)
                 continue
 

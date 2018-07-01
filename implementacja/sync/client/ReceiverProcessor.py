@@ -36,7 +36,6 @@ class ReceiverProcessor(object):
 
         self.cont = True
 
-        # self.operation = self._process_files
         self.operation = self._get_first_record if self.sync_queue else self._process_files
 
     def _get_first_record(self):
@@ -79,7 +78,7 @@ class ReceiverProcessor(object):
 
     def _process_files(self):
         file_pattern = self.reader.get_token().decode()
-        # time.sleep(0.5)
+
         try:
             files, _, newest_file = self.find_matching_files(file_pattern)
         except Exception as e:
@@ -114,18 +113,20 @@ class ReceiverProcessor(object):
         possible_files = (base_path.with_suffix(extension) for extension in self.extensions)
         # we want to send file path relative to storage root, thus base storage_root is included
         # into path only for existence check
-        full_paths = [self.storage_root.joinpath(file) for file in possible_files]
-
-        # LabVIEW doesn not guarantee that avi file will exist while sending path
-        # separate logic is needed to handle this situation
-        if 'avi' in self.extensions:
-            avi_file_path = self.storage_root.joinpath(base_path.with_suffix('avi'))
-            if not avi_file_path.exists():
-                self.avi_queue.put(avi_file_path, timeout=10)
+        full_paths = (self.storage_root.joinpath(file) for file in possible_files)
 
         valid_paths = [path for path in full_paths if path.exists()]
         if not valid_paths:
             return [], None, None
+
+        # LabVIEW doesn not guarantee that avi file will exist while sending path
+        # separate logic is needed to handle this situation
+        # if any paths has been found (i.e lvm) and not avi then it should be sent to finder
+        if '.avi' in self.extensions:
+            avi_file_path = self.storage_root.joinpath(base_path.with_suffix('.avi'))
+            if not avi_file_path.exists():
+                logger.debug("Adding avi file to finder ({})".format(avi_file_path))
+                self.avi_queue.put(avi_file_path, timeout=10)
 
         last_created = max(valid_paths, key=lambda file: file.stat().st_ctime_ns)
         first_created = min(valid_paths, key=lambda file: file.stat().st_ctime_ns)
