@@ -372,13 +372,8 @@ name "chap:Wstęp-teoretyczny"
 
 \begin_layout Standard
 Niniejszy rozdział zawiera opisy zagadnień oraz technologii użytych w pracy.
- Zagadnienia dotyczą warstwy sieciowej za pomocą której realizowany jest
- przesył danych, intera
-\end_layout
-
-\begin_layout Standard
-Skupiono się na zagadnieniach sieciowych - protokole TCP oraz gniazdach
- sieciowych, kompresji danych oraz strukturze plików multimedialnych.
+ Zagadnienia dotyczą warstwy sieciowej, nawiązywania połączeń sieciowych
+ z użyciem protokołu TCP, kompresji oraz strukturze plików multimedialnych.
 \end_layout
 
 \begin_layout Section
@@ -388,7 +383,7 @@ Protokół TCP
 \begin_layout Standard
 Protokół użyty w pracy jako kanał transportu danych pomiędzy dwoma maszynami.
  W modelach OSI oraz TCP/IP kategoryzowany jest jako protokół transportowy
- - pozwala na komunikację procesów na dwóch różnych maszynach które komunikują
+ - pozwala na komunikację procesów na dwóch różnych maszynach, które komunikują
  się za pomocą sieci Internet.
  Protokół oferuje następujące własności 
 \begin_inset CommandInset citation
@@ -1102,7 +1097,7 @@ reference "rys:socket_connection"
 \end_layout
 
 \begin_layout Standard
-Po stronie serwera wymagane są następujące czynności:
+Aplikacja serwerowa musi zrealizować następujące czynności:
 \end_layout
 
 \begin_layout Enumerate
@@ -1298,7 +1293,7 @@ tora.
 \end_layout
 
 \begin_layout Standard
-Od strony klienckiej wymagane są następujące kroki:
+Aplikacja kliencka musi przeprowadzić następujące czynności:
 \end_layout
 
 \begin_layout Enumerate
@@ -1514,18 +1509,17 @@ reference "rys:tcp_socket_stack"
 
 \end_inset
 
- przedstawia komunikację TCP z użyciem gniazd.
+ przedstawia komunikację za pomocą protokołu TCP z użyciem gniazd.
  Wyszczególniono trzy niezależne komponenty: aplikację użytkownika, jądro
- systemu operacyjnego w którym zrealizowany jest stos sieciowy oraz kartę
- sieciową (ang.
- Network Interface Card), oznaczona na rysunku skrótem NIC.
+ systemu operacyjnego oraz kartę sieciową (ang.
+ Network Interface Card), oznaczoną na rysunku skrótem NIC.
  Komunikacja pomiędzy użytkownikiem a jądrem prowadzona jest za pomocą gniazda.
  Jądro komunikuje się z kartą sieciową za pomocą pamięci współdzielonej
  oraz przerwań.
  Kolorem niebieskim oznaczono zestaw struktur danych odpowiadający pojedynczemu
- połączeniu po stronie jądra systemu.
- Składają się na niego kolejki nadawcza oraz odbiorcza i blok kontrolny
- połączenia (TCB, ang.
+ połączeniu.
+ Składa się on z kolejki nadawcza oraz odbiorcza i blok kontrolny połączenia
+ (TCB, ang.
  TCP control block).
 \end_layout
 
@@ -1562,8 +1556,8 @@ W przypadku gdy prędkość generowania danych przekracza przepustowość łącz
  sieciowego może dojść do wyczerpania zasobów systemowych - pamięci ram
  oraz pojemności dysku twardego.
  W celu przeciwdziałania takiemu zdarzeniu wymagane jest zastosowanie transforma
-cji która zmniejszy objętość danych - ilość bitów potrzebnych na jej przechowani
-e.
+cji, która zmniejszy objętość danych - ilość bitów potrzebnych na jej przechowan
+ie.
  Transformacja taka nazywana jest kompresją.
 \end_layout
 
@@ -1580,8 +1574,8 @@ key "Salomon:2009:HDC:1708069"
  Rozróżnienie prowadzone jest w oparciu o wynik dekompresji.
  Jeśli reprezentacja skompresowana pozwala na odtworzenie oryginalnego pliku
  metodę nazywamy bezstratną.
- Stosuje się je w przypadku danych których integralność jest kluczowa, takich
- jak skompilowane programy komputerowe czy kod źródłowy.
+ Stosuje się je w przypadku danych, których integralność jest kluczowa,
+ takich jak skompilowane programy komputerowe czy kod źródłowy.
  Przykładem takiego kodowania jest kodowanie Huffmana (ang.
  Huffman coding) 
 \begin_inset CommandInset citation
@@ -1597,7 +1591,7 @@ key "huffman_encoding"
 \begin_layout Standard
 Kompresja stratna odrzuca część informacji w celu osiągnięcia większego
  stopnia kompresji.
- Stosuje się ją w przypadkach w których niesiona informacja może zostać
+ Stosuje się ją w przypadkach, w których niesiona informacja może zostać
  odtworzona pomimo zaburzeń, stosuje się ją między innymi w celu transportu
  strumieni wideo.
 \end_layout
@@ -1642,12 +1636,17 @@ key "Salomon:2009:HDC:1708069"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\eta=\frac{V_{out}}{V_{in}}
+\eta=\frac{V_{out}}{V_{in}}*100\%
 \end{equation}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Opisuje ona jakim procentem objętości oryginalnego pliku jest objętość pliku
+ wynikowego.
 \end_layout
 
 \begin_layout Section
@@ -1661,7 +1660,7 @@ Plik wideo składa się z jednego bądź więcej strumieni danych (ang.
  w pewnym formacie.
  Format taki zazwyczaj posiada zestaw pożądanych cech takich jak dostosowanie
  do przesyłu bądź składowania czy szyfrowania.
- Reprezentacja danych zawarta w pliku zazwyczaj różni się od postaci która
+ Reprezentacja danych zawarta w pliku zazwyczaj różni się od postaci, która
  jest zdatna do odtworzenia (wyświetlenia, odegrania) i wymaga przetworzenia.
  Format podstawowy danego typu nazywany jest formatem nieprzetworzonym (ang.
  raw).
@@ -1727,7 +1726,7 @@ key "ho2015handbookContainers"
 \end_layout
 
 \begin_layout Standard
-Przykładem zastosowania kontenera jest przechowywanie filmu w formacie MP4
+Przykładem zastosowania kontenera jest przechowywanie filmu w formacie MP4,
  który zawiera ścieżkę z obrazem, ścieżkę z dźwiękiem w języku angielskim
  oraz napisy w języku polskim.
  Dźwięk zsynchronizowany jest z ruchem ust aktorów na ścieżce audio a napisy
@@ -1746,20 +1745,19 @@ name "chap:opis_problemu"
 \end_layout
 
 \begin_layout Standard
-Katedra metrologii prowadzi badania dotyczące odczytu informacji o pojazdach
- poruszających się po drodze za pomocą zestawu sensorów.
- Czujniki takie zostały zamontowane na odcinku autostrady w miejscowości
- Gardawice 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-[link do papieru]
+Celem rozdziału jest opis celu oraz sposobu działania stanowiska pomiarowego,
+ zbadanie struktury generowanych danych oraz ich własności ilościowych,
+ oszacowanie średniego strumienia danych generowanego przez pomiary oraz
+ zmierzenie przepustowości sieci łączącej stanowisko pomiarowe z komputerem,
+ do którego wysyłane będą dane pomiarowe.
 \end_layout
 
-\end_inset
-
-.
+\begin_layout Standard
+Katedra Metrologii i Elektroniki AGH prowadzi badania dotyczące odczytu
+ informacji o pojazdach poruszających się po drodze za pomocą zestawu czujników
+ pętlowych.
+ Aparatura pomiarowa została zamontowana na odcinku drogi krajowej DK-81
+ w miejscowości Gardawice.
 \end_layout
 
 \begin_layout Standard
@@ -1817,45 +1815,29 @@ name "rys:schemat_stanowiska"
 \end_layout
 
 \begin_layout Standard
-W skład stanowiska pomiarowego wchodzą czujniki spięte z układem przetwarzania
- do postaci cyfrowej, kamera oraz komputer.
- Oprogramowanie napisane w środowisku LabVIEW odpowiada za zapisanie na
- dysku przebiegów czasowych sygnałów oraz sekwencji video zarejestrowanych
- w trakcie przejazdu pojazdu.
-\end_layout
-
-\begin_layout Standard
-Komputer służący do przechowywania pomiarów jest również podłączony do sieci.
- Pomiędzy stanowiskiem pomiarowym a siecią na uczelni zestawiony jest tunel
- VPN (ang.
- Virtual Private Network).
- Pozwala to na zdalne zarządzanie środowiskiem przy jednoczesnym zapewnieniu
- bezpieczeństwa komunikacji (szyfrowanie, uwierzytelnienie, integralność
- danych).
-\end_layout
-
-\begin_layout Standard
-Schemat sieciowy zaprezentowany został na rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:schemat_sieciowy"
-
-\end_inset
-
-.
- Stanowisko z rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:schemat_stanowiska"
 
 \end_inset
 
- zaprezentowane zostało jako Gardawice.
- Interakcje z Gardawicami możliwe są za pomocą środowiska Cygwin które pozwala
- używać maszyny z systemem operacyjnym Windows w konwencji Unixowej.
- 
+ przedstawia schemat stanowiska pomiarowego.
+ W jego skład wchodzą czujniki połączone z układem przetwarzania do postaci
+ cyfrowej, kamera oraz komputer.
+ Oprogramowanie napisane w środowisku LabVIEW odpowiada za zapis na dysku
+ przebiegów czasowych sygnałów oraz sekwencji wideo zarejestrowanych w trakcie
+ przejazdu pojazdu.
+\end_layout
+
+\begin_layout Standard
+Komputer służący do przechowywania danych pomiarowych jest również podłączony
+ do sieci.
+ Pomiędzy stanowiskiem pomiarowym a siecią na uczelni zestawiony jest tunel
+ VPN (ang.
+ Virtual Private Network).
+ Pozwala to na zdalne zarządzanie środowiskiem przy jednoczesnym zapewnieniu
+ bezpieczeństwa komunikacji.
 \end_layout
 
 \begin_layout Standard
@@ -1880,7 +1862,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Schemat sieciowy
+Schemat połączeń sieciowych pomiędzy KMiE AGH a stanowiskiem pomiarowym
 \end_layout
 
 \end_inset
@@ -1903,6 +1885,30 @@ name "rys:schemat_sieciowy"
 
 \end_layout
 
+\begin_layout Standard
+Schemat połączeń sieciowych zaprezentowany został na rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_sieciowy"
+
+\end_inset
+
+.
+ Miejscem składowania pomiarów jest maszyna oznaczona na rysunku jako traffic2.
+ Dostęp do sieci z zewnątrz jest możliwy za pomocą maszyny oznaczonej traffic.eu.o
+rg.
+ Kontrola dostępu do środowiska realizowana jest za pomocą protokołu SSH
+ (ang.
+ Secure Shell).
+\end_layout
+
+\begin_layout Standard
+Interakcje z środowiskiem w Gardawicach możliwe są za pomocą programu Cygwin,
+ który pozwala używać maszyny z systemem operacyjnym Windows za pomocą konsoli
+ w konwencji Unixowej.
+\end_layout
+
 \begin_layout Section
 Struktura generowanych danych
 \begin_inset CommandInset label
@@ -1915,45 +1921,12 @@ name "sec:Struktura-generowanych-danych"
 \end_layout
 
 \begin_layout Standard
-Każdy pomiar - przejazd pojazdu - składa się z dwóch plików.
- Danych o rozszerzeniu lvm który posiada strukturę csv (ang.
- comma separated values) oraz wideo w formacie avi (ang.
+Rezultatem pomiaru jest para plików - przebiegi czasowe sygnałów w formacie
+ lvm (LabVIEW measurement) oraz sekwencję wideo w formacie AVI (ang.
  Audio Video Interleave).
- Pliki te posiadają tą samą nazwę oraz rozszerzenie odpowiednio avi i lvm,
- zgodną ze schematem przedstawionym w tabeli 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:nazwa_pliku"
-
-\end_inset
-
- oraz ścieżkę o regularnej strukturze zgodną ze schematem przedstawionym
- w tabeli 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:nazwa_folderu"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Komórki pogrubione w tabelach 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:nazwa_pliku"
-
-\end_inset
-
- i 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:nazwa_folderu"
-
-\end_inset
-
- stanowią zmienne zależne od momentu wygenerowania pliku.
+ Pliki posiadają jednakową nazwę, generowaną na podstawie czasu wykonania
+ pomiaru oraz grupowane są w katalogach dobowych.
+ Katalogi dobowe znajdują się w pojedynczym katalogu nadrzędnym.
 \end_layout
 
 \begin_layout Standard
@@ -1961,6 +1934,18 @@ reference "tab:nazwa_folderu"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat nazw plików
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -2069,15 +2054,6 @@ Sekunda
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Schemat nazwy generowanego pliku
-\end_layout
-
-\end_inset
-
-
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:nazwa_pliku"
@@ -2093,17 +2069,14 @@ name "tab:nazwa_pliku"
 \end_layout
 
 \begin_layout Standard
-Nazwa pliku koduje czas wykonania pomiaru, dokładny schemat generowanej
- nazwy reprezentuje tabela 
+Tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:nazwa_pliku"
 
 \end_inset
 
-.
- Pliki zaś grupowane są w foldery odpowiadające dniom w których zostały
- wygenerowane.
+ przedstawia schemat stosowany do wygenerowania nazw plików.
 \end_layout
 
 \begin_layout Standard
@@ -2111,6 +2084,18 @@ reference "tab:nazwa_pliku"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat nazwy katalogu
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -2193,18 +2178,6 @@ Dzień
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Schemat nazwy generowanego folderu
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:nazwa_folderu"
@@ -2220,21 +2193,30 @@ name "tab:nazwa_folderu"
 \end_layout
 
 \begin_layout Standard
-Katalogi z dniami pomiarowymi zgrupowane są w pojedynczej lokalizacji na
- dysku, jej zawartość prezentuje rys.
- 
+Tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:gardawice_katalog_pomiary"
+reference "tab:nazwa_folderu"
 
 \end_inset
 
-.
- Prócz katalogów z kolejnymi dniami w lokalizacji znajdują się foldery skompreso
-wane.
- Są to ślady ręcznej ingerencji mającej na celu zmniejszenie ilości miejsca
- na dysku zajmowanej przez pomiary oraz przygotowanie do przekopiowania
- na zewnętrzny nośnik i przetransportowanie na uczelnię.
+ przedstawia schemat stosowany do wygenerowania nazwy katalogu, w którym
+ zostaną umieszczone wyniki pomiaru.
+ Komórki pogrubione w tabelach 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:nazwa_pliku"
+
+\end_inset
+
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:nazwa_folderu"
+
+\end_inset
+
+ stanowią zmienne zależne od czasu wygenerowania pliku.
 \end_layout
 
 \begin_layout Standard
@@ -2283,17 +2265,18 @@ name "rys:gardawice_katalog_pomiary"
 \end_layout
 
 \begin_layout Standard
-Zawartość katalogu zawierającego pomiary z 5 maja 2018 przedstawia rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:pomiary_z_jednego_dnia"
+reference "rys:gardawice_katalog_pomiary"
 
 \end_inset
 
-.
- Zrzut ekranu został wykonany 13 maja, w ciągu 24h stanowisko pomiarowe
- wygenerowało 11376 plików o łącznej wadze 7.1 Gigabajta.
+ przedstawia zawartość katalogu głównego składowania danych pomiarowych.
+ Prócz katalogów z danymi dobowymi można zaobserwować pliki skompresowane
+ o rozszerzeniu tar.bz2, są to ślady ręcznej ingerencji mającej na celu zaoszczęd
+zenie przestrzeni dyskowej oraz przygotowanie zbiorów plików do przekopiowania
+ na zewnętrzny nośnik i przetransportowania na uczelnię.
 \end_layout
 
 \begin_layout Standard
@@ -2340,16 +2323,19 @@ name "rys:pomiary_z_jednego_dnia"
 \end_layout
 
 \begin_layout Standard
-Schemat generowania danych posiada dwa zaburzenia.
-\end_layout
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:pomiary_z_jednego_dnia"
 
-\begin_layout Itemize
-Pomiary zarejestrowane tuż przed północą mogą znaleźć się w folderze następnego
- dnia
-\end_layout
+\end_inset
 
-\begin_layout Itemize
-Plik avi może nie zostać wygenerowany
+ przedstawia zawartość katalogu z danymi pomiarowymi z dnia 12.05.2018 ograniczoną
+ do pierwszych dziesięciu linii.
+ Można zaobserwować pary plików odpowiadające kolejnym pomiarom.
+ Ostatni widoczny pomiar został wykonany 3 minuty i 28 sekund po północy.
+ W ciągu doby stanowisko pomiarowe wygenerowało 11376 plików o łącznej objętości
+ 7.1 Gigabajta.
 \end_layout
 
 \begin_layout Section
@@ -2364,18 +2350,18 @@ name "sec:Analiza-ilościowa"
 \end_layout
 
 \begin_layout Standard
-Na potrzeby oszacowania strumienia danych przeanalizowano zestaw wygenerowany
- pomiędzy 11.11.2017 a 10.12.2017.
- W tym przedziale czasowym stanowisko pobierało pomiary bez przerw które
- mogłyby zaburzyć dalsze oszacowania takich jak przerwy w zasilaniu czy
- zapełnienie powierzchni dyskowej.
+Analizę prowadzono na podstawie zestawu danych wygenerowanych w dniach od
+ 11.11.2017 do 10.12.2017.
+ W badanym okresie stanowisko pracowało bez zdarzeń, które mogłyby wpłynąć
+ na wyniki takich jak przerwy w zasilaniu czy zapełnienie przestrzeni dyskowej.
 \end_layout
 
 \begin_layout Standard
 Dziennie generowanych jest ok.
  6 tysięcy par plików.
  Ilość pomiarów jest ściśle związana z natężeniem ruchu drogowego, stąd
- można zakładać okresowe wahania spowodowane m.in cyklem dobowym oraz świętami.
+ można zakładać okresowe wahania spowodowane m.in.
+ cyklem dobowym oraz świętami.
 \end_layout
 
 \begin_layout Standard
@@ -2385,91 +2371,35 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Własności statystyczne danych pomiarowych z badanego okresu
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="3" columns="4">
+<lyxtabular version="3" rows="9" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Typ pliku
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-średnia wielkości [B]
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-mediana wielkości [B]
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-odchylenie standardowe [B]
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-lvm
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-838487
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-840305
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-6773
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -2479,11 +2409,253 @@ avi
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lvm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ilość plików
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+167804
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+167804
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Średnia
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+502728
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+838532
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Odchylenie standardowe
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+133068
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+5378
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wartość minimalna
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+285696
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+806863
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Q1 (25%)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+351232
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+835712
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Q2 (50%)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+553984
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+840304
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Q3 (75%)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+604672
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+842676
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-504104
+Wartość maksymalna
 \end_layout
 
 \end_inset
@@ -2492,7 +2664,9 @@ avi
 \begin_inset Text
 
 \begin_layout Plain Layout
-555008
+
+\lang english
+862208
 \end_layout
 
 \end_inset
@@ -2501,7 +2675,9 @@ avi
 \begin_inset Text
 
 \begin_layout Plain Layout
-133490
+
+\lang english
+867866
 \end_layout
 
 \end_inset
@@ -2515,15 +2691,6 @@ avi
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Własności statystyczne pomiarów
-\end_layout
-
-\end_inset
-
-
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:wielkosci_plikow"
@@ -2539,16 +2706,108 @@ name "tab:wielkosci_plikow"
 \end_layout
 
 \begin_layout Standard
-Zgodnie z tabelą 
+Tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:wielkosci_plikow"
 
 \end_inset
 
- pliki avi posiadają o 2 rzędy wielkości większą wariancję niż pliki avi,
- należy więc spodziewać się skokowych zmian w obciążeniu systemu wysyłania
- rozumianego jako wartość strumienia danych na sekundę.
+ przedstawia opis danych pomiarowych w formie podsumowania własności statystyczn
+ych.
+ Dane liczbowe przedstawione są w bajtach.
+ Wartości Q1-Q3 przedstawiają kolejne kwartyle.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/filesystem_file_size_box_plot.png
+	lyxscale 50
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wykres pudełkowy rozmiarów plików z badanego okresu
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:wielkosci_plikow_boxplot"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wielkosci_plikow_boxplot"
+
+\end_inset
+
+ przedstawia wykres pudełkowy reprezentujący graficznie dane przedstawione
+ w tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:wielkosci_plikow"
+
+\end_inset
+
+.
+ Pozioma niebieska linia oznacza medianę.
+ Czerwony prostokąt ograniczony jest z dołu i góry przez odpowiednio pierwszy
+ i trzeci kwartyl (Q1 oraz Q3).
+ Dwie pozostałe poziome linie znajdują się w odległości danej wzorem 1.5*IQR,
+ gdzie IQR = Q3-Q1 od odpowiednich brzegów prostokąta.
+ Czarne kropki oznaczają obserwacje odstające (ang.
+ outliers) o wartościach nietypowych w kontekście badanego zbioru.
+\end_layout
+
+\begin_layout Standard
+Zarówno z rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wielkosci_plikow_boxplot"
+
+\end_inset
+
+ jak i tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:wielkosci_plikow"
+
+\end_inset
+
+ można odczytać wysoki rozrzut objętości sekwencji wideo w porównaniu do
+ przebiegów czasowych sygnałów.
+ Wariancja jest o dwa rzędy wielkości wyższa.
 \end_layout
 
 \begin_layout Standard
@@ -2573,7 +2832,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Zależność wielkości pliku avi od momentu pomiaru
+Zależność rozmiaru sekwencji wideo od czasu pomiaru
 \end_layout
 
 \end_inset
@@ -2601,18 +2860,17 @@ reference "rys:wielkosc_avi"
 
 \end_inset
 
- przedstawia zależność wielkości filmu (pliku avi) od godziny jego wykonania,
- uśrednienie zostało dokonane z dokładnością do minut.
- Najistotniejsze zmiany wielkości plików występują ok godziny 7 oraz 16
- które w analizowanym okresie pokrywają się z godzinami wschodu i zachodu
- słońca.
- Na podstawie wykresu można stwierdzić, że zmiana związana z cyklem słonecznym
- jest najistotniejszym składnikiem wariancji.
+ przedstawia zależność parametrów sekwencji wideo od czasu wykonania pomiaru.
+ Na wykresie widoczne są dwie istotne zmiany rozmiaru, pierwsza między 6.30
+ a 7.30, druga między 15.30 a 16.30.
+ Godziny te odpowiadają wschodowi i zachodowi słońca w listopadzie.
+ Zmienność rozmiaru sekwencji wideo jest więc zależna od naświetlenia stanowiska
+ pomiarowego.
 \end_layout
 
 \begin_layout Standard
-Na wykresie można zaobserwować również zerowy pomiar, w projekcie aplikacji
- należy zatem uwzględnić możliwość obsłużenia takiego wypadku.
+Na wykresie można również zaobserwować pojawienie się pustego pliku po godzinie
+ 17.
 \end_layout
 
 \begin_layout Standard
@@ -2637,7 +2895,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Zależność wielkości pliku lvm od momentu pomiaru
+Zależność rozmiaru przebiegów czasowych sygnałów od czasu pomiaru
 \end_layout
 
 \end_inset
@@ -2668,25 +2926,19 @@ reference "rys:wielkosci_lvm"
 
 \end_inset
 
-został wyskalowany podobnie do 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wielkosc_avi"
-
-\end_inset
-
-.
- Dzięki temu zabiegowi można zauważyć różnicę w zmienności wielkości obu
- typów plików.
- Elementem wartym odnotowania jest kolejna 
+ przedstawia zależność parametrów przebiegów czasowych sygnałów od czasu
+ wykonania pomiaru.
+ Zmienność rozmiaru pliku nie wykazuje żadnej istotnej cykliczności w ujęciu
+ dobowym.
+ Na wykresie widać dwie 
 \begin_inset Quotes pld
 \end_inset
 
-szpilka
+szpilki
 \begin_inset Quotes prd
 \end_inset
 
- oznaczająca pomiar zerowej wielkości.
+, oznaczające puste pliki.
 \end_layout
 
 \begin_layout Section
@@ -2704,13 +2956,7 @@ name "sec:Średni-strumień-danych"
 Metryką użytą do planowania struktury rozwiązania został średni strumień
  danych, jego wartość wyliczona została dzieląc sumę danych wygenerowanych
  w ciągu badanego okresu przez ilość sekund składających się na ten okres.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $S=\frac{V}{T}\,[\frac{B}{s}]$
-\end_inset
-
-, s - strumień, V - ilość danych w bajtach, T - czas
+ Obliczenia przeprowadzono dla 30 pełnych dni (11.11 - 10.12).
 \end_layout
 
 \begin_layout Standard
@@ -2725,7 +2971,7 @@ S=\frac{V}{T}\,[\frac{B}{s}]
 \end_layout
 
 \begin_layout Standard
-Obliczenia przeprowadzono dla 30 pełnych dni (11.11 - 10.12) po 24 godziny.
+S - strumień, V - ilość danych w bajtach, T - czas
 \end_layout
 
 \begin_layout Standard
@@ -2733,16 +2979,6 @@ Obliczenia przeprowadzono dla 30 pełnych dni (11.11 - 10.12) po 24 godziny.
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Sumaryczny strumień danych obliczony na podstawie danych z plików lvm_results.csv
- oraz avi_results.csv.
- Zawierają one kolumny z czasem pomiaru oraz wielkością pliku z danymi pomiarowy
-mi.
- Zostały one wygenerowane na podstawie stanu przestrzeni dyskowej stanowiska
- pomiarowego w dniu 20.02.2018r.
- Dostępne do wglądu w <gdziekolwiek ta praca będzie dostępna>.
 \end_layout
 
 \begin_layout Standard
@@ -2767,10 +3003,6 @@ mi.
 \end_layout
 
 \begin_layout Standard
-Na podstawie powyższych danych średni strumień wynosi.
-\end_layout
-
-\begin_layout Standard
 \begin_inset Formula $S=\frac{225068797\,kB}{2592000\,s}\approx86.8\,\frac{kB}{s}$
 \end_inset
 
@@ -2778,7 +3010,7 @@ Na podstawie powyższych danych średni strumień wynosi.
 \end_layout
 
 \begin_layout Standard
-Należy również pamiętać o zmienności dobowej w wielkości plików avi.
+Należy również pamiętać o zmienności dobowej w wielkości plików wideo.
 \end_layout
 
 \begin_layout Section
@@ -2793,7 +3025,13 @@ name "sec:Łącze-sieciowe"
 \end_layout
 
 \begin_layout Standard
-Przepustowość łącza zbadano z użyciem narzędzia iPerf 
+Oszacowanie przepustowości łącza sieciowego pozwala obliczyć minimalny stopień
+ kompresji wymagany aby umożliwić przesył danych pomiarowych w miarę ich
+ generowania.
+\end_layout
+
+\begin_layout Standard
+Przepustowość zbadano z użyciem narzędzia iPerf 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "iperf"
@@ -2827,7 +3065,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wyjście standardowe klienta iPerf w miejscowości Gardawice
+Wyjście standardowe klienta programu iPerf w miejscowości Gardawice
 \end_layout
 
 \end_inset
@@ -2889,7 +3127,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wyjście standardowe serwera iPerf na maszynie traffic2 
+Wyjście standardowe serwera programu iPerf na maszynie traffic2 
 \end_layout
 
 \end_inset
@@ -2923,8 +3161,8 @@ reference "rys:iperf_traffic2"
  przedstawia wynik pomiarów zaraportowany na maszynie traffic2.
  Argumenty rozruchowe aplikacji zawierają flagę -s odpowiadającą za uruchomienie
  aplikacji w trybie serwerowym.
- Flagi -B i -p sterują odpowiednio adresem IP i portem TCP na których nasłuchuje
- aplikacja.
+ Flagi -B i -p sterują odpowiednio adresem IP i portem TCP, na których nasłuchuj
+e aplikacja.
  Rysunek zwiera rezultaty trzech pomiarów, gdzie pomiar o identyfikatorze
  4 odpowiada pomiarowi przedstawionemu na rysunku 
 \begin_inset CommandInset ref
@@ -2942,7 +3180,7 @@ Wynikowa przepustowość zaraportowana przez serwer jest o 0.1 kB/s niższa
  niż w przypadku klienta.
  Może to być spowodowane buforowaniem danych przez stos sieciowy maszyny
  nadającej.
- W dalszej części pracy przyjęto przepustowość łącza wynoszącą 58 kB/s.
+ W pracy przyjęto przepustowość łącza wynoszącą 58 kB/s.
 \end_layout
 
 \begin_layout Section
@@ -2957,7 +3195,7 @@ name "sec:Kompresja"
 \end_layout
 
 \begin_layout Standard
-Na podstawie danych z podrozdziałów 
+Dane z podrozdziałów 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Średni-strumień-danych"
@@ -2971,50 +3209,23 @@ reference "sec:Łącze-sieciowe"
 
 \end_inset
 
- w celu eliminacji problemu zapełniania się dysku w Gardawicach wymagana
- jest kompresja danych przed wysłaniem.
- Najwolniejszym elementem systemu jest połączenie sieciowe, z tego powodu
- analiza kompresji prowadzona jest pod kątem stopnia kompresji z pominięciem
- czasów działania poszczególnych algorytmów.
-\end_layout
-
-\begin_layout Standard
-Przy średnim strumieniu generowanym przez stanowisko pomiarowe
+ pozwalają na obliczenie minimalnego stopnia kompresji.
+ Dobór algorytmu o takim, bądź niższym stopniu kompresji zapobiega przepełnieniu
+ dysku danymi pomiarowymi.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula $S_{in}=86.8\,\frac{kB}{s}$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-oraz przepustowości sieci (strumieniu wyjściowym)
+ - średnim strumieniu generowanym przez stanowisko pomiarowe
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula $S_{out}=58\,\frac{kB}{s}$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-wymagany stopień kompresji aby zrównać strumień generowany z maksymalnym
- strumieniem wyjściowym
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $c_{r}=\frac{S_{in}}{S_{out}}=\frac{86.8}{58}\approx1.5$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-W trakcie porównań użyto procentowej miary mówiącej jaką częścią rozmiaru
- pliku nieskompresowanego jest rozmiar pliku skompresowanego.
+ - przepustowości sieci
 \end_layout
 
 \begin_layout Standard
@@ -3031,28 +3242,29 @@ Powyższa kalkulacja nie bierze pod uwagę narzutu wprowadzanego przez protokoł
 \end_layout
 
 \begin_layout Standard
-Do badań wybrano trzy popularne narzędzia kompresji, przedstawia je tabela
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:kompresja_bezstratna"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Badane algorytmy kompresji bezstratnej
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
+<lyxtabular version="3" rows="4" columns="3">
 <features tabularvalignment="middle">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -3065,346 +3277,11 @@ Nazwa programu
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 Nazwa algorytmu
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-bzip2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Transformata Burrowsa-Wheelera
-\begin_inset CommandInset citation
-LatexCommand cite
-key "burrows-wheeler"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-lzma
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Lempel–Ziv–Markov chain algorithm
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lzma-spec,salomon2004-lzma"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-zlib
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-deflate
-\begin_inset CommandInset citation
-LatexCommand cite
-key "salomon2004-deflate"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Zbadane algorytmy kompresji bezstratnej
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:kompresja_bezstratna"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Kompresja plików avi
-\end_layout
-
-\begin_layout Standard
-Dane wideo uzyskiwane w trakcie pomiarów służą weryfikacji analizy danych
- pomiarowych z plików lvm.
- Identyfikowana jest liczba osi pojazdu przejeżdżającego przez kadr 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Zapytać czy coś więcej
-\end_layout
-
-\end_inset
-
-.
- Istnieje więc możliwość zastosowania kompresji stratnej pod warunkiem zachowani
-a możliwości ręcznej identyfikacji wymienionych cech pojazdu.
-\end_layout
-
-\begin_layout Standard
-Zgodnie z informacjami ze wstępu teoretycznego kontener AVI może zawierać
- wiele ścieżek przechowywanych w różnych formatach.
- Pliki lvm generowane przez stanowisko pomiarowe zawierają jedną ścieżkę
- wideo w formacie MJPEG.
- Format ten składuje każdą klatkę filmu jako zdjęcie w formacie JPEG.
- Sposób odczytania informacji o strukturze pliku za pomocą pakietu ffmpeg
- przedstawia rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:ffmpeg_on_avi"
-
-\end_inset
-
-.
- Tę samą informację można odczytać również bezpośrednio z pliku.
- Jest ona częścią nagłówka strumienia (segment strh) w sekcji hdrl, zajmuje
- 4 bajty za informacją o typie strumienia.
- Na rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:avi_hexdump"
-
-\end_inset
-
- przedstawiony jest zrzut plik avi za pomocą programu hexdump, służącego
- do wyświetlania zawartości plików binarnych.
- Nagłówek strh zaczyna się pod adresem 0x65, identyfikator typu strumienia
- znajduje się pod adresem 0x6c i przyjmuje wartość 
-\begin_inset Quotes pld
-\end_inset
-
-vids
-\begin_inset Quotes prd
-\end_inset
-
- oznaczającą strumień wideo, pod adresem 0x70 znajduje się informacja o
- sposobie kompresji - MJPG.
- Wszystkie wartości mają długość 4 bajtów.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/avi_internals.JPG
-	lyxscale 70
-	scale 55
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Odczyt metadanych pliku AVI za pomocą pakietu ffmpeg
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:ffmpeg_on_avi"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/avi_hexdump.JPG
-	lyxscale 50
-	scale 56
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Odczyt metadanych bezpośrednio z pliku avi
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:avi_hexdump"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Ponadto pakiet ffmpeg informuje, że powyższy plik zawiera tylko jedną ścieżkę.
-\end_layout
-
-\begin_layout Standard
-Do testów sprawności kompresji wybrano 4 algorytmy, 3 wymienione w tabeli
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:kompresja_bezstratna"
-
-\end_inset
-
- oraz standardu H.264.
- Do testu wykorzystano 1698 plików dostępnych na stacji roboczej w Gardawicach.
- W przypadku enkoderów bezstratnych wykorzystano implementacje dostępne
- w bibliotekach standardowych języka python, pakiety lzma, bzip2 oraz zlib.
- Standard H.264 został użyty za pomocą kodeka x264 dostępnego jako część
- pakietu ffmpeg.
- W przypadku pakietów bezstratnych użyto standardowych poziomów kompresji.
- Służą one manipulowaniu czasem kompresji kosztem wielkości pliku wynikowego.
- Przedstawia je tabela 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:presety_kompresji"
-
-\end_inset
-
-.
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-przenieś to do rozpoczęcia podrozdziału
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Algorytm
 \end_layout
 
 \end_inset
@@ -3429,6 +3306,22 @@ bzip2
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Transformata Burrowsa-Wheelera 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "burrows-wheeler"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
@@ -3445,6 +3338,22 @@ bzip2
 
 \begin_layout Plain Layout
 lzma
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lempel–Ziv–Markov chain algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lzma-spec,salomon2004-lzma"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3469,6 +3378,22 @@ zlib
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+deflate 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "salomon2004-deflate"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
@@ -3487,21 +3412,9 @@ zlib
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Poziomy kompresji algorytmów bezstratnych
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "tab:presety_kompresji"
+name "tab:kompresja_bezstratna"
 
 \end_inset
 
@@ -3514,7 +3427,60 @@ name "tab:presety_kompresji"
 \end_layout
 
 \begin_layout Standard
-Kodek x264 wywoływany był przy pomocy następującej komendy
+Do badań wybrano trzy popularne algorytmy kompresji, przedstawia je tabela
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:kompresja_bezstratna"
+
+\end_inset
+
+.
+ W badaniach użyto implementacji dostępnych jako biblioteki języka Python
+ z ustawieniami domyślnymi, które przedstawia kolumna 
+\begin_inset Quotes pld
+\end_inset
+
+Poziom Kompresji
+\begin_inset Quotes prd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Zbiór danych testowych w niniejszym podrozdziale stanowiły dane pomiarowe
+ z dnia 06.10.2017.
+\end_layout
+
+\begin_layout Subsection
+Kompresja obrazu wideo
+\end_layout
+
+\begin_layout Standard
+Obraz wideo uzyskany podczas przejazdu pojazdu służy do sprawdzenia typu
+ pojazdu i ścieżki przejazdu przez stanowisko z czujnikami pętlowymi (istotny
+ jest fakt zmiany pasa ruchu).
+ Umożliwia to zastosowanie kompresji stratnej pod warunkiem zachowania możliwośc
+i wizualnej identyfikacji wymienionych cech pojazdu.
+\end_layout
+
+\begin_layout Standard
+Badanie stopnia kompresji przeprowadzono na czterech algorytmach, trzy wymienion
+ych w tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:kompresja_bezstratna"
+
+\end_inset
+
+ oraz standard H.264.
+\end_layout
+
+\begin_layout Standard
+Kompresję H.264 zrealizowaną za pomocą biblioteki x264 będącej częścią pakietu
+ ffmpeg.
+ Został on wywołany przy użyciu następującej komendy.
 \end_layout
 
 \begin_layout Standard
@@ -3530,12 +3496,6 @@ ffmpeg -i <nazwa_pliku> -preset slow -crf 32 -c:v libx264 <plik_wyjsciowy>
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Do analizy wykorzystano dane pomiarowe z dnia 06.10.2017.
- Skrypt przeprowadzający testy dostępny jest w źródłach pracy, ścieżka:
- implementacja/compression_analysis/measure_compression.py.
 \end_layout
 
 \begin_layout Standard
@@ -3560,7 +3520,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wyniki testów algorytmów kompresji w formie graficznej
+Wynik testów kompresji obrazu wideo w postaci wykresu pudełkowego 
 \end_layout
 
 \end_inset
@@ -3584,23 +3544,15 @@ name "rys:box_plot_kompresja_avi"
 \end_layout
 
 \begin_layout Standard
-Wyniki eksperymentu w formie wykresów pudełkowych przedstawia rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:box_plot_kompresja_avi"
 
 \end_inset
 
-.
- Wielkością mierzoną na osi Y jest procentowa wielkość pliku skompresowanego
- względem oryginalnego, pozwala to porównywać sprawność algorytmów niezależnie
- od wielkości pliku wejściowego.
- Pozioma zielona linia oznacza medianę.
- Niebieski prostokąt ograniczony jest z dołu i góry przez odpowiednio pierwszy
- i trzeci kwartyl (Q1 oraz Q3).
- Dwie pozostałe poziome linie znajdują się w odległości danej wzorem 1.5*IQR,
- gdzie IQR=Q3-Q1 od odpowiednich brzegów prostokąta.
+ przedstawia wyniki badania w formie wykresu pudełkowego.
+ Widać na nim wyraźną przewagę H.264 nad pozostałymi metodami.
 \end_layout
 
 \begin_layout Standard
@@ -3608,6 +3560,18 @@ reference "rys:box_plot_kompresja_avi"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wynik badania kompresji obrazu wideo
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -3671,7 +3635,7 @@ x264
 \begin_inset Text
 
 \begin_layout Plain Layout
-Ilość pomiarów
+Ilość plików
 \end_layout
 
 \end_inset
@@ -4050,18 +4014,6 @@ Wartość maksymalna
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Wynik testów algorytmów kompresji w formie tabelarycznej 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:kompresja_avi_cyfry"
@@ -4077,27 +4029,29 @@ name "tab:kompresja_avi_cyfry"
 \end_layout
 
 \begin_layout Standard
-Dane liczbowe zawarte w tabeli 
+Tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:kompresja_avi_cyfry"
 
 \end_inset
 
- ponownie operują na sprawności.
- Zarówno z wykresu jak i danych tabelarycznych można odczytać istotną przewagę
- kodeka x264 nad pozostałymi.
- Przyczyn takiego zjawiska należy upatrywać w technikach zastosowanych w
- tym standardzie kompresji które dopasowane są do badanego przypadku.
- Zastosowanie makrobloków na statycznej scenie daje bardzo dobre rezultaty.
- Dodatkowo format MJPG nie może w efektywny sposób enkodować informacji
- o statycznej scenie ponieważ reprezentacja każdej klatki filmu musi przechowywa
-ć tą informację.
+ stanowi uzupełnienie rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:box_plot_kompresja_avi"
+
+\end_inset
+
+.
+ Użycie biblioteki x264 oferuje średni współczynnik kompresji na poziomie
+ 2.97% oraz najniższe odchylenie standardowe spośród badanych metod.
+ Tym sposobem stanowi najlepszego kandydata do zastosowania w projekcie.
 \end_layout
 
 \begin_layout Standard
-Wybór enkodera x264 jako docelowego w projekcie rozwiązania wymaga ewaluacji
- jego parametrów.
+Wybór kompresji stratnej wymaga ewaluacji utraty informacji podczas kompresji.
+ Pakiet ffmpeg oferuje dwa parametry sterujące działaniem metody.
 \end_layout
 
 \begin_layout Itemize
@@ -4109,8 +4063,8 @@ crf
  Constant Rate Factor) - określa stosunek jakości obrazu do stopnia kompresji.
  Przyjmuje wartości z przedziału 0-51, gdzie 0 oznacza kompresję bezstratną
  a 51 najgorszą dostępną jakość.
- Precyzyjny wybór tego parametru jest zależny od akceptowalnej jakości obrazu
- i wymaganego stopnia kompresji.
+ Wybór wartości tego parametru jest zależny od akceptowalnej jakości obrazu
+ i wymaganego współczynnika kompresji.
  Wartość domyślna: 23.
 \end_layout
 
@@ -4121,36 +4075,13 @@ preset
 \series default
  - opisuje stosunek prędkości kodowania do stopnia kompresji.
  Określany angielskimi słowami ('ultrafast', ..., 'medium', ..., 'veryslow').
- Wartość domyślna 'medium'
+ Wartość domyślna 'medium'.
 \end_layout
 
 \begin_layout Standard
-Pliki avi używane są jako dane walidacyjne dla obliczeń i analizy plików
- z danymi sygnałowymi, stąd wartość crf wymaga doboru ręcznego na podstawie
- oględzin filmu wynikowego.
- Przykład kompresji ilustrują rys.
+Parametr preset nie wpływa na jakość obrazu wynikowego, wymagana jest ewaluacja
+ ustawień parametru crf.
  
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:oryginalny_snapshot"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:snapshot_crf23"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:snapshot_crf32"
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
@@ -4216,7 +4147,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Klatka po enkodowaniu, crf 23
+Klatka skompresowana, crf 23
 \end_layout
 
 \end_inset
@@ -4259,7 +4190,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Klatka po enkodowaniu, crf 32
+Klatka skompresowana, crf 32
 \end_layout
 
 \end_inset
@@ -4283,29 +4214,40 @@ name "rys:snapshot_crf32"
 \end_layout
 
 \begin_layout Standard
-Zmiana parametru crf wprowadza zniekształcenia do obrazu jednak istotna
- informacja - ilość osi - jest cały czas czytelna.
- Promotor zaaprobował ustawienie wartości parametru crf na 32.
- Zniekształcenia przy wyższych wartościach utrudniają odczyt ilości osi.
- W projekcie aplikacji można uwzględnić konfigurowalną wartość tego parametru.
-\end_layout
-
-\begin_layout Standard
-Do oszacowania sprawności poszczególnych ustawień ponownie zastosowano pomiary
- z 06.10.2017.
- Zgrubne porównanie wyników na podstawie mediany sprawności oraz czasu przedstaw
-ia rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:presety_ffmpeg_porownanie"
+reference "rys:oryginalny_snapshot"
 
 \end_inset
 
-.
- Na podstawie wykresu front Pareto dla badanego zagadnienia stanowią presety
- 'superfast' ze względu na czas kompresji oraz 'veryfast' ze względu na
- sprawność.
+ przedstawia klatkę z oryginalnej sekwencji wideo.
+ Rysunki 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:snapshot_crf23"
+
+\end_inset
+
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:snapshot_crf32"
+
+\end_inset
+
+ ilustrują wzrost zniekształceń w zależności od wartości parametru crf.
+ Przedstawione wartości parametru nie zaburzają możliwości identyfikacji
+ rodzaju pojazdu, liczby osi czy pasa ruchu.
+ Uznano za odpowiednie zastosowanie wartości 32 dla tego parametru.
+\end_layout
+
+\begin_layout Standard
+W celu doboru optymalnych z punktu widzenia pracy parametrów przeprowadzono
+ analizę wpływu parametru preset na wielkość pliku wynikowego oraz czas
+ kompresji.
+ Analiza została przeprowadzona przy wartości parametru crf dobranej w poprzedni
+m akapicie.
 \end_layout
 
 \begin_layout Standard
@@ -4330,7 +4272,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wykres punktowy czasu do sprawności kompresji dla presetów programu ffmpeg
+Wykres punktowy czasu do współczynnika kompresji w zależności od wartości
+ parametru preset
 \end_layout
 
 \end_inset
@@ -4351,6 +4294,20 @@ name "rys:presety_ffmpeg_porownanie"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:presety_ffmpeg_porownanie"
+
+\end_inset
+
+ przedstawia medianę czasu kompresji oraz współczynnika kompresji dla każdego
+ dostępnego ustawienia parametru preset.
+ Najwyższą prędkość daje wartość 'superfast', najwyższy współczynnik kompresji
+ - 'veryfast'.
 \end_layout
 
 \begin_layout Standard
@@ -4411,7 +4368,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wykres pudełkowy sprawności kompresji dla presetów programu ffmpeg
+Wykres pudełkowy sprawności kompresji w zależności od wartości parametru
+ preset
 \end_layout
 
 \end_inset
@@ -4439,6 +4397,19 @@ name "rys:presety_ffmpeg_kompresja"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wartości liczbowe pomiarów skuteczności kompresji w zależności od wartości
+ parametru preset
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -4572,7 +4543,7 @@ veryslow
 \begin_layout Plain Layout
 
 \size scriptsize
-Ilość pomiarów
+Ilość plików
 \end_layout
 
 \end_inset
@@ -5541,19 +5512,6 @@ Wartość maksymalna
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Wartości liczbowe pomiarów skuteczności kompresji dla presetów programu
- ffmpeg
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:preset_ffmpeg_kompresja"
@@ -5569,20 +5527,11 @@ name "tab:preset_ffmpeg_kompresja"
 \end_layout
 
 \begin_layout Standard
-Odrzucono presety 'ultrafast' oraz 'superfast', pomimo najniższego czasu
+Odrzucono wartości 'ultrafast' oraz 'superfast', pomimo najniższego czasu
  kompresji ich sprawność zdecydowanie odbiega od pozostałych oraz cechuje
  się niską stabilnością.
  Ustawienia 'faster', 'fast' oraz 'medium' prezentują mniejszą sprawność
  niż 'veryfast' przy wyższym oczekiwanym czasie kompresji.
-\end_layout
-
-\begin_layout Standard
-Kryterium czasu w przypadku pracy posiada zdecydowanie niższy priorytet
- niż sprawność ze względu na przepustowość łącza.
- Sumaryczny czas kompresji plików avi i lvm nie powinien jednak przekraczać
- średniego czasu pomiędzy pojawieniem się pomiarów.
- Jeśli warunek ten nie zostanie spełniony należałoby zrównoleglić kompresję
- składowych pomiaru.
 \end_layout
 
 \begin_layout Standard
@@ -5607,7 +5556,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wykres pudełkowy czasu kompresji dla presetów programu ffmpeg
+Wykres pudełkowy czasu kompresji w zależności od wartości parametru preset
 \end_layout
 
 \end_inset
@@ -5635,6 +5584,19 @@ name "rys:presety_ffmpeg_czas"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wartości liczbowe pomiarów czasu kompresji w zależności od wartości parametru
+ preset
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -5768,7 +5730,7 @@ veryslow
 \begin_layout Plain Layout
 
 \size scriptsize
-Ilość pomiarów
+Ilość plików
 \end_layout
 
 \end_inset
@@ -6737,18 +6699,6 @@ Wartość maksymalna
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Wartości liczbowe pomiarów czasu kompresji dla presetów programu ffmpeg
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:preset_ffmpeg_czas"
@@ -6764,44 +6714,33 @@ name "tab:preset_ffmpeg_czas"
 \end_layout
 
 \begin_layout Standard
-Na podstawie zebranych danych oraz informacji o wymaganiach czasowych wybrano
- preset 'veryslow'.
- Zysk z krótkiego czasu kompresji jest tracony czekając na transport danych
- po sieci, mniejsza waga plików skompresowanych odciąża zaś łącze.
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-dodać tu co ile sekund wchodzi plik?
-\end_layout
+Na podstawie analizy danych przedstawionych na rysunkach 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:presety_ffmpeg_kompresja"
 
 \end_inset
 
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:presety_ffmpeg_czas"
 
+\end_inset
+
+ wybrano wartość 'veryslow'.
+ Zysk z krótszego czasu kompresji jest tracony w momencie gdy dane skompresowane
+ oczekują na wysyłkę w buforze nadawczym połączenia.
+ Zmniejszenie wagi kosztem czasu kompresji odciąża łącze sieciowe.
 \end_layout
 
 \begin_layout Subsection
-Kompresja plików lvm
+Kompresja profili magnetycznych
 \end_layout
 
 \begin_layout Standard
-Plik lvm posiadają format CSV (ang.
- comma separated value).
- Format ten służy przechowywaniu danych tabelarycznych w postaci tekstowej.
- Plik dzielony jest na wiersze za pomocą znaków nowej lini, w pojedynczej
- linii kolumny rozdzielane są separatorem.
- Jest to pojedynczy, zdefiniowany przez użytkownika znak który w podstawowym
- schemacie nie występuje w komórkach danych.
- Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:lvm_internal"
-
-\end_inset
-
- prezentuje zawartość przykładowego pliku z pomiarami.
+Profile magnetyczne składowane są w postaci plików lvm (ang.
+ LabVIEW Measurement).
 \end_layout
 
 \begin_layout Standard
@@ -6849,98 +6788,41 @@ name "rys:lvm_internal"
 \end_layout
 
 \begin_layout Standard
-Pliki składa się z 7 kolumn zawierających wartości zmiennoprzecinkowe ze
- znakiem.
- Pierwsza kolumna zawiera indeksy, gdzie numer próbki zaczyna się na czwartym
- miejscu po przecinku.
- Pozostałe sześć kolumn zawiera wartości sygnałów w każdym z kanałów pomiarowych
- w danym momencie czasu.
- Pomiary nie zawierają wiersza nagłówkowego.
- Przebieg sygnałów z przykładowego pliku obrazuje rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:przykladowe_pomiary"
+reference "rys:lvm_internal"
+
+\end_inset
+
+ przedstawia zawartość pliku lvm, dane podzielone są na siedem kolumn.
+ Pierwsza z nich zawiera czas wykonania próbki z rozdzielczością 0.0001 sekundy.
+ Pozostałe zawierają wartości sygnałów.
+\end_layout
+
+\begin_layout Standard
+Warto zauważyć, że czas wykonania próbki jest równy indeksowi wiersza pomnożonem
+u przez 0.0001, stąd istnieje możliwość usunięcia pierwszej kolumny przed
+ wysłaniem i odtworzenia po odebraniu pliku.
+ W pracy nie zastosowano jednak tej metody.
+\end_layout
+
+\begin_layout Standard
+Zbadano ponownie zestaw algorytmów wymieniony w tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:kompresja_bezstratna"
 
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/przykladowy_przebieg_sygnalow.jpeg
-	lyxscale 40
-	scale 23
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Przebiegi sygnałów z pojedynczego pliku lvm
-\end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:przykladowe_pomiary"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Prócz zastosowania kompresji wielkość pliku lvm można zmniejszyć usuwając
- kolumnę indeksującą.
- Tę samą informację zapewnia struktura pliku csv.
-\end_layout
-
-\begin_layout Standard
-Testy schematów kompresji przeprowadzono na pomiarach z 06.10.2017 analogicznie
- jak w przypadku plików avi.
- Ponownie zestaw enkoderów bezstratnych rozszerzono o schemat stratny.
  Do testów dołączono algorytm kompresji sygnałowej oparty o zastosowanie
- falek którego prototyp powstał w Katedrze Metrologii wydziału EAIiIB AGH.
- Implementacja została dołączona do źródeł pracy, dostępna w ścieżce 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-tutaj bedzie path do tego
-\end_layout
-
-\end_inset
-
-.
- Ze względu na brak oficjalnej nazwy algorytm w toku pracy określany jest
- angielskim słowem wavelets (pol.
+ falek, którego prototyp powstał w Katedrze Metrologii wydziału EAIiIB AGH.
+ Implementacja w języku Python została dołączona do źródeł pracy.
+ Ze względu na brak oficjalnej nazwy algorytm w toku pracy nazywany jest
+ algorytmem falkowym, na rysunkach użyte zostało angielskie słowo wavelets
+ (pol.
  falki).
-\end_layout
-
-\begin_layout Standard
-Implementacje enkoderów oraz ich ustawienia analogicznie jak w przypadku
- danych wideo.
- Kompresje prowadzono na oryginalnych plikach, posiadających kolumnę indeksów.
 \end_layout
 
 \begin_layout Standard
@@ -6993,6 +6875,18 @@ name "rys:box_plot_kompresja_lvm"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wynik testów kompresji plików lvm w ujęciu statystycznym
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -7499,18 +7393,6 @@ Wartość maksymalna
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Wynik testów kompresji plików lvm w ujęciu statystycznym
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:box_plot_kompresja_lvm"
@@ -7526,8 +7408,7 @@ name "tab:box_plot_kompresja_lvm"
 \end_layout
 
 \begin_layout Standard
-Wyniki testów przedstawiają rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:box_plot_kompresja_lvm"
@@ -7541,21 +7422,25 @@ reference "tab:box_plot_kompresja_lvm"
 
 \end_inset
 
-.
- Kompresja falkowa ma ponad 20 razy lepszą sprawność niż pozostałe metody.
- Zastosowanie tego formatu wymaga ewaluacji danych zdekodowanych pod kątem
- utraty informacji.
+ przedstawiają wyniki badań kompresji plików lvm.
+ Kompresja falkowa ma posiada ponad 20 razy mniejszy współczynnik kompresji.
+ 
 \end_layout
 
 \begin_layout Standard
-Za miarę błędu dekompresji przyjęto błąd średniokwadratowy.
+Zastosowanie tej metody wymaga ewaluacji pod kątem utraty informacji.
+ Za miarę błędu dekompresji przyjęto błąd średniokwadratowy.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $mse=\frac{1}{n}\sum_{i=0}^{n-1}\left(x_{i}-\dot{x_{i}}\right)^{2}$
+\begin_inset Formula 
+\begin{equation}
+mse=\frac{1}{n}\sum_{i=0}^{n-1}\left(x_{i}-\dot{x_{i}}\right)^{2}
+\end{equation}
+
 \end_inset
 
-, gdzie
+
 \end_layout
 
 \begin_layout Standard
@@ -7580,10 +7465,6 @@ Za miarę błędu dekompresji przyjęto błąd średniokwadratowy.
 \end_layout
 
 \begin_layout Standard
-Do analizy ponownie wykorzystano dane z 06.10.2017.
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -7605,7 +7486,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wykres pudełkowy błędu średnio-kwadratowego komresji algorytmem falkowym
+Wykres pudełkowy błędu średnio-kwadratowego kompresji algorytmem falkowym
 \end_layout
 
 \end_inset
@@ -7730,7 +7611,7 @@ Kanał 6
 \begin_layout Plain Layout
 
 \size footnotesize
-Ilość pomiarów
+Ilość plików
 \end_layout
 
 \end_inset
@@ -8438,8 +8319,7 @@ name "tab:wavelet_mse"
 \end_layout
 
 \begin_layout Standard
-Wyniki eksperymentu przedstawiają rys.
- 
+Wyniki eksperymentu przedstawiają rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:wavelet_mse"
@@ -8459,135 +8339,20 @@ reference "tab:wavelet_mse"
  Dane pokazują bardzo wysokie wartości odchylenia standardowego w stosunku
  do średniej oraz wartości maksymalne błędu o dwa rzędy wielkości wyższe
  niż wartość średnia.
+ Wartość maksymalna błędu przekracza odchylenie standardowe o kolejny rząd
+ wielkości.
+ Są one również widoczne na rysunku jako pojedyncze kropki.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
+\begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/zaburzenia_falek_duze.jpeg
-	lyxscale 70
-	scale 24
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Przebieg oryginalny oraz zdekompresowany sygnału o najwyższym błędzie
+zrób ten wykres na skali logarytmicznej?
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:wavelet_little_signal"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Wykres 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_little_signal"
-
-\end_inset
-
-przedstawia przebieg oryginalnego oraz zdekompresowanego sygnału.
- Wykresu sugeruje, że sygnał oryginalny posiada wartość równą zero.
- Widoczne są trzy istotne zaburzenia.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/zaburzenia_falek_duze_zblizenie.jpeg
-	lyxscale 70
-	scale 24
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Wykres 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_little_signal"
-
-\end_inset
-
-przeskalowany do zakresu -10,10 na osi Y
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:wavelet_duze_zaburzenia_przyblizony"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-Przeskalowanie wykresu na osi y do wartości -10, 10 przedstawia wykres 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_duze_zaburzenia_przyblizony"
-
-\end_inset
-
-.
- Można na nim zaobserwować, że przebieg sygnału nie jest zerowy, w większości
- składa się z szumu o bardzo małych wartościach.
- Sygnał z kanału 5 pomiaru o małym zaburzeniu przedstawia wykres 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_poprawny_przebieg"
-
-\end_inset
-
-.
- 
 \end_layout
 
 \begin_layout Standard
@@ -8612,7 +8377,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Akceptowalny przebieg dekompresji algorytmem falkowym
+Sygnał oryginalny i po procesie kompresji i dekompresji
 \end_layout
 
 \end_inset
@@ -8636,29 +8401,16 @@ name "rys:wavelet_poprawny_przebieg"
 \end_layout
 
 \begin_layout Standard
-Dane z wykresów 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_little_signal"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_duze_zaburzenia_przyblizony"
-
-\end_inset
-
- oraz 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:wavelet_poprawny_przebieg"
 
 \end_inset
 
- pokazują, że algorytm falkowy w skrajnych wypadkach produkuje wysoką utratę
- informacji względem oryginału.
+ przedstawia Sygnał oryginalny i po procesie kompresji i dekompresji, wybrano
+ przebieg o niskim błędzie.
+ Wartości mieszczą się w zakresie od -3 do 0.5.
 \end_layout
 
 \begin_layout Standard
@@ -8670,7 +8422,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/mse_wavelets_closeup.jpeg
+	filename img/zaburzenia_falek_duze.jpeg
 	lyxscale 70
 	scale 24
 
@@ -8683,14 +8435,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wykres 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_mse"
-
-\end_inset
-
- z pominięciem obserwacji odstających
+Sygnał oryginalny i po procesie kompresji i dekompresji o najwyższym błędzie
+ średniokwadratowym
 \end_layout
 
 \end_inset
@@ -8701,7 +8447,7 @@ reference "rys:wavelet_mse"
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:wavelet_mse_no_outliers"
+name "rys:wavelet_little_signal"
 
 \end_inset
 
@@ -8714,16 +8460,120 @@ name "rys:wavelet_mse_no_outliers"
 \end_layout
 
 \begin_layout Standard
-Jak pokazuje 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:wavelet_mse_no_outliers"
+reference "rys:wavelet_little_signal"
 
 \end_inset
 
-, algorytm falkowy cechuje się dużym rozchwianiem wyników.
- Zastosowanie algorytmu o niskiej stabilności do kompresji danych pomiarowych
- może znacznie uszczuplić ich przydatność w dalszych badaniach.
+przedstawia przebieg o najwyższym błędzie zaobserwowanym w zbiorze testowym.
+ Zakres wartości sygnału po procesie kompresji i dekompresji jest o 3 rzędy
+ wielkości większy niż w przypadku widocznym na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_poprawny_przebieg"
+
+\end_inset
+
+.
+ Oba przebiegi pochodzą z tego samego kanału.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/zaburzenia_falek_duze_zblizenie.jpeg
+	lyxscale 70
+	scale 24
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_little_signal"
+
+\end_inset
+
+ przeskalowany do zakresu -10,10 na osi Y
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:wavelet_duze_zaburzenia_przyblizony"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wynik przeskalowania rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_little_signal"
+
+\end_inset
+
+ na osi Y przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_duze_zaburzenia_przyblizony"
+
+\end_inset
+
+.
+ Przebieg sygnału oryginalnego posiada wartości, które można uznać za normalne
+ dla danych pomiarowych.
+ Proces kompresji i dekompresji wprowadza wysokie zaburzenia.
+\end_layout
+
+\begin_layout Standard
+Jak pokazano na rysunkach 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_mse"
+
+\end_inset
+
+ oraz 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_little_signal"
+
+\end_inset
+
+ algorytm falkowy cechuje się małą stabilnością i może prowadzić do istotnych
+ zniekształceń w danych pomiarowych.
+ Biorąc pod uwagę, że profile magnetyczne mają służyć do dalszej analizy,
+ nie można zastosować tego algorytmu w projekcie.
+ W jego miejsce zastosowana została metoda bzip2 oferująca najniższy współczynni
+k kompresji spośród metod bezstratnych.
 \end_layout
 
 \begin_layout Subsection
@@ -8731,12 +8581,36 @@ Wynikowy schemat kompresji
 \end_layout
 
 \begin_layout Standard
-Zgodnie z danymi z początku rozdziału maksymalna akceptowalna wielkość danych
- skompresowanych 13.8% wielkości wejściowej.
+Na podstawie danych z wstępu podrozdziału 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Kompresja"
+
+\end_inset
+
+ współczynnik kompresji strumienia danych pomiarowych musi wynosić przynajmniej
+ 66.8%.
 \end_layout
 
 \begin_layout Standard
-Sumaryczna waga plików przed kompresją wynosi 
+Metoda kompresji plików wideo została dobrana oddzielnie od metody dla plików
+ lvm stąd wymagane jest obliczenie sumarycznego stopnia kompresji.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\eta_{\left[metoda1,metoda2\right]}=\frac{\dot{V}_{avi}^{metoda1}+\dot{V}_{lvm}^{metoda2}}{V_{original}}\cdot100\%
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wielkość oryginalna oznacza sumę wielkości wszystkich plików ze zbioru pomiarowe
+go.
 \end_layout
 
 \begin_layout Standard
@@ -8747,28 +8621,15 @@ Sumaryczna waga plików przed kompresją wynosi
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\dot{V}_{typ}$
-\end_inset
-
-- sumaryczna waga plików danego typu po kompresji wybraną metodą
+Wielkość skompresowana oznacza sumę wielkości wszystkich plików danego typu
+ skompresowanych daną metodą
 \end_layout
 
 \begin_layout Standard
-Procent kompresji dla danej pary metod kompresji wyliczony został ze wzoru
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\eta=\frac{\dot{V}_{avi}+\dot{V}_{lvm}}{V_{original}}\cdot100\%$
+\begin_inset Formula $\dot{V}_{typ}^{metoda}=\sum_{plik\in typ}wielkość(metoda(plik))$
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Obliczenia sprawności metod kompresji otrzymano na podstawie pomiarów z
- 06.10.2017.
- W przypadku x264 zastosowany został preset 'veryslow', pozostałe metody
- jak w poprzednich podrozdziałach.
 \end_layout
 
 \begin_layout Standard
@@ -8776,6 +8637,18 @@ Obliczenia sprawności metod kompresji otrzymano na podstawie pomiarów z
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Macierz sumarycznego współczynnika kompresji
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -8886,7 +8759,7 @@ lzma
 \begin_inset Text
 
 \begin_layout Plain Layout
-bz2
+bzip2
 \end_layout
 
 \end_inset
@@ -8983,18 +8856,6 @@ zlib
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Macierz sprawności kompresji w zależności od metody
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:sprawnosc_metod_kompresji"
@@ -9010,20 +8871,18 @@ name "tab:sprawnosc_metod_kompresji"
 \end_layout
 
 \begin_layout Standard
-Wyniki obliczeń przedstawia tabela 
+Tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:sprawnosc_metod_kompresji"
 
 \end_inset
 
-.
- Wiersze reprezentują metodę kompresji plików lvm, kolumny plików avi.
- Na podstawie tabeli można stwierdzić że wymaganą sprawność reprezentuje
- tylko para (bz2, x264).
- W doborze metody kompresji plików lvm wzięto pod uwagę tylko algorytmy
- bezstratne, system transportowy nie powinien wprowadzać zakłóceń w danych
- pomiarowych.
+ przedstawia macierz sumarycznych współczynników kompresji dla par metod.
+ Indeks wiersza oznacza metodę kompresji plików lvm, indeks kolumny metodę
+ kompresji sekwencji wideo.
+ Najlepszą sprawność oferuje para metod (bzip2, x264), została ona zastosowana
+ w projekcie.
 \end_layout
 
 \begin_layout Section
@@ -9031,7 +8890,8 @@ Wymagania projektowe
 \end_layout
 
 \begin_layout Standard
-Analiza stanowiska pomiarowego prowadzi do następujących wniosków.
+Analiza danych rejestrowanych przez stanowisko pomiarowe prowadzi do następujący
+ch wniosków.
 \end_layout
 
 \begin_layout Itemize
@@ -9049,19 +8909,6 @@ Dane składowane są w podkatalogach konkretnego katalogu na dysku
 \begin_layout Itemize
 Przepustowość łącza nie pozwala na bezpośredni przesył danych, wymagana
  jest kompresja
-\end_layout
-
-\begin_layout Itemize
-Aplikacja zapisująca dane na dysku nie posiada mechanizmu pozwalającego
- na rozgłoszenie 
-\begin_inset Quotes pld
-\end_inset
-
-zdarzenia
-\begin_inset Quotes prd
-\end_inset
-
- utworzenia nowego pliku
 \end_layout
 
 \begin_layout Itemize
@@ -9111,15 +8958,15 @@ Adres serwera
 \end_layout
 
 \begin_layout Itemize
-Ścieżka do folderu w którym generowane są pomiary
+Ścieżka do folderu, w którym składowane są wygenerowane dane pomiarowe
 \end_layout
 
 \begin_layout Itemize
-Ścieżka do folderu na przesłane pomiary
+Ścieżka do folderu, w którym składowane będą przesłane dane pomiarowe
 \end_layout
 
 \begin_layout Itemize
-Mapowanie pomiędzy typami plików a schematami kompresji
+Schematy kompresji wybrane dla danych plików
 \end_layout
 
 \begin_layout Itemize
@@ -9138,17 +8985,13 @@ name "chap:Projekt-systemu"
 \end_layout
 
 \begin_layout Standard
-Podsumowując informacje z rozdziału 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:opis_problemu"
+Niniejszy rozdział przedstawia projekt systemu służącemu przesyłowi danych,
+ strategie ochrony przed ich utratą oraz informacje o sposobie konfiguracji
+ i uruchamianiu gotowego projektu.
+\end_layout
 
-\end_inset
-
- zadaniem aplikacji jest przesłanie danych z komputera będącego częścią
- stanowiska pomiarowego do maszyny służącej składowaniu danych na terenie
- uczelni.
- Podstawowym zadaniem systemu jest:
+\begin_layout Standard
+Podstawowymi zadaniami systemu są:
 \end_layout
 
 \begin_layout Enumerate
@@ -9230,8 +9073,7 @@ name "rys:schemat_rozwiazania"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:schemat_rozwiazania"
@@ -9239,19 +9081,17 @@ reference "rys:schemat_rozwiazania"
 \end_inset
 
  przedstawia najistotniejsze elementy projektu.
- Elementy podzielone zostały na dwie grupy oznaczające maszyny na których
- się znajdują.
+ Zostały one podzielone ze względu na maszyny, na których się znajdują.
  Liniami oznaczono kanały służące komunikacji bądź przesyłowi danych.
- Ze względu na istotną rolę w projekcie diagram zawiera również dyski twarde
- obu maszyn.
- W pracy zaprojektowano komponenty Sender, Receiver oraz kanały komunikacyjne
+ Projekt obejmuje komponenty Sender, Receiver oraz kanały komunikacyjne
  2, 4.
  Linie 3 i 5 oznaczają interakcje z dyskiem i stanowią cześć komunikacji
  kanałów odpowiednio 2 i 4.
 \end_layout
 
 \begin_layout Standard
-Komponent Labview jest elementem zewnętrznym z perspektywy pracy.
+Komponent LabVIEW oznacza system generowania danych pomiarowych i jest zewnętrzn
+ym aktorem z perspektywy pracy.
  Sender reaguje na zdarzenie zapisania pomiaru na dysk generowane przez
  ten komponent ale nie wpływa na jego stan.
 \end_layout
@@ -9270,9 +9110,9 @@ name "sec:Odbiór-danych"
 \begin_layout Standard
 Kluczowym z perspektywy pracy jest zidentyfikowanie pojawienia się nowych
  pomiarów.
- Pierwotnie Labview po wykonaniu każdego pomiaru zapisywało parę plików
- (lvm, avi) na dysku i kończyło działanie.
- Identyfikację nowych pomiarów można przeprowadzić na szereg sposobów:
+ Pierwotnie LabVIEW po wykonaniu każdego pomiaru zapisywało parę plików
+ (lvm, avi) na dysku i kończyło cykl działania.
+ Identyfikację nowych danych pomiarowych można przeprowadzić na szereg sposobów:
 \end_layout
 
 \begin_layout Enumerate
@@ -9284,12 +9124,12 @@ Sender subskrybuje zdarzenia systemowe mówiące o pojawieniu się nowych plikó
 \end_layout
 
 \begin_layout Enumerate
-Serwis Labview za pomocą wybranego kanału udostępnia informację o pojawieniu
+Serwis LabVIEW za pomocą wybranego kanału udostępnia informację o pojawieniu
  się nowego pliku
 \end_layout
 
 \begin_layout Standard
-Propozycja pierwsza zakłada periodyczne sprawdzanie stanu dysku i porównywanie
+Propozycja pierwsza zakłada cykliczne sprawdzanie stanu dysku i porównywanie
  z poprzednim odczytem a następnie identyfikowanie nowych plików na podstawie
  różnicy tych stanów.
  Wprowadza to do projektowanego systemu opóźnienie w wykryciu plików.
@@ -9316,13 +9156,13 @@ key "wininotify"
 \end_inset
 
 .
- Istotną wadą tego podejścia jest wymóg zastosowania języka C w którym napisane
- są te wywołania bądź języka C++ który posiada możliwość wywoływania funkcji
- języka C.
+ Istotną wadą tego podejścia jest wymóg zastosowania języka C, w którym
+ napisane są te wywołania bądź języka C++ który posiada możliwość wywoływania
+ funkcji języka C.
  Można również skorzystać z bibliotek FFI (ang.
- foreign function interface) które pozwalają na wywołanie funkcji języka
- C w wybranym języku.
- Przykładem takiej biblioteki jest ctypes dostępne w Pythonie 
+ foreign function interface) pozwalających na wywołanie funkcji języka C
+ w wybranym języku.
+ Przykładem takiej biblioteki jest ctypes dostępne w języku Python 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "python-ctypes"
@@ -9335,15 +9175,15 @@ key "python-ctypes"
 \end_layout
 
 \begin_layout Standard
-Podejście piąte wymaga utworzenia dodatkowego elementu raportującego w Labview.
+Podejście piąte wymaga utworzenia dodatkowego elementu raportującego w LabVIEW.
  Zmiana taka nie wpływa na cykl działania aplikacji, wymaga jednak modyfikacji
  istniejącego rozwiązania.
- Została ona zaakceptowana i wprowadzona przez Promotora.
+ Została ona zaakceptowana i wprowadzona.
 \end_layout
 
 \begin_layout Standard
 System pomiarowy nasłuchuje na porcie 6341 protokołu TCP, w przypadku nawiązania
- połączenia wysyła on za jego pomocą ścieżki do pomiarów rozdzielone znakiem
+ połączenia wysyła on za jego pomocą ścieżki do plików rozdzielone znakiem
  nowej linii po ich zapisaniu do dysku.
 \end_layout
 
@@ -9367,7 +9207,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Ścieżki nadawane przez serwis Labview
+Ścieżki nadawane przez serwis LabVIEW
 \end_layout
 
 \end_inset
@@ -9399,11 +9239,12 @@ reference "rys:labview_nadaje"
 
 \end_inset
 
- przedstawia pliki zaraportowane przez Labview odebrane za pomocą programu
+ przedstawia pliki zaraportowane przez LabVIEW odebrane za pomocą programu
  netcat.
- Z rysunku można zaobserwować, że nadawane są ścieżki relatywne, należy
- je interpretować względem katalogu bazowego pomiarów.
- Ponadto nie posiadają one rozszerzenia.
+ Nadawane są ścieżki relatywne, należy je interpretować względem katalogu
+ bazowego pomiarów.
+ Ponadto nie posiadają one rozszerzenia, każdej ścieżce odpowiada plik z
+ rozszerzeniem .lvm oraz plik z rozszerzeniem .avi.
  Zadaniem odbiorcy jest uzupełnienie ścieżki o powyższe informacje.
 \end_layout
 
@@ -9419,8 +9260,7 @@ name "sec:Schemat-działania-systemu"
 \end_layout
 
 \begin_layout Standard
-Schemat przesyłu z uwzględnieniem danych z poprzedniego podrozdziału prezentuje
- rys.
+Schemat przesyłu z uwzględnieniem danych z podrozdziału prezentuje rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -13823,13 +13663,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename img/iperf3_end.PNG
-	scale 90
-
-\end_inset
-
-
+a
 \end_layout
 
 \begin_layout Plain Layout
