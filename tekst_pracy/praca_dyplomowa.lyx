@@ -283,6 +283,31 @@ name "chap:wstep"
 
 \end_layout
 
+\begin_layout Standard
+Systemy pomiarowe służą badaniu wielkości fizycznych za pomocą zestawu czujników.
+ Wyniki pomiarów składowane lokalnie na stanowisku pomiarowym, zanim zostaną
+ dostarczone do miejsca obróbki nie posiadają istotnej wartości.
+ Dopiero dostarczenie ich do przestrzeni składowania posiadającej możliwość
+ dystrybucji do kolejnych systemów, a następnie obróbka pozwalają na wyciągnięci
+e wniosków.
+ Stanowiska pomiarowe w zależności od badanego zagadnienia mogą generować
+ duże ilości danych, ich wymagana lokalizacja nie zawsze pozwala na doprowadzeni
+e łącza sieciowego pozwalającego na bezproblemową transmisję do systemów
+ przetwarzania.
+\end_layout
+
+\begin_layout Standard
+Przykładem takiego systemu jest system pomiaru parametrów ruchu drogowego
+ rejestrujący tzw.
+ profile magnetyczne pojazdów zlokalizowany w miejscowości Gardawice.
+ Dziennie generuje on duże ilości surowych, nieprzetworzonych danych.
+ Dane te wykorzystywane są do celów badawczych na KMiE AGH.
+ Stanowisko pomiarowe posiada połączenie sieciowe z uczelnią o niskiej przepusto
+wości.
+ Aby umożliwić przesył na bieżąco wymagane jest odpowiednie gospodarowanie
+ łączem rozumiane jak wykorzystanie go w sposób oszczędny i dobrze przemyślany.
+\end_layout
+
 \begin_layout Section*
 Cel pracy
 \end_layout
@@ -373,7 +398,7 @@ name "chap:Wstęp-teoretyczny"
 \begin_layout Standard
 Niniejszy rozdział zawiera opisy zagadnień oraz technologii użytych w pracy.
  Zagadnienia dotyczą warstwy sieciowej, nawiązywania połączeń sieciowych
- z użyciem protokołu TCP, kompresji oraz strukturze plików multimedialnych.
+ z użyciem protokołu TCP oraz kompresji.
 \end_layout
 
 \begin_layout Section
@@ -381,19 +406,11 @@ Protokół TCP
 \end_layout
 
 \begin_layout Standard
-Protokół użyty w pracy jako kanał transportu danych pomiędzy dwoma maszynami.
+Protokół użyty w pracy jako kanał przesyłu danych .
  W modelach OSI oraz TCP/IP kategoryzowany jest jako protokół transportowy
  - pozwala na komunikację procesów na dwóch różnych maszynach, które komunikują
  się za pomocą sieci Internet.
- Protokół oferuje następujące własności 
-\begin_inset CommandInset citation
-LatexCommand cite
-after "1.1.5 Operation"
-key "RFC0793-outline"
-
-\end_inset
-
-:
+ Protokół posiada następujące cechy:
 \end_layout
 
 \begin_layout Itemize
@@ -425,6 +442,14 @@ kontrola przepływu po sieci (ang.
 Uporządkowanie oraz brak błędów przesyłu są podstawowymi wymaganiami względem
  transportu plików, stanowią podstawę wykorzystania tego protokołu do realizacji
  projektu.
+ Szeroki opis wszystkich cech dostępny jest w sekcji 1.5 dokumentu 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RFC0793-outline"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -432,15 +457,7 @@ TCP jest protokołem stanowym, kanał komunikacyjny nazywany jest połączeniem
  (ang.
  connection).
  Jego nawiązanie oraz zamknięcie realizowane jest za pomocą odpowiednich
- sekwencji wiadomości: otwarcia oraz zamknięcia 
-\begin_inset CommandInset citation
-LatexCommand cite
-after "sekcja 2.7"
-key "RFC0793-outline"
-
-\end_inset
-
-.
+ sekwencji wiadomości: otwarcia oraz zamknięcia.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -469,10 +486,10 @@ Klient wysyła pakiet z flagą ACK
 
 \begin_layout Standard
 Po odebraniu ostatniego pakietu sesję uznaje się za poprawnie zainicjalizowaną
- i obie strony mogą przejść do przesyłu i odbioru danych 
+ i obie strony mogą przejść do przesyłu i odbioru danych.
+ Opis szczegółowy w sekcji 3.4 dokumentu 
 \begin_inset CommandInset citation
 LatexCommand cite
-after "sekcja 3.4"
 key "RFC0793-outline"
 
 \end_inset
@@ -509,10 +526,11 @@ W przypadku gdy pakiet zostanie zgubiony (o numerze sekwencyjnym N+1), zgodnie
  następną aż do otrzymania pakietu, ponownie wysyła więc pakiet ACK dla
  ostatniego poprawnie odebranego pakietu (numer N).
  Otrzymanie trzykrotnie potwierdzenia dla pakietu N sygnalizuje nadawcy
- potrzebę retransmisji pakietu N+1 
+ potrzebę retransmisji pakietu N+1.
+ Precyzyjny opis działania numerów sekwencyjnych oraz ich relacji do zapewnienia
+ uporządkowanego przesyłu opisuje sekcja 3.3 dokumentu 
 \begin_inset CommandInset citation
 LatexCommand cite
-after "sekcja 3.3"
 key "RFC0793-outline"
 
 \end_inset
@@ -555,7 +573,6 @@ Kroki 2 oraz 3 mogą zostać zrealizowane za pomocą jednego pakietu wysłanego
  pół-otwartą) 
 \begin_inset CommandInset citation
 LatexCommand cite
-after "sekcja 3.5"
 key "RFC0793-outline"
 
 \end_inset
@@ -564,901 +581,53 @@ key "RFC0793-outline"
 \end_layout
 
 \begin_layout Section
-Gniazda sieciowe
+Komunikacja za pomocą gniazda sieciowego z użyciem protokołu TCP
 \end_layout
 
 \begin_layout Standard
-Gniazdo (ang.
- socket) jest abstrakcyjnym obiektem udostępnianym przez system operacyjny,
- pozwala on na interakcję z innymi procesami zarówno w obrębie tej samej
- maszyny jak i z użyciem połączenia sieciowego.
-\end_layout
-
-\begin_layout Standard
-W pracy gniazda zostały wykorzystane do realizacji komunikacji sieciowej
- przy pomocy protokołu TCP.
- Pierwotnie gniazda zostały wprowadzone do systemu operacyjnego BSD (ang.
- Berkeley Software Distribution) w roku 1983 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Stevens:2003:UNP:940269"
-
-\end_inset
-
-.
- Zmodyfikowana wersja specyfikacji gniazd jest również częścią standardu
- POSIX (ang.
- Portable Operating System Interface) 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Bidulock07implementingposix"
-
-\end_inset
-
-.
- Od 1990 dostępne są również w w systemach z rodziny Windows 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "winsocks"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Subsection*
-Wywołania systemowe
-\end_layout
-
-\begin_layout Standard
-Wywołania dostarczane są użytkownikowi za pomocą biblioteki oraz plików
- nagłówkowych języka C.
- W zależności od języka programowania jaki stosuje użytkownik wymagane jest
- samodzielne operowanie wywołaniami bądź skorzystanie z bibliotek sieciowych
- danego języka, które wewnętrznie używają gniazd systemowych.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Wywołania systemowe do obsługi gniazd w systemie Linux
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="12" columns="3">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top" width="35page%">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Nazwa Wywołania
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Plik nagłówkowy
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Opis
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-socket()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Tworzy nowe gniazdo zadanego typu oraz zwraca jego deskryptor
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-bind()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Łączy gniazdo z systemowym zasobem, w przypadku protokołu TCP jest to para
- (adres ip, port) reprezentująca port na konkretnym interfejsie sieciowym.
- Używany po stronie serwera.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-listen()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Ustawia gnizado w tryb pasywny, nasłuchujący na przychodzące połączenia.
- Używany po stronie serwera.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-connect()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Nawiązuje połączenie na zadany adres, przydzielając losowy port z puli 1024-6553
-5.
- Używany po stronie klienta.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-accept()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Tworzy nowy gnizado reprezentujący nawiązane połączenie po stronie klienta,
- wywołanie używane po stronie serwera.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-recv()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h.>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Służy odbieraniu danych z gniazda.
+W celu wyjaśnienia sposobu obsługi odczytu i zapisu danych z gniazd sieciowych,
+ w niniejszym rozdziale przedstawiony zostanie opis konstrukcji gniazda.
+ Wiedza ta stanowi powód zastosowania architektury opartej o wątki w rozdziale
  
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-send()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Służy nadawaniu danych za pomocą gniazda.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-shutdown()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Inicjuje sekwencję zamykającą dane połączenie.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-close()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<unistd.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zwalnia zasoby systemowe odpowiadające danemu gnizadu.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-getsockopt()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Sprawdza dany atrybut gniazda.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-setsockopt()
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-<sys/socket.h>
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Ustawia dany atrybut gniazda.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Projekt-systemu"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:socket_calls"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+.
 \end_layout
 
 \begin_layout Standard
-Tabela 
+W komunikacji za pomocą gniazd wyróżnić można trzy elementy: aplikację użytkowni
+ka, jądro systemu operacyjnego oraz kartę sieciową (NIC, ang.
+ Network Interface Card).
+ Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:socket_calls"
+reference "rys:tcp_socket_stack"
 
 \end_inset
 
- zawiera zestaw wywołań systemowych wymagany do rozpoczęcia komunikacji
- za pomocą gniazd.
- Sygnatury funkcji posiadają nieznaczne różnice w zależności od rozpatrywanego
- systemu operacyjnego.
-\end_layout
-
-\begin_layout Subsection*
-Nawiązywanie połączenia TCP
+ przedstawia budowę gniazda sieciowego.
+ Widoczne są na nim wymienione elementy oraz kanały komunikacyjne pomiędzy
+ nimi.
+ Aplikacja prowadzi interakcję z systemem operacyjnym za pomocą gniazda
+ (ang.
+ socket).
+ Jądro systemu operacyjnego komunikuje się zaś z kartą sieciową za pomocą
+ przerwań, oraz pamięci współdzielonej.
+ Kolorem niebieskim oznaczono w przestrzeni jądra zestaw struktur danych,
+ odpowiadających pojedynczemu połączeniu.
+ Składa się on z kolejki nadawczej (ang.
+ send queue), kolejki odbiorczej (ang.
+ receive queue) oraz bloku kontrolnego połączenia (TCB, ang.
+ TCP control block).
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/klient_serwer_berkeley.png
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Komunikacja za pomocą protokołu TCP z użyciem gniazd
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:socket_connection"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:socket_connection"
-
-\end_inset
-
- przedstawia schemat połączenia za pomocą gniazd w konwencji klient-serwer.
- Na rysunku wyszczególniono wywołania przygotowujące struktury danych oraz
- sekwencje inicjalizacyjną oraz zamykającą protokołu TCP.
-\end_layout
-
-\begin_layout Standard
-Aplikacja serwerowa musi zrealizować następujące czynności:
-\end_layout
-
-\begin_layout Enumerate
-Zdefiniowanie struktury typu sockaddr_in zawierającej informacje o typie
- adresu oraz jego wartości, w przypadku TCP będzie to rodzina AF_INET reprezentu
-jąca adres protokołu IP oraz port protokołu TCP.
-\end_layout
-
-\begin_layout Enumerate
-Stworzenie gniazda za pomocą wywołania funkcji socket() z parametrami AF_INET,
- SOCK_STREAM, IPPROTO_TCP
-\end_layout
-
-\begin_layout Enumerate
-Skojarzenie adresu oraz gniazda za pomocą funkcji bind()
-\end_layout
-
-\begin_layout Enumerate
-Rozpoczęcie nasłuchiwania, tzw.
- otworzenie portu, za pomocą funkcji listen()
-\end_layout
-
-\begin_layout Enumerate
-Wywołanie funkcji accept() tworzącej nowe gniazdo dla każdego połączenia
- przychodzącego
-\end_layout
-
-\begin_layout Enumerate
-Interakcje z procesem zdalnym używając funkcji recv() oraz send()
-\end_layout
-
-\begin_layout Enumerate
-Zamknięcie połączenia używając funkcji shutdown()
-\end_layout
-
-\begin_layout Enumerate
-Zwolnienie gniazd odpowiadających za połączenie funkcją close()
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-#define ADRES_SERWERA "127.0.0.1"
-\end_layout
-
-\begin_layout Plain Layout
-
-#define PORT_SERWERA 15123
-\end_layout
-
-\begin_layout Plain Layout
-
-#define DLUGOSC_KOLEJKI_OCZEKUJACYCH_POLACZEN 10
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-int main() 
-\end_layout
-
-\begin_layout Plain Layout
-
-{   
-\end_layout
-
-\begin_layout Plain Layout
-
-  struct sockaddr_in endpoint = {
-\end_layout
-
-\begin_layout Plain Layout
-
-    .sin_family = AF_INET,
-\end_layout
-
-\begin_layout Plain Layout
-
-    .sin_port = htons(PORT_SERWERA),
-\end_layout
-
-\begin_layout Plain Layout
-
-    .sin_addr.s_addr = inet_addr(ADRES_SERWERA)
-\end_layout
-
-\begin_layout Plain Layout
-
-  };
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-  int socket_descriptor = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\end_layout
-
-\begin_layout Plain Layout
-
-  bind(socket_descriptor, (struct sockaddr*)&endpoint, sizeof(endpoint));
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\end_layout
-
-\begin_layout Plain Layout
-
-  listen(socket_descriptor, DLUGOSC_KOLEJKI_OCZEKUJACYCH_POLACZEN);
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\end_layout
-
-\begin_layout Plain Layout
-
-  for (;;) {
-\end_layout
-
-\begin_layout Plain Layout
-
-    int connection_descriptor = accept(socket_descriptor, NULL, NULL);
-\end_layout
-
-\begin_layout Plain Layout
-
-    /*
-\end_layout
-
-\begin_layout Plain Layout
-
-      Interakcje z klientem
-\end_layout
-
-\begin_layout Plain Layout
-
-    */
-\end_layout
-
-\begin_layout Plain Layout
-
-    shutdown(connection_descriptor, SHUT_RDWR);
-\end_layout
-
-\begin_layout Plain Layout
-
-    close(connection_descriptor);
-\end_layout
-
-\begin_layout Plain Layout
-
-  }
-\end_layout
-
-\begin_layout Plain Layout
-
-  return 0;
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-W programie odwołania do danego gniazda wykonywane są za pomocą unikalnego
- numeru nadawanego nowo utworzonemu gniazdu.
- Wywołania systemowe następnie modyfikują wybrane zasoby na podstawie identyfika
-tora.
-\end_layout
-
-\begin_layout Standard
-Aplikacja kliencka musi przeprowadzić następujące czynności:
-\end_layout
-
-\begin_layout Enumerate
-Stworzenie struktury reprezentujący adres IP oraz port TCP z którym nawiązane
- zostanie połączenie
-\end_layout
-
-\begin_layout Enumerate
-Stworzenie gniazda używając funkcji socket() z parametrami odpowiadającymi
- połączeniu TCP
-\end_layout
-
-\begin_layout Enumerate
-Wywołanie funkcji connect() przekazując adres z punktu 1 oraz gniazdo z
- punktu 2.
-\end_layout
-
-\begin_layout Enumerate
-Interakcje za pomocą gniazda używając funkcji send() i recv()
-\end_layout
-
-\begin_layout Enumerate
-zamknięcie połączenia funkcją shutdown()
-\end_layout
-
-\begin_layout Enumerate
-zwolnienie gniazda funkcją close()
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-#define ADRES_SERWERA "127.0.0.1"
-\end_layout
-
-\begin_layout Plain Layout
-
-#define PORT_SERWERA 15123
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-int main() {
-\end_layout
-
-\begin_layout Plain Layout
-
-  struct sockaddr_in endpoint = {
-\end_layout
-
-\begin_layout Plain Layout
-
-    .sin_family = AF_INET,
-\end_layout
-
-\begin_layout Plain Layout
-
-    .sin_port = htons(PORT_SERWERA),
-\end_layout
-
-\begin_layout Plain Layout
-
-    .sin_addr.s_addr = inet_addr(ADRES_SERWERA)
-\end_layout
-
-\begin_layout Plain Layout
-
-  };
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-  int socket_descriptor = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-  connect(socket_descriptor, (struct sockaddr*)&endpoint, sizeof(endpoint));
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-  /*
-\end_layout
-
-\begin_layout Plain Layout
-
-    interakcje z serwerem
-\end_layout
-
-\begin_layout Plain Layout
-
-  */
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-  shutdown(socket_descriptor, SHUT_RDWR);
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-  close(socket_descriptor);
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-  return 0;
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Wywołanie funkcji connect wymaga, aby urządzenie reprezentujące drugą stronę
- połączenia posiadało gniazdo w stanie nasłuchu (ang.
- listen).
- Stan ten uzyskiwany jest w momencie gdy kod serwera wywoła instrukcję accept.
-\end_layout
-
-\begin_layout Subsection*
-Budowa gniazda
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -1502,49 +671,37 @@ name "rys:tcp_socket_stack"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:tcp_socket_stack"
-
-\end_inset
-
- przedstawia komunikację za pomocą protokołu TCP z użyciem gniazd.
- Wyszczególniono trzy niezależne komponenty: aplikację użytkownika, jądro
- systemu operacyjnego oraz kartę sieciową (ang.
- Network Interface Card), oznaczoną na rysunku skrótem NIC.
- Komunikacja pomiędzy użytkownikiem a jądrem prowadzona jest za pomocą gniazda.
- Jądro komunikuje się z kartą sieciową za pomocą pamięci współdzielonej
- oraz przerwań.
- Kolorem niebieskim oznaczono zestaw struktur danych odpowiadający pojedynczemu
- połączeniu.
- Składa się on z kolejki nadawcza oraz odbiorcza i blok kontrolny połączenia
- (TCB, ang.
- TCP control block).
-\end_layout
-
-\begin_layout Standard
 Użytkownik realizujący komunikację z pomocą gniazda zapisuje dane do kolejki
- nadawczej bądź odczytuje z kolejki odbiorczej.
+ nadawczej, bądź odczytuje z kolejki odbiorczej.
  W trakcie nadawania dane są pobierane z kolejki nadawczej, dzielone na
- pakiety i przekazywane do karty sieciowej w celu nadania.
- W trakcie odbioru karta sieciowa przekazuje odebrane pakiety do jądra systemu
- za pomocą pamięci współdzielonej gdzie są one szeregowane na podstawie
- numerów sekwencyjnych a następnie dane zapisywane są w kolejce odbiorczej.
+ pakiety i przekazywane do karty sieciowej, w celu nadania.
+ W trakcie odbioru karta sieciowa przekazuje odebrane pakiety do jądra systemu,
+ za pomocą pamięci współdzielonej, gdzie są one szeregowane na podstawie
+ numerów sekwencyjnych, a następnie dane zapisywane są w kolejce odbiorczej.
 \end_layout
 
 \begin_layout Standard
-W przypadku gdy wątek program wykona wywołanie recv() a kolejka odbioru
- będzie pusta zostanie on uśpiony przez system operacyjny do czasu pojawienia
- się danych do odebrania, sytuację taką nazywamy wywołaniem blokującym.
- Analogiczna sytuacja ma miejsce w przypadku zapisu gdy kolejka nadawcza
- jest pełna.
+Wykonując odczyt użytkownik podaje ilość danych którą oczekuje odebrać z
+ kolejki.
+ Jeśli kolejka zawiera mniej danych, niż żądana ilość, zwracana jest dostępna
+ ilość.
+ W przypadku, gdy wątek wykona odczyt,a kolejka odbioru będzie pusta, zostanie
+ on uśpiony przez system operacyjny.
+ Wątek zostanie wybudzony w momencie pojawienia się danych w kolejce.
+ Sytuację taką nazywamy wywołaniem blokującym.
+ Analogicznie zachowuje się wywołanie send, gdy kolejka posiada mniej wolnego
+ miejsca niż przekazana ilość, zapisane zostaje tyle ile pozostało miejsca.
+ Podobnie w przypadku zapisu do pełnej kolejki, wątek zostaje uśpiony do
+ czasu zwolnienia miejsca.
 \end_layout
 
 \begin_layout Standard
-Istnieją metody informowania aplikacji o tym czy odczyt bądź zapis będzie
- blokujący, służą do tego wywołania select oraz poll jednak nie zostały
- one zastosowane w pracy.
+Wywołanie blokujące w aplikacji jednowątkowej prowadzi do jej zablokowania.
+ Jest to efekt niepożądany jeśli ma ona reagować na wiele zdarzeń jednocześnie.
+ W takim przypadku wymagane jest zastosowanie wielu wątków, oraz zapewnienie
+ synchronizacji ich działania.
+ Przykładem takiej sytuacji jest jednoczesne odbieranie informacji o zapisaniu
+ na dysk nowych pomiarów i nadawanie danych.
 \end_layout
 
 \begin_layout Section
@@ -1552,13 +709,20 @@ Kompresja danych
 \end_layout
 
 \begin_layout Standard
-W przypadku gdy prędkość generowania danych przekracza przepustowość łącza
- sieciowego może dojść do wyczerpania zasobów systemowych - pamięci ram
+W przypadku, gdy prędkość generowania danych przekracza przepustowość łącza
+ sieciowego, może dojść do wyczerpania zasobów systemowych - pamięci ram
  oraz pojemności dysku twardego.
- W celu przeciwdziałania takiemu zdarzeniu wymagane jest zastosowanie transforma
-cji, która zmniejszy objętość danych - ilość bitów potrzebnych na jej przechowan
-ie.
- Transformacja taka nazywana jest kompresją.
+ Przypadek taki obserwowany jest w pracy.
+ Aby zapobiec jego wystąpieniu wymagana jest obróbka danych, która zmniejszy
+ ich wielkość.
+ Czynność taka nazywana jest kompresją.
+\end_layout
+
+\begin_layout Standard
+Kompresją nazywamy operację która przekształca plik danych w nowy plik mniejszej
+ wielkości, nazywany plikiem skompresowanym.
+ Operacja odtworzenia pliku oryginalnego z pliku skompresowanego nazywana
+ jest dekompresją.
 \end_layout
 
 \begin_layout Standard
@@ -1572,11 +736,11 @@ key "Salomon:2009:HDC:1708069"
 
 .
  Rozróżnienie prowadzone jest w oparciu o wynik dekompresji.
- Jeśli reprezentacja skompresowana pozwala na odtworzenie oryginalnego pliku
+ Jeśli reprezentacja skompresowana pozwala na odtworzenie oryginalnego pliku,
  metodę nazywamy bezstratną.
  Stosuje się je w przypadku danych, których integralność jest kluczowa,
  takich jak skompilowane programy komputerowe czy kod źródłowy.
- Przykładem takiego kodowania jest kodowanie Huffmana (ang.
+ Przykładem takiej metody jest kodowanie Huffmana (ang.
  Huffman coding) 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1589,20 +753,11 @@ key "huffman_encoding"
 \end_layout
 
 \begin_layout Standard
-Kompresja stratna odrzuca część informacji w celu osiągnięcia większego
+Kompresja stratna odrzuca część informacji, w celu osiągnięcia większego
  stopnia kompresji.
  Stosuje się ją w przypadkach, w których niesiona informacja może zostać
- odtworzona pomimo zaburzeń, stosuje się ją między innymi w celu transportu
- strumieni wideo.
-\end_layout
-
-\begin_layout Standard
-Wynik kompresji bezstratnej zawiera kompletną informację niesioną przez
- reprezentację oryginalną, zastosowanie transformacji odwrotnej do kompresji
- odtwarza plik oryginalny.
- W przypadku kompresji stratnej zmiana reprezentacji prowadzi do utraty
- części informacji.
- Stosuje się ją w przypadku plików graficznych, wideo oraz ścieżek dźwiękowych.
+ odtworzona pomimo zaburzeń, takich jak transport plików graficznych, wideo
+ oraz ścieżek dźwiękowych.
  Przykładami tego typu kompresji są standardy JPEG 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1631,12 +786,20 @@ key "Salomon:2009:HDC:1708069"
 \end_inset
 
 .
+ Przedstawia ją wzór 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:compression_factor"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\eta=\frac{V_{out}}{V_{in}}*100\%
+\eta=\frac{V_{out}}{V_{in}}*100\%\label{eq:compression_factor}
 \end{equation}
 
 \end_inset
@@ -1647,90 +810,6 @@ key "Salomon:2009:HDC:1708069"
 \begin_layout Standard
 Opisuje ona jakim procentem objętości oryginalnego pliku jest objętość pliku
  wynikowego.
-\end_layout
-
-\begin_layout Section
-Podstawowe pojęcia obróbki plików multimedialnych
-\end_layout
-
-\begin_layout Standard
-Plik wideo składa się z jednego bądź więcej strumieni danych (ang.
- data stream).
- Strumień danych jest reprezentacją jednego bądź więcej sygnałów zapisanych
- w pewnym formacie.
- Format taki zazwyczaj posiada zestaw pożądanych cech takich jak dostosowanie
- do przesyłu bądź składowania czy szyfrowania.
- Reprezentacja danych zawarta w pliku zazwyczaj różni się od postaci, która
- jest zdatna do odtworzenia (wyświetlenia, odegrania) i wymaga przetworzenia.
- Format podstawowy danego typu nazywany jest formatem nieprzetworzonym (ang.
- raw).
- W przypadku danych video reprezentacją nieprzetworzoną może być macierz
- pikseli.
- Transformacje wizyjne prowadzone są na tego typu reprezentacji.
-\end_layout
-
-\begin_layout Standard
-Do przetworzenia danych stosowany jest kodek, jest to urządzenie, biblioteka
- bądź program udostępniający dwie składowe.
-\end_layout
-
-\begin_layout Itemize
-Enkoder
-\end_layout
-
-\begin_layout Itemize
-Dekoder
-\end_layout
-
-\begin_layout Standard
-Enkoder służy konwersji strumienia do danego formatu.
- Dekoder realizuje odwrotną funkcjonalność.
- Przekształcenie może mieć miejsce zarówno z danych nieprzetworzonych jak
- i dowolnego innego formatu.
-\end_layout
-
-\begin_layout Standard
-Przykładem oprogramowania realizującego funkcje kodeka jest pakiet ffmpeg.
- Zawiera on bogaty zestaw zestaw kodeków.
- Można za jego pomocą zrealizować konwersję z formatu MJPEG do H.264 stosowaną
- w pracy.
-\end_layout
-
-\begin_layout Subsection*
-Kontener
-\end_layout
-
-\begin_layout Standard
-Jest to rodzina formatów plików służący do przechowywania i synchronizacji
- wielu strumieni danych jednocześnie.
- Tego typu strumienie nazywane są ścieżkami.
- Dodatkową funkcjonalnością realizowaną przez kontener jest przechowywanie
- informacji służących do synchronizacji ścieżek w czasie.
- W przypadku plików wideo pozwala to na zagwarantowanie, że dźwięk i obraz
- w filmie nie będą się przesuwać względem siebie.
-\end_layout
-
-\begin_layout Standard
-Specyfikacje formatów kontenerów zazwyczaj nie ustalają z góry jakie formaty
- strumieni danych mają zostać użyte.
- Informacja taka jest składowana razem ze ścieżkami w tzw.
- metadanych zawartych w pliku.
- Tym sposobem informacja o kodowaniu jest zapisywana razem z danymi 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ho2015handbookContainers"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Przykładem zastosowania kontenera jest przechowywanie filmu w formacie MP4,
- który zawiera ścieżkę z obrazem, ścieżkę z dźwiękiem w języku angielskim
- oraz napisy w języku polskim.
- Dźwięk zsynchronizowany jest z ruchem ust aktorów na ścieżce audio a napisy
- wyświetlają się zgodnie z sekwencjami ze ścieżki dźwiękowej.
 \end_layout
 
 \begin_layout Chapter
@@ -1745,19 +824,36 @@ name "chap:opis_problemu"
 \end_layout
 
 \begin_layout Standard
-Celem rozdziału jest opis celu oraz sposobu działania stanowiska pomiarowego,
- zbadanie struktury generowanych danych oraz ich własności ilościowych,
- oszacowanie średniego strumienia danych generowanego przez pomiary oraz
- zmierzenie przepustowości sieci łączącej stanowisko pomiarowe z komputerem,
- do którego wysyłane będą dane pomiarowe.
+Celem rozdziału jest opis sposobu działania stanowiska pomiarowego, zbadanie
+ struktury generowanych danych, oraz ich własności ilościowych, oszacowanie
+ średniego strumienia danych generowanego przez pomiary oraz zmierzenie
+ przepustowości sieci łączącej stanowisko pomiarowe z komputerem, do którego
+ wysyłane będą dane pomiarowe.
 \end_layout
 
 \begin_layout Standard
 Katedra Metrologii i Elektroniki AGH prowadzi badania dotyczące odczytu
  informacji o pojazdach poruszających się po drodze za pomocą zestawu czujników
  pętlowych.
- Aparatura pomiarowa została zamontowana na odcinku drogi krajowej DK-81
+ Aparatura pomiarowa została zamontowana na odcinku drogi krajowej DK-81,
  w miejscowości Gardawice.
+\end_layout
+
+\begin_layout Standard
+W skład stanowiska pomiarowego wchodzą czujniki, połączone z układem przetwarzan
+ia do postaci cyfrowej, kamera oraz komputer.
+ Za obsługę stanowiska pomiarowego odpowiedzialne jest oprogramowanie napisane
+ w środowisku LabVIEW.
+ Odpowiada ono za zapis zmierzonych przebiegów sygnałów oraz sekwencji wideo,
+ na dysku twardym.
+ Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_stanowiska"
+
+\end_inset
+
+ przedstawia schemat stanowiska 
 \end_layout
 
 \begin_layout Standard
@@ -1815,29 +911,22 @@ name "rys:schemat_stanowiska"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
+Stanowisko pomiarowe posiada również połączenie sieciowe z Katedrą Merologii.
+ Zestawiony został tunel VPN (ang.
+ virtual private network) zapewniający bezpieczeństwo i szyfrowanie komunikacji.
+ Schemat tego połączenia przedstawia rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:schemat_stanowiska"
+reference "rys:schemat_sieciowy"
 
 \end_inset
 
- przedstawia schemat stanowiska pomiarowego.
- W jego skład wchodzą czujniki połączone z układem przetwarzania do postaci
- cyfrowej, kamera oraz komputer.
- Oprogramowanie napisane w środowisku LabVIEW odpowiada za zapis na dysku
- przebiegów czasowych sygnałów oraz sekwencji wideo zarejestrowanych w trakcie
- przejazdu pojazdu.
-\end_layout
-
-\begin_layout Standard
-Komputer służący do przechowywania danych pomiarowych jest również podłączony
- do sieci.
- Pomiędzy stanowiskiem pomiarowym a siecią na uczelni zestawiony jest tunel
- VPN (ang.
- Virtual Private Network).
- Pozwala to na zdalne zarządzanie środowiskiem przy jednoczesnym zapewnieniu
- bezpieczeństwa komunikacji.
+.
+ Miejscem docelowym składowania pomiarów jest maszyna traffic2.
+ Na rysunku przedstawiono ponadto maszynę traffic.eu.org, do której łączy
+ się użytkownik w celu uzyskania dostępu do pozostałych maszyn.
+ Dostęp realizowany jest za pomocą protokołu SSH (ang.
+ Secure SHell)
 \end_layout
 
 \begin_layout Standard
@@ -1886,24 +975,6 @@ name "rys:schemat_sieciowy"
 \end_layout
 
 \begin_layout Standard
-Schemat połączeń sieciowych zaprezentowany został na rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:schemat_sieciowy"
-
-\end_inset
-
-.
- Miejscem składowania pomiarów jest maszyna oznaczona na rysunku jako traffic2.
- Dostęp do sieci z zewnątrz jest możliwy za pomocą maszyny oznaczonej traffic.eu.o
-rg.
- Kontrola dostępu do środowiska realizowana jest za pomocą protokołu SSH
- (ang.
- Secure Shell).
-\end_layout
-
-\begin_layout Standard
 Interakcje z środowiskiem w Gardawicach możliwe są za pomocą programu Cygwin,
  który pozwala używać maszyny z systemem operacyjnym Windows za pomocą konsoli
  w konwencji Unixowej.
@@ -1922,11 +993,20 @@ name "sec:Struktura-generowanych-danych"
 
 \begin_layout Standard
 Rezultatem pomiaru jest para plików - przebiegi czasowe sygnałów w formacie
- lvm (LabVIEW measurement) oraz sekwencję wideo w formacie AVI (ang.
+ lvm (ang.
+ LabVIEW measurement) oraz sekwencję wideo w formacie AVI (ang.
  Audio Video Interleave).
  Pliki posiadają jednakową nazwę, generowaną na podstawie czasu wykonania
- pomiaru oraz grupowane są w katalogach dobowych.
- Katalogi dobowe znajdują się w pojedynczym katalogu nadrzędnym.
+ pomiaru, oraz grupowane są w katalogach dobowych.
+ Katalogi dobowe znajdują się w pojedynczym katalogu głównym.
+ Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:nazwa_pliku"
+
+\end_inset
+
+ przedstawia schemat stosowany do wygenerowania nazw plików.
 \end_layout
 
 \begin_layout Standard
@@ -2069,14 +1149,16 @@ name "tab:nazwa_pliku"
 \end_layout
 
 \begin_layout Standard
-Tabela 
+Schemat nazwy folderu przedstawia tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:nazwa_pliku"
+reference "tab:nazwa_folderu"
 
 \end_inset
 
- przedstawia schemat stosowany do wygenerowania nazw plików.
+.
+ Komórki pogrubione w obu tabelach stanowią zmienne zależne od momentu wygenerow
+ania pliku.
 \end_layout
 
 \begin_layout Standard
@@ -2193,30 +1275,21 @@ name "tab:nazwa_folderu"
 \end_layout
 
 \begin_layout Standard
-Tabela 
+Zawartość katalogu głównego składowania danych pomiarowych zaprezentowana
+ jest na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:nazwa_folderu"
+reference "rys:gardawice_katalog_pomiary"
 
 \end_inset
 
- przedstawia schemat stosowany do wygenerowania nazwy katalogu, w którym
- zostaną umieszczone wyniki pomiaru.
- Komórki pogrubione w tabelach 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:nazwa_pliku"
-
-\end_inset
-
- i 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:nazwa_folderu"
-
-\end_inset
-
- stanowią zmienne zależne od czasu wygenerowania pliku.
+.
+ Oprócz katalogów z danymi, które generowane są automatycznie.
+ Część plików spełniających schemat nazwy katalogu, posiada rozszerzenie
+ .tar.bz2.
+ Oznaczają one skompresowane katalogi z pomiarami dobowymi.
+ Pliki te są śladem manualnej ingerencji, mającej na celu zaoszczędzenie
+ miejsca na dysku twardym.
 \end_layout
 
 \begin_layout Standard
@@ -2265,18 +1338,19 @@ name "rys:gardawice_katalog_pomiary"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
+Strukturę katalogu dobowego z dnia 12.05.2018 przedstawia rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:gardawice_katalog_pomiary"
+reference "rys:pomiary_z_jednego_dnia"
 
 \end_inset
 
- przedstawia zawartość katalogu głównego składowania danych pomiarowych.
- Prócz katalogów z danymi dobowymi można zaobserwować pliki skompresowane
- o rozszerzeniu tar.bz2, są to ślady ręcznej ingerencji mającej na celu zaoszczęd
-zenie przestrzeni dyskowej oraz przygotowanie zbiorów plików do przekopiowania
- na zewnętrzny nośnik i przetransportowania na uczelnię.
+.
+ Zawartość ograniczona została do pierwszych dziesięciu linii.
+ Widoczne są pary plików będące rezultatami kolejnych pomiarów.
+ W ciągu doby stanowisko pomiarowe wygenerowało 11376 plików co odpowiada
+ 5688 pomiarom.
+ Łączna wielkość danych z tego dnia wynosi 7.1 gigabajta.
 \end_layout
 
 \begin_layout Standard
@@ -2339,7 +1413,7 @@ reference "rys:pomiary_z_jednego_dnia"
 \end_layout
 
 \begin_layout Section
-Analiza ilościowa
+Analiza ilościowa plików generowanych przez stanowisko pomiarowe
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Analiza-ilościowa"
@@ -2350,18 +1424,32 @@ name "sec:Analiza-ilościowa"
 \end_layout
 
 \begin_layout Standard
-Analizę prowadzono na podstawie zestawu danych wygenerowanych w dniach od
- 11.11.2017 do 10.12.2017.
- W badanym okresie stanowisko pracowało bez zdarzeń, które mogłyby wpłynąć
- na wyniki takich jak przerwy w zasilaniu czy zapełnienie przestrzeni dyskowej.
+Celem analizy ilościowej jest zbadanie zmienności w danych generowanych
+ przez stanowisko pomiarowe.
+ Interesującymi cechami są średnie wielkości plików oraz ich zmienność dobowa.
+ Wnioski z tego rozdziału posłużą w dalszej części pracy do przygotowania
+ testów działania aplikacji.
+ Analizę prowadzono na podstawie zestawu danych wygenerowanych w dniach
+ od 11.11.2017 do 10.12.2017.
 \end_layout
 
 \begin_layout Standard
 Dziennie generowanych jest ok.
- 6 tysięcy par plików.
- Ilość pomiarów jest ściśle związana z natężeniem ruchu drogowego, stąd
- można zakładać okresowe wahania spowodowane m.in.
+ 5.6 tysiąca par plików.
+ Ilość pomiarów jest związana z natężeniem ruchu drogowego, stąd można zakładać
+ okresowe wahania spowodowane m.in.
  cyklem dobowym oraz świętami.
+ Własności statystyczne generowanych plików, z podziałem ze względu na typ,
+ prezentuje tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:wielkosci_plikow"
+
+\end_inset
+
+.
+ Dane w tabeli, wyłączając liczbę plików, przedstawione są w bajtach.
+ Wiersze Q1-Q3 odpowiadają kolejnym kwartylom.
 \end_layout
 
 \begin_layout Standard
@@ -2424,7 +1512,7 @@ lvm
 \begin_inset Text
 
 \begin_layout Plain Layout
-Ilość plików
+Liczba plików
 \end_layout
 
 \end_inset
@@ -2706,17 +1794,28 @@ name "tab:wielkosci_plikow"
 \end_layout
 
 \begin_layout Standard
-Tabela 
+Reprezentacją graficzną danych z tabeli 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:wielkosci_plikow"
 
 \end_inset
 
- przedstawia opis danych pomiarowych w formie podsumowania własności statystyczn
-ych.
- Dane liczbowe przedstawione są w bajtach.
- Wartości Q1-Q3 przedstawiają kolejne kwartyle.
+ jest wykres pudełkowy zaprezentowany na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wielkosci_plikow_boxplot"
+
+\end_inset
+
+.
+ Pozioma niebieska linia oznacza medianę.
+ Czerwony prostokąt ograniczony jest z dołu i góry przez odpowiednio pierwszy
+ i trzeci kwartyl (Q1 oraz Q3).
+ Dwie pozostałe poziome linie znajdują się w odległości danej wzorem 1.5*IQR,
+ gdzie IQR = Q3-Q1 od odpowiednich brzegów prostokąta.
+ Czarne kropki oznaczają obserwacje odstające (ang.
+ outliers) o wartościach nietypowych w kontekście badanego zbioru.
 \end_layout
 
 \begin_layout Standard
@@ -2765,32 +1864,6 @@ name "rys:wielkosci_plikow_boxplot"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wielkosci_plikow_boxplot"
-
-\end_inset
-
- przedstawia wykres pudełkowy reprezentujący graficznie dane przedstawione
- w tabeli 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:wielkosci_plikow"
-
-\end_inset
-
-.
- Pozioma niebieska linia oznacza medianę.
- Czerwony prostokąt ograniczony jest z dołu i góry przez odpowiednio pierwszy
- i trzeci kwartyl (Q1 oraz Q3).
- Dwie pozostałe poziome linie znajdują się w odległości danej wzorem 1.5*IQR,
- gdzie IQR = Q3-Q1 od odpowiednich brzegów prostokąta.
- Czarne kropki oznaczają obserwacje odstające (ang.
- outliers) o wartościach nietypowych w kontekście badanego zbioru.
-\end_layout
-
-\begin_layout Standard
 Zarówno z rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2798,16 +1871,35 @@ reference "rys:wielkosci_plikow_boxplot"
 
 \end_inset
 
- jak i tabeli 
+, jak i tabeli 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:wielkosci_plikow"
 
 \end_inset
 
- można odczytać wysoki rozrzut objętości sekwencji wideo w porównaniu do
- przebiegów czasowych sygnałów.
- Wariancja jest o dwa rzędy wielkości wyższa.
+ można odczytać wysoki rozrzut rozmiaru generowanych sekwencji wideo.
+ Reprezentację graficzną danych w ujęciu dobowym przedstawiona została na
+ rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wielkosc_avi"
+
+\end_inset
+
+.
+ Wielkości plików zgrupowane zostały do minut a następnie dla każdej minuty
+ przedstawiono minimum, maksimum, średnią oraz medianę.
+ Na rysunku widoczne są dwie istotne zmiany rozmiaru, pierwsza między 6.30
+ a 7.30, druga między 15.30 a 16.30.
+ Godziny te odpowiadają wschodowi i zachodowi słońca w listopadzie.
+ Zmienność rozmiaru sekwencji wideo jest więc zależna od naświetlenia stanowiska
+ pomiarowego.
+\end_layout
+
+\begin_layout Standard
+Na wykresie można również zaobserwować pojawienie się pustego pliku po godzinie
+ 17.
 \end_layout
 
 \begin_layout Standard
@@ -2832,7 +1924,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Zależność rozmiaru sekwencji wideo od czasu pomiaru
+Zależność rozmiaru sekwencji wideo od momentu zarejestrowania w ujęciu dobowym
 \end_layout
 
 \end_inset
@@ -2853,24 +1945,26 @@ name "rys:wielkosc_avi"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
+Analogiczną metodę prezentacji zastosowano dla plików lvm.
+ Przedstawia ją rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:wielkosc_avi"
+reference "rys:wielkosci_lvm"
 
 \end_inset
 
- przedstawia zależność parametrów sekwencji wideo od czasu wykonania pomiaru.
- Na wykresie widoczne są dwie istotne zmiany rozmiaru, pierwsza między 6.30
- a 7.30, druga między 15.30 a 16.30.
- Godziny te odpowiadają wschodowi i zachodowi słońca w listopadzie.
- Zmienność rozmiaru sekwencji wideo jest więc zależna od naświetlenia stanowiska
- pomiarowego.
-\end_layout
+.
+ Zmienność rozmiaru pliku nie wykazuje żadnej istotnej cykliczności w ujęciu
+ dobowym.
+ Na wykresie widać dwie 
+\begin_inset Quotes pld
+\end_inset
 
-\begin_layout Standard
-Na wykresie można również zaobserwować pojawienie się pustego pliku po godzinie
- 17.
+szpilki
+\begin_inset Quotes prd
+\end_inset
+
+, oznaczające puste pliki.
 \end_layout
 
 \begin_layout Standard
@@ -2918,31 +2012,8 @@ name "rys:wielkosci_lvm"
 
 \end_layout
 
-\begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wielkosci_lvm"
-
-\end_inset
-
- przedstawia zależność parametrów przebiegów czasowych sygnałów od czasu
- wykonania pomiaru.
- Zmienność rozmiaru pliku nie wykazuje żadnej istotnej cykliczności w ujęciu
- dobowym.
- Na wykresie widać dwie 
-\begin_inset Quotes pld
-\end_inset
-
-szpilki
-\begin_inset Quotes prd
-\end_inset
-
-, oznaczające puste pliki.
-\end_layout
-
 \begin_layout Section
-Średni strumień danych
+Obliczenie wartości średniego strumień danych
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Średni-strumień-danych"
@@ -2953,16 +2024,25 @@ name "sec:Średni-strumień-danych"
 \end_layout
 
 \begin_layout Standard
-Metryką użytą do planowania struktury rozwiązania został średni strumień
- danych, jego wartość wyliczona została dzieląc sumę danych wygenerowanych
- w ciągu badanego okresu przez ilość sekund składających się na ten okres.
- Obliczenia przeprowadzono dla 30 pełnych dni (11.11 - 10.12).
+Średni strumień danych określa prędkość napływu danych pomiarowych do przestrzen
+i dyskowej.
+ Jego wartość wyliczona została dzieląc sumę danych wygenerowanych w ciągu
+ badanego okresu przez ilość sekund składających się na ten okres, formułę
+ tą prezentuje wzór 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:sredni_strumien"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-S=\frac{V}{T}\,[\frac{B}{s}]
+S=\frac{V}{T}\,[\frac{B}{s}]\label{eq:sredni_strumien}
 \end{equation}
 
 \end_inset
@@ -2972,6 +2052,10 @@ S=\frac{V}{T}\,[\frac{B}{s}]
 
 \begin_layout Standard
 S - strumień, V - ilość danych w bajtach, T - czas
+\end_layout
+
+\begin_layout Standard
+Obliczenia przeprowadzono dla 30 pełnych dni (11.11 - 10.12).
 \end_layout
 
 \begin_layout Standard
@@ -3010,11 +2094,19 @@ S - strumień, V - ilość danych w bajtach, T - czas
 \end_layout
 
 \begin_layout Standard
-Należy również pamiętać o zmienności dobowej w wielkości plików wideo.
+Wartość średnia w symulacji nie uwzględnia zmienności dobowej sekwencji
+ wideo, zaobserwowanej w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Analiza-ilościowa"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
-Przepustowość łącza sieciowego
+Oszacowanie przepustowość łącza sieciowego
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Łącze-sieciowe"
@@ -3025,9 +2117,9 @@ name "sec:Łącze-sieciowe"
 \end_layout
 
 \begin_layout Standard
-Oszacowanie przepustowości łącza sieciowego pozwala obliczyć minimalny stopień
- kompresji wymagany aby umożliwić przesył danych pomiarowych w miarę ich
- generowania.
+Oszacowanie przepustowości łącza sieciowego ma w pracy dwa cele.
+ Obliczenie współczynnika kompresji oraz stworzenie środowiska symulacyjnego,
+ o parametrach zbliżonych do rzeczywistych.
 \end_layout
 
 \begin_layout Standard
@@ -3043,6 +2135,24 @@ key "iperf"
  pomiarowym.
  Pomiar odbywa się w schemacie klient-serwer, w badanym przypadku rolę klienta
  przyjęła maszyna w miejscowości Gardawice.
+ 
+\end_layout
+
+\begin_layout Standard
+Rezultat działania aplikacji iPerf widziany z komputera w miejscowości Gardawice
+ przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:iperf_gardawice"
+
+\end_inset
+
+.
+ Nawiązano połączenie z komputerem traffic2 nasłuchującym pod adresem IP
+ 10.8.0.42 na porcie TCP 31337.
+ Opcja -t definiuje czas pomiaru w sekundach, trwał on godzinę.
+ Ostatnia linia na rysunku prezentuje podsumowanie pomiarów, zmierzona przepusto
+wość wyniosła 58.1 kB/s.
 \end_layout
 
 \begin_layout Standard
@@ -3089,20 +2199,27 @@ name "rys:iperf_gardawice"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
+Wynik pomiarów zaraportowany na maszynie traffic2 przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:iperf_traffic2"
+
+\end_inset
+
+.
+ Argumenty rozruchowe aplikacji zawierają flagę -s odpowiadającą za uruchomienie
+ aplikacji w trybie serwerowym.
+ Flagi -B i -p sterują odpowiednio adresem IP i portem TCP, na których nasłuchuj
+e aplikacja.
+ Rysunek zawiera rezultaty trzech pomiarów, gdzie pomiar o identyfikatorze
+ 4 odpowiada pomiarowi przedstawionemu na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:iperf_gardawice"
 
 \end_inset
 
- przedstawia rezultat działania aplikacji iPerf widziany z komputera w miejscowo
-ści Gardawice.
- Nawiązano połączenie z komputerem traffic2 nasłuchującym pod adresem IP
- 10.8.0.42 na porcie TCP 31337.
- Opcja -t definiuje czas pomiaru w sekundach, trwał on godzinę.
- Ostatnia linia na rysunku prezentuje podsumowanie pomiarów, zmierzona przepusto
-wość wyniosła 58.1 kB/s.
+.
 \end_layout
 
 \begin_layout Standard
@@ -3151,31 +2268,6 @@ name "rys:iperf_traffic2"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:iperf_traffic2"
-
-\end_inset
-
- przedstawia wynik pomiarów zaraportowany na maszynie traffic2.
- Argumenty rozruchowe aplikacji zawierają flagę -s odpowiadającą za uruchomienie
- aplikacji w trybie serwerowym.
- Flagi -B i -p sterują odpowiednio adresem IP i portem TCP, na których nasłuchuj
-e aplikacja.
- Rysunek zwiera rezultaty trzech pomiarów, gdzie pomiar o identyfikatorze
- 4 odpowiada pomiarowi przedstawionemu na rysunku 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:iperf_gardawice"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
 Wynikowa przepustowość zaraportowana przez serwer jest o 0.1 kB/s niższa
  niż w przypadku klienta.
  Może to być spowodowane buforowaniem danych przez stos sieciowy maszyny
@@ -3184,7 +2276,7 @@ Wynikowa przepustowość zaraportowana przez serwer jest o 0.1 kB/s niższa
 \end_layout
 
 \begin_layout Section
-Kompresja
+Dobór metod kompresji
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Kompresja"
@@ -3195,30 +2287,50 @@ name "sec:Kompresja"
 \end_layout
 
 \begin_layout Standard
-Dane z podrozdziałów 
+W sytuacji, gdy ilość danych generowanych przez stanowisko pomiarowe przekracza
+ możliwości przesyłu łącza sieciowego może dojść do zapełnienia przestrzeni
+ dyskowej.
+ W badanym przypadku zgodnie z danymi z rozdziału 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Średni-strumień-danych"
 
 \end_inset
 
- i 
+ średni strumień generowanych danych wynosi 86.8 kilobajta na sekundę, a
+ przepustowość łącza obliczona w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Łącze-sieciowe"
 
 \end_inset
 
- pozwalają na obliczenie minimalnego stopnia kompresji.
- Dobór algorytmu o takim, bądź niższym stopniu kompresji zapobiega przepełnieniu
- dysku danymi pomiarowymi.
+ wynosi 58 kilobajtów na sekundę.
+ Wysyłanie danych w postaci nieprzetworzonej doprowadzi do zapełnienia przestrze
+ni dyskowej.
+ Aby zapobiec temu scenariuszowi należy zmniejszyć wielkość strumienia wejściowe
+go stosując kompresję.
+\end_layout
+
+\begin_layout Standard
+W celu doboru metody kompresji należy wyznaczyć wartość graniczną współczynnika
+ kompresji zdefiniowanego wzorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:compression_factor"
+
+\end_inset
+
+.
+ Pozwoli ona odrzucić metody kompresji które nie zapewniają wystarczającego
+ zmniejszenia wielkości strumienia danych.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula $S_{in}=86.8\,\frac{kB}{s}$
 \end_inset
 
- - średnim strumieniu generowanym przez stanowisko pomiarowe
+ - średni strumień generowany przez stanowisko pomiarowe
 \end_layout
 
 \begin_layout Standard
@@ -3236,9 +2348,53 @@ reference "sec:Łącze-sieciowe"
 \end_layout
 
 \begin_layout Standard
-Powyższa kalkulacja nie bierze pod uwagę narzutu wprowadzanego przez protokoły
- sieciowe użyte w trakcie przesyłu.
+Analizę kompresji w toku niniejszego rozdziału rozbito ze względu na typ
+ pliku na podrozdziały 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Kompresja-obrazu-wideo"
+
+\end_inset
+
+ oraz 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Kompresja-profili-magnetycznych"
+
+\end_inset
+
+.
+ Graniczna wartość współczynnika ma zastosowanie dla sumarycznego strumienia,
+ stąd brana pod uwagę jest dopiero w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Wynikowy-schemat-kompresji"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Do badań wybrano trzy popularne algorytmy kompresji, przedstawia je tabela
  
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:kompresja_bezstratna"
+
+\end_inset
+
+.
+ W badaniach użyto implementacji dostępnych jako biblioteki języka Python
+ z ustawieniami domyślnymi, które przedstawia kolumna 
+\begin_inset Quotes pld
+\end_inset
+
+Poziom Kompresji
+\begin_inset Quotes prd
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -3427,34 +2583,19 @@ name "tab:kompresja_bezstratna"
 \end_layout
 
 \begin_layout Standard
-Do badań wybrano trzy popularne algorytmy kompresji, przedstawia je tabela
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:kompresja_bezstratna"
-
-\end_inset
-
-.
- W badaniach użyto implementacji dostępnych jako biblioteki języka Python
- z ustawieniami domyślnymi, które przedstawia kolumna 
-\begin_inset Quotes pld
-\end_inset
-
-Poziom Kompresji
-\begin_inset Quotes prd
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Zbiór danych testowych w niniejszym podrozdziale stanowiły dane pomiarowe
- z dnia 06.10.2017.
+Zbiór danych testowych w niniejszym rozdziale stanowiły dane wygenerowane
+ przez stanowisko pomiarowe dnia 06.10.2017.
 \end_layout
 
 \begin_layout Subsection
 Kompresja obrazu wideo
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Kompresja-obrazu-wideo"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3495,7 +2636,15 @@ ffmpeg -i <nazwa_pliku> -preset slow -crf 32 -c:v libx264 <plik_wyjsciowy>
 
 \end_inset
 
+Wyniki badania w formie wykresu pudełkowego przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:box_plot_kompresja_avi"
 
+\end_inset
+
+.
+ Widać na nim wyraźną przewagę H.264 nad pozostałymi metodami.
 \end_layout
 
 \begin_layout Standard
@@ -3544,15 +2693,24 @@ name "rys:box_plot_kompresja_avi"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:kompresja_avi_cyfry"
+
+\end_inset
+
+ stanowi uzupełnienie rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:box_plot_kompresja_avi"
 
 \end_inset
 
- przedstawia wyniki badania w formie wykresu pudełkowego.
- Widać na nim wyraźną przewagę H.264 nad pozostałymi metodami.
+.
+ Użycie biblioteki x264 oferuje średni współczynnik kompresji na poziomie
+ 2.97% oraz najniższe odchylenie standardowe spośród badanych metod.
+ Tym sposobem stanowi najlepszego kandydata do zastosowania w projekcie.
 \end_layout
 
 \begin_layout Standard
@@ -4029,29 +3187,9 @@ name "tab:kompresja_avi_cyfry"
 \end_layout
 
 \begin_layout Standard
-Tabela 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:kompresja_avi_cyfry"
-
-\end_inset
-
- stanowi uzupełnienie rysunku 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:box_plot_kompresja_avi"
-
-\end_inset
-
-.
- Użycie biblioteki x264 oferuje średni współczynnik kompresji na poziomie
- 2.97% oraz najniższe odchylenie standardowe spośród badanych metod.
- Tym sposobem stanowi najlepszego kandydata do zastosowania w projekcie.
-\end_layout
-
-\begin_layout Standard
-Wybór kompresji stratnej wymaga ewaluacji utraty informacji podczas kompresji.
- Pakiet ffmpeg oferuje dwa parametry sterujące działaniem metody.
+Zgodnie z informacjami ze wstępu niniejszego rozdziału, wybór kompresji
+ stratnej wymaga ewaluacji utraty informacji podczas kompresji.
+ Pakiet ffmpeg oferuje dwa główne parametry sterujące działaniem metody.
 \end_layout
 
 \begin_layout Itemize
@@ -4079,9 +3217,34 @@ preset
 \end_layout
 
 \begin_layout Standard
-Parametr preset nie wpływa na jakość obrazu wynikowego, wymagana jest ewaluacja
- ustawień parametru crf.
- 
+Parametr preset nie wpływa na jakość obrazu wynikowego, z tego powodu pod
+ kątem utraty informacji badano paramter crf.
+ Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:oryginalny_snapshot"
+
+\end_inset
+
+ przedstawia klatkę z oryginalnej sekwencji wideo.
+ Rysunki 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:snapshot_crf23"
+
+\end_inset
+
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:snapshot_crf32"
+
+\end_inset
+
+ ilustrują wzrost zniekształceń w zależności od wartości parametru crf.
+ Przedstawione wartości parametru nie zaburzają możliwości identyfikacji
+ rodzaju pojazdu, liczby osi czy pasa ruchu.
+ Uznano za odpowiednie zastosowanie wartości 32 dla tego parametru.
 \end_layout
 
 \begin_layout Standard
@@ -4214,40 +3377,25 @@ name "rys:snapshot_crf32"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:oryginalny_snapshot"
-
-\end_inset
-
- przedstawia klatkę z oryginalnej sekwencji wideo.
- Rysunki 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:snapshot_crf23"
-
-\end_inset
-
- i 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:snapshot_crf32"
-
-\end_inset
-
- ilustrują wzrost zniekształceń w zależności od wartości parametru crf.
- Przedstawione wartości parametru nie zaburzają możliwości identyfikacji
- rodzaju pojazdu, liczby osi czy pasa ruchu.
- Uznano za odpowiednie zastosowanie wartości 32 dla tego parametru.
-\end_layout
-
-\begin_layout Standard
 W celu doboru optymalnych z punktu widzenia pracy parametrów przeprowadzono
  analizę wpływu parametru preset na wielkość pliku wynikowego oraz czas
  kompresji.
  Analiza została przeprowadzona przy wartości parametru crf dobranej w poprzedni
 m akapicie.
+\end_layout
+
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:presety_ffmpeg_porownanie"
+
+\end_inset
+
+ przedstawia medianę czasu kompresji oraz współczynnika kompresji dla każdego
+ dostępnego ustawienia parametru preset.
+ Najmniejszy czas kompresji obserwowany jest dla wartości 'superfast', najwyższy
+ współczynnik kompresji - 'veryfast'.
 \end_layout
 
 \begin_layout Standard
@@ -4297,24 +3445,9 @@ name "rys:presety_ffmpeg_porownanie"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:presety_ffmpeg_porownanie"
-
-\end_inset
-
- przedstawia medianę czasu kompresji oraz współczynnika kompresji dla każdego
- dostępnego ustawienia parametru preset.
- Najwyższą prędkość daje wartość 'superfast', najwyższy współczynnik kompresji
- - 'veryfast'.
-\end_layout
-
-\begin_layout Standard
-W badanym przypadku zastosowano również metodę analizy danych za pomocą
- wykresów pudełkowych.
- Wykresy dla sprawności i czasu kompresji przedstawiają rys.
- 
+W badanym przypadku zastosowano również metodę wizualizacji rozkładu danych
+ za pomocą wykresów pudełkowych.
+ Wykresy dla sprawności i czasu kompresji przedstawiają rysunki 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:presety_ffmpeg_kompresja"
@@ -4344,6 +3477,14 @@ reference "tab:preset_ffmpeg_czas"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+Odrzucono wartości 'ultrafast' oraz 'superfast', pomimo najniższego czasu
+ kompresji ich sprawność zdecydowanie odbiega od pozostałych oraz cechuje
+ się niską stabilnością.
+ Ustawienia 'faster', 'fast' oraz 'medium' prezentują mniejszą sprawność
+ niż 'veryfast' przy wyższym oczekiwanym czasie kompresji.
 \end_layout
 
 \begin_layout Standard
@@ -5524,14 +4665,6 @@ name "tab:preset_ffmpeg_kompresja"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Odrzucono wartości 'ultrafast' oraz 'superfast', pomimo najniższego czasu
- kompresji ich sprawność zdecydowanie odbiega od pozostałych oraz cechuje
- się niską stabilnością.
- Ustawienia 'faster', 'fast' oraz 'medium' prezentują mniejszą sprawność
- niż 'veryfast' przy wyższym oczekiwanym czasie kompresji.
 \end_layout
 
 \begin_layout Standard
@@ -6735,12 +5868,31 @@ reference "rys:presety_ffmpeg_czas"
 \end_layout
 
 \begin_layout Subsection
-Kompresja profili magnetycznych
+Kompresja plików lvm
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Kompresja-profili-magnetycznych"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Profile magnetyczne składowane są w postaci plików lvm (ang.
  LabVIEW Measurement).
+ Zawartość przykładowego pliku przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:lvm_internal"
+
+\end_inset
+
+.
+ Dane podzielone są na siedem kolumn.
+ Pierwsza z nich zawiera czas wykonania próbki z rozdzielczością 0.0001 sekundy.
+ Pozostałe zawierają przebiegi czasowe sygnałów, tzw.
+ profile magnetyczne.
 \end_layout
 
 \begin_layout Standard
@@ -6788,19 +5940,6 @@ name "rys:lvm_internal"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:lvm_internal"
-
-\end_inset
-
- przedstawia zawartość pliku lvm, dane podzielone są na siedem kolumn.
- Pierwsza z nich zawiera czas wykonania próbki z rozdzielczością 0.0001 sekundy.
- Pozostałe zawierają wartości sygnałów.
-\end_layout
-
-\begin_layout Standard
 Warto zauważyć, że czas wykonania próbki jest równy indeksowi wiersza pomnożonem
 u przez 0.0001, stąd istnieje możliwość usunięcia pierwszej kolumny przed
  wysłaniem i odtworzenia po odebraniu pliku.
@@ -6818,7 +5957,6 @@ reference "tab:kompresja_bezstratna"
 .
  Do testów dołączono algorytm kompresji sygnałowej oparty o zastosowanie
  falek, którego prototyp powstał w Katedrze Metrologii wydziału EAIiIB AGH.
- Implementacja w języku Python została dołączona do źródeł pracy.
  Ze względu na brak oficjalnej nazwy algorytm w toku pracy nazywany jest
  algorytmem falkowym, na rysunkach użyte zostało angielskie słowo wavelets
  (pol.
@@ -7423,19 +6561,28 @@ reference "tab:box_plot_kompresja_lvm"
 \end_inset
 
  przedstawiają wyniki badań kompresji plików lvm.
- Kompresja falkowa ma posiada ponad 20 razy mniejszy współczynnik kompresji.
- 
+ Kompresja falkowa wybija się na tle pozostałych metod.
+ Średni współczynnik kompresji wyniósł 0.13%, co jest wartością dwa rzędy
+ wielkości niższą niż w przypadku pozostałych metod.
 \end_layout
 
 \begin_layout Standard
-Zastosowanie tej metody wymaga ewaluacji pod kątem utraty informacji.
- Za miarę błędu dekompresji przyjęto błąd średniokwadratowy.
+Kompresja stratna wymaga analizy utraty informacji przy.
+ Za miarę utraty informacji przyjęto błąd średniokwadratowy dany wzorem
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mse"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-mse=\frac{1}{n}\sum_{i=0}^{n-1}\left(x_{i}-\dot{x_{i}}\right)^{2}
+mse=\frac{1}{n}\sum_{i=0}^{n-1}\left(x_{i}-\dot{x_{i}}\right)^{2}\label{eq:mse}
 \end{equation}
 
 \end_inset
@@ -7462,6 +6609,34 @@ mse=\frac{1}{n}\sum_{i=0}^{n-1}\left(x_{i}-\dot{x_{i}}\right)^{2}
 \end_inset
 
 - i-ta próbka zdekompresowanego sygnału
+\end_layout
+
+\begin_layout Standard
+Sygnał zdekompresowany jest wynikiem zastosowania sekwencji kompresja-dekompresj
+a na sygnale oryginalnym.
+ Wyniki eksperymentu przedstawiają rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_mse"
+
+\end_inset
+
+ oraz tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:wavelet_mse"
+
+\end_inset
+
+.
+ W analizie wyróżniono kanały pomiarowe ze względu na inny oczekiwany przebieg
+ sygnału.
+ Dane pokazują bardzo wysokie wartości odchylenia standardowego w stosunku
+ do średniej oraz wartości maksymalne błędu o dwa rzędy wielkości wyższe
+ niż wartość średnia.
+ Wartość maksymalna błędu przekracza odchylenie standardowe o kolejny rząd
+ wielkości.
+ Są one również widoczne na rysunku jako pojedyncze kropki.
 \end_layout
 
 \begin_layout Standard
@@ -8319,40 +7494,15 @@ name "tab:wavelet_mse"
 \end_layout
 
 \begin_layout Standard
-Wyniki eksperymentu przedstawiają rysunek 
+Przebieg sygnałów oryginalnego i zdekompresowanego przedstawia rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:wavelet_mse"
+reference "rys:wavelet_poprawny_przebieg"
 
 \end_inset
 
- oraz tabela 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:wavelet_mse"
-
-\end_inset
-
-.
- W analizie wyróżniono kanały pomiarowe ze względu na inny oczekiwany przebieg
- sygnału.
- Dane pokazują bardzo wysokie wartości odchylenia standardowego w stosunku
- do średniej oraz wartości maksymalne błędu o dwa rzędy wielkości wyższe
- niż wartość średnia.
- Wartość maksymalna błędu przekracza odchylenie standardowe o kolejny rząd
- wielkości.
- Są one również widoczne na rysunku jako pojedyncze kropki.
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-zrób ten wykres na skali logarytmicznej?
-\end_layout
-
-\end_inset
-
-
+, wybrano przebieg o niskim błędzie średnikowadratowym.
+ Dekompresja wprowadza niewielkie zakłócenia do przebiegu.
 \end_layout
 
 \begin_layout Standard
@@ -8401,16 +7551,34 @@ name "rys:wavelet_poprawny_przebieg"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
+przebieg o najwyższym błędzie zaobserwowanym w zbiorze testowym przedstawiają
+ rysunki 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_little_signal"
+
+\end_inset
+
+ oraz 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:wavelet_poprawny_przebieg"
 
 \end_inset
 
- przedstawia Sygnał oryginalny i po procesie kompresji i dekompresji, wybrano
- przebieg o niskim błędzie.
- Wartości mieszczą się w zakresie od -3 do 0.5.
+.
+ Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:wavelet_poprawny_przebieg"
+
+\end_inset
+
+został przeskalowany do zakresu [-10,10] na osi Y.
+ Wartości sygnałów oryginalnych generowanych przez stanowisko pomiarowe
+ mieszczą się w tym zakresie.
+ Kompresja falkowa w szczególnych przypadkach wprowadza bardzo wysokie zaburzeni
+a danych pomiarowych.
 \end_layout
 
 \begin_layout Standard
@@ -8457,27 +7625,6 @@ name "rys:wavelet_little_signal"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_little_signal"
-
-\end_inset
-
-przedstawia przebieg o najwyższym błędzie zaobserwowanym w zbiorze testowym.
- Zakres wartości sygnału po procesie kompresji i dekompresji jest o 3 rzędy
- wielkości większy niż w przypadku widocznym na rysunku 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_poprawny_przebieg"
-
-\end_inset
-
-.
- Oba przebiegi pochodzą z tego samego kanału.
 \end_layout
 
 \begin_layout Standard
@@ -8533,63 +7680,41 @@ name "rys:wavelet_duze_zaburzenia_przyblizony"
 \end_layout
 
 \begin_layout Standard
-Wynik przeskalowania rysunku 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_little_signal"
-
-\end_inset
-
- na osi Y przedstawia rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_duze_zaburzenia_przyblizony"
-
-\end_inset
-
-.
- Przebieg sygnału oryginalnego posiada wartości, które można uznać za normalne
- dla danych pomiarowych.
- Proces kompresji i dekompresji wprowadza wysokie zaburzenia.
+Algorytm falkowy został zbadany z ustawieniami domyślnymi, zaczerpniętymi
+ z implementacji w języku Matlab dostarczonej jako referencyjna.
+ Przypuszcza się, że zmodyfikowanie parametrów algorytmu może istotnie zmienić
+ wartości błędu.
+ Wymaga to jednak dodatkowych badań które nie zostały przeprowadzone w trakcie
+ pracy.
 \end_layout
 
 \begin_layout Standard
-Jak pokazano na rysunkach 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_mse"
-
-\end_inset
-
- oraz 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_little_signal"
-
-\end_inset
-
- algorytm falkowy cechuje się małą stabilnością i może prowadzić do istotnych
- zniekształceń w danych pomiarowych.
- Biorąc pod uwagę, że profile magnetyczne mają służyć do dalszej analizy,
- nie można zastosować tego algorytmu w projekcie.
- W jego miejsce zastosowana została metoda bzip2 oferująca najniższy współczynni
-k kompresji spośród metod bezstratnych.
+Implementacja tego algorytmu w postaci biblioteki języka Python została
+ dołączona do źródeł pracy.
+ Może ona posłużyć jako podstawa do dalszych badań nad algorytmem, istnieje
+ również możliwość uruchomienia tego trybu kompresji w projekcie.
 \end_layout
 
 \begin_layout Subsection
 Wynikowy schemat kompresji
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Wynikowy-schemat-kompresji"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Na podstawie danych z wstępu podrozdziału 
+Na podstawie danych z wstępu rozdziału 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Kompresja"
 
 \end_inset
 
- współczynnik kompresji strumienia danych pomiarowych musi wynosić przynajmniej
- 66.8%.
+ graniczny współczynnik kompresji wynosi 66.8%.
 \end_layout
 
 \begin_layout Standard
@@ -8600,7 +7725,7 @@ Metoda kompresji plików wideo została dobrana oddzielnie od metody dla plików
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\eta_{\left[metoda1,metoda2\right]}=\frac{\dot{V}_{avi}^{metoda1}+\dot{V}_{lvm}^{metoda2}}{V_{original}}\cdot100\%
+\eta_{\left[metoda1,metoda2\right]}=\frac{\dot{V}_{avi}^{metoda1}+\dot{V}_{lvm}^{metoda2}}{V_{original}}\cdot100\%\label{eq:kompresja}
 \end{equation}
 
 \end_inset
@@ -8633,6 +7758,29 @@ Wielkość skompresowana oznacza sumę wielkości wszystkich plików danego typu
 \end_layout
 
 \begin_layout Standard
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:sprawnosc_metod_kompresji"
+
+\end_inset
+
+ przedstawia macierz sumarycznych współczynników kompresji dla par metod
+ obliczoną według wzoru 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:kompresja"
+
+\end_inset
+
+.
+ Indeks wierszowy oznacza metodę kompresji plików lvm, indeks kolumnowy
+ metodę kompresji sekwencji wideo.
+ Najlepszą sprawność oferuje para metod (bzip2, x264), została ona zastosowana
+ w projekcie.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
@@ -8653,15 +7801,81 @@ Macierz sumarycznego współczynnika kompresji
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="5">
+<lyxtabular version="3" rows="5" columns="6">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+avi
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8708,6 +7922,15 @@ x264
 </cell>
 </row>
 <row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+lvm
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -8717,7 +7940,7 @@ lzma
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8726,7 +7949,7 @@ lzma
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8735,7 +7958,7 @@ lzma
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8744,7 +7967,7 @@ lzma
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8755,6 +7978,15 @@ lzma
 </cell>
 </row>
 <row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -8802,6 +8034,15 @@ bzip2
 </cell>
 </row>
 <row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -8871,18 +8112,17 @@ name "tab:sprawnosc_metod_kompresji"
 \end_layout
 
 \begin_layout Standard
-Tabela 
+Na podstawie tabeli 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:sprawnosc_metod_kompresji"
 
 \end_inset
 
- przedstawia macierz sumarycznych współczynników kompresji dla par metod.
- Indeks wiersza oznacza metodę kompresji plików lvm, indeks kolumny metodę
- kompresji sekwencji wideo.
- Najlepszą sprawność oferuje para metod (bzip2, x264), została ona zastosowana
- w projekcie.
+ można stwierdzić że dowolna z proponowanych par metod spełnia założenia
+ dostatecznej redukcji strumienia danych wejściowych.
+ Dobranie metody z dużym zapasem pozwala jednak ubezpieczyć się na przypadek
+ dużych zmian w przepustowości łącza oraz natężenia ruchu drogowego.
 \end_layout
 
 \begin_layout Section
@@ -9092,12 +8332,10 @@ reference "rys:schemat_rozwiazania"
 \begin_layout Standard
 Komponent LabVIEW oznacza system generowania danych pomiarowych i jest zewnętrzn
 ym aktorem z perspektywy pracy.
- Sender reaguje na zdarzenie zapisania pomiaru na dysk generowane przez
- ten komponent ale nie wpływa na jego stan.
 \end_layout
 
 \begin_layout Section
-Identyfikowanie nowych pomiarów
+Identyfikowanie nowych danych pomiarowych
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Odbiór-danych"
@@ -9109,7 +8347,7 @@ name "sec:Odbiór-danych"
 
 \begin_layout Standard
 Kluczowym z perspektywy pracy jest zidentyfikowanie pojawienia się nowych
- pomiarów.
+ danych pomiarowych.
  Pierwotnie LabVIEW po wykonaniu każdego pomiaru zapisywało parę plików
  (lvm, avi) na dysku i kończyło cykl działania.
  Identyfikację nowych danych pomiarowych można przeprowadzić na szereg sposobów:
@@ -9157,7 +8395,7 @@ key "wininotify"
 
 .
  Istotną wadą tego podejścia jest wymóg zastosowania języka C, w którym
- napisane są te wywołania bądź języka C++ który posiada możliwość wywoływania
+ napisane są te wywołania bądź języka C++, który posiada możliwość wywoływania
  funkcji języka C.
  Można również skorzystać z bibliotek FFI (ang.
  foreign function interface) pozwalających na wywołanie funkcji języka C
@@ -9242,7 +8480,7 @@ reference "rys:labview_nadaje"
  przedstawia pliki zaraportowane przez LabVIEW odebrane za pomocą programu
  netcat.
  Nadawane są ścieżki relatywne, należy je interpretować względem katalogu
- bazowego pomiarów.
+ bazowego danych pomiarowych.
  Ponadto nie posiadają one rozszerzenia, każdej ścieżce odpowiada plik z
  rozszerzeniem .lvm oraz plik z rozszerzeniem .avi.
  Zadaniem odbiorcy jest uzupełnienie ścieżki o powyższe informacje.
@@ -9260,15 +8498,8 @@ name "sec:Schemat-działania-systemu"
 \end_layout
 
 \begin_layout Standard
-Schemat przesyłu z uwzględnieniem danych z podrozdziału prezentuje rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:przeslanie_pliku"
-
-\end_inset
-
-.
+Schemat działania systemu służy opisowi interakcji pomiędzy komponentami
+ będącymi jego częścią jak również dyskiem twardym.
 \end_layout
 
 \begin_layout Standard
@@ -9293,7 +8524,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Schemat przesłania pomiaru
+Schemat przesyłu danych pomiarowych
 \end_layout
 
 \end_inset
@@ -9317,52 +8548,50 @@ name "rys:przeslanie_pliku"
 \end_layout
 
 \begin_layout Standard
-Czynności wykonywane przez system 
-\end_layout
-
-\begin_layout Enumerate
-Labview zapisuje pomiar na dysku
-\end_layout
-
-\begin_layout Enumerate
-Labview raportuje pojawienie się pomiaru do Sendera
-\end_layout
-
-\begin_layout Enumerate
-Sender konstruuje pełne ścieżki i sprawdza obecność plików na dysku
-\end_layout
-
-\begin_layout Enumerate
-Sender pobiera dane i opcjonalnie kompresuje
-\end_layout
-
-\begin_layout Enumerate
-Dane zostają wysłane do Receivera i opcjonalne zdekodowane (dekompresja)
-\end_layout
-
-\begin_layout Enumerate
-Receiver zapisuje dane do dysku
-\end_layout
-
-\begin_layout Enumerate
-Receiver raportuje poprawne zapisanie danych
-\end_layout
-
-\begin_layout Enumerate
-(opcjonalnie) Sender usuwa nadane pliki z przestrzeni dyskowej
-\end_layout
-
-\begin_layout Standard
-Sprawdzenie istnienia plików wymagane jest ze względu na zaburzenie wymienione
- w sekcji 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Struktura-generowanych-danych"
+reference "sec:Schemat-działania-systemu"
 
 \end_inset
 
-.
- Plik avi w szczególnych przypadkach może nie zostać wygenerowany.
+ przedstawia schemat przesyłu danych pomiarowych.
+ Czynności pierwsza oraz druga dotyczą par plików będących wynikiem pomiaru.
+ Pozostałe operują na pojedynczych plikach.
+\end_layout
+
+\begin_layout Enumerate
+LabVIEW zapisuje wynik pomiaru na dysk na dysku
+\end_layout
+
+\begin_layout Enumerate
+LabVIEW wysyła informację o nowych danych do Sendera
+\end_layout
+
+\begin_layout Enumerate
+Sender sprawdza obecność plików na dysku
+\end_layout
+
+\begin_layout Enumerate
+Sender pobiera dane z dysku i przeprowadza kompresję zgodnie ze zdefiniowanym
+ schematem
+\end_layout
+
+\begin_layout Enumerate
+Dane zostają wysłane do Receivera i dekompresuje zgodnie ze zdefiniowanym
+ schematem
+\end_layout
+
+\begin_layout Enumerate
+Receiver zapisuje dane na dysku
+\end_layout
+
+\begin_layout Enumerate
+Receiver wysyła informację o poprawnym zapisaniu danych do Sendera
+\end_layout
+
+\begin_layout Enumerate
+(opcjonalnie) Sender usuwa przesłany plik z przestrzeni dyskowej
 \end_layout
 
 \begin_layout Subsection
@@ -9370,24 +8599,14 @@ Sender
 \end_layout
 
 \begin_layout Standard
-Z perspektywy systemu czynność pojawienia się nowych pomiarów jest zdarzeniem
- asynchronicznym które powinno zostać obsłużone w momencie zajścia, uniemożliwia
- to zastosowania aplikacji pracującej z użyciem jednego wątku wykonania.
- Wymagane jest w tym miejscu zastosowanie współbieżności która pozwoli na
- jednoczesne nadawanie plików oraz odbieranie informacji o nowych pomiarach.
- Prowadzi to również do potrzeby zastosowania kolejki która przechowa informację
- o ich istnieniu pomiędzy pojawieniem się na dysku a nadaniem.
-\end_layout
-
-\begin_layout Standard
-Prowadzi to do schematu przedstawionego na rys 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:sender_arch-1"
-
-\end_inset
-
-.
+Komponent Sender odpowiedzialny jest za równoległą obsługę dwóch czynności:
+ odbierania informacji o nowych danych pomiarowych oraz przesyłu.
+ Na podstawie tego wymagania w pracy zastosowano architekturę wielowątkową.
+ Pliki do wysłania przekazywane są do wątku nadającego za pomocą kolejki
+ dyskowej.
+ Zastosowanie kolejki zapobiega również utraceniu informacji o nowych plikach
+ w momentach zwiększonego natężenia ruchu drogowego bądź zmniejszonej przepustow
+ości łącza.
 \end_layout
 
 \begin_layout Standard
@@ -9401,7 +8620,7 @@ status open
 \begin_inset Graphics
 	filename img/schemat_klienta.jpg
 	lyxscale 70
-	scale 60
+	scale 58
 
 \end_inset
 
@@ -9436,12 +8655,22 @@ name "rys:sender_arch-1"
 \end_layout
 
 \begin_layout Standard
-Za odbieranie informacji o nowych plikach odpowiedzialny jest wątek ReceiverThre
-ad, za nadawanie danych wątek SenderThread, informacje przechowywane są
- w kolejce StageQueue.
- Częścią aplikacji są również kolejka synchronizacyjna SyncQueue oraz wątek
- odpowiadający za synchronizację SynchronizationThread, ich rola została
- opsiana w sekcji 
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:sender_arch-1"
+
+\end_inset
+
+ przedstawia wątki, kolejki synchronizowane oraz kierunki przepływu informacji
+ w komponencie Sender.
+ Główny strumień danych przebiega od wątku ReceiverThread do SenderThread
+ za pośrednictwem kolejki plików StageQueue.
+ Wątki odpowiadają dwóm podstawowym zadaniom aplikacji, odpowiednio odbieraniu
+ i nadawaniu danych pomiarowych.
+ Na rysunku widoczny jest również wątek SynchronizationThread odpowiedzialny
+ za uzupełnienie stanu kolejki w przypadku awarii, jego działanie zostało
+ opisane w podrozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Synchronizacja"
@@ -9449,7 +8678,6 @@ reference "sec:Synchronizacja"
 \end_inset
 
 .
- 
 \end_layout
 
 \begin_layout Standard
@@ -9568,13 +8796,11 @@ reference "rys:sender_thread"
 \end_inset
 
 .
- Wątek może zostać uśpiony w przypadku gdy kolejka jest pusta, zostanie
- wybudzony w momencie pojawienia się w niej danych do przetworzenia.
  Po pobraniu ścieżki sprawdzane jest rozszerzenie pliku, na tej podstawie
- dobierany jest schemat kompresji bądź jego brak.
- Na schemacie uproszczony został schemat wysyłania pliku bez kompresji,
+ dobierany jest schemat kompresji.
+ Na schemacie uproszczona została sekwencja wysyłania pliku bez kompresji,
  w pracy podobnie jak w przypadku kompresowanym odczytuje on z dysku i nadaje
- plik za pomocą ustalonej wielkości fragmentów.
+ plik za pomocą fragmentów ustalonej wielkości.
  Jest to zabezpieczenie przed nadmiernym wykorzystaniem pamięci ram przez
  aplikację w przypadku przetwarzania dużych plików.
 \end_layout
@@ -9643,8 +8869,8 @@ reference "rys:receiver_component"
 \end_inset
 
  przedstawia schemat pracy komponentu Receiver.
- W sposób abstrakcyjny oznaczono czynności dotyczące sposobu odebrania pliku,
- zostaną one omówione w sekcji 
+ Nasłuchuje on na dane przychodzące z gniazda sieciowego, interpretuje je
+ zgodnie ze schematem opisanym w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:protokół_przesyłu"
@@ -9652,28 +8878,16 @@ reference "chap:protokół_przesyłu"
 \end_inset
 
 .
- Na diagramie można zauważyć, że dane odbierane nie są buforowane po stronie
- użytkownika, w przypadku szybkich łączy może to prowadzić do zapełnienia
- bufora odbiorczego połączenia po stronie systemu operacyjnego.
- W analizowanym przypadku takie ryzyko nie istnieje.
- Prędkość zapisu do dysku przewyższa prędkość transmisji sieciowej.
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-niby da się to sprawdzić winsatem ale musiałbym mieć admina w gardawicach
-\end_layout
-
-\end_inset
-
-
+ W zależności od konfiguracji przystępuje do zapisywania danych na dysku
+ w miarę ich odbierania z połączenia sieciowego.
+ Opcjonalnie wykonuje dekompresję danych przed zapisem na dysk jeśli została
+ ona skonfigurowana.
 \end_layout
 
 \begin_layout Standard
-Ważną z perspektywy pracy jest strategia zapisywania danych na serwerze
- docelowym, projekt zakłada odtworzenie struktury katalogów z pomiarami
- obecnej w Gardawicach na serwerze uczelnianym.
+Ważną z perspektywy pracy jest strategia zapisywania danych na komputerze
+ docelowym, projekt zakłada odtworzenie struktury katalogów z danymi pomiarowymi
+ obecnej w Gardawicach.
  Kluczowym w tym wypadku jest wybór katalogu bazowego w konfiguracji serwisu
  Receiver.
  W przypadku skonfigurowania katalogu bazowego na
@@ -9714,7 +8928,7 @@ R2018_03_11/M180311_182125.lvm
 \end_layout
 
 \begin_layout Standard
-zostanie zapisany w
+zostanie zapisany w ścieżce
 \end_layout
 
 \begin_layout Standard
@@ -9734,7 +8948,7 @@ status open
 
 \begin_layout Standard
 Odstępem od tej reguły jest przypadek gdy dekompresja się nie powiedzie,
- w takim przypadku pomiar zostanie zapisany w
+ w takim przypadku plik zostanie zapisany w ścieżce
 \end_layout
 
 \begin_layout Standard
@@ -9775,13 +8989,13 @@ nie.
 \begin_layout Standard
 Zgodnie z modelem TCP/IP protokół ten dostarcza jedynie pomost pomiędzy
  procesami na dwóch różnych maszynach, zadaniem użytkownika jest dobranie
- bądź skonstruowanie protokołu warstwy aplikacji który zrealizuje zakładaną
+ bądź skonstruowanie protokołu warstwy aplikacji, który zrealizuje zakładaną
  czynność, w przypadku pracy przesył plików.
 \end_layout
 
 \begin_layout Standard
 Konstrukcja własnego protokołu posiada wymóg stworzenia reguł transformacji
- danych z formy dyskretnej - pojedynczego pliku - na ciągłą, strumień bajtów
+ danych z formy dyskretnej - pojedynczego pliku - na ciągłą, strumień bajtów,
  która będzie zdatna do jednoznacznego odczytu przez odbiorcę.
  W szczególności wymaga to wykrycia w strumieniu granic pomiędzy kolejnymi
  plikami.
@@ -9789,15 +9003,15 @@ Konstrukcja własnego protokołu posiada wymóg stworzenia reguł transformacji
  każdorazowo odczytuje ze strumienia fragment danych o zadanej długości
  i przetwarza zgodnie z ustalonymi regułami.
  W przypadku analizowanym w pracy nie można założyć stałej długości pliku.
- Z tego powodu wymagane jest zastosowanie reprezentacji która jednoznacznie
+ Z tego powodu wymagane jest zastosowanie reprezentacji, która jednoznacznie
  wyznaczy koniec pliku.
 \end_layout
 
 \begin_layout Standard
 Podstawowym podejściem w przypadku przetwarzania strumieniowego jest używanie
- sekwencji terminującej, ustalonej z góry sekwencji bajtów która rozdziela
+ sekwencji terminującej, ustalonej z góry sekwencji bajtów, która rozdziela
  pakiety danych (pliki), podejście takie zastosowano w przypadku rozgłaszania
- nowych pomiarów przez serwis labview, znak nowej linii nie może być częścią
+ nowych plików przez serwis LabVIEW, znak nowej linii nie może być częścią
  poprawnej ścieżki więc może zostać bezpiecznie zastosowany jako separator.
  Podczas przesyłu plików binarnych nie można zastosować tego podejścia ponieważ
  istnieje prawdopodobieństwo napotkania dowolnej sekwencji w ciele przesyłanego
@@ -9814,6 +9028,17 @@ Innym podejściem jest otwieranie połączenia na czas nadawania pojedynczego
  pliku, tym sposobem jego koniec sygnalizowany jest przez zamknięcie połączenia.
  Podejście takie dozwolone jest w standardzie HTTP 1.0 w przypadku braku
  nagłówka Content-Length.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+cytowania
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -9825,7 +9050,7 @@ W pracy aby przesłać plik wymagane są następujące informacje:
 \end_layout
 
 \begin_layout Enumerate
-Długość pliku
+Wielkość pliku w bajtach
 \end_layout
 
 \begin_layout Enumerate
@@ -9833,354 +9058,19 @@ Informacje o sposobie dekompresji (jeśli stosowana)
 \end_layout
 
 \begin_layout Subsection*
-HTTP
+Proponowany protokół przesyłu
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/http_example.JPG
-	scale 70
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Przykładowa para zapytanie odpowiedź protokołu HTTP
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:http_example"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Rys 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:http_example"
-
-\end_inset
-
- przedstawia przykładową komunikację za pomocą prokołu HTTP.
- Kolorem czerwonym oznaczono zapytanie, kolorem niebieskim odpowiedź.
- Protokół dzieli komunikację na pary zapytanie-odpowiedź (ang.
- request - response).
- Strukturę zapytania http przedstawia poniższy listing.
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-<metoda> <zasób> HTTP/<wersja>
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-<nazwa nagłówka>: <wartość nagłówka>
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-Content-Length: <długość danych>
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-...
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-<dane>
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Zapytanie zaczyna się linią determinującą zasób którego dotyczy zapytanie,
- metodę interakcji z zasobem i wersję protokołu za pomocą której przeprowadzana
- jest komunikacja.
- Ilość nagłówków nie jest z góry ustalona, podobnie jak kolejność, ich koniec
- oznaczany jest dwoma następującymi po sobie sekwencjami znaków 
-\begin_inset Quotes pld
-\end_inset
-
-
-\backslash
-r
-\backslash
-n
-\begin_inset Quotes prd
-\end_inset
-
-, powrotu karetki i nowej linii.
- Pozostałą część stanowi ciało zapytania.
- W przypadku przedstawionym na rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:http_example"
-
-\end_inset
-
- ciało posiada zerową długość.
- 
-\end_layout
-
-\begin_layout Standard
-Zasoby określane są ścieżkami względem umownego zasobu bazowego określanego
- podobnie jak katalog root w systemach Unixowych, znakiem 
-\begin_inset Quotes pld
-\end_inset
-
-/
-\begin_inset Quotes prd
-\end_inset
-
-.
- Metody definiują sposób interakcji z zasobem, nie mają one jednak zastosowania
- w przypadku pracy poza metodą PUT służącą stworzeniu zasobu.
-\end_layout
-
-\begin_layout Standard
-Odpowiedź posiada następującą strukturę
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-HTTP/<wersja> <kod statusu> <tekst statusu>
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-<nazwa nagłówka>: <wartość nagłówka>
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-<dane>
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Zasady konstrukcji podobne jak w przypadku zapytania, różnicę stanowi pierwsza
- linia oraz reguły dyktujące jakie nagłówki bądź sposób prezentacji danych
- zostanie zastosowany w odpowiedzi w zależności od zawartości zapytania.
-\end_layout
-
-\begin_layout Standard
-Schemat ten jest łatwy do dopasowania w przypadku pracy.
- Zasób jednoznaczny ze ścieżką względną do pomiaru gdzie zasób bazowy oznacza
- katalog pomiarów.
- Pozwala to na odtworzenie struktury katalogów z Gardawic na maszynie znajdujące
-j się na uczelni.
- W ciele zapytania zawartość pliku którego długość ograniczy nagłówek Content-Le
-ngth.
- HTTP uwzględnia również sposób kompresji danych za pomocą nagłówka Content-Enco
-ding.
-\end_layout
-
-\begin_layout Standard
-Przykład tak skonstruowanego zapytania przedstawia poniższy listing
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-PUT /R2018_05_15/M180515_220003.avi HTTP/1.1
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-Content-Length: <długość pliku>
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-Content-Encoding: <identyfikator metody kompresji>
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-<zawartość pliku>
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Proponowana odpowiedź
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-HTTP/1.1 200 OK
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\begin_layout Plain Layout
-
-Content-Length: 0
-\backslash
-r
-\backslash
-n
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Z perspektywy łącza o mocno ograniczonej przepustowości protokół HTTP posiada
- istotną wadę, w podstawowym trybie działania połączenie a więc strumień
- otwierany jest na czas pojedynczego zapytania i związanej z nim odpowiedzi
- prowadzi to do częstej wymiany sekwencji inicjalizacyjncyh oraz zamykających.
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-cytowanie do tego algorytmu
-\end_layout
-
-\end_inset
-
- W projektowanym wypadku zamykanie połączenia nie przynosi żadnych korzyści
- a prowadzi do wymiany dodatkowych pakietów kontrolnych.
- Aby uniknąć tego problemu można zastosować nagłówek Connection: keep-alive
- bądź wersję 1.1 protokołu która z definicji wykorzystuje pojedyncze połączenie
- TCP do wysyłania wielu żądań.
-\end_layout
-
-\begin_layout Subsection*
-Własna implementacja
-\end_layout
-
-\begin_layout Standard
-Protokół HTTP oferuje bogaty generyczny sposób interakcji z zasobami na
- zdalnych maszynach.
- W projektowanym przypadku wymagane są jedynie ścieżka pliku, oraz jego
+W projektowanym przypadku wymagane są jedynie ścieżka do pliku, oraz jego
  wielkość.
- Przesyłanie sekwencji dodatkowych nagłówków nie przynosi istotnych korzyści
- a prowadzi do przesłania nadmiarowych danych.
+ Zastosowanie protokołu HTTP do zrealizowania przesyłu wymagałoby przesłania
+ serii dodatkowych nagłówków które nie dają żadnego zysku w pracy, ich przesyłan
+ie wprowadza zaś stały narzut na połączenie sieciowe.
 \end_layout
 
 \begin_layout Standard
-Zaproponowano uproszczony protokół wykorzystujący pojedyncze połączenie
+Z tego powodu zaproponowano uproszczony protokół wykorzystujący połączenie
  TCP.
  Do opisu pliku wykorzystuje on trójkę uporządkowaną przedstawioną na poniższym
  schemacie.
@@ -10193,7 +9083,7 @@ status open
 
 \begin_layout Plain Layout
 
-<ścieżka pliku>
+<ścieżka do pliku>
 \backslash
 r
 \backslash
@@ -10210,9 +9100,10 @@ n<zawartość pliku>
 \end_layout
 
 \begin_layout Standard
-Ścieżka pliku jest skonstruowana analogicznie do raportu pliku generowanego
+Ścieżka do pliku jest skonstruowana analogicznie do raportu pliku generowanego
  przez Labview, zawiera jednak rozszerzenie (odpowiednio avi bądź lvm).
- Składa się ze znaków ASCII i jest terminowana sekwencją znaków 
+ Składa się ze znaków ASCII, nie posiada stałej długości, jej koniec w strumieni
+u oznaczany jest sekwencją znaków 
 \begin_inset Quotes pld
 \end_inset
 
@@ -10226,18 +9117,10 @@ n
 
 .
  Znaki te zarówno na systemach Linux jak i Windows nie mogą stanowić części
- ścieżki, stąd ich zastosowanie jest dozwolone.
-\end_layout
-
-\begin_layout Standard
-W analogiczny sposób zapisywana jest do strumienia długość pliku.
- Reprezentowana jest ona za pomocą znaków ASCII.
-\end_layout
-
-\begin_layout Standard
-Zastosowanie pól zakończonych sekwencją terminującą zamiast stałej długości
- pozwala na arbitralnie długie ścieżki oraz wielkości plików.
- Długość pliku definiuje ile bajtów od następnej sekwencji '
+ ścieżki, stąd ich zastosowanie.
+ Długość pliku zapisywana jest do strumienia w taki sam sposób, w postaci
+ znaków ASCII.
+ Długość pliku definiuje ile bajtów od sekwencji '
 \backslash
 r
 \backslash
@@ -10246,12 +9129,9 @@ n' należy traktować jako zawartość danego pliku.
 
 \begin_layout Standard
 Informacje o schemacie kompresji przechowywane są przez rozszerzenie będące
- częścią ścieżki, odpowiednie mapowanie rozszerzenia na schemat kompresji
+ częścią ścieżki, odpowiednie skojarzenie rozszerzenia ze schematem kompresji
  musi zostać skonfigurowane po obu stronach komunikacji.
-\end_layout
-
-\begin_layout Standard
-W odpowiedzi oczekiwana jest ścieżka piku zakończona sekwencją 
+ W odpowiedzi oczekiwana jest do ścieżka piku zakończona sekwencją 
 \begin_inset Quotes pld
 \end_inset
 
@@ -10261,18 +9141,6 @@ r
 \backslash
 n
 \begin_inset Quotes prd
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Sekwencję deserializacji przedstawia rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:receiver_deserializacja"
-
 \end_inset
 
 .
@@ -10299,7 +9167,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Sekwencja deserializacji danych
+Sekwencja odbioru pliku
 \end_layout
 
 \end_inset
@@ -10322,8 +9190,25 @@ name "rys:receiver_deserializacja"
 
 \end_layout
 
+\begin_layout Standard
+Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:receiver_deserializacja"
+
+\end_inset
+
+ przedstawia sekwencję odbioru pliku zgodną ze zdefiniowanym protokołem.
+ Stosowane są dwa sposoby odczytywania danych ze strumienia, do danej sekwencji
+ znaków oraz stałą liczbę bajtów.
+ Pierwsza z nich służy odczytaniu długości pliku oraz jego wielkości, druga
+ pobraniu zawartości pliku.
+ Wielkość pliku przesyłana jest w postaci ciągu znaków ASCII, przed wykorzystani
+em musi zostać zdekodowana do liczby całkowitej nieujemnej.
+\end_layout
+
 \begin_layout Section
-Synchronizacja
+Scenariusze awarii i sposoby ich obsługi
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Synchronizacja"
@@ -10385,8 +9270,8 @@ name "rys:file_states"
 \end_layout
 
 \begin_layout Standard
-W celu ułatwienia analizy pliki zostały podzielone na trzy kategorie przedstawio
-ne na diagramie stanów 
+W celu ułatwienia analizy pliki zostały podzielone na trzy kategorie (nowy,
+ monitorowany oraz zapisany) przedstawione na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:file_states"
@@ -10394,12 +9279,11 @@ reference "rys:file_states"
 \end_inset
 
 .
- Plik przyjmuje stan nowy od momentu stworzenia do momentu jego dodania
+ Plik znajduje się w stanie nowy od momentu stworzenia do momentu dodania
  do kolejki.
  W trakcie obecności w kolejce plik przyjmuje stan monitorowany, aplikacja
  ma informację o jego obecności na dysku, w momencie usunięcia pliku z kolejki
- po otrzymaniu potwierdzenia odebrania z Receivera plik traktowany jest
- jako zapisany.
+ po otrzymaniu potwierdzenia odebrania plik traktowany jest jako zapisany.
 \end_layout
 
 \begin_layout Subsection
@@ -10412,7 +9296,7 @@ Awaria taka może zostać spowodowana błędem w logice samej aplikacji, awarią
 \end_layout
 
 \begin_layout Standard
-Pierwszą czynnością którą należy wykonać jest ponowne uruchomienie aplikacji.
+Pierwszą czynnością, którą należy wykonać jest ponowne uruchomienie aplikacji.
  W tym celu należy dodać jej uruchamianie do skryptów rozruchowych systemu
  operacyjnego oraz ustawić zadanie monitorujące jej działanie odpowiedzialne
  za ponowny rozruch w przypadku awarii.
@@ -10421,22 +9305,21 @@ Pierwszą czynnością którą należy wykonać jest ponowne uruchomienie aplika
 \end_layout
 
 \begin_layout Standard
-Lista plików monitorowanych czyli zawartość kolejki do wysłania jest informacją
+Lista plików monitorowanych czyli zawartość kolejki do wysłania jest informacją,
  która nie może zostać utracona w trakcie awarii ponieważ jej odtworzenie
  jest czynnością kosztowną.
- W przypadku stratnym wymagałoby to pobrania z serwisu Sender stanu folderu
- z pomiarami, wyliczenia różnicy względem stanu folderu z pomiarami na stanowisk
-u i wpisania plików nieobecnych na dysku docelowym do kolejki.
- Operacja tak w przypadku dużej ilości plików jest obciążająca zarówno od
- strony łącza jak i czasu procesora potrzebnego na wyliczenie różnic pomiędzy
- stanami.
+ Wymaga pobrania z serwisu Sender informacji o zawartości katalogu składowania
+ danych pomiarowych, wyliczenia różnicy względem stanu katalogu z danymi
+ pomiarowymi na stanowisku a następnie umieszczenia brakujących plików do
+ kolejki.
+ Operacja taka w przypadku dużej ilości danych oczekujących na wysłanie
+ wymaga dużego zużycia łącza sieciowego na przesłanie informacji oraz czasu
+ procesora na zidentyfikowanie braków.
 \end_layout
 
 \begin_layout Standard
-W pracy zdecydowano się na zastosowanie kolejki dyskowej która pozwala na
- przechowanie listy monitorowanych plików w przypadku większości awarii,
- nieobsługiwany jest przypadek błędów dysku jednak w takiej sytuacji tracone
- są również dane które nadawałyby się do wysłania.
+W pracy zdecydowano się na zastosowanie kolejki dyskowej, która pozwala
+ na przechowanie listy monitorowanych plików w pamięci trwałej.
 \end_layout
 
 \begin_layout Standard
@@ -10461,7 +9344,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Podstawowy stan systemu
+Graficzna reprezentacja informacji przechowywanych przez aplikacje
 \end_layout
 
 \end_inset
@@ -10485,57 +9368,36 @@ name "rys:queue_basic_state"
 \end_layout
 
 \begin_layout Standard
-Informacje opisujące stan aplikacji przedstawione są na rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:queue_basic_state"
 
 \end_inset
 
-.
- Pliki generowane przez stanowisko pomiarowe traktowane są jak ciągły strumień
- posiadający trzy wyróżnione sekcje.
-\end_layout
-
-\begin_layout Itemize
-Najnowszy poprawnie zapisany na serwerze uczelni plik
-\end_layout
-
-\begin_layout Itemize
-Pliki będące zawartością kolejki
-\end_layout
-
-\begin_layout Itemize
-Pierwszy nowy plik wygenerowany przez stanowisko pomiarowe
-\end_layout
-
-\begin_layout Standard
-W analizowanym przypadku zakłada się brak scenariusza w którym pomiędzy
- ostatnim zapisanym na serwerze plikiem a najstarszym w kolejce znajdują
- się inne pliki.
- Zgodnie ze schematem działania wątku SenderThread aplikacji Sender (rys.
+ przedstawia opis informacji przechowywanych przez komponent Sender w trakcie
+ poprawnego działania.
+ Przechowywana jest identyfikator (ścieżka) ostatniego pliku który zmienił
+ stan na zapisany, pliki w stanie monitorowany jako zawartość kolejki oraz
+ pojedynczy plik w stanie nowy.
  
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:sender_thread"
-
-\end_inset
-
-) plik usuwany jest dopiero po otrzymaniu potwierdzenia poprawnego zapisania.
 \end_layout
 
 \begin_layout Standard
-Rozsynchronizowanie może wystąpić w dwóch przypadkach:
+Rozsynchronizowanie występuje, gdy:
 \end_layout
 
 \begin_layout Enumerate
-Awaria następuje pomiędzy wygenerowaniem pomiarów a ich dodaniem do kolejki
+awaria nastąpi w momencie istnienia na dysku plików w stanie 'nowy'
 \end_layout
 
 \begin_layout Enumerate
-W przypadku awarii systemu, stanowisko zaczyna generować pomiary wcześniej
- niż uruchomiony zostaje Receiver
+Komponent LabVIEW wykona pomiar zanim komponent Sender nawiąże połączenie
+\end_layout
+
+\begin_layout Standard
+Sytuacja może wystąpić w momencie odcięcia zasilania, sytuacja druga jest
+ zależna od tego który z komponentów zostanie uruchomiony pierwszy po awarii.
 \end_layout
 
 \begin_layout Standard
@@ -10560,7 +9422,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Rozsynchronizowany stan systemu
+Graficzna reprezentacja zgubienia plików w stanie 'nowy'
 \end_layout
 
 \end_inset
@@ -10584,8 +9446,7 @@ name "rys:queue_unsync_state"
 \end_layout
 
 \begin_layout Standard
-Oba przypadki prowadzą do następującego stanu systemu przedstawionego na
- rys.
+Oba przypadki prowadzą do sytuacji przedstawionej na rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10594,74 +9455,91 @@ reference "rys:queue_unsync_state"
 \end_inset
 
 .
- Pliki n+3 i n+4 w normalnym toku pracy zaprezentowanym w poprzednich podrozdzia
-łach nie zostaną dodane do kolejki ponieważ Labview rozgłasza tylko pomiary
- wykonane od czasu nawiązania połączenia.
- Obsłużenie takiej sytuacji wymaga zastosowania dodatkowego mechanizmu który
- przeszuka dysk w poszukiwaniu brakujących danych i doda je do kolejki.
+ Komponent Sender ponownie nawiązał połączenie z komponentem LabVIEW przed
+ zapisaniem pliku n+5.
+ Pliki n+3 oraz n+4 nie zostaną zaraportowane i wysłane.
+ Obsłużenie takiej sytuacji wymaga zastosowania dodatkowego mechanizmu,
+ który przeszuka dysk w poszukiwaniu brakujących danych i doda je do kolejki.
 \end_layout
 
 \begin_layout Standard
-Do ograniczenia przestrzeni poszukiwania potrzebne są dwie informacje
+Przeszukiwanie przestrzeni dyskowej jest kosztowne, obszar poszukiwania
+ można ograniczyć na podstawie dwóch informacji:
 \end_layout
 
 \begin_layout Enumerate
-Ostatni plik który zmienił stan na monitorowany
+Ścieżka do ostatniego pliku, który zmienił stan na monitorowany
 \end_layout
 
 \begin_layout Enumerate
-Pierwszy plik stworzony przez labview po powrocie do działania
+Ścieżka pierwszego plik stworzony przez LabVIEW po ponownym nawiązaniu połączeni
+a
 \end_layout
 
 \begin_layout Standard
 Pierwszą informację można uzyskać przeszukując całą kolejkę, jednak zastosowanie
- takiego schematu może być kosztowne w przypadku dużej ilości plików w kolejce.
- Zastosowano dodatkową wartość synchronizacyjną trzymaną na dysku twardym
+ takiego schematu jest kosztowne w przypadku dużej ilości plików w kolejce.
+ Zastosowano dodatkową wartość synchronizacyjną przechowywaną na dysku twardym
  i modyfikowaną po każdorazowym dodaniu pliku do kolejki.
- Algorytm synchronizacji wykorzystuje informacje o strukturze folderów opisaną
- w rozdziale analiza problemu i ma następującą postać:
 \end_layout
 
 \begin_layout Standard
-\begin_inset listings
-inline false
+\begin_inset Float algorithm
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
-
 1.
- Znajdź wszystkie pliki w folderze źródłowym które zostały stworzone w przedzial
-e (ostatni zapisany, pierwszy nowy), posiadają monitorowane rozszerzenia
- i nie są folderami
+ Znajdź wszystkie pliki w folderze źródłowym, które zostały stworzone w
+ przedziale (ostatni zapisany, pierwszy nowy), posiadają monitorowane rozszerzen
+ia i nie są folderami
 \end_layout
 
 \begin_layout Plain Layout
-
 2.
  Dodaj te pliki do kolejki monitorowanych plików
 \end_layout
 
 \begin_layout Plain Layout
-
 3.
- Znajdź wszystkie foldery które zostały stworzone w badanym przedziale
+ Znajdź wszystkie foldery, które zostały stworzone w badanym przedziale
 \end_layout
 
 \begin_layout Plain Layout
-
 4.
  Dla każdego folderu
 \end_layout
 
 \begin_layout Plain Layout
-
-	4.1 Znajdź wszystkie pliki w folderze które zostały stworzone w badanym
+	4.1 Znajdź wszystkie pliki w folderze, które zostały stworzone w badanym
  przedziale i posiadają monitorowane rozszerzenia
 \end_layout
 
 \begin_layout Plain Layout
-
 	4.2 Dodaj te pliki do kolejki monitorowanych plików
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Algorytm synchronizacji plików po awarii
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:synchro"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -10670,8 +9548,16 @@ e (ostatni zapisany, pierwszy nowy), posiadają monitorowane rozszerzenia
 \end_layout
 
 \begin_layout Standard
-Zastosowanie takiego schematu synchronizacji istotnie zmniejsza ilość plików
- do przeszukania w trakcie synchronizacji.
+Algorytm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:synchro"
+
+\end_inset
+
+ realizuje wyszukiwanie plików o stanie 'nowym' zmniejszając ilość plików
+ do przeszukania za pomocą informacji o ostatnim poprawnie zapisanym pliku
+ oraz pierwszym nowym plikiem przesłanym przez komponent LabVIEW.
  Synchronizacja odbywa się współbieżnie z podstawowym działaniem programu
  w wątku SynchronizationThread.
 \end_layout
@@ -10730,10 +9616,9 @@ reference "rys:sync_thread_flow"
 \end_inset
 
  przedstawia schemat działania wątku synchronizacyjnego.
- Wątek przez zdecydowaną większość czasu jest uśpiony na odczytaniu elementu
- z kolejki.
- Dane wpisywane są do kolejki tylko w momencie aplikacja jest uruchamiana
- bądź połączenie jest nawiązywane ponownie po błędzie.
+ Informacje dodawane są do kolejki synchronizacyjnej tylko po ponownym nawiązani
+u połączenia z komponentem LabVIEW przez wątek SenderThread.
+ Z tego powodu większość czasu działania aplikacji wątek jest w stanie uśpionym.
 \end_layout
 
 \begin_layout Subsection
@@ -10741,25 +9626,10 @@ Zerwanie połączenia sieciowego
 \end_layout
 
 \begin_layout Standard
-Sytuacja ta wymaga rozpatrzenia od strony obu komponentów, projekt aplikacji
- zakłada, że klientem w komunikacji jest Sender a serwerem Receiver.
- Analogicznie zrealizowana jest komunikacja z Labview.
- 
-\end_layout
-
-\begin_layout Standard
-Sekwencję komunikacji z oddzielnym komponentem z perspektywy klienta podzielono
- na dwa główne etapy
-\end_layout
-
-\begin_layout Enumerate
-Negocjację połączenia - kończący się stworzeniem socketu reprezentującego
- połączenie ze stroną zdalną
-\end_layout
-
-\begin_layout Enumerate
-Obsługa protokołu klienckiego - reprezentująca interakcję pomiędzy komponentami
- z użyciem danego schematu komunikacyjnego
+W połączeniach za pomocą protokołu TCP stroną inicjującą jest komponent
+ Sender.
+ Zerwanie połączenia wymaga jego ponownego nawiązania oraz mechanizmu ograniczaj
+ącego ilość prób nawiązania połączenia.
 \end_layout
 
 \begin_layout Standard
@@ -10807,25 +9677,26 @@ name "rys:connection_state_machine"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:connection_state_machine"
 
 \end_inset
 
- przedstawia maszynę stanów która służy obsłudze pierwszego etapu oraz błędów.
- Etap drugi reprezentowany jest przez stan work i ideowo posiada własną
- wewnętrzną maszynę stanów związaną z protokołem komunikacyjnym.
- W przypadku błędu aplikacja odczekuje skonfigurowany czas i próbuje ponownie
- nawiązać połączenie.
- Stan protokołu klienckiego zostaje zresetowany do początkowego.
+ przedstawia maszynę stanów, która obsługuje nawiązywanie połączenia oraz
+ błędy połączenia.
+ W momencie rozruchu wątku wchodzi on w stan 'try_establish', w którym nawiązywa
+na jest próba wykonania połączenia.
+ W przypadku błędu wątek przechodzi w stan 'sleep' który kończy się po skonfigur
+owanym czasie powrotem do stanu try_establish.
+ W przypadku sukcesu wątek przechodzi w stan work, w którym wykonywany jest
+ kod obsługi połączenia.
 \end_layout
 
 \begin_layout Standard
-Od serwisu sender wymagane jest zresetowanie stanu protokołu przesyłowego
- i oczekiwanie na połączenie przychodzące.
+Komponent Receiver w przypadku błędu sieci przechodzi w stan pasywny i nasłuchuj
+e na połączenie przychodzące.
 \end_layout
 
 \begin_layout Subsection
@@ -10833,24 +9704,24 @@ Awaria komponentu Receiver
 \end_layout
 
 \begin_layout Standard
-W proponowanej architekturze komponent ten nie jest odpowiedzialny za utrzymywan
-ie stanu aplikacji stąd wymagane jest jedynie ponowne jego uruchomienie
- i rozpoczęcie nasłuchiwania na zadanym porcie.
+Wątek SenderThread komponentu Sender przechodzi w stan try_establish i prowadzi
+ próby nawiązania połączenia co zadany interwał do czasu ponownego uruchomienia
+ komponentu Receiver.
 \end_layout
 
 \begin_layout Standard
 Zarówno awaria komponentu Receiver jak i problemy z siecią mogą prowadzić
  do istotnego zwiększenia rozmiaru kolejki plików oczekujących na wysłanie,
- projekt w tym momencie nie posiada logiki pozwalającej na obsłużenie tego
- typu sytuacji.
+ projekt w tym momencie nie posiada mechanizmu pozwalającego na obsłużenie
+ tego typu sytuacji.
  Wśród proponowanych rozwiązań jest usuwanie najmniej istotnych plików wg.
  zadanej miary bądź kompresja i składowanie danych w Gardawicach do czasu
  nawiązania połączenia.
- W pracy nie przeprowadzono implementacji i testów tych propozycji.
+ W pracy nie przeprowadzono implementacji oraz testów tych propozycji.
 \end_layout
 
 \begin_layout Subsection
-Awaria komponentu Labview
+Awaria komponentu LabVIEW
 \end_layout
 
 \begin_layout Standard
@@ -10864,13 +9735,12 @@ reference "rys:connection_state_machine"
 \end_inset
 
 .
- Nie pojawiają się nowe pliki więc wątek SenderThread w przypadku pustej
- kolejki plików do wysłania blokuje się do czasu pojawienia się nowych plików
- w kolejce.
+ Wątek SenderThread kontynuuje nadawanie plików do wyczerpania kolejki,
+ a następnie zostaje uśpiony do czasu pojawienia się nowych danych pomiarowych.
 \end_layout
 
 \begin_layout Section
-Język programowania
+Wybór języka programowania
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Język-programowania"
@@ -10881,7 +9751,10 @@ name "sec:Język-programowania"
 \end_layout
 
 \begin_layout Standard
-Kryteria wyboru języka:
+Dobór języka programowania do problemu jest kluczowy ze względu na ilość
+ czasu wymaganego na implementację, możliwości rozbudowy rozwiązania oraz
+ przenośność.
+ Wyszczególniono następujące kryteria:
 \end_layout
 
 \begin_layout Enumerate
@@ -10892,13 +9765,15 @@ Wieloplatformowość - kod powinien nie wymagać żadnych zmian przed uruchomien
 \begin_layout Enumerate
 Szybkie prototypowanie - najwolniejszym elementem systemu jest połączenie
  sieciowe, z tego powodu zastosowanie języków wykorzystujących procesor
- w sposób bardziej efektywny nie zmienia responsywności systemu.
- Język powinien m.in automatycznie zarządzać pamięcią
+ w sposób bardziej efektywny nie zmienia czasu reakcji systemu.
+ Język powinien m.in.
+ automatycznie zarządzać pamięcią
 \end_layout
 
 \begin_layout Enumerate
 Bogata biblioteka standardowa - ze względu na trudności w dostępie do stanowiska
- pomiarowego doinstalowywanie nowych zależności należy ograniczyć do minimum.
+ pomiarowego instalowanie zewnętrznych komponentów należy ograniczyć do
+ minimum.
  Absolutnym minimum jest biblioteka do obsługi połączeń TCP.
 \end_layout
 
@@ -10906,10 +9781,10 @@ Bogata biblioteka standardowa - ze względu na trudności w dostępie do stanowi
 Języki C i C++ nie spełniają żadnego z założeń.
  Wymagają kompilacji na docelową platformę, nie posiadają warstwy abstrakcji
  do interakcji ze stosem sieciowym oraz wymagają ręcznego zarządzania pamięcią.
- Benefitem ich stosowania jest bezpośredni dostęp do aspektów systemowych
- takich jak subsystem inotify na systemach Linux.
- Do interkacji sieciowych w języku C wykorzystywane są bezpośrednio berkeley
- sockets, w języku C++ można zastosować to samo podejście bądź bibliotekę
+ Cechą pozytywną ich zastosowania jest bezpośredni dostęp do wywołań systemowych
+ takich jak inotify na systemach Linux.
+ Wykorzystywanie połączeń TCP w języku C wymaga pracy bezpośrednio z użyciem
+ gniazd, w języku C++ można zastosować to samo podejście bądź bibliotekę
  boost::asio.
  W przypadku programów pisanych zarówno na systemu Linux i Windows wymagane
  jest zastosowanie różnych kompilatorów oraz samodzielne wypracowanie warstw
@@ -10936,8 +9811,9 @@ reference "tab:python_biblioteki"
 
  przedstawia zestawienie funkcjonalności wymaganych przez projekt oraz ich
  dostępność w języku.
- Przez bibliotekę standardową rozumie się zestaw bibliotek które są instalowane
- razem z interpreterem języka, programem python i nie wymagają doinstalowywania.
+ Przez bibliotekę standardową rozumie się zestaw bibliotek, które są instalowane
+ razem z interpreterem języka, programem Python i nie wymagają samodzielnej
+ instalacji.
 \end_layout
 
 \begin_layout Standard
@@ -10945,6 +9821,18 @@ reference "tab:python_biblioteki"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Zestawienie zagadnień wymaganych w projekcie i dostępności bibliotek
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -11225,18 +10113,6 @@ Dostępna w bibliotece standardowej
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Zestawienie zagadnień wymaganych w projekcie i dostępności bibliotek
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:python_biblioteki"
@@ -11257,358 +10133,7 @@ y ze względu na dłuższe doświadczenie autora z językiem Python.
 \end_layout
 
 \begin_layout Section
-Kolejka dyskowa
-\end_layout
-
-\begin_layout Standard
-W pracy wykorzystano własną implementację kolejki dyskowej, decyzja ta została
- spowodowana trudnościami w dostarczeniu popularnych implementacji do stanowiska
- pomiarowego.
- W roli kolejki zastosowana została dyskowa baza danych SQLite oraz jej
- sterownik dostępny w języku python - SQLite3.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/persistent_queue_class_diagram.jpg
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Diagram klas kolejki dyskowej
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:queue_class_diagram"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-W implementacji zastosowano interfejs o zdefiniowanych metodach, decyzja
- ta została podyktowana umożliwieniem zastąpienia zmiany obecnej implementacji
- standarowym rozwiązaniem takim jak Celery bądź RabbitMQ.
- Rozważano również zastosowanie bazy klucz wartość Redis, jedank oferuje
- ona zapisywanie danych do dysku co interwał, grozi to utratą plików.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top" width="35page%">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Metoda
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Argumenty
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Typ zwracany
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Opis
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-put
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-ścieżka
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dodaje element do kolejki
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-get
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-ścieżka
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zwraca element z kolejki zgodnie ze strategią implementacji (FIFO, LIFO,
- etc)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-pop
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-ścieżka
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Usuwa element z kolejki
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-len
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-integer
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zwraca długość kolejki
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-get_all
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-lista ścieżek
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Zwraca wszystkie elementy z kolejki
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Opis metod interfejsu PersistentQueue
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:queue_interface_description"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Tabela 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:queue_interface_description"
-
-\end_inset
-
- przedstawia metody wymagane przez interfejs kolejki.
- Rozdzielenie metod pop i get podyktowane zostało faktem, że aplikacja usuwa
- elementy z kolejki dopiero po pełnym przeprocesowaniu i otrzymaniu potwierdzeni
-a zapisania danych przez serwis Receiver.
+Obsługa danych strumieniowych
 \end_layout
 
 \begin_layout Standard
@@ -11616,16 +10141,12 @@ a zapisania danych przez serwis Receiver.
 status open
 
 \begin_layout Plain Layout
-Dodać jak metody mapują się na zapytania?
+opisac ladnie
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Section
-Obsługa danych strumieniowych
 \end_layout
 
 \begin_layout Standard
@@ -11641,7 +10162,7 @@ Zapisz/Odczytaj daną ilość bajtów
 \end_layout
 
 \begin_layout Standard
-Z tego powodu do aplikacji wprowadzono abstrakcje o nazwie Reader i Writer
+Z tego powodu do aplikacji wprowadzono abstrakcje o nazwie Reader i Writer,
  które odpowiedzialne są za udostępnianie tych operacji.
 \end_layout
 
@@ -11699,7 +10220,7 @@ reference "rys:stream_operations"
 
 \end_inset
 
- przedstawia schemat interakcji klas które abstrahują strumień (socket)
+ przedstawia schemat interakcji klas, które abstrahują strumień (socket)
  od użytkownika.
  Wprowadzenie klasy StreamProxy zostało podyktowane potrzebą wprowadzenia
  testów jednostkowych i pozwala na traktowanie pliku z danymi jako strumienia
@@ -11708,38 +10229,61 @@ reference "rys:stream_operations"
 
 \begin_layout Standard
 Klasa StreamTokenWriter służy zapisywaniu danych do strumienia, w trakcie
- jej konstruowania podawany jest separator dzięki któremu interfejs write_token
- tłumaczy podaną do niego zmienną na bajty, dokleja do niej predefiniowany
- separator i wpisuje do strumienia za pomocą metody write().
+ jej konstruowania podawany jest separator, dzięki któremu interfejs write_token
+ tłumaczy podaną do niego zmienną na bajty, uzupełnia ją o separator i wpisuje
+ do strumienia za pomocą metody write().
  Metoda write_bytes przyjmuje ciąg bajtów i zapisuje go bezpośrednio do
  strumienia.
 \end_layout
 
 \begin_layout Standard
-Schemat działania klasy StreamTokenReader jest bardziej skomplikowany, w
- przypadku odczytu tokenu wymaga buforowania danych i ponownych odczytów
- do momentu napotkania separatora w buforze, prezentuje to poniższy algorytm
+Odczytanie danych zakończonych separatorem może wymagać więcej niż jednego
+ odczytu z kolejki odbiorczej stosu sieciowego.
+ Przechowanie danych do momentu napotkania separatora wymaga wprowadzenia
+ buforowania.
 \end_layout
 
 \begin_layout Standard
-\begin_inset listings
-inline false
+\begin_inset Float algorithm
+wide false
+sideways false
 status open
 
-\begin_layout Plain Layout
-
+\begin_layout Enumerate
 Sprawdź czy w buforze znajduje się separator
 \end_layout
 
-\begin_layout Plain Layout
-
-	Tak: zwróć dane do jego pozycji i usuń je z bufora razem z separatorem,
+\begin_deeper
+\begin_layout Enumerate
+Tak: zwróć dane do jego pozycji i usuń je z bufora razem z separatorem,
  zakończ
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Enumerate
+Nie: pobierz fragment danych, przejdź do punktu 1
+\end_layout
 
-	Nie: pobierz fragment danych, przejdź do punktu 1
+\end_deeper
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pobierania danych o arbitralnej długości ze strumienia
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:tokeny"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -11748,16 +10292,15 @@ Sprawdź czy w buforze znajduje się separator
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Przerób na flowchart
-\end_layout
+Algorytm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:tokeny"
 
 \end_inset
 
-
+ prezentuje sposób pobierania danych zakończonych danym separatorem ze strumieni
+a.
 \end_layout
 
 \begin_layout Section
@@ -11772,8 +10315,9 @@ name "sec:Implementacja-serwisu-Sender"
 \end_layout
 
 \begin_layout Standard
-Kluczowymi elementami w implementacji serwisu sender jest podział obsługi
- komunikacji na etap negocjacji połączenia i faktycznego przesyłu danych.
+Kluczowymi elementami w implementacji Komponentu sender jest podział obsługi
+ komunikacji na etap negocjacji połączenia i faktycznego przesyłu bądź odbioru
+ danych.
 \end_layout
 
 \begin_layout Standard
@@ -11833,7 +10377,7 @@ reference "rys:client_thread_class_diagram"
  Do tworzenia i obsługi wątków wykorzystana jest klasa Thread z biblioteki
  threading dostępnej w języku Python.
  Wątki SenderThread i ReceiverThread dziedziczą po klasie KeepAliveWorker
- która realizuje maszynę stanów przedstawioną na rys.
+ realizującej maszynę stanów przedstawioną na rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -11842,8 +10386,9 @@ reference "rys:connection_state_machine"
 \end_inset
 
 .
- Od klas dziedziczących wymagane jest zdefiniowanie metody work() która
- zostanie uruchomiona po poprawnym nawiązaniu połączenia na zadany adres.
+ Od klas dziedziczących wymagane jest zdefiniowanie metody work().
+ Metoda ta zostanie wywołana po poprawnym nawiązaniu połączenia na zadany
+ adres.
  Komunikacja pomiędzy wątkami realizowana jest za pomocą kolejek zgodnie
  ze schematem opisanym w sekcji 
 \begin_inset CommandInset ref
@@ -11915,7 +10460,7 @@ reference "rys:sender_startup"
  Każdy z wątków posiada logikę odpowiedzialną za przechwytywanie błędów
  działania prowadzących do powrotu do normalnego trybu operacyjnego.
  Kolejność rozruchu podyktowana jest priorytetem operacji, synchronizacja
- i odbieranie pomiarów z Labview dostarczają danych na których może pracować
+ i odbieranie pomiarów z Labview dostarczają danych, na których może pracować
  wątek wysyłający, z tego powodu uruchamiane są pierwsze.
 \end_layout
 
@@ -12926,8 +11471,8 @@ reference "rys:receiver_class_diagram"
  W przeciwieństwie do komponentu Sender w przypadku zerwaniu połączenia
  ponownie przejście w tryb nasłuchu obsługuje klasa TCPServer.
  W momencie nawiązania połączenia klasa DataReceiverServer tworzy obiekt
- klasy DataReceiverHandler który w metodzie handle() uruchamia wątek główny
- obsługi połączenia.
+ klasy DataReceiverHandler posiadający metodę handle(), która uruchamia
+ wątek główny obsługi połączenia.
  Maszyna stanów połączenia realizowana jest w klasie ServerProtocolProcessor,
  zgodnie ze schematem przedstawionym w sekcji 
 \begin_inset CommandInset ref
@@ -13083,7 +11628,7 @@ Ciąg znaków
 \begin_inset Text
 
 \begin_layout Plain Layout
-Ścieżka bazowa w której zapisywane będą pomiary
+Ścieżka bazowa, w której zapisywane będą pomiary
 \end_layout
 
 \end_inset
@@ -13362,8 +11907,8 @@ reference "tab:receiver_startup_options"
 
 \end_inset
 
- przedstawia flagi które można przekazać do aplikacji w trakcie jej uruchamiania
-, podobnie jak w Senderze dostępna jest możliwość wczytania konfiguracji
+ przedstawia flagi, które można przekazać do aplikacji w trakcie jej uruchamiani
+a, podobnie jak w Senderze dostępna jest możliwość wczytania konfiguracji
  z pliku oraz nadpisania części konfiguracji argumentami podanymi z konsoli.
 \end_layout
 
@@ -13439,6 +11984,19 @@ name "chap:Testy"
 
 \begin_layout Section
 Testy jednostkowe
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Napisać że jest i można testować również to to i to
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
