@@ -231,7 +231,7 @@ titlepages
 
 
 \backslash
-setcounter{tocdepth}{2}
+setcounter{tocdepth}{1}
 \end_layout
 
 \begin_layout Plain Layout
@@ -582,6 +582,13 @@ key "RFC0793-outline"
 
 \begin_layout Section
 Komunikacja za pomocą gniazda sieciowego z użyciem protokołu TCP
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Komunikacja-za-pomocą"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8233,10 +8240,7 @@ name "chap:Projekt-systemu"
 Niniejszy rozdział przedstawia projekt systemu służącemu przesyłowi danych,
  strategie ochrony przed ich utratą oraz informacje o sposobie konfiguracji
  i uruchamianiu gotowego projektu.
-\end_layout
-
-\begin_layout Standard
-Podstawowymi zadaniami systemu są:
+ Jego podstawowymi zadaniami systemu są:
 \end_layout
 
 \begin_layout Enumerate
@@ -8252,7 +8256,7 @@ Zapisanie danych na serwerze
 \end_layout
 
 \begin_layout Standard
-Ograniczenia projektu:
+Projekt musi również przestrzegać zestawu zasad, ograniczeń projektowych:
 \end_layout
 
 \begin_layout Itemize
@@ -8269,8 +8273,26 @@ Połączenie pomiędzy stanowiskiem pomiarowym a uczelnią może zostać zerwane
 \end_layout
 
 \begin_layout Itemize
-Instalacja dodatkowych programów/bibliotek na maszynie stanowiska pomiarowego
- jest trudna ze względu na problemy z połączeniem i przepustowością
+Należy unikać instalacji dodatkowych programów/bibliotek na maszynie stanowiska
+ pomiarowego.
+ Motywowane jest to problemami z połączeniem i przepustowością
+\end_layout
+
+\begin_layout Standard
+Najważniejsze elementy projektu zostały przedstawione na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_rozwiazania"
+
+\end_inset
+
+.
+ Pogrupowano je ze względu na maszyny, na których się znajdują.
+ Liniami oznaczone zostały kanały służące komunikacji, bądź przesyłowi danych.
+ W pracy zaprojektowano komponenty Sender i Receiver, oraz kanały komunikacyjne
+ 2 i 4.
+ Linie 3 i 5 oznaczają interakcje z dyskiem i stanowią cześć komunikacji
+ kanałów odpowiednio 2 i 4.
 \end_layout
 
 \begin_layout Standard
@@ -8318,23 +8340,6 @@ name "rys:schemat_rozwiazania"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:schemat_rozwiazania"
-
-\end_inset
-
- przedstawia najistotniejsze elementy projektu.
- Zostały one podzielone ze względu na maszyny, na których się znajdują.
- Liniami oznaczono kanały służące komunikacji bądź przesyłowi danych.
- Projekt obejmuje komponenty Sender, Receiver oraz kanały komunikacyjne
- 2, 4.
- Linie 3 i 5 oznaczają interakcje z dyskiem i stanowią cześć komunikacji
- kanałów odpowiednio 2 i 4.
-\end_layout
-
-\begin_layout Standard
 Komponent LabVIEW oznacza system generowania danych pomiarowych i jest zewnętrzn
 ym aktorem z perspektywy pracy.
 \end_layout
@@ -8351,47 +8356,48 @@ name "sec:Odbiór-danych"
 \end_layout
 
 \begin_layout Standard
-Kluczowym z perspektywy pracy jest zidentyfikowanie pojawienia się nowych
- danych pomiarowych.
- Pierwotnie LabVIEW po wykonaniu każdego pomiaru zapisywało parę plików
- (lvm, avi) na dysku i kończyło cykl działania.
- Identyfikację nowych danych pomiarowych można przeprowadzić na szereg sposobów:
+Komponent Sender, w celu rozpoczęcia procedury wysyłania, potrzebuje informacji
+ o zapisaniu na dysku twardym nowego pakietu danych pomiarowych.
+ Uzyskanie tej informacji można uzyskać na szereg sposobów:
 \end_layout
 
 \begin_layout Enumerate
-Sender monitoruje stan dysku samodzielnie identyfikując nowe pliki
+Komponent Sender monitoruje stan dysku samodzielnie identyfikując nowe pliki
 \end_layout
 
 \begin_layout Enumerate
-Sender subskrybuje zdarzenia systemowe mówiące o pojawieniu się nowych plików
+Komponent Sender subskrybuje zdarzenia systemowe mówiące o pojawieniu się
+ nowych plików
 \end_layout
 
 \begin_layout Enumerate
-Serwis LabVIEW za pomocą wybranego kanału udostępnia informację o pojawieniu
+Komponent LabVIEW za pomocą wybranego kanału udostępnia informację o pojawieniu
  się nowego pliku
 \end_layout
 
 \begin_layout Standard
-Propozycja pierwsza zakłada cykliczne sprawdzanie stanu dysku i porównywanie
- z poprzednim odczytem a następnie identyfikowanie nowych plików na podstawie
- różnicy tych stanów.
- Wprowadza to do projektowanego systemu opóźnienie w wykryciu plików.
+Propozycja pierwsza zakłada cykliczne sprawdzanie zawartości folderu bazowego
+ danych pomiarowych.
+ Porównywanie z poprzednim odczytem, a następnie identyfikowanie nowych
+ plików na podstawie różnicy tych stanów.
+ Model taki może wprowadzić opóźnienie, nowe pliki mogą pojawić się tuż
+ po sprawdzeniu zawartości folderu z pomiarami.
  W pesymistycznym przypadku jest ono równe interwałowi pomiędzy kolejnymi
  sprawdzeniami.
- Ponadto systemy operacyjne dostarczają wywołania systemowe do raportowania
- tego typu zdarzeń bez opóźnień.
+ Ponadto czynność ta wymaga dużego obciążenia procesora.
 \end_layout
 
 \begin_layout Standard
-Na ich wykorzystaniu opiera się propozycja druga.
- W systemach z rodziny Linux odpowiada za to subsystem inotify 
+Systemy operacyjne dostarczają mechanizmów automatycznego raportowania tego
+ typu zdarzeń.
+ Rodzina systemów Linux oferuje mechanizm inotfiy 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "inotify"
 
 \end_inset
 
-, Windows posiada zaś funckję systemową ReadDirectoryChangesW 
+, Windows zaś wywołanie ReadDirectoryChangesW 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "wininotify"
@@ -8399,28 +8405,20 @@ key "wininotify"
 \end_inset
 
 .
- Istotną wadą tego podejścia jest wymóg zastosowania języka C, w którym
- napisane są te wywołania bądź języka C++, który posiada możliwość wywoływania
- funkcji języka C.
- Można również skorzystać z bibliotek FFI (ang.
- foreign function interface) pozwalających na wywołanie funkcji języka C
- w wybranym języku.
- Przykładem takiej biblioteki jest ctypes dostępne w języku Python 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "python-ctypes"
-
-\end_inset
-
-.
- Propozycja ta została odrzucona ponieważ prowadzi ona do utraty przenośności
- kodu.
+ Wadą tego podejścia jest brak przenośności.
+ Wymuszenie ono również na użytkowniku zastosowania konkretnych języków
+ programowania, w których udostępnione zostały biblioteki wymienionych mechanizm
+ów, bądź bibliotek typu FFI (ang.
+ foreign function interface).
+ Biblioteki takie pozwalają na łączenie kodu napisanego w różnych językach.
+ Wadą ich zastosowania jest zwiększenie stopnia skomplikowania kodu aplikacji.
 \end_layout
 
 \begin_layout Standard
-Podejście piąte wymaga utworzenia dodatkowego elementu raportującego w LabVIEW.
- Zmiana taka nie wpływa na cykl działania aplikacji, wymaga jednak modyfikacji
- istniejącego rozwiązania.
+Podejście piąte wymaga utworzenia dodatkowego serwisu raportującego w komponenci
+e LabVIEW.
+ Zmiana taka w założeniu nie wpływa na cykl działania aplikacji, wymaga
+ jednak modyfikacji istniejącego rozwiązania.
  Została ona zaakceptowana i wprowadzona.
 \end_layout
 
@@ -8428,6 +8426,15 @@ Podejście piąte wymaga utworzenia dodatkowego elementu raportującego w LabVIE
 System pomiarowy nasłuchuje na porcie 6341 protokołu TCP, w przypadku nawiązania
  połączenia wysyła on za jego pomocą ścieżki do plików rozdzielone znakiem
  nowej linii po ich zapisaniu do dysku.
+ Sekwencje raportów zapisania danych pomiarowych przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:labview_nadaje"
+
+\end_inset
+
+.
+ Połączenie zainicjowano za pomocą programu netcat.
 \end_layout
 
 \begin_layout Standard
@@ -8474,20 +8481,10 @@ name "rys:labview_nadaje"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:labview_nadaje"
-
-\end_inset
-
- przedstawia pliki zaraportowane przez LabVIEW odebrane za pomocą programu
- netcat.
- Nadawane są ścieżki relatywne, należy je interpretować względem katalogu
- bazowego danych pomiarowych.
- Ponadto nie posiadają one rozszerzenia, każdej ścieżce odpowiada plik z
- rozszerzeniem .lvm oraz plik z rozszerzeniem .avi.
+Ścieżki nadawane są w formie relatywnej, należy je interpretować względem
+ katalogu bazowego danych pomiarowych.
+ Ponadto nie posiadają one rozszerzenia, każdej ścieżce odpowiada para plików
+ (avi, lvm).
  Zadaniem odbiorcy jest uzupełnienie ścieżki o powyższe informacje.
 \end_layout
 
@@ -8505,6 +8502,52 @@ name "sec:Schemat-działania-systemu"
 \begin_layout Standard
 Schemat działania systemu służy opisowi interakcji pomiędzy komponentami
  będącymi jego częścią jak również dyskiem twardym.
+ Ma on następującą postać:
+\end_layout
+
+\begin_layout Enumerate
+LabVIEW zapisuje wynik pomiaru na dysk na dysku
+\end_layout
+
+\begin_layout Enumerate
+LabVIEW wysyła informację o nowych danych do Sendera
+\end_layout
+
+\begin_layout Enumerate
+Sender sprawdza obecność plików na dysku
+\end_layout
+
+\begin_layout Enumerate
+Sender pobiera dane z dysku i przeprowadza kompresję zgodnie ze zdefiniowanym
+ schematem
+\end_layout
+
+\begin_layout Enumerate
+Dane zostają wysłane do Receivera i dekompresuje zgodnie ze zdefiniowanym
+ schematem
+\end_layout
+
+\begin_layout Enumerate
+Receiver zapisuje dane na dysku
+\end_layout
+
+\begin_layout Enumerate
+Receiver wysyła informację o poprawnym zapisaniu danych do Sendera
+\end_layout
+
+\begin_layout Enumerate
+(opcjonalnie) Sender usuwa przesłany plik z przestrzeni dyskowej
+\end_layout
+
+\begin_layout Standard
+Powyższe informacje w formie graficznej prezentuje rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Schemat-działania-systemu"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -8553,65 +8596,51 @@ name "rys:przeslanie_pliku"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Schemat-działania-systemu"
-
-\end_inset
-
- przedstawia schemat przesyłu danych pomiarowych.
- Czynności pierwsza oraz druga dotyczą par plików będących wynikiem pomiaru.
- Pozostałe operują na pojedynczych plikach.
-\end_layout
-
-\begin_layout Enumerate
-LabVIEW zapisuje wynik pomiaru na dysk na dysku
-\end_layout
-
-\begin_layout Enumerate
-LabVIEW wysyła informację o nowych danych do Sendera
-\end_layout
-
-\begin_layout Enumerate
-Sender sprawdza obecność plików na dysku
-\end_layout
-
-\begin_layout Enumerate
-Sender pobiera dane z dysku i przeprowadza kompresję zgodnie ze zdefiniowanym
- schematem
-\end_layout
-
-\begin_layout Enumerate
-Dane zostają wysłane do Receivera i dekompresuje zgodnie ze zdefiniowanym
- schematem
-\end_layout
-
-\begin_layout Enumerate
-Receiver zapisuje dane na dysku
-\end_layout
-
-\begin_layout Enumerate
-Receiver wysyła informację o poprawnym zapisaniu danych do Sendera
-\end_layout
-
-\begin_layout Enumerate
-(opcjonalnie) Sender usuwa przesłany plik z przestrzeni dyskowej
+Czynności pierwsza oraz druga dotyczą par plików będących wynikiem pomiaru.
+ Pozostałe operują na pojedynczych plikach (ścieżkach).
 \end_layout
 
 \begin_layout Subsection
-Sender
+Komponent Sender
 \end_layout
 
 \begin_layout Standard
 Komponent Sender odpowiedzialny jest za równoległą obsługę dwóch czynności:
  odbierania informacji o nowych danych pomiarowych oraz przesyłu.
- Na podstawie tego wymagania w pracy zastosowano architekturę wielowątkową.
+ W celu uniknięcia blokowania aplikacji na odczycie i zapisie, opisaną w
+ rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Komunikacja-za-pomocą"
+
+\end_inset
+
+, zastosowano architekturę wielowątkową.
  Pliki do wysłania przekazywane są do wątku nadającego za pomocą kolejki
  dyskowej.
- Zastosowanie kolejki zapobiega również utraceniu informacji o nowych plikach
- w momentach zwiększonego natężenia ruchu drogowego bądź zmniejszonej przepustow
-ości łącza.
+\end_layout
+
+\begin_layout Standard
+Wątki składające się na komponent Sender zaprezentowane zostały na rysunku
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:sender_arch-1"
+
+\end_inset
+
+.
+ Przedstawia on również kolejki, które służą przechowaniu informacji o plikach
+ pomiędzy ich odebraniem a przesłaniem.
+ Wątek SynchronizationThread odpowiedzialny jest za uzupełnienie stanu kolejki
+ w przypadku awarii, jego działanie zostało opisane w podrozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Synchronizacja"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -8660,29 +8689,23 @@ name "rys:sender_arch-1"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
+Schemat pracy wątku ReceiverThread przedstawia rys.
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:sender_arch-1"
-
-\end_inset
-
- przedstawia wątki, kolejki synchronizowane oraz kierunki przepływu informacji
- w komponencie Sender.
- Główny strumień danych przebiega od wątku ReceiverThread do SenderThread
- za pośrednictwem kolejki plików StageQueue.
- Wątki odpowiadają dwóm podstawowym zadaniom aplikacji, odpowiednio odbieraniu
- i nadawaniu danych pomiarowych.
- Na rysunku widoczny jest również wątek SynchronizationThread odpowiedzialny
- za uzupełnienie stanu kolejki w przypadku awarii, jego działanie zostało
- opisane w podrozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Synchronizacja"
+reference "rys:receiver_thread"
 
 \end_inset
 
 .
+ Odczytuje on sekwencje bajtów z połączenia TCP do napotkania znaku nowej
+ linii.
+ Sekwencja taka jest następnie sprawdzana pod kątem poprawności.
+ Jeśli stanowi ona poprawną ścieżkę, uzupełniana jest o katalog bazowy oraz
+ rozszerzenia plików.
+ Pełne ścieżki weryfikowane są ponownie w celu sprawdzenia obecności pliku
+ na dysku.
+ Poprawna weryfikacja kończy się dodaniem pliku do kolejki wysyłania.
 \end_layout
 
 \begin_layout Standard
@@ -8731,19 +8754,30 @@ name "rys:receiver_thread"
 \end_layout
 
 \begin_layout Standard
-Schemat pracy wątku ReceiverThread przedstawia rys.
+Schemt pracy wątku SenderThread przedstawia rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:receiver_thread"
+reference "rys:sender_thread"
 
 \end_inset
 
 .
- Wątek zostaje uśpiony do czasu pojawienia się danych w buforze połączenia,
- w przypadku gdy dane nie zawierają pełnej ścieżki wątek czeka na więcej
- danych po czym konstruuje pełną ścieżkę, sprawdza obecność plików na dysku
- i dodaje plik do kolejki plików do wysłania.
+ Wątek oczekuje na pojawienie się danych w kolejce, analogicznie do odczytu
+ z gniazda sieciowego.
+ Gdy ścieżka pojawi się w kolejce jest ona pobierana, sprawdzane jest rozszerzen
+ie pliku.
+ Na tej podstawie dobierana jest metoda kompresji.
+\end_layout
+
+\begin_layout Standard
+Rysunek zawiera uproszczone przedstawienie sekwencja wysyłania pliku nie
+ wymagającego kompresji.
+ W rzeczywistości, podobnie jak w przypadku kompresowanym, odczytuje on
+ z dysku i nadaje plik za pomocą fragmentów ustalonej wielkości.
+ Zabezpiecza to aplikację na wypadek przesyłania dużych plików.
+ Przechowanie odpowiednio dużego pliku w pamięci ram może doprowadzić do
+ jej przepełnienia.
 \end_layout
 
 \begin_layout Standard
@@ -8792,31 +8826,47 @@ name "rys:sender_thread"
 \end_layout
 
 \begin_layout Standard
-Schemt pracy wątku SenderThread przedstawia rys.
+Plik usuwany jest z kolejki dopiero po uzyskaniu potwierdzenia zapisania
+ przez komponent Sender.
+ Jeśli działanie aplikacji zostanie przerwane w trakcie wysyłania, informacja
+ o potrzebie nadania pliku nie zostanie utracona.
+\end_layout
+
+\begin_layout Subsection
+Komponent Receiver
+\end_layout
+
+\begin_layout Standard
+Serwis Receiver odpowiedzialny jest za odebranie połączenia od komponentu
+ Sender, zdekodowanie ścieżki oraz wielkości pliku a następnie jego zapis
+ na dysk.
+ W zależności od typu pliku i konfiguracji aplikacji, może on również zdekompres
+ować dane.
+\end_layout
+
+\begin_layout Standard
+Schemat pracy komponentu Receiver przedstawia rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:sender_thread"
+reference "rys:receiver_component"
 
 \end_inset
 
 .
- Po pobraniu ścieżki sprawdzane jest rozszerzenie pliku, na tej podstawie
- dobierany jest schemat kompresji.
- Na schemacie uproszczona została sekwencja wysyłania pliku bez kompresji,
- w pracy podobnie jak w przypadku kompresowanym odczytuje on z dysku i nadaje
- plik za pomocą fragmentów ustalonej wielkości.
- Jest to zabezpieczenie przed nadmiernym wykorzystaniem pamięci ram przez
- aplikację w przypadku przetwarzania dużych plików.
-\end_layout
+ Nasłuchuje on na dane przychodzące z gniazda sieciowego, interpretuje je
+ zgodnie ze schematem opisanym w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:protokół_przesyłu"
 
-\begin_layout Subsection
-Receiver
-\end_layout
+\end_inset
 
-\begin_layout Standard
-Serwis Receiver zrealizowany został jednowątkowo, oczekiwane jest od niego
- wysłanie potwierdzenia po zapisaniu każdego pliku na dysku.
+.
+ Plik zapisywany jest do dysku w miarę pojawiania się danych w kolejce odbiorcze
+j gniazda sieciowego.
+ W przypadku konfiguracji dekompresji dla odbieranego aktualnie typu pliku,
+ dane odebrane z połączenia przetwarzane są przez dekompresor przed zapisaniem.
 \end_layout
 
 \begin_layout Standard
@@ -8865,37 +8915,12 @@ name "rys:receiver_component"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:receiver_component"
-
-\end_inset
-
- przedstawia schemat pracy komponentu Receiver.
- Nasłuchuje on na dane przychodzące z gniazda sieciowego, interpretuje je
- zgodnie ze schematem opisanym w rozdziale 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:protokół_przesyłu"
-
-\end_inset
-
-.
- W zależności od konfiguracji przystępuje do zapisywania danych na dysku
- w miarę ich odbierania z połączenia sieciowego.
- Opcjonalnie wykonuje dekompresję danych przed zapisem na dysk jeśli została
- ona skonfigurowana.
-\end_layout
-
-\begin_layout Standard
 Ważną z perspektywy pracy jest strategia zapisywania danych na komputerze
- docelowym, projekt zakłada odtworzenie struktury katalogów z danymi pomiarowymi
- obecnej w Gardawicach.
- Kluczowym w tym wypadku jest wybór katalogu bazowego w konfiguracji serwisu
- Receiver.
- W przypadku skonfigurowania katalogu bazowego na
+ docelowym.
+ W projekcie zdecydowano się odtworzyć strukturę katalogów ze stanowiska
+ pomiarowego.
+ Katalog bazowy pomiarów jest wartością konfigurowalną.
+ W przypadku ustawienia tego parametru na 
 \end_layout
 
 \begin_layout Standard
@@ -8983,83 +9008,43 @@ name "chap:protokół_przesyłu"
 \end_layout
 
 \begin_layout Standard
-Głównym wymaganiem względem przesyłu plików jest jego bezstratność i uporządkowa
-nie.
- Strumień bajtów nadawany przez Sendera musi być identyczny ze strumieniem
- odczytanym przez Receivera.
- W przypadku pracy powyższe cechy gwarantuje użycie protokołu TCP w warstwie
- transportowej.
+Protokół TCP pozwalana transportu ciągów bajtów.
+ Zadaniem użytkownika jest dobranie, bądź skonstruowanie protokołu warstwy
+ aplikacji, który zrealizuje przesył plików.
 \end_layout
 
 \begin_layout Standard
-Zgodnie z modelem TCP/IP protokół ten dostarcza jedynie pomost pomiędzy
- procesami na dwóch różnych maszynach, zadaniem użytkownika jest dobranie
- bądź skonstruowanie protokołu warstwy aplikacji, który zrealizuje zakładaną
- czynność, w przypadku pracy przesył plików.
-\end_layout
-
-\begin_layout Standard
-Konstrukcja własnego protokołu posiada wymóg stworzenia reguł transformacji
- danych z formy dyskretnej - pojedynczego pliku - na ciągłą, strumień bajtów,
- która będzie zdatna do jednoznacznego odczytu przez odbiorcę.
- W szczególności wymaga to wykrycia w strumieniu granic pomiędzy kolejnymi
- plikami.
- Działanie takie jest proste w wypadku danych o stałej długości, odbiorca
- każdorazowo odczytuje ze strumienia fragment danych o zadanej długości
- i przetwarza zgodnie z ustalonymi regułami.
- W przypadku analizowanym w pracy nie można założyć stałej długości pliku.
- Z tego powodu wymagane jest zastosowanie reprezentacji, która jednoznacznie
- wyznaczy koniec pliku.
-\end_layout
-
-\begin_layout Standard
-Podstawowym podejściem w przypadku przetwarzania strumieniowego jest używanie
- sekwencji terminującej, ustalonej z góry sekwencji bajtów, która rozdziela
- pakiety danych (pliki), podejście takie zastosowano w przypadku rozgłaszania
- nowych plików przez serwis LabVIEW, znak nowej linii nie może być częścią
- poprawnej ścieżki więc może zostać bezpiecznie zastosowany jako separator.
- Podczas przesyłu plików binarnych nie można zastosować tego podejścia ponieważ
- istnieje prawdopodobieństwo napotkania dowolnej sekwencji w ciele przesyłanego
- pliku.
- Zamiast tego nadawana jest długość pliku w bajtach przed jego zawartością,
- tym samym dostarczana jest odbiorcy informacja gdzie zaczyna się kolejny
- plik.
- Podejście takie stosuje protokół HTTP w wersji 1.1 używając nagłówka Content-Len
-gth.
-\end_layout
-
-\begin_layout Standard
-Innym podejściem jest otwieranie połączenia na czas nadawania pojedynczego
- pliku, tym sposobem jego koniec sygnalizowany jest przez zamknięcie połączenia.
- Podejście takie dozwolone jest w standardzie HTTP 1.0 w przypadku braku
- nagłówka Content-Length.
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-cytowania
-\end_layout
-
+W badanym przypadku aby poprawnie przesłać plik wymagane jest nadanie jego
+ ścieżki - w celu umiejscowienia go na dysku maszyny docelowej oraz wielkości,
+ która pozwoli odbiorcy stwierdzić jaka część strumienia bajtów jest 
+\begin_inset Quotes pld
 \end_inset
 
+ciałem
+\begin_inset Quotes prd
+\end_inset
 
+ pliku.
+ Zarówno ścieżka jak i wielkość pliku mogą mieć arbitralną wielkość liczoną
+ w bajtach.
+ Poinformowanie odbiorcy, gdzie kończy się dana informacja wymaga zastosowania
+ sekwencji terminującej, nazywanej separatorem.
 \end_layout
 
 \begin_layout Standard
-W pracy aby przesłać plik wymagane są następujące informacje:
+Konstrukcja separatora jest kluczowa dla poprawnej komunikacji, nie może
+ on należeć do zbioru symboli które mogą składać się na niesioną informację.
+ Zarówno w przypadku ścieżek jak i wartości liczbowych można zastosować
+ sekwencję znaków powrotu karetki i nowej linii.
 \end_layout
 
-\begin_layout Enumerate
-Ścieżka do pliku
-\end_layout
-
-\begin_layout Enumerate
-Wielkość pliku w bajtach
-\end_layout
-
-\begin_layout Enumerate
-Informacje o sposobie dekompresji (jeśli stosowana)
+\begin_layout Standard
+Separatorów nie można stosować w przypadku danych zawierających losowe sekwencje
+ bitów, takich jak pliki binarne, na przykład sekwencje wideo.
+ Istnieje prawdopodobieństwo, że sekwencja stanowiąca separator wystąpi
+ w środku danych i zaburzy transmisję.
+ W takim przypadku wymagane jest przesłanie długości strumienia danych (pliku)
+ przed przesłaniem jego zawartości.
 \end_layout
 
 \begin_layout Subsection*
@@ -9067,18 +9052,7 @@ Proponowany protokół przesyłu
 \end_layout
 
 \begin_layout Standard
-W projektowanym przypadku wymagane są jedynie ścieżka do pliku, oraz jego
- wielkość.
- Zastosowanie protokołu HTTP do zrealizowania przesyłu wymagałoby przesłania
- serii dodatkowych nagłówków które nie dają żadnego zysku w pracy, ich przesyłan
-ie wprowadza zaś stały narzut na połączenie sieciowe.
-\end_layout
-
-\begin_layout Standard
-Z tego powodu zaproponowano uproszczony protokół wykorzystujący połączenie
- TCP.
- Do opisu pliku wykorzystuje on trójkę uporządkowaną przedstawioną na poniższym
- schemacie.
+Opisem pliku w proponowanym protokole jest trójka uporządkowana postaci
 \end_layout
 
 \begin_layout Standard
@@ -9105,74 +9079,118 @@ n<zawartość pliku>
 \end_layout
 
 \begin_layout Standard
-Ścieżka do pliku jest skonstruowana analogicznie do raportu pliku generowanego
- przez Labview, zawiera jednak rozszerzenie (odpowiednio avi bądź lvm).
- Składa się ze znaków ASCII, nie posiada stałej długości, jej koniec w strumieni
-u oznaczany jest sekwencją znaków 
-\begin_inset Quotes pld
-\end_inset
+która zostaje zapisana do strumienia.
+ Komponent Receiver na podstawie ścieżki i wielkości pliku odbiera odpowiednią
+ ilość bajtów z połączenia i zapisuje na dysku twardym.
+ Sekwencję zastosowaną w pracy przedstawia algorytm
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:transport_proto"
 
-
-\backslash
-r
-\backslash
-n
-\begin_inset Quotes prd
-\end_inset
-
-.
- Znaki te zarówno na systemach Linux jak i Windows nie mogą stanowić części
- ścieżki, stąd ich zastosowanie.
- Długość pliku zapisywana jest do strumienia w taki sam sposób, w postaci
- znaków ASCII.
- Długość pliku definiuje ile bajtów od sekwencji '
-\backslash
-r
-\backslash
-n' należy traktować jako zawartość danego pliku.
-\end_layout
-
-\begin_layout Standard
-Informacje o schemacie kompresji przechowywane są przez rozszerzenie będące
- częścią ścieżki, odpowiednie skojarzenie rozszerzenia ze schematem kompresji
- musi zostać skonfigurowane po obu stronach komunikacji.
- W odpowiedzi oczekiwana jest do ścieżka piku zakończona sekwencją 
-\begin_inset Quotes pld
-\end_inset
-
-
-\backslash
-r
-\backslash
-n
-\begin_inset Quotes prd
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
+\begin_inset Float algorithm
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/schemat_dekodowania_pliku.jpg
-	scale 70
 
+\series bold
+Sender
+\end_layout
+
+\begin_layout Enumerate
+wysyła ścieżkę do pliku względem katalogu bazowego pomiarów uzupełnioną
+ o sekwencję 
+\begin_inset Quotes pld
 \end_inset
 
 
+\backslash
+r
+\backslash
+n
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+wysyła wielkość pliku zakodowaną w formie znaków ASCII uzupełnioną o sekwencję
+ 
+\begin_inset Quotes pld
+\end_inset
+
+
+\backslash
+r
+\backslash
+n
+\begin_inset Quotes prd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+wysyła zawartość pliku
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+Receiver
+\end_layout
+
+\begin_layout Enumerate
+odbiera dane do sekwencji 
+\begin_inset Quotes pld
+\end_inset
+
+
+\backslash
+r
+\backslash
+n
+\begin_inset Quotes prd
+\end_inset
+
+, sprawdza poprawność ścieżki
+\end_layout
+
+\begin_layout Enumerate
+odbiera dane do sekwencji 
+\begin_inset Quotes pld
+\end_inset
+
+
+\backslash
+r
+\backslash
+n
+\begin_inset Quotes prd
+\end_inset
+
+, dekoduje do wartości liczbowej
+\end_layout
+
+\begin_layout Enumerate
+odbiera dokładnie tyle bajtów, ile zdekodowano w punkcie 2, zapisuje do
+ dysku w ścieżce odebranej w punkcie 1 uzupełnionej o skonfigurowany katalog
+ bazowy
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Sekwencja odbioru pliku
+Protokół przesyłu danych pomiarowych
 \end_layout
 
 \end_inset
@@ -9183,7 +9201,7 @@ Sekwencja odbioru pliku
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:receiver_deserializacja"
+name "alg:transport_proto"
 
 \end_inset
 
@@ -9196,20 +9214,27 @@ name "rys:receiver_deserializacja"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:receiver_deserializacja"
+Schemat ten jest zredukowaną wersją sekwencji zapytanie-odpowiedź protokołu
+ HTTP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RFC2616"
 
 \end_inset
 
- przedstawia sekwencję odbioru pliku zgodną ze zdefiniowanym protokołem.
- Stosowane są dwa sposoby odczytywania danych ze strumienia, do danej sekwencji
- znaków oraz stałą liczbę bajtów.
- Pierwsza z nich służy odczytaniu długości pliku oraz jego wielkości, druga
- pobraniu zawartości pliku.
- Wielkość pliku przesyłana jest w postaci ciągu znaków ASCII, przed wykorzystani
-em musi zostać zdekodowana do liczby całkowitej nieujemnej.
+.
+ Linii zapytania (ang.
+ request-line) odpowiada ścieżka pliku, zamiast nagłówków nadawana jest
+ wielkość pliku po czym nadawane jest 
+\begin_inset Quotes pld
+\end_inset
+
+ciało
+\begin_inset Quotes prd
+\end_inset
+
+ zapytania, czyli zawartość pliku.
+ W odpowiedzi wysyłana jest ścieżka z zapytania.
 \end_layout
 
 \begin_layout Section
@@ -9224,107 +9249,64 @@ name "sec:Synchronizacja"
 \end_layout
 
 \begin_layout Standard
-Wymogiem pracy jest zagwarantowanie przesłania wszystkich plików, system
- musi być w stanie przetrwać awarię poszczególnych elementów i wznowić poprawne
- działanie bez utraty danych.
- Aby zabezpieczyć się przed tego typu sytuacją zidentyfikowano szereg możliwych
- awarii oraz scenariusze przywrócenia poprawnego działania systemu.
+Zagwarantowanie przesłania całości wygenerowanych pomiarów wymaga zabezpieczenia
+ na przypadek awarii.
+ Celem niniejszego rozdziału jest zidentyfikowanie możliwych scenariuszy
+ błędów oraz zdefiniowanie zachowania systemu w momencie ich wystąpienia.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/file_state.jpg
-
-\end_inset
-
-
+Zidentyfikowano następujące scenariusze błędów:
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Maszyna stanów pliku używana w analizie awarii
+\begin_layout Enumerate
+Odcięcie zasilania na stanowisku pomiarowym
 \end_layout
 
-\end_inset
-
-
+\begin_layout Enumerate
+Przerwanie łączności
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:file_states"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+\begin_layout Enumerate
+Awaria komponentu LabVIEW
 \end_layout
 
 \begin_layout Standard
-W celu ułatwienia analizy pliki zostały podzielone na trzy kategorie (nowy,
- monitorowany oraz zapisany) przedstawione na rysunku 
+Dodatkowo należy liczyć się z awarią dysków twardych, jednak problemy tego
+ typu obsługiwane są poprzez posiadanie zapasowych dysków twardych o identycznej
+ zawartości z dyskiem głównym.
+ Nie ma możliwości obsłużenia takiego scenariusza z poziomu aplikacji.
+ 
+\end_layout
+
+\begin_layout Subsection
+Odcięcie zasilania na stanowisku pomiarowym
+\end_layout
+
+\begin_layout Standard
+Głównym zagrożeniem z jakim ma do czynienia komponent Sender jest utrata
+ informacji o danych pomiarowych czekających na wysłanie.
+ Utrata zasilania powoduje wyczyszczenie stanu pamięci ram, co zaś powoduje
+ utracenie zawartości kolejki plików do wysłania.
+ W celu przeciwdziałania takiemu scenariuszowi zastosowano kolejkę dyskową,
+ jej stan nie jest tracony w momencie odcięcia zasilania.
+\end_layout
+
+\begin_layout Standard
+Awaria może mieć również miejsce w momencie gdy komponent LabVIEW zapisał
+ już dany plik na dysk twardy, jednak komponent Sender nie umieścił go jeszcze
+ w kolejce plików do wysłania.
+ Sytuację przedstawia rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:file_states"
+reference "rys:queue_basic_state"
 
 \end_inset
 
 .
- Plik znajduje się w stanie nowy od momentu stworzenia do momentu dodania
- do kolejki.
- W trakcie obecności w kolejce plik przyjmuje stan monitorowany, aplikacja
- ma informację o jego obecności na dysku, w momencie usunięcia pliku z kolejki
- po otrzymaniu potwierdzenia odebrania plik traktowany jest jako zapisany.
-\end_layout
-
-\begin_layout Subsection
-Awaria komponentu Sender
-\end_layout
-
-\begin_layout Standard
-Awaria taka może zostać spowodowana błędem w logice samej aplikacji, awarią
- systemu operacyjnego bądź odcięciem zasilania stanowiska pomiarowego.
-\end_layout
-
-\begin_layout Standard
-Pierwszą czynnością, którą należy wykonać jest ponowne uruchomienie aplikacji.
- W tym celu należy dodać jej uruchamianie do skryptów rozruchowych systemu
- operacyjnego oraz ustawić zadanie monitorujące jej działanie odpowiedzialne
- za ponowny rozruch w przypadku awarii.
- Czynności te należą do administratora stanowiska pomiarowego i nie zostały
- zaimplementowane w ramach pracy.
-\end_layout
-
-\begin_layout Standard
-Lista plików monitorowanych czyli zawartość kolejki do wysłania jest informacją,
- która nie może zostać utracona w trakcie awarii ponieważ jej odtworzenie
- jest czynnością kosztowną.
- Wymaga pobrania z serwisu Sender informacji o zawartości katalogu składowania
- danych pomiarowych, wyliczenia różnicy względem stanu katalogu z danymi
- pomiarowymi na stanowisku a następnie umieszczenia brakujących plików do
- kolejki.
- Operacja taka w przypadku dużej ilości danych oczekujących na wysłanie
- wymaga dużego zużycia łącza sieciowego na przesłanie informacji oraz czasu
- procesora na zidentyfikowanie braków.
-\end_layout
-
-\begin_layout Standard
-W pracy zdecydowano się na zastosowanie kolejki dyskowej, która pozwala
- na przechowanie listy monitorowanych plików w pamięci trwałej.
+ Po przywróceniu zasilania komponent LabVIEW wznowi pomiary i generowanie
+ plików, nie nastąpi jednak ponowne rozgłoszenie brakującego pliku, przedstawion
+ego na rysunku jako n+5.
 \end_layout
 
 \begin_layout Standard
@@ -9373,36 +9355,19 @@ name "rys:queue_basic_state"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
+Sekwencja uruchamiania komponentów prowadzi do drugiego scenariusza utraty
+ danych.
+ Występuje on w przypadku gdy komponent LabVIEW zdąży wykonać pomiar zanim
+ Sender nawiąże ponowne połączenie na port 6341.
+ Ponownie tracona jest informacja o pojawieniu się nowych plików.
+ Sytuację ilustruje rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:queue_basic_state"
+reference "rys:queue_unsync_state"
 
 \end_inset
 
- przedstawia opis informacji przechowywanych przez komponent Sender w trakcie
- poprawnego działania.
- Przechowywana jest identyfikator (ścieżka) ostatniego pliku który zmienił
- stan na zapisany, pliki w stanie monitorowany jako zawartość kolejki oraz
- pojedynczy plik w stanie nowy.
- 
-\end_layout
-
-\begin_layout Standard
-Rozsynchronizowanie występuje, gdy:
-\end_layout
-
-\begin_layout Enumerate
-awaria nastąpi w momencie istnienia na dysku plików w stanie 'nowy'
-\end_layout
-
-\begin_layout Enumerate
-Komponent LabVIEW wykona pomiar zanim komponent Sender nawiąże połączenie
-\end_layout
-
-\begin_layout Standard
-Sytuacja może wystąpić w momencie odcięcia zasilania, sytuacja druga jest
- zależna od tego który z komponentów zostanie uruchomiony pierwszy po awarii.
+.
 \end_layout
 
 \begin_layout Standard
@@ -9451,25 +9416,11 @@ name "rys:queue_unsync_state"
 \end_layout
 
 \begin_layout Standard
-Oba przypadki prowadzą do sytuacji przedstawionej na rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:queue_unsync_state"
-
-\end_inset
-
-.
- Komponent Sender ponownie nawiązał połączenie z komponentem LabVIEW przed
- zapisaniem pliku n+5.
- Pliki n+3 oraz n+4 nie zostaną zaraportowane i wysłane.
- Obsłużenie takiej sytuacji wymaga zastosowania dodatkowego mechanizmu,
- który przeszuka dysk w poszukiwaniu brakujących danych i doda je do kolejki.
-\end_layout
-
-\begin_layout Standard
-Przeszukiwanie przestrzeni dyskowej jest kosztowne, obszar poszukiwania
- można ograniczyć na podstawie dwóch informacji:
+Przypadki te wymagają skanowania katalogu pomiarów w poszukiwaniu brakujących
+ plików.
+ Przeszukiwanie dysku jest czynnością kosztowną obliczeniowo.
+ Wyznaczono zestaw informacji na podstawie którego można ograniczyć przestrzeń
+ przeszukiwania:
 \end_layout
 
 \begin_layout Enumerate
@@ -9482,10 +9433,19 @@ a
 \end_layout
 
 \begin_layout Standard
-Pierwszą informację można uzyskać przeszukując całą kolejkę, jednak zastosowanie
- takiego schematu jest kosztowne w przypadku dużej ilości plików w kolejce.
- Zastosowano dodatkową wartość synchronizacyjną przechowywaną na dysku twardym
- i modyfikowaną po każdorazowym dodaniu pliku do kolejki.
+Przeszukiwanie bazuje na założeniu, że jeśli na dysku istnieje niezsynchronizowa
+ny plik, to został on stworzony później niż ostatni plik odebrany od komponentu
+ LabVIEW przed wystąpieniem awarii.
+ Z drugiej strony plik ten nie został stworzony wcześniej niż pierwszy zaraporto
+wany po ponownym uzyskaniu połączenia.
+ Sekwencję przeszukiwania przedstawia algorytm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:synchro"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -9518,11 +9478,11 @@ ia i nie są folderami
 
 \begin_layout Plain Layout
 	4.1 Znajdź wszystkie pliki w folderze, które zostały stworzone w badanym
- przedziale i posiadają monitorowane rozszerzenia
+ przedziale i posiadają skonfigurowane rozszerzenia
 \end_layout
 
 \begin_layout Plain Layout
-	4.2 Dodaj te pliki do kolejki monitorowanych plików
+	4.2 Dodaj te pliki do kolejki plików do wysłania
 \end_layout
 
 \begin_layout Plain Layout
@@ -9553,18 +9513,26 @@ name "alg:synchro"
 \end_layout
 
 \begin_layout Standard
-Algorytm 
+W celu przechowania informacji o ostatnim poprawnie zapisanym do kolejki
+ pliku, zastosowano dodatkową wartość synchronizacyjną.
+ Jest ona przechowywana na dysku twardym i modyfikowana po każdorazowym
+ dodaniu pliku do kolejki.
+ Synchronizacja odbywa się współbieżnie z podstawowym działaniem programu
+ w wątku SynchronizationThread.
+\end_layout
+
+\begin_layout Standard
+Rys.
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "alg:synchro"
+reference "rys:sync_thread_flow"
 
 \end_inset
 
- realizuje wyszukiwanie plików o stanie 'nowym' zmniejszając ilość plików
- do przeszukania za pomocą informacji o ostatnim poprawnie zapisanym pliku
- oraz pierwszym nowym plikiem przesłanym przez komponent LabVIEW.
- Synchronizacja odbywa się współbieżnie z podstawowym działaniem programu
- w wątku SynchronizationThread.
+ przedstawia schemat działania wątku synchronizacyjnego.
+ Informacje dodawane są do kolejki synchronizacyjnej tylko w momencie nawiązaniu
+ połączenia z komponentem LabVIEW przez wątek SenderThread.
 \end_layout
 
 \begin_layout Standard
@@ -9611,19 +9579,94 @@ name "rys:sync_thread_flow"
 
 \end_layout
 
+\begin_layout Subsection
+Przerwanie łączności ze stanowiskiem pomiarowym
+\end_layout
+
+\begin_layout Subsection
+Awaria komponentu Sender
+\end_layout
+
 \begin_layout Standard
-Rys.
- 
+Awaria taka może zostać spowodowana błędem w logice samej aplikacji, awarią
+ systemu operacyjnego bądź odcięciem zasilania stanowiska pomiarowego.
+\end_layout
+
+\begin_layout Standard
+Pierwszą czynnością, którą należy wykonać jest ponowne uruchomienie aplikacji.
+ W tym celu należy dodać jej uruchamianie do skryptów rozruchowych systemu
+ operacyjnego oraz ustawić zadanie monitorujące jej działanie odpowiedzialne
+ za ponowny rozruch w przypadku awarii.
+ Czynności te należą do administratora stanowiska pomiarowego i nie zostały
+ zaimplementowane w ramach pracy.
+\end_layout
+
+\begin_layout Standard
+Lista plików monitorowanych czyli zawartość kolejki do wysłania jest informacją,
+ która nie może zostać utracona w trakcie awarii ponieważ jej odtworzenie
+ jest czynnością kosztowną.
+ Wymaga pobrania z serwisu Sender informacji o zawartości katalogu składowania
+ danych pomiarowych, wyliczenia różnicy względem stanu katalogu z danymi
+ pomiarowymi na stanowisku a następnie umieszczenia brakujących plików do
+ kolejki.
+ Operacja taka w przypadku dużej ilości danych oczekujących na wysłanie
+ wymaga dużego zużycia łącza sieciowego na przesłanie informacji oraz czasu
+ procesora na zidentyfikowanie braków.
+\end_layout
+
+\begin_layout Standard
+W pracy zdecydowano się na zastosowanie kolejki dyskowej, która pozwala
+ na przechowanie listy monitorowanych plików w pamięci trwałej.
+\end_layout
+
+\begin_layout Standard
+Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:sync_thread_flow"
+reference "rys:queue_basic_state"
 
 \end_inset
 
- przedstawia schemat działania wątku synchronizacyjnego.
- Informacje dodawane są do kolejki synchronizacyjnej tylko po ponownym nawiązani
-u połączenia z komponentem LabVIEW przez wątek SenderThread.
- Z tego powodu większość czasu działania aplikacji wątek jest w stanie uśpionym.
+ przedstawia opis informacji przechowywanych przez komponent Sender w trakcie
+ poprawnego działania.
+ Przechowywana jest identyfikator (ścieżka) ostatniego pliku który zmienił
+ stan na zapisany, pliki w stanie monitorowany jako zawartość kolejki oraz
+ pojedynczy plik w stanie nowy.
+ 
+\end_layout
+
+\begin_layout Standard
+Rozsynchronizowanie występuje, gdy:
+\end_layout
+
+\begin_layout Enumerate
+awaria nastąpi w momencie istnienia na dysku plików w stanie 'nowy'
+\end_layout
+
+\begin_layout Enumerate
+Komponent LabVIEW wykona pomiar zanim komponent Sender nawiąże połączenie
+\end_layout
+
+\begin_layout Standard
+Sytuacja może wystąpić w momencie odcięcia zasilania, sytuacja druga jest
+ zależna od tego który z komponentów zostanie uruchomiony pierwszy po awarii.
+\end_layout
+
+\begin_layout Standard
+Oba przypadki prowadzą do sytuacji przedstawionej na rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:queue_unsync_state"
+
+\end_inset
+
+.
+ Komponent Sender ponownie nawiązał połączenie z komponentem LabVIEW przed
+ zapisaniem pliku n+5.
+ Pliki n+3 oraz n+4 nie zostaną zaraportowane i wysłane.
+ Obsłużenie takiej sytuacji wymaga zastosowania dodatkowego mechanizmu,
+ który przeszuka dysk w poszukiwaniu brakujących danych i doda je do kolejki.
 \end_layout
 
 \begin_layout Subsection
@@ -11487,11 +11530,6 @@ reference "sec:Schemat-działania-systemu"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-Komponent działa jednowątkowo stąd nie posiada istotnych informacji na temat
- schematu rozruchu.
 \end_layout
 
 \begin_layout Subsection
