@@ -7707,19 +7707,34 @@ name "subsec:Wynikowy-schemat-kompresji"
 \end_layout
 
 \begin_layout Standard
-Na podstawie danych z wstępu rozdziału 
+Analiza kompresji poszczególnych typów plików, przeprowadzona w rozdziałach
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Kompresja"
+reference "subsec:Kompresja-obrazu-wideo"
 
 \end_inset
 
- graniczny współczynnik kompresji wynosi 66.8%.
-\end_layout
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Kompresja-profili-magnetycznych"
 
-\begin_layout Standard
-Metoda kompresji plików wideo została dobrana oddzielnie od metody dla plików
- lvm stąd wymagane jest obliczenie sumarycznego stopnia kompresji.
+\end_inset
+
+, nie daje pełnej informacji o kompresji.
+ Stanowisko pomiarowe generuje parę plików, stąd aby wyliczyć współczynnik
+ kompresji należy skompresować osobno każdy z typów plików a następnie porównać
+ sumę wielkości plików wejściowych z sumaryczną wielkością plików skompresowanyc
+h.
+ Zależność tą opisuje wzór 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:kompresja"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -7765,8 +7780,8 @@ reference "tab:sprawnosc_metod_kompresji"
 
 \end_inset
 
- przedstawia macierz sumarycznych współczynników kompresji dla par metod
- obliczoną według wzoru 
+ przedstawia współczynniki kompresji obliczone dla poszczególnych par metod
+ kompresji za pomocą wzoru 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:kompresja"
@@ -7774,10 +7789,10 @@ reference "eq:kompresja"
 \end_inset
 
 .
- Indeks wierszowy oznacza metodę kompresji plików lvm, indeks kolumnowy
- metodę kompresji sekwencji wideo.
- Najlepszą sprawność oferuje para metod (bzip2, x264), została ona zastosowana
- w projekcie.
+ Dane przedstawiono w formie macierzowej, gdzie indeks wierszowy oznacza
+ metodę kompresji pliku lvm, a indeks kolumnowy pliku avi (sekwencji wideo).
+ Najlepszą sprawność oferuje para metod (bzip2, x264), ich zastosowanie
+ redukuje rozmiar danych do 12.8% wielkości wejściowej.
 \end_layout
 
 \begin_layout Standard
@@ -8112,17 +8127,11 @@ name "tab:sprawnosc_metod_kompresji"
 \end_layout
 
 \begin_layout Standard
-Na podstawie tabeli 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:sprawnosc_metod_kompresji"
-
-\end_inset
-
- można stwierdzić że dowolna z proponowanych par metod spełnia założenia
- dostatecznej redukcji strumienia danych wejściowych.
- Dobranie metody z dużym zapasem pozwala jednak ubezpieczyć się na przypadek
- dużych zmian w przepustowości łącza oraz natężenia ruchu drogowego.
+Warto nadmienić, że wszystkie proponowane pary kompresorów oferują współczynnik
+ kompresji niższy, niż wielkość graniczna.
+ Wybranie schematu o najkorzystniejszej wartości, ubezpiecza aplikację na
+ wypadek nagłego wzrostu prędkości generowania pomiarów, bądź spadku przepustowo
+ści łącza.
 \end_layout
 
 \begin_layout Section
@@ -8135,7 +8144,8 @@ ch wniosków.
 \end_layout
 
 \begin_layout Itemize
-Ilość danych generowanych przez stanowisko pomiarowe nie jest stała w czasie
+Ilość danych, generowanych przez stanowisko pomiarowe, nie jest stała w
+ czasie
 \end_layout
 
 \begin_layout Itemize
@@ -8152,7 +8162,7 @@ Przepustowość łącza nie pozwala na bezpośredni przesył danych, wymagana
 \end_layout
 
 \begin_layout Itemize
-Wielkość plików avi posiada zdecydowanie większą zmienność niż lvm.
+Wielkość sekwencji wideo jest zmienna w ciągu doby
 \end_layout
 
 \begin_layout Itemize
@@ -8165,14 +8175,9 @@ Wymagania projektowe:
 \end_layout
 
 \begin_layout Itemize
-Dane dostarczone na serwer uczelni mają zachować informacje kluczowe do
- dalszej obróbki, w przypadku plików sygnałowych/video nie wyklucza to kompresji
- stratnej
-\end_layout
-
-\begin_layout Itemize
 System ma automatycznie nawiązywać ponowne połączenie w przypadku problemów
- z siecią, przewidywana jest duża niestabilność połączenia sieciowego.
+ z siecią.
+ Przewidywana jest niska stabilność łącza sieciowego.
 \end_layout
 
 \begin_layout Itemize
@@ -8181,8 +8186,8 @@ W przypadku utraty połączenia sieciowego aplikacja ma być w stanie przechowa�
 \end_layout
 
 \begin_layout Itemize
-Parametry działania mają mieć formę konfigurowalną w postaci przełączników
- przy starcie aplikacji bądź plików konfiguracyjnych
+Parametry aplikacji muszą mieć formę w postaci przełączników rozruchu aplikacji
+ bądź plików konfiguracyjnych.
 \end_layout
 
 \begin_layout Standard
@@ -8206,7 +8211,7 @@ Adres serwera
 \end_layout
 
 \begin_layout Itemize
-Schematy kompresji wybrane dla danych plików
+Schematy kompresji wybrane dla danych typów plików
 \end_layout
 
 \begin_layout Itemize
