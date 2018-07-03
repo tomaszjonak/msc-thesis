@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-data = pd.read_csv('daily_files_cut.csv', header=None, index_col=0, parse_dates=True)
+data = pd.read_csv('daily_files.csv', header=None, index_col=0, parse_dates=True)
 data.rename({0: 'Dzien pomiaru', 1: 'Ilosc plikow avi', 2: 'Ilosc plikow csv'})
 # print(data.head())
 # fig, ax = plt.subplots()
@@ -19,6 +19,7 @@ data.rename({0: 'Dzien pomiaru', 1: 'Ilosc plikow avi', 2: 'Ilosc plikow csv'})
 # plt.show()
 
 summary_amount_of_files = data.sum()[1]
+print(data[1].describe())
 seconds_in_days_counted = (data.shape[0] * 24 * 60 * 60)
 amount_of_seconds_between_files = seconds_in_days_counted / summary_amount_of_files
 print("Amount of file pairs: {}".format(summary_amount_of_files))

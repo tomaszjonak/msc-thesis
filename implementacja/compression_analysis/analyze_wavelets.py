@@ -66,7 +66,7 @@ def main():
     # min_row_index =  stddf[max_mean_column].argmin()
     # file_name = df.iloc[min_row_index]['nazwa pliku']
 
-    decompress_and_plot(pl.Path('../client_storage/R2017_10_06').joinpath(file_name), str(file_name))
+    # decompress_and_plot(pl.Path('../client_storage/R2017_10_06').joinpath(file_name), str(file_name))
 
 if __name__ == '__main__':
     main()

@@ -2,6 +2,7 @@ import pathlib as pl
 import threading
 import socketserver
 import logging
+import socket
 
 from ..utils import StreamProxy
 from ..utils import StreamTokenReader
@@ -100,7 +101,9 @@ class DataReceiverHandler(socketserver.BaseRequestHandler):
             logger.exception(e)
 
     @staticmethod
-    def prepare_processor(socket, storage_root, decompression_settings):
+    def prepare_processor(socket: socket.socket, storage_root, decompression_settings):
+        # 5 minutes timeout
+        socket.settimeout(5*60)
         stream = StreamProxy.SocketStreamProxy(socket)
         # TODO czy ustawic konfigurowalny separator?
         reader = StreamTokenReader.StreamTokenReader(stream, b'\r\n')

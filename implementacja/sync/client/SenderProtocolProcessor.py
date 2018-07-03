@@ -152,6 +152,10 @@ class CompressionEnabledSender(SenderProtocolProcessor):
         logger.debug('_send_metadata')
         self.file_path = self.stage_queue.get(timeout=self.queue_timeout)
         self.file_obj = self.storage_root.joinpath(self.file_path)
+        if not self.file_obj.exists():
+            logger.error("File in queue does not exist on disk")
+            self.stage_queue.pop(pl.Path(self.file_path).as_posix())
+
 
         self.operation = self._transfer_file
 
@@ -173,32 +177,47 @@ class CompressionEnabledSender(SenderProtocolProcessor):
         except subprocess.CalledProcessError as e:
             logger.debug("Ffmpeg gave up, sending raw {}".format(e))
             super(CompressionEnabledSender, self)._transfer_file()
+            return
+        except Exception as e:
+            logger.error("File transfer failed, giving up {}".format(e))
 
-        announced_file = str(self.file_obj
-                                 .relative_to(self.storage_root)
-                                 .with_suffix(extension_mapper(self.file_obj.suffix)))
-        self.writer.write_token(announced_file)
-        self.expected_ack_value = announced_file
-        self.file_obj = self.storage_root.joinpath(self.file_path)
+        try:
+            compression_start = time.time()
+            # TODO big enough file may exhaust memory
+            compressed_bytes = compressor(self.file_obj)
+            compression_end = time.time()
+        except Exception as e:
+            if self.file_path.exists():
+                logger.error("Compression failed, skipping file (exception: {}, file {})".format(e, self.file_path))
+            else:
+                logger.error("File from queue does not exist on disk (exception: {}, file {})".format(e, self.file_path))
+            self.stage_queue.pop(pl.Path(self.file_path).as_posix())
+            self.operation = self._send_metadata
+            self.file_path = None
+            self.file_obj = None
+            self.expected_ack_value = None
+        else:
+            announced_file = str(self.file_obj
+                                     .relative_to(self.storage_root)
+                                     .with_suffix(extension_mapper(self.file_obj.suffix)))
+            self.writer.write_token(announced_file)
+            self.expected_ack_value = announced_file
+            self.file_obj = self.storage_root.joinpath(self.file_path)
 
-        compression_start = time.time()
-        # TODO big enough file may exhaust memory
-        compressed_bytes = compressor(self.file_obj)
-        compression_end = time.time()
-        logger.debug('Compression done ({} s)'.format(compression_end - compression_start))
+            logger.debug('Compression done ({} s)'.format(compression_end - compression_start))
 
-        self.writer.write_token(str(len(compressed_bytes)))
+            self.writer.write_token(str(len(compressed_bytes)))
 
-        transfer_start = time.time()
+            transfer_start = time.time()
 
-        self.writer.write_bytes(compressed_bytes)
+            self.writer.write_bytes(compressed_bytes)
 
-        transfer_end = time.time()
-        logger.debug('File transfer done ({} s)'.format(transfer_end - transfer_start))
+            transfer_end = time.time()
+            logger.debug('File transfer done ({} s)'.format(transfer_end - transfer_start))
 
-        self.writer.write_separator()
+            self.writer.write_separator()
 
-        self.operation = self._acknowledge_and_unstage
+            self.operation = self._acknowledge_and_unstage
 
     def _acknowledge_and_unstage(self):
         logger.debug('_acknowledge_and_unstage')

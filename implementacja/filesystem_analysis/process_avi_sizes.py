@@ -9,8 +9,8 @@ fig, ax = plt.subplots()
 
 data.plot(ax=ax, style='o', ms=3, grid=True, legend=False,
           title='Zaleznosc wielkosci pliku od momentu pomiaru')
-ax.set_xlabel('Czas pomiaru')
-ax.set_ylabel('Wielkosc pliku (bajty)')
+ax.set_xlabel('Czas zarejestrowania sekwencji wideo')
+ax.set_ylabel('Wielkosc sekwencji wideo [bajty]')
 ax.xaxis.set_major_locator(mdates.HourLocator(byhour=[0,1]))
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
 plt.show()
