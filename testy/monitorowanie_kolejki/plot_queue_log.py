@@ -16,6 +16,7 @@ def main():
     if len(sys.argv) > 1:
         path = sys.argv[1]
     else:
+        # path = "queue_0107.log"
         path = "queue.log"
         # subprocess.check_call(retrieve_command)
 
@@ -27,7 +28,7 @@ def main():
 
     fig, ax = plt.subplots()
 
-    data.plot(ax=ax)
+    data['Ilosc plikow do wyslania'].plot(ax=ax)
     # ax.yaxis.lim(ymin=0)
     ax.set_title("Dlugosc kolejki plikow do wyslania")
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=1))
@@ -36,6 +37,21 @@ def main():
     ax.xaxis.set_minor_formatter(mdates.DateFormatter('%H'))
     ax.xaxis.grid(b=True, which='major', linewidth=2)
     ax.xaxis.grid(b=True, which='minor')
+    ax.set_ylim(bottom=0)
+
+    fig, ax = plt.subplots()
+
+    (data[2]/1000).plot(ax=ax)
+    # ax.yaxis.lim(ymin=0)
+    ax.set_title("Wielkosc pliku kolejki")
+    # ax.xaxis.label = "Wielkosc pliku kolejki w kilobajtach"
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=1))
+    ax.xaxis.set_minor_locator(mdates.HourLocator(interval=1))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('\n%d/%m'))
+    ax.xaxis.set_minor_formatter(mdates.DateFormatter('%H'))
+    ax.xaxis.grid(b=True, which='major', linewidth=2)
+    ax.xaxis.grid(b=True, which='minor')
+    ax.set_ylim(bottom=0)
 
     plt.tight_layout()
     plt.show()

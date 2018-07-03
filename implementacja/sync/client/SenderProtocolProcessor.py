@@ -155,8 +155,9 @@ class CompressionEnabledSender(SenderProtocolProcessor):
         if not self.file_obj.exists():
             logger.error("File in queue does not exist on disk")
             self.stage_queue.pop(pl.Path(self.file_path).as_posix())
+            return
 
-
+        logger.info("Sending file ({})".format(self.file_path))
         self.operation = self._transfer_file
 
     def _transfer_file(self):
@@ -187,7 +188,7 @@ class CompressionEnabledSender(SenderProtocolProcessor):
             compressed_bytes = compressor(self.file_obj)
             compression_end = time.time()
         except Exception as e:
-            if self.file_path.exists():
+            if self.file_obj.exists():
                 logger.error("Compression failed, skipping file (exception: {}, file {})".format(e, self.file_path))
             else:
                 logger.error("File from queue does not exist on disk (exception: {}, file {})".format(e, self.file_path))
@@ -226,10 +227,10 @@ class CompressionEnabledSender(SenderProtocolProcessor):
 
         if ack_path == self.expected_ack_value:
             self.stage_queue.pop(pl.Path(self.file_path).as_posix())
-            logger.debug('Acknowledge received ({})'.format(str(ack_path)))
             if self.delete_acknowledged:
                 logger.debug('Deleting acknowledged file ({})'.format(ack_path))
                 self.file_obj.unlink()
+            logger.info("File sent ({})".format(str(ack_path)))
         else:
             logger.error('Mismatched server acknowledge. Expected ({}, type {}), got ({}, type {})'
                          .format(self.expected_ack_value, type(self.expected_ack_value), ack_path, type(ack_path)))

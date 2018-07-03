@@ -62,7 +62,7 @@ class AviFinderThread(threading.Thread):
         for path, insertion_time in self.files.items():
             if path.exists():
                 relative_path = path.relative_to(self.storage_root).as_posix()
-                logger.debug("Found path, pushing to queue {}".format(relative_path))
+                logger.info("Found path, pushing to queue ({})".format(relative_path))
                 self.stage_queue.put(relative_path)
                 to_remove.append(path)
                 continue

@@ -78,6 +78,7 @@ class ReceiverProcessor(object):
 
     def _process_files(self):
         file_pattern = self.reader.get_token().decode()
+        logger.info("Creation event received ({})".format(file_pattern))
 
         try:
             files, _, newest_file = self.find_matching_files(file_pattern)
@@ -104,7 +105,7 @@ class ReceiverProcessor(object):
         self.cache.put(newest_relative_path)
 
         for file in files:
-            logger.debug('Adding file to queue ({})'.format(file))
+            logger.info('Adding file to queue ({})'.format(file))
             self.queue.put(file)
 
     def find_matching_files(self, file_pattern):
