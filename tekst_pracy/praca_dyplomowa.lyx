@@ -860,7 +860,7 @@ reference "rys:schemat_stanowiska"
 
 \end_inset
 
- przedstawia schemat stanowiska 
+ przedstawia schemat stanowiska.
 \end_layout
 
 \begin_layout Standard
@@ -933,7 +933,7 @@ reference "rys:schemat_sieciowy"
  Na rysunku przedstawiono ponadto maszynę traffic.eu.org, do której łączy
  się użytkownik w celu uzyskania dostępu do pozostałych maszyn.
  Dostęp realizowany jest za pomocą protokołu SSH (ang.
- Secure SHell)
+ Secure SHell).
 \end_layout
 
 \begin_layout Standard
@@ -982,7 +982,7 @@ name "rys:schemat_sieciowy"
 \end_layout
 
 \begin_layout Standard
-Interakcje z środowiskiem w Gardawicach możliwe są za pomocą programu Cygwin,
+Interakcje ze środowiskiem w Gardawicach możliwe są za pomocą programu Cygwin,
  który pozwala używać maszyny z systemem operacyjnym Windows za pomocą konsoli
  w konwencji Unixowej.
 \end_layout
@@ -1291,9 +1291,8 @@ reference "rys:gardawice_katalog_pomiary"
 \end_inset
 
 .
- Oprócz katalogów z danymi, które generowane są automatycznie.
- Część plików spełniających schemat nazwy katalogu, posiada rozszerzenie
- .tar.bz2.
+ Oprócz katalogów z danymi, które generowane są automatycznie część plików
+ spełniających schemat nazwy katalogu, posiada rozszerzenie .tar.bz2.
  Oznaczają one skompresowane katalogi z pomiarami dobowymi.
  Pliki te są śladem manualnej ingerencji, mającej na celu zaoszczędzenie
  miejsca na dysku twardym.
@@ -1416,7 +1415,7 @@ reference "rys:pomiary_z_jednego_dnia"
  Można zaobserwować pary plików odpowiadające kolejnym pomiarom.
  Ostatni widoczny pomiar został wykonany 3 minuty i 28 sekund po północy.
  W ciągu doby stanowisko pomiarowe wygenerowało 11376 plików o łącznej objętości
- 7.1 Gigabajta.
+ 7.1 gigabajta.
 \end_layout
 
 \begin_layout Section
@@ -1886,8 +1885,8 @@ reference "tab:wielkosci_plikow"
 \end_inset
 
  można odczytać wysoki rozrzut rozmiaru generowanych sekwencji wideo.
- Reprezentację graficzną danych w ujęciu dobowym przedstawiona została na
- rysunku 
+ Reprezentację graficzną danych w ujęciu dobowym przedstawiono na rysunku
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:wielkosc_avi"
@@ -2138,8 +2137,15 @@ key "iperf"
 \end_inset
 
 .
- Pomiar został przeprowadzony pomiędzy maszynami traffic2 oraz stanowiskiem
- pomiarowym.
+ Pomiar został przeprowadzony pomiędzy maszynami traffic2 oraz gardawice,
+ zgodnie z oznaczeniami na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_sieciowy"
+
+\end_inset
+
+.
  Pomiar odbywa się w schemacie klient-serwer, w badanym przypadku rolę klienta
  przyjęła maszyna w miejscowości Gardawice.
  
@@ -2622,13 +2628,15 @@ reference "tab:kompresja_bezstratna"
 
 \end_inset
 
- oraz standard H.264.
+ oraz standard kompresji H.264.
 \end_layout
 
 \begin_layout Standard
 Kompresję H.264 zrealizowaną za pomocą biblioteki x264 będącej częścią pakietu
  ffmpeg.
- Został on wywołany przy użyciu następującej komendy.
+ Jest on zbiorem metod identyfikacji plików, algorytmów kompresji oraz transform
+acji pomiędzy formatami.
+ Został wywołany przy użyciu następującej komendy.
 \end_layout
 
 \begin_layout Standard
@@ -3206,7 +3214,7 @@ crf
 \series default
  (ang.
  Constant Rate Factor) - określa stosunek jakości obrazu do stopnia kompresji.
- Przyjmuje wartości z przedziału 0-51, gdzie 0 oznacza kompresję bezstratną
+ Przyjmuje wartości z przedziału 0-51, gdzie 0 oznacza kompresję bezstratną,
  a 51 najgorszą dostępną jakość.
  Wybór wartości tego parametru jest zależny od akceptowalnej jakości obrazu
  i wymaganego współczynnika kompresji.
@@ -5949,8 +5957,8 @@ name "rys:lvm_internal"
 \begin_layout Standard
 Warto zauważyć, że czas wykonania próbki jest równy indeksowi wiersza pomnożonem
 u przez 0.0001, stąd istnieje możliwość usunięcia pierwszej kolumny przed
- wysłaniem i odtworzenia po odebraniu pliku.
- W pracy nie zastosowano jednak tej metody.
+ wysłaniem i odtworzenia po odebraniu pliku w pracy nie zastosowano jednak
+ tej metody.
 \end_layout
 
 \begin_layout Standard
@@ -6574,7 +6582,7 @@ reference "tab:box_plot_kompresja_lvm"
 \end_layout
 
 \begin_layout Standard
-Kompresja stratna wymaga analizy utraty informacji przy.
+Kompresja stratna wymaga analizy utraty informacji.
  Za miarę utraty informacji przyjęto błąd średniokwadratowy dany wzorem
  
 \begin_inset CommandInset ref
@@ -7558,7 +7566,7 @@ name "rys:wavelet_poprawny_przebieg"
 \end_layout
 
 \begin_layout Standard
-przebieg o najwyższym błędzie zaobserwowanym w zbiorze testowym przedstawiają
+Przebieg o najwyższym błędzie zaobserwowanym w zbiorze testowym przedstawiają
  rysunki 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7581,7 +7589,7 @@ reference "rys:wavelet_poprawny_przebieg"
 
 \end_inset
 
-został przeskalowany do zakresu [-10,10] na osi Y.
+ został przeskalowany do zakresu [-10,10] na osi Y.
  Wartości sygnałów oryginalnych generowanych przez stanowisko pomiarowe
  mieszczą się w tym zakresie.
  Kompresja falkowa w szczególnych przypadkach wprowadza bardzo wysokie zaburzeni
@@ -8193,8 +8201,8 @@ W przypadku utraty połączenia sieciowego aplikacja ma być w stanie przechowa�
 \end_layout
 
 \begin_layout Itemize
-Parametry aplikacji muszą mieć formę w postaci przełączników rozruchu aplikacji
- bądź plików konfiguracyjnych.
+Parametry aplikacji muszą mieć formę przełączników rozruchowych bądź plików
+ konfiguracyjnych.
 \end_layout
 
 \begin_layout Standard
@@ -8226,7 +8234,7 @@ Lista typów plików do przesłania
 \end_layout
 
 \begin_layout Chapter
-Projekt systemu
+Projekt systemu przesyłu
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:Projekt-systemu"
@@ -8240,7 +8248,7 @@ name "chap:Projekt-systemu"
 Niniejszy rozdział przedstawia projekt systemu służącemu przesyłowi danych,
  strategie ochrony przed ich utratą oraz informacje o sposobie konfiguracji
  i uruchamianiu gotowego projektu.
- Jego podstawowymi zadaniami systemu są:
+ Podstawowymi zadaniami systemu są:
 \end_layout
 
 \begin_layout Enumerate
@@ -8256,7 +8264,7 @@ Zapisanie danych na serwerze
 \end_layout
 
 \begin_layout Standard
-Projekt musi również przestrzegać zestawu zasad, ograniczeń projektowych:
+Projekt musi również przestrzegać zestawu ograniczeń:
 \end_layout
 
 \begin_layout Itemize
@@ -8341,7 +8349,7 @@ name "rys:schemat_rozwiazania"
 
 \begin_layout Standard
 Komponent LabVIEW oznacza system generowania danych pomiarowych i jest zewnętrzn
-ym aktorem z perspektywy pracy.
+ym aktorem z perspektywy projektu.
 \end_layout
 
 \begin_layout Section
@@ -8406,9 +8414,9 @@ key "wininotify"
 
 .
  Wadą tego podejścia jest brak przenośności.
- Wymuszenie ono również na użytkowniku zastosowania konkretnych języków
- programowania, w których udostępnione zostały biblioteki wymienionych mechanizm
-ów, bądź bibliotek typu FFI (ang.
+ Wymusza ono również na użytkowniku zastosowanie konkretnych języków programowan
+ia, w których udostępnione zostały biblioteki wymienionych mechanizmów,
+ bądź bibliotek typu FFI (ang.
  foreign function interface).
  Biblioteki takie pozwalają na łączenie kodu napisanego w różnych językach.
  Wadą ich zastosowania jest zwiększenie stopnia skomplikowania kodu aplikacji.
@@ -8506,7 +8514,7 @@ Schemat działania systemu służy opisowi interakcji pomiędzy komponentami
 \end_layout
 
 \begin_layout Enumerate
-LabVIEW zapisuje wynik pomiaru na dysk na dysku
+LabVIEW zapisuje wynik pomiaru na dysku
 \end_layout
 
 \begin_layout Enumerate
@@ -8523,12 +8531,12 @@ Sender pobiera dane z dysku i przeprowadza kompresję zgodnie ze zdefiniowanym
 \end_layout
 
 \begin_layout Enumerate
-Dane zostają wysłane do Receivera i dekompresuje zgodnie ze zdefiniowanym
- schematem
+Dane zostają wysłane do Receivera
 \end_layout
 
 \begin_layout Enumerate
-Receiver zapisuje dane na dysku
+Receiver dekompresuje dane zgodnie ze zdefiniowanym schematem i zapisuje
+ dane na dysku
 \end_layout
 
 \begin_layout Enumerate
@@ -8774,10 +8782,9 @@ ie pliku.
 Rysunek zawiera uproszczone przedstawienie sekwencja wysyłania pliku nie
  wymagającego kompresji.
  W rzeczywistości, podobnie jak w przypadku kompresowanym, odczytuje on
- z dysku i nadaje plik za pomocą fragmentów ustalonej wielkości.
+ z dysku i nadaje plik fragmentami o ustalonej wielkości.
  Zabezpiecza to aplikację na wypadek przesyłania dużych plików.
- Przechowanie odpowiednio dużego pliku w pamięci ram może doprowadzić do
- jej przepełnienia.
+ Przechowanie dużego pliku w pamięci ram może doprowadzić do jej przepełnienia.
 \end_layout
 
 \begin_layout Standard
@@ -8854,8 +8861,8 @@ reference "rys:receiver_component"
 \end_inset
 
 .
- Nasłuchuje on na dane przychodzące z gniazda sieciowego, interpretuje je
- zgodnie ze schematem opisanym w rozdziale 
+ Nasłuchuje on na dane przychodzące z gniazda sieciowego i interpretuje
+ je zgodnie ze schematem opisanym w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:protokół_przesyłu"
@@ -8915,7 +8922,7 @@ name "rys:receiver_component"
 \end_layout
 
 \begin_layout Standard
-Ważną z perspektywy pracy jest strategia zapisywania danych na komputerze
+Ważna z perspektywy pracy jest strategia zapisywania danych na komputerze
  docelowym.
  W projekcie zdecydowano się odtworzyć strukturę katalogów ze stanowiska
  pomiarowego.
@@ -9008,14 +9015,14 @@ name "chap:protokół_przesyłu"
 \end_layout
 
 \begin_layout Standard
-Protokół TCP pozwalana transportu ciągów bajtów.
+Protokół TCP pozwala na transportu ciągów bajtów.
  Zadaniem użytkownika jest dobranie, bądź skonstruowanie protokołu warstwy
  aplikacji, który zrealizuje przesył plików.
 \end_layout
 
 \begin_layout Standard
-W badanym przypadku aby poprawnie przesłać plik wymagane jest nadanie jego
- ścieżki - w celu umiejscowienia go na dysku maszyny docelowej oraz wielkości,
+W badanym przypadku, aby poprawnie przesłać plik wymagane jest nadanie jego
+ ścieżki w celu umiejscowienia go na dysku maszyny docelowej oraz wielkości,
  która pozwoli odbiorcy stwierdzić jaka część strumienia bajtów jest 
 \begin_inset Quotes pld
 \end_inset
@@ -9075,10 +9082,6 @@ n<zawartość pliku>
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 która zostaje zapisana do strumienia.
  Komponent Receiver na podstawie ścieżki i wielkości pliku odbiera odpowiednią
  ilość bajtów z połączenia i zapisuje na dysku twardym.
@@ -9454,35 +9457,27 @@ wide false
 sideways false
 status open
 
-\begin_layout Plain Layout
-1.
- Znajdź wszystkie pliki w folderze źródłowym, które zostały stworzone w
- przedziale (ostatni zapisany, pierwszy nowy), posiadają monitorowane rozszerzen
-ia i nie są folderami
+\begin_layout Enumerate
+Znajdź wszystkie pliki w folderze źródłowym, które zostały stworzone w przedzial
+e (ostatni zapisany, pierwszy nowy), posiadają monitorowane rozszerzenia
+ i nie są folderami
 \end_layout
 
-\begin_layout Plain Layout
-2.
- Dodaj te pliki do kolejki monitorowanych plików
+\begin_layout Enumerate
+Dodaj te pliki do kolejki monitorowanych plików
 \end_layout
 
-\begin_layout Plain Layout
-3.
- Znajdź wszystkie foldery, które zostały stworzone w badanym przedziale
+\begin_layout Enumerate
+Znajdź wszystkie foldery, które zostały stworzone w badanym przedziale
 \end_layout
 
-\begin_layout Plain Layout
-4.
- Dla każdego folderu
+\begin_layout Enumerate
+Dla każdego folderu, znajdź wszystkie pliki w folderze, które zostały stworzone
+ w badanym przedziale i posiadają skonfigurowane rozszerzenia
 \end_layout
 
-\begin_layout Plain Layout
-	4.1 Znajdź wszystkie pliki w folderze, które zostały stworzone w badanym
- przedziale i posiadają skonfigurowane rozszerzenia
-\end_layout
-
-\begin_layout Plain Layout
-	4.2 Dodaj te pliki do kolejki plików do wysłania
+\begin_layout Enumerate
+Dodaj te pliki do kolejki plików do wysłania
 \end_layout
 
 \begin_layout Plain Layout
@@ -9583,101 +9578,22 @@ name "rys:sync_thread_flow"
 Przerwanie łączności ze stanowiskiem pomiarowym
 \end_layout
 
-\begin_layout Subsection
-Awaria komponentu Sender
-\end_layout
-
 \begin_layout Standard
-Awaria taka może zostać spowodowana błędem w logice samej aplikacji, awarią
- systemu operacyjnego bądź odcięciem zasilania stanowiska pomiarowego.
-\end_layout
-
-\begin_layout Standard
-Pierwszą czynnością, którą należy wykonać jest ponowne uruchomienie aplikacji.
- W tym celu należy dodać jej uruchamianie do skryptów rozruchowych systemu
- operacyjnego oraz ustawić zadanie monitorujące jej działanie odpowiedzialne
- za ponowny rozruch w przypadku awarii.
- Czynności te należą do administratora stanowiska pomiarowego i nie zostały
- zaimplementowane w ramach pracy.
-\end_layout
-
-\begin_layout Standard
-Lista plików monitorowanych czyli zawartość kolejki do wysłania jest informacją,
- która nie może zostać utracona w trakcie awarii ponieważ jej odtworzenie
- jest czynnością kosztowną.
- Wymaga pobrania z serwisu Sender informacji o zawartości katalogu składowania
- danych pomiarowych, wyliczenia różnicy względem stanu katalogu z danymi
- pomiarowymi na stanowisku a następnie umieszczenia brakujących plików do
- kolejki.
- Operacja taka w przypadku dużej ilości danych oczekujących na wysłanie
- wymaga dużego zużycia łącza sieciowego na przesłanie informacji oraz czasu
- procesora na zidentyfikowanie braków.
-\end_layout
-
-\begin_layout Standard
-W pracy zdecydowano się na zastosowanie kolejki dyskowej, która pozwala
- na przechowanie listy monitorowanych plików w pamięci trwałej.
-\end_layout
-
-\begin_layout Standard
-Rysunek 
+Przerwa w łączności może wystąpić w dowolnym momencie działania aplikacji
+ i trwać arbitralnie długo.
+ Należy zadbać, aby wątek realizujący komunikację sieciową zareagował na
+ takie zdarzenie w kontrolowany sposób.
+ Strategia obsługi zakłada cykliczne wykonywanie prób nawiązania połączenia.
+ Poszczególne próby rozdzielone są czasem oczekiwania, którego wartość jest
+ konfigurowana w trakcie uruchomienia aplikacji.
+ Maszynę stanów tego mechanizmu przedstawia rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:queue_basic_state"
-
-\end_inset
-
- przedstawia opis informacji przechowywanych przez komponent Sender w trakcie
- poprawnego działania.
- Przechowywana jest identyfikator (ścieżka) ostatniego pliku który zmienił
- stan na zapisany, pliki w stanie monitorowany jako zawartość kolejki oraz
- pojedynczy plik w stanie nowy.
- 
-\end_layout
-
-\begin_layout Standard
-Rozsynchronizowanie występuje, gdy:
-\end_layout
-
-\begin_layout Enumerate
-awaria nastąpi w momencie istnienia na dysku plików w stanie 'nowy'
-\end_layout
-
-\begin_layout Enumerate
-Komponent LabVIEW wykona pomiar zanim komponent Sender nawiąże połączenie
-\end_layout
-
-\begin_layout Standard
-Sytuacja może wystąpić w momencie odcięcia zasilania, sytuacja druga jest
- zależna od tego który z komponentów zostanie uruchomiony pierwszy po awarii.
-\end_layout
-
-\begin_layout Standard
-Oba przypadki prowadzą do sytuacji przedstawionej na rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:queue_unsync_state"
+reference "rys:sync_thread_flow"
 
 \end_inset
 
 .
- Komponent Sender ponownie nawiązał połączenie z komponentem LabVIEW przed
- zapisaniem pliku n+5.
- Pliki n+3 oraz n+4 nie zostaną zaraportowane i wysłane.
- Obsłużenie takiej sytuacji wymaga zastosowania dodatkowego mechanizmu,
- który przeszuka dysk w poszukiwaniu brakujących danych i doda je do kolejki.
-\end_layout
-
-\begin_layout Subsection
-Zerwanie połączenia sieciowego
-\end_layout
-
-\begin_layout Standard
-W połączeniach za pomocą protokołu TCP stroną inicjującą jest komponent
- Sender.
- Zerwanie połączenia wymaga jego ponownego nawiązania oraz mechanizmu ograniczaj
-ącego ilość prób nawiązania połączenia.
 \end_layout
 
 \begin_layout Standard
@@ -9725,47 +9641,17 @@ name "rys:connection_state_machine"
 \end_layout
 
 \begin_layout Standard
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:connection_state_machine"
-
-\end_inset
-
- przedstawia maszynę stanów, która obsługuje nawiązywanie połączenia oraz
- błędy połączenia.
- W momencie rozruchu wątku wchodzi on w stan 'try_establish', w którym nawiązywa
-na jest próba wykonania połączenia.
- W przypadku błędu wątek przechodzi w stan 'sleep' który kończy się po skonfigur
-owanym czasie powrotem do stanu try_establish.
- W przypadku sukcesu wątek przechodzi w stan work, w którym wykonywany jest
- kod obsługi połączenia.
+Wątek obsługujący połączenie sieciowe w momencie uruchomienia posiada stan
+ try_establish, odpowiedzialny za próbę wykonania połączenia.
+ W przypadku błędu zostaje on uśpiony po czym próba jest ponawiana.
+ Poprawne nawiązanie połączenia prowadzi do przejścia w stan work.
+ W jego trakcie wykonywana jest obsługa połączenia.
+ Zerwanie łączności ponownie wprowadza aplikację w stan try_establish.
 \end_layout
 
 \begin_layout Standard
-Komponent Receiver w przypadku błędu sieci przechodzi w stan pasywny i nasłuchuj
-e na połączenie przychodzące.
-\end_layout
-
-\begin_layout Subsection
-Awaria komponentu Receiver
-\end_layout
-
-\begin_layout Standard
-Wątek SenderThread komponentu Sender przechodzi w stan try_establish i prowadzi
- próby nawiązania połączenia co zadany interwał do czasu ponownego uruchomienia
- komponentu Receiver.
-\end_layout
-
-\begin_layout Standard
-Zarówno awaria komponentu Receiver jak i problemy z siecią mogą prowadzić
- do istotnego zwiększenia rozmiaru kolejki plików oczekujących na wysłanie,
- projekt w tym momencie nie posiada mechanizmu pozwalającego na obsłużenie
- tego typu sytuacji.
- Wśród proponowanych rozwiązań jest usuwanie najmniej istotnych plików wg.
- zadanej miary bądź kompresja i składowanie danych w Gardawicach do czasu
- nawiązania połączenia.
- W pracy nie przeprowadzono implementacji oraz testów tych propozycji.
+Od komponentu Receiver wymagane jest przejście w stan nasłuchu i oczekiwanie
+ na połączenie przychodzące.
 \end_layout
 
 \begin_layout Subsection
@@ -9773,9 +9659,9 @@ Awaria komponentu LabVIEW
 \end_layout
 
 \begin_layout Standard
-W tym przypadku wątek ReceiverThread przechodzi do schematu nawiązywania
- połączenia zgodnego z maszyną stanów z rys.
- 
+Awaria ta wymaga obsługi przez komponent Sender.
+ Wątek ReceiverThread przechodzi w sekwencję nawiązywania połączenia zgodną
+ z maszyną stanów przedstawioną na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:connection_state_machine"
@@ -9783,8 +9669,8 @@ reference "rys:connection_state_machine"
 \end_inset
 
 .
- Wątek SenderThread kontynuuje nadawanie plików do wyczerpania kolejki,
- a następnie zostaje uśpiony do czasu pojawienia się nowych danych pomiarowych.
+ Wątek SenderThread kontynuuje nadawanie plików, w momencie opróżnienia
+ kolejki przechodzi w stan bezczynności.
 \end_layout
 
 \begin_layout Section
@@ -9807,7 +9693,7 @@ Dobór języka programowania do problemu jest kluczowy ze względu na ilość
 
 \begin_layout Enumerate
 Wieloplatformowość - kod powinien nie wymagać żadnych zmian przed uruchomieniem
- na Windowsie i Linuxie
+ na Windowsie i Linuxie.
 \end_layout
 
 \begin_layout Enumerate
@@ -9815,34 +9701,35 @@ Szybkie prototypowanie - najwolniejszym elementem systemu jest połączenie
  sieciowe, z tego powodu zastosowanie języków wykorzystujących procesor
  w sposób bardziej efektywny nie zmienia czasu reakcji systemu.
  Język powinien m.in.
- automatycznie zarządzać pamięcią
+ automatycznie zarządzać pamięcią.
 \end_layout
 
 \begin_layout Enumerate
 Bogata biblioteka standardowa - ze względu na trudności w dostępie do stanowiska
  pomiarowego instalowanie zewnętrznych komponentów należy ograniczyć do
  minimum.
- Absolutnym minimum jest biblioteka do obsługi połączeń TCP.
+ Absolutnym minimum jest biblioteka obsługująca protokół TCP.
 \end_layout
 
 \begin_layout Standard
 Języki C i C++ nie spełniają żadnego z założeń.
- Wymagają kompilacji na docelową platformę, nie posiadają warstwy abstrakcji
- do interakcji ze stosem sieciowym oraz wymagają ręcznego zarządzania pamięcią.
+ Wymagają kompilacji na docelową platformę, nie posiadają w standardzie
+ bibliotek pozwalających na operowanie stosem sieciowym oraz wymagają ręcznego
+ zarządzania pamięcią.
  Cechą pozytywną ich zastosowania jest bezpośredni dostęp do wywołań systemowych
  takich jak inotify na systemach Linux.
  Wykorzystywanie połączeń TCP w języku C wymaga pracy bezpośrednio z użyciem
- gniazd, w języku C++ można zastosować to samo podejście bądź bibliotekę
+ gniazd, w języku C++ można zastosować to samo podejście, bądź bibliotekę
  boost::asio.
- W przypadku programów pisanych zarówno na systemu Linux i Windows wymagane
+ W przypadku programów pisanych zarówno na systemu Linux i Windows, wymagane
  jest zastosowanie różnych kompilatorów oraz samodzielne wypracowanie warstw
  abstrakcji celem osiągnięcia przenośności kodu.
 \end_layout
 
 \begin_layout Standard
-Z powodu powyższych problemów zastosowano język Python.
- Spełnia on założenia wymienione na początku podrozdziału.
- Prócz powyższych cech kod w tym języku jest interpretowany a nie kompilowany
+Z powodu powyższych problemów zastosowano język Python, spełnia on założenia
+ wymienione na początku podrozdziału.
+ Prócz powyższych cech kod w tym języku jest interpretowany, a nie kompilowany,
  co zdejmuje z użytkownika wymóg stworzenia systemu budowania dostosowanego
  do obu docelowych platform.
  Uruchomienie kodu wymaga skopiowania źródeł na platformę docelową i uruchomieni
@@ -9858,9 +9745,9 @@ reference "tab:python_biblioteki"
 \end_inset
 
  przedstawia zestawienie funkcjonalności wymaganych przez projekt oraz ich
- dostępność w języku.
- Przez bibliotekę standardową rozumie się zestaw bibliotek, które są instalowane
- razem z interpreterem języka, programem Python i nie wymagają samodzielnej
+ dostępność w języku Python.
+ Biblioteką standardową określany jest zestaw bibliotek, które są instalowane
+ razem z interpreterem języka, programem Python, i nie wymagają samodzielnej
  instalacji.
 \end_layout
 
@@ -10176,8 +10063,9 @@ name "tab:python_biblioteki"
 \end_layout
 
 \begin_layout Standard
-Analogiczny poziom abstrakcji oferuje język Ruby jednak nie został on zastosowan
-y ze względu na dłuższe doświadczenie autora z językiem Python.
+Analogiczny poziom abstrakcji oferuje język Ruby a równie bogaty zestaw
+ bibliotek język Go.
+ Nie zostały one jednak zastosowane w pracy.
 \end_layout
 
 \begin_layout Section
@@ -10185,33 +10073,26 @@ Obsługa danych strumieniowych
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-opisac ladnie
-\end_layout
+W celu ułatwienia odbioru i nadawanie ustrukturyzowanych danych w implementacji
+ wprowadzono zestaw klas pomocniczych.
+ Kod aplikacji nie prowadzi zapisów bezpośrednio do strumienia.
+ Do przeprowadzenia nadawania stosowana jest klasa StreamTokenWriter, odbiorowi
+ zaś służy klasa StreamTokenReader.
+ Diagram klas przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:stream_operations"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
-Na strumieniach wykonywany jest stały zestaw operacji
-\end_layout
-
-\begin_layout Itemize
-Zapisz/Odczytaj token (element strumienia kończący się separatorem)
-\end_layout
-
-\begin_layout Itemize
-Zapisz/Odczytaj daną ilość bajtów
-\end_layout
-
-\begin_layout Standard
-Z tego powodu do aplikacji wprowadzono abstrakcje o nazwie Reader i Writer,
- które odpowiedzialne są za udostępnianie tych operacji.
+Zapis danych o arbitralnej długości wymaga zakończenia ich sekwencją terminującą
+, czynność tą realizuje metoda write_token z klasy StreamTokenWriter, za
+ jej pomocą nadawane są ścieżka do pliku oraz długośc w bajtach.
+ Zawartość pliku nadawana jest za pomocą metody write_bytes.
 \end_layout
 
 \begin_layout Standard
@@ -10260,35 +10141,18 @@ name "rys:stream_operations"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
+Odebranie sekwencji zakończonych separatorem może wymagać więcej niż jednego
+ odczytu z kolejki odbiorczej stosu sieciowego.
+ Przechowanie danych do momentu napotkania separatora wymaga buforowania.
+ Realizowane jest ono przez klasę StreamTokenReader.
+ Sekwencję odczytu przedstawia algorytm 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:stream_operations"
+reference "alg:tokeny"
 
 \end_inset
 
- przedstawia schemat interakcji klas, które abstrahują strumień (socket)
- od użytkownika.
- Wprowadzenie klasy StreamProxy zostało podyktowane potrzebą wprowadzenia
- testów jednostkowych i pozwala na traktowanie pliku z danymi jako strumienia
- wejściowego.
-\end_layout
-
-\begin_layout Standard
-Klasa StreamTokenWriter służy zapisywaniu danych do strumienia, w trakcie
- jej konstruowania podawany jest separator, dzięki któremu interfejs write_token
- tłumaczy podaną do niego zmienną na bajty, uzupełnia ją o separator i wpisuje
- do strumienia za pomocą metody write().
- Metoda write_bytes przyjmuje ciąg bajtów i zapisuje go bezpośrednio do
- strumienia.
-\end_layout
-
-\begin_layout Standard
-Odczytanie danych zakończonych separatorem może wymagać więcej niż jednego
- odczytu z kolejki odbiorczej stosu sieciowego.
- Przechowanie danych do momentu napotkania separatora wymaga wprowadzenia
- buforowania.
+.
 \end_layout
 
 \begin_layout Standard
@@ -10339,18 +10203,6 @@ name "alg:tokeny"
 
 \end_layout
 
-\begin_layout Standard
-Algorytm 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "alg:tokeny"
-
-\end_inset
-
- prezentuje sposób pobierania danych zakończonych danym separatorem ze strumieni
-a.
-\end_layout
-
 \begin_layout Section
 Implementacja komponentu Sender
 \begin_inset CommandInset label
@@ -10366,6 +10218,41 @@ name "sec:Implementacja-serwisu-Sender"
 Kluczowymi elementami w implementacji Komponentu sender jest podział obsługi
  komunikacji na etap negocjacji połączenia i faktycznego przesyłu bądź odbioru
  danych.
+\end_layout
+
+\begin_layout Standard
+Diagram klas przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:client_thread_class_diagram"
+
+\end_inset
+
+.
+ Do tworzenia i obsługi wątków wykorzystana jest klasa Thread z biblioteki
+ threading dostępnej w języku Python.
+ Wątki SenderThread i ReceiverThread dziedziczą po klasie KeepAliveWorker
+ realizującej maszynę stanów przedstawioną na rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:connection_state_machine"
+
+\end_inset
+
+.
+ Kod odpowiedzialny za realizację protokołów komunikacyjnych uruchamiany
+ jest w metodzie work klas dziedziczących po KeepAliveWorker.
+ Zostanie ona wywołana po poprawnym nawiązaniu połączenia na zadany adres.
+ Komunikacja pomiędzy wątkami realizowana jest za pomocą kolejek zgodnie
+ ze schematem opisanym w sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Schemat-działania-systemu"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -10414,38 +10301,26 @@ name "rys:client_thread_class_diagram"
 \end_layout
 
 \begin_layout Standard
-Schemat klas przedstawia diagram 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:client_thread_class_diagram"
-
-\end_inset
-
-.
- Do tworzenia i obsługi wątków wykorzystana jest klasa Thread z biblioteki
- threading dostępnej w języku Python.
- Wątki SenderThread i ReceiverThread dziedziczą po klasie KeepAliveWorker
- realizującej maszynę stanów przedstawioną na rys.
+Schemat rozruchu aplikacji przedstawia rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:connection_state_machine"
+reference "rys:sender_startup"
 
 \end_inset
 
 .
- Od klas dziedziczących wymagane jest zdefiniowanie metody work().
- Metoda ta zostanie wywołana po poprawnym nawiązaniu połączenia na zadany
- adres.
- Komunikacja pomiędzy wątkami realizowana jest za pomocą kolejek zgodnie
- ze schematem opisanym w sekcji 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Schemat-działania-systemu"
-
-\end_inset
-
-.
+ Wątek główny aplikacji odpowiedzialny jest za uruchomienie wątków realizujących
+ poszczególne funkcjonalności oraz poprawne ich zwolnienie w przypadku błędów.
+ Regularny tryb działania nie przewiduje zatrzymywania działania aplikacji,
+ nadawanie odbywa się ciągle, w miarę napływania danych pomiarowych.
+ Każdy z wątków posiada mechanizm odpowiedzialny za przechwytywanie błędów
+ oraz przywrócenia trybu operacyjnego.
+ Kolejność rozruchu podyktowana jest priorytetem operacji.
+ Synchronizacja i odbieranie pomiarów z LabVIEW dostarczają danych, na których
+ może pracować wątek wysyłający.
+ Pierwszy uruchamiany jest wątek synchronizacyjny, następnie wątek odbiorczy
+ a na końcu nadawczy.
 \end_layout
 
 \begin_layout Standard
@@ -10468,7 +10343,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Schemat rozruchu aplikacji Sender
+Schemat rozruchu komponentu Sender
 \end_layout
 
 \end_inset
@@ -10491,35 +10366,43 @@ name "rys:sender_startup"
 
 \end_layout
 
-\begin_layout Standard
-Schemat rozruchu aplikacji przedstawia rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:sender_startup"
-
-\end_inset
-
-.
- Wątek główny aplikacji przyjmuje rolę nadzorcy odpowiedzialnego za uruchomienie
- poszczególnych części funkcjonalnych - wątków.
- W normalnym trybie działania aplikacja nie przewiduje zatrzymania, nastawiona
- jest na nieprzerwane przetwarzanie danych.
- Każdy z wątków posiada logikę odpowiedzialną za przechwytywanie błędów
- działania prowadzących do powrotu do normalnego trybu operacyjnego.
- Kolejność rozruchu podyktowana jest priorytetem operacji, synchronizacja
- i odbieranie pomiarów z Labview dostarczają danych, na których może pracować
- wątek wysyłający, z tego powodu uruchamiane są pierwsze.
-\end_layout
-
 \begin_layout Subsection
 Konfiguracja i uruchamianie
 \end_layout
 
 \begin_layout Standard
-Aplikacja przyjmuje serię informacji konfiguracyjnych takich jak adresy
- komponentów Labview i Receiver, interwały w nawiązywaniu połączenia czy
- mapowania danych konfiguracyjnych.
+Aplikacja przyjmuje serię parametrów konfiguracyjnych takich jak adresy
+ komponentów Labview i Receiver, interwał pomiędzy próbami nawiązania połączenia
+ czy schematy kompresji.
+\end_layout
+
+\begin_layout Standard
+Tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:sender_config_options"
+
+\end_inset
+
+ przedstawia opcje konfiguracyjne komponentu Sender.
+ Wyróżnione są dwie główne sekcje
+\end_layout
+
+\begin_layout Itemize
+server - odpowiedzialna za interakcję z komponentem Receiver
+\end_layout
+
+\begin_layout Itemize
+provider - odpowiedzialna za interakcję z komponentem Labview
+\end_layout
+
+\begin_layout Standard
+Obie sekcje posiadają ustawienia dotyczące komunikacji sieciowej za pomocą
+ protokołu TCP oraz interwał sterujący częstotliwością prób nawiązywania
+ połączenia po błędzie.
+ Aplikacja posiada konfigurowalny zestaw rozszerzeń oraz schematów kompresji.
+ Konfiguracja zawiera również zestaw parametrów dotyczących lokalizacji
+ przechowywania stanu aplikacji na dysku twardym.
 \end_layout
 
 \begin_layout Standard
@@ -10527,6 +10410,18 @@ Aplikacja przyjmuje serię informacji konfiguracyjnych takich jak adresy
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Opcje konfiguracyjne komponentu Sender
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -11085,18 +10980,6 @@ Mapowanie pomiędzy rozszerzeniami plików do wysłania a używanym kompresorem
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Opcje konfiguracyjne komponentu Sender
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:sender_config_options"
@@ -11112,32 +10995,28 @@ name "tab:sender_config_options"
 \end_layout
 
 \begin_layout Standard
-Tabela 
+Komponent umożliwia podanie konfiguracji za pomocą flag rozruchowych oraz
+ w formie pliku w formacie JSON (ang.
+ JavaScript Object Notation).
+ Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:sender_config_options"
+reference "rys:client_config_json"
 
 \end_inset
 
- przedstawia opcje konfiguracyjne komponentu Sender.
- Wyróżnione są dwie główne sekcje
-\end_layout
+ przedstawia pełną konfigurację aplikacji w formie pliku.
+ Konfiguracja zakłada odbieranie plików lvm oraz avi i składowanie ich w
+ katalogu /tmp/client_storage.
+ Ponadto dla powyższych typów plików skonfigurowana została kompresja zgodna
+ z wnioskami z sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Kompresja"
 
-\begin_layout Itemize
-server - odpowiedzialna za interakcję z komponentem Receiver
-\end_layout
+\end_inset
 
-\begin_layout Itemize
-provider - odpowiedzialna za interakcję z komponentem Labview
-\end_layout
-
-\begin_layout Standard
-Obie sekcje posiadają ustawienia dotyczące komunikacji sieciowej za pomocą
- protokołu TCP oraz interwał sterujący częstotliwością prób nawiązywania
- połączenia po błędzie.
- Aplikacja posiada konfigurowalny zestaw rozszerzeń oraz schematów kompresji.
- Konfiguracja zawiera również zestaw opcji wewnętrznych dotyczących ścieżek
- przechowywania stanu.
+.
 \end_layout
 
 \begin_layout Standard
@@ -11160,7 +11039,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Przykładowa konfiguracja w formacie JSON
+Przykładowa konfiguracja komponentu Sender w formacie JSON
 \end_layout
 
 \end_inset
@@ -11184,26 +11063,16 @@ name "rys:client_config_json"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
+Przełączniki podawane przy rozruchu aplikacji przedstawia tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:client_config_json"
-
-\end_inset
-
- przedstawia pełną konfigurację aplikacji w formacie json.
- Konfiguracja zakłada odbieranie plików lvm oraz avi i składowanie ich w
- katalogu /tmp/client_storage.
- Ponadto dla powyższych typów plików skonfigurowana została kompresja zgodna
- z wnioskami z sekcji 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Kompresja"
+reference "tab:sender_startup_options"
 
 \end_inset
 
 .
+ W przypadku braku podania ścieżki do pliku konfiguracyjnego aplikacja uruchamia
+na jest z domyślnymi wartościami parametrów.
 \end_layout
 
 \begin_layout Standard
@@ -11367,17 +11236,42 @@ name "tab:sender_startup_options"
 \end_layout
 
 \begin_layout Standard
-Tabela 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:sender_startup_options"
+Przełącznik –options pozwala na zmianę pojedynczych opcji w trakcie rozruchu.
+ Sposób jego stosowania przedstawia poniższy fragment kodu
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+python3 client.py -c config.json --options server.port 31337
+\end_layout
 
 \end_inset
 
- przedstawia flagi jakie można podać w trakcie uruchamiania aplikacji.
- Flagi są opcjonalne.
- W przypadku braku podanych wartości konfiguracyjnych aplikacja uruchomi
- się z wartościami domyślnymi.
+
+\end_layout
+
+\begin_layout Standard
+przypadek ten nadpisuje parametr port z sekcji serwer wartością 31337.
+\end_layout
+
+\begin_layout Standard
+Rozruch komponentu Sender z użyciem pliku konfiguracyjnego client.json przedstawi
+a 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:sender_startup_logs"
+
+\end_inset
+
+.
+ Aplikację uruchomiono lokalnie bez dostępu do zewnętrznych komponentów,
+ można zaobserwować komunikaty z maszyny stanów nawiązywania połączenia
+ wątków ReceiverThread i SenderThread.
 \end_layout
 
 \begin_layout Standard
@@ -11401,7 +11295,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Logi z rozruchu komponentu
+Logi z rozruchu komponentu Sender
 \end_layout
 
 \end_inset
@@ -11424,22 +11318,6 @@ name "rys:sender_startup_logs"
 
 \end_layout
 
-\begin_layout Standard
-Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:sender_startup_logs"
-
-\end_inset
-
- przedstawia log z rozruchu aplikacji z wykorzystaniem konfiguracji w pliku
- json.
- Aplikację uruchomiono lokalnie bez dostępu do zewnętrznych komponentów,
- można zaobserwować komunikaty z maszyny stanów nawiązywania połączenia
- wątków ReceiverThread i SenderThread.
-\end_layout
-
 \begin_layout Section
 Implementacja komponentu Receiver
 \begin_inset CommandInset label
@@ -11456,7 +11334,25 @@ Komponent Receiver odpowiedzialny jest za odbiór i opcjonalną dekompresję.
  W architekturze klient-serwer jest on serwerem czyli oczekuje na przychodzące
  połączenia.
  Funkcjonalność ta została zrealizowana za pomocą biblioteki socketserver
- dostarczanej w standardzie języka python.
+ dostarczanej w standardzie języka Python.
+\end_layout
+
+\begin_layout Standard
+Diagram klas komponentu Receiver przedstawia rysunek.
+ W przypadku zerwaniu połączenia przejście w stan nasłuchu obsługuje klasa
+ TCPServer z biblioteki standardowej.
+ W momencie nawiązania połączenia klasa DataReceiverServer tworzy obiekt
+ klasy DataReceiverHandler posiadający metodę handle, która uruchamia wątek
+ główny obsługi połączenia.
+ Maszyna stanów połączenia realizowana jest w klasie ServerProtocolProcessor,
+ zgodnie ze schematem przedstawionym w sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Schemat-działania-systemu"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -11504,41 +11400,24 @@ name "rys:receiver_class_diagram"
 
 \end_layout
 
-\begin_layout Standard
-Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:receiver_class_diagram"
-
-\end_inset
-
- przedstawia schemat relacji klas komponentu Receiver.
- Ponownie widoczna jest granica pomiędzy warstwą nawiązywania połączenia
- a warstwą procesorów obsługujących strumień danych.
- W przeciwieństwie do komponentu Sender w przypadku zerwaniu połączenia
- ponownie przejście w tryb nasłuchu obsługuje klasa TCPServer.
- W momencie nawiązania połączenia klasa DataReceiverServer tworzy obiekt
- klasy DataReceiverHandler posiadający metodę handle(), która uruchamia
- wątek główny obsługi połączenia.
- Maszyna stanów połączenia realizowana jest w klasie ServerProtocolProcessor,
- zgodnie ze schematem przedstawionym w sekcji 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Schemat-działania-systemu"
-
-\end_inset
-
-.
-\end_layout
-
 \begin_layout Subsection
 Konfiguracja i uruchamianie
 \end_layout
 
 \begin_layout Standard
-Dane konfiguracyjne Receivera ponownie zawierają katalog bazowy do przechowania
- przychodzących pomiarów, adres nasłuchu oraz dane wewnętrzne.
+Konfiguracja komponentu Receiver ponownie zawiera katalog bazowy danych
+ pomiarowych oraz adres nasłuchu\SpecialChar endofsentence
+ Zestaw dostępnych opcji konfiguracyjnych
+ przedstawia tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:receiver_config_options"
+
+\end_inset
+
+.
+ Ilość parametrów jest zdecydowanie mniejsza niż w przypadku komponentu
+ Sender.
 \end_layout
 
 \begin_layout Standard
@@ -11546,6 +11425,18 @@ Dane konfiguracyjne Receivera ponownie zawierają katalog bazowy do przechowania
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Opcje konfiguracyjne komponentu Receiver
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -11700,25 +11591,13 @@ Mapa ciąg znaków na ciąg znaków
 \begin_inset Text
 
 \begin_layout Plain Layout
-Mapowanie rozszerzenia na dekompresor
+Konfiguruje schemat dekompresji dla typu pliku
 \end_layout
 
 \end_inset
 </cell>
 </row>
 </lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Opcje konfiguracyjne komponentu Receiver
-\end_layout
 
 \end_inset
 
@@ -11741,17 +11620,15 @@ name "tab:receiver_config_options"
 \end_layout
 
 \begin_layout Standard
-Tabela 
+Konfigurację komponentu Receiver w formacie JSON przedstawia rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:receiver_config_options"
+reference "rys:receiver_config_json"
 
 \end_inset
 
- przedstawia dostępne opcje konfiguracyjne komponentu Receiver.
- Konfiguracja jest zdecydowanie prostsza niż komponentu Sender ze względu
- na fakt, że komponent nie prowadzi aktywnej komunikacji oraz nie przechowuje
- stanu.
+.
+ Ponownie zaprezentowano wartości używane w testach lokalnych.
 \end_layout
 
 \begin_layout Standard
@@ -11774,7 +11651,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Przykładowa konfiguracja w formacie JSON
+Przykładowa konfiguracja komponentu Receiver w formacie JSON
 \end_layout
 
 \end_inset
@@ -11798,17 +11675,18 @@ name "rys:receiver_config_json"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
+Flagi, które można przekazać w trakcie uruchamiania aplikacji, przedstawia
+ tabela 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:receiver_config_json"
+reference "tab:receiver_startup_options"
 
 \end_inset
 
- przedstawia konfigurację Receivera w formacie JSON.
- Dekompresję należy traktować jako opcjonalną ze względu na skończoną ilość
- miejsca na dysku serwera uczelnianego.
+.
+ Podobnie jak w komponencie Sender, dostępna jest możliwość wczytania konfigurac
+ji z pliku oraz nadpisania części konfiguracji argumentami podanymi z wiersza
+ poleceń.
 \end_layout
 
 \begin_layout Standard
@@ -11816,6 +11694,18 @@ reference "rys:receiver_config_json"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Flagi rozruchowe komponentu Receiver
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -11916,18 +11806,6 @@ Analogicznie jak w komponencie Sender
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Flagi rozruchowe aplikacji Receiver
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:receiver_startup_options"
@@ -11943,16 +11821,15 @@ name "tab:receiver_startup_options"
 \end_layout
 
 \begin_layout Standard
-Tabela 
+Rozruch komponentu Receiver przedstawia rysunek
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:receiver_startup_options"
+reference "rys:receiver_startup_logs"
 
 \end_inset
 
- przedstawia flagi, które można przekazać do aplikacji w trakcie jej uruchamiani
-a, podobnie jak w Senderze dostępna jest możliwość wczytania konfiguracji
- z pliku oraz nadpisania części konfiguracji argumentami podanymi z konsoli.
+, Na wyjście standardowe wypisany został tryb podania konfiguracji oraz
+ adres, na którym nasłuchuje aplikacja.
 \end_layout
 
 \begin_layout Standard
@@ -11976,7 +11853,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Logi z rozruchu komponentu
+Logi z rozruchu komponentu Receiver
 \end_layout
 
 \end_inset
@@ -11999,23 +11876,9 @@ name "rys:receiver_startup_logs"
 
 \end_layout
 
-\begin_layout Standard
-Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:receiver_startup_logs"
-
-\end_inset
-
- przedstawia log z rozruchu aplikacji.
- Wyszczególniony jest tryb podania konfiguracji, oraz para (ip, port) na
- której nasłuchuje komponent.
-\end_layout
-
 \begin_layout Chapter
 \noindent
-Testy
+Testy działania systemu przesyłu
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:Testy"
@@ -12025,31 +11888,39 @@ name "chap:Testy"
 
 \end_layout
 
-\begin_layout Section
-Testy jednostkowe
-\end_layout
-
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Napisać że jest i można testować również to to i to
-\end_layout
-
-\end_inset
-
-
+Celem niniejszego rozdziału jest weryfikacja działania systemu przesyłu.
+ Wielkością opisującą działanie systemu jest długość kolejki plików do wysłania,
+ jej wartość opisuje czy zastosowany schemat kompresji pozwala na wysyłanie
+ danych pomiarowych bez opóźnień.
 \end_layout
 
 \begin_layout Section
-Testy przepustowości
+Środowisko symulacyjne
 \end_layout
 
 \begin_layout Standard
 Celem zbadania przepustowości aplikacji w konfiguracji realizującej kompresje
  stworzono środowisko testowe z interfejsem sieciowym posiadającym ograniczoną
  przepustowość.
+\end_layout
+
+\begin_layout Standard
+Schemat stanowiska testowego przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:schemat_stanowiska_test_obciazeniowy"
+
+\end_inset
+
+.
+ Składa się ono z dwóch maszyn wirtualnych odpalonych na komputerze osobistym.
+ Maszyna wirtualna vm-sender odpowiada komputerowi znajdujacemu się w miejscowoś
+ci Gardawice, uruchomiono na niej komponent Sender oraz narzędzie symulujące
+ komponent LabVIEW.
+ Przesył plików odbywa się za pośrednictwem sieci 172.16.0.0/24.
+ Sieć 192.168.0.0 służy do konfiguracji obu maszyn ze stacji roboczej za pomocą
+ protokołu SSH.
 \end_layout
 
 \begin_layout Standard
@@ -12098,31 +11969,39 @@ name "rys:schemat_stanowiska_test_obciazeniowy"
 \end_layout
 
 \begin_layout Standard
-Rys.
+W celu odwzorowania warunków stanowiska roboczego ograniczono przepustowość
+ sieci 172.16.0.0/24.
+ W tym celu użyto programu 
+\begin_inset Quotes pld
+\end_inset
+
+tc
+\begin_inset Quotes prd
+\end_inset
+
+, który pozwala manipulować parametrami nadawania pakietów.
+ Skrypt użyty do ustawienia docelowej prędkości łącza przedstawia rysunek
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:schemat_stanowiska_test_obciazeniowy"
+reference "rys:test_tc_rate_limiting"
 
 \end_inset
 
- przedstawia schemat stanowiska testowego.
- Wykorzystano komputer osobisty z systemem operacyjnym Windows 10 oraz dwie
- maszyny wirtualne służące przeprowadzeniu testu, nazwane zgodnie z komponentami
- które zostaną na nich uruchomione.
- Na maszynie wirtualnej vm-sender uruchomiono ponadto narzędzie symulujące
- komponent Labview.
- Na wykresie wyróżniono interfejsy sieciowe oraz adresy IP z nimi związane.
+.
+ Przyjmuje on trzy argumenty pozycyjne:
 \end_layout
 
-\begin_layout Standard
-Sieć 192.168.0.0 służy do konfiguracji obu maszyn ze stacji roboczej za pomocą
- konsoli zdalnej SSH.
- Sieć 172.16.0.0 symuluje połączenie w warunkach roboczych systemu.
- Do ograniczenia przepustowości łącza wykorzystano program TC dostępny w
- systemie operacyjnym ubuntu.
- Wykorzystuje on subsystem jądra systemu jądra operacyjnego systemu o nazwie
- netlink do kontroli nad ilością nadawanych pakietów.
+\begin_layout Enumerate
+Modyfikowany interfejs sieciowy
+\end_layout
+
+\begin_layout Enumerate
+Oczekiwaną prędkość przesyłu
+\end_layout
+
+\begin_layout Enumerate
+Oczekiwany czas przesyłu pakietu po sieci
 \end_layout
 
 \begin_layout Standard
@@ -12134,8 +12013,8 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/test_tc_rate_limiting.PNG
-	scale 70
+	filename img/skrypt_konfiguracji przepustowosci.PNG
+	scale 90
 
 \end_inset
 
@@ -12146,7 +12025,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wykorzystanie programu tc do ograniczenia przepustowości
+Kod skrytpu set_interface_rates.sh służącego ograniczeniu przepustowości
+ łącza
 \end_layout
 
 \end_inset
@@ -12170,25 +12050,37 @@ name "rys:test_tc_rate_limiting"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:test_tc_rate_limiting"
+Na obu maszynach wirtualnych skrypt wywołano z następującymi parametrami
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+./set_interface_rates.sh enp0s9 58kbps 200ms
+\end_layout
 
 \end_inset
 
- przedstawia sekwencję programu tc wykorzystaną do ograniczenia przepustowości.
- Na potrzeby symulacji przepustowość ograniczono do 12 KB
-\backslash
-s przy opóźnieniu 200ms.
- Komenda nie zwraca informacji na wyjście standardowe (ang.
- standard output), z tego powodu sprawdzony został kod błędu znajdujący
- się w zmiennej $?.
- Poprawność ustawienie zweryfikowano również za pomocą komendy show.
- Warto zauważyć, że program tc operuje na interfejsach sieciowych, stąd
- w komendach użyty jest identyfikator interfejsu - enp0s9.
- Ten sam zestaw komend został wykonany na maszynie vm-receiver.
+
+\end_layout
+
+\begin_layout Standard
+Przepustowość łącza po użyciu skryptu przetestowano za pomocą programu iPerf3.
+ Wynik jego działania na maszynie vm-sender przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_rate_limiting_sender"
+
+\end_inset
+
+.
+ Prędkość nadawania oszacowana została na 55.2 kilobajta na sekundę, odbioru
+ zaś na 53.7 kilobajta na sekundę.
+ Wartości te są niższe niż zmierzone na stanowisku pomiarowym.
 \end_layout
 
 \begin_layout Standard
@@ -12200,8 +12092,8 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/iperf3_start.PNG
-	scale 90
+	filename img/iperf3_sender.PNG
+	scale 60
 
 \end_inset
 
@@ -12212,7 +12104,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Początek działania programu iperf3
+Wynik działania programu iPerf3 na maszynie vm-sender
 \end_layout
 
 \end_inset
@@ -12223,7 +12115,7 @@ Początek działania programu iperf3
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:test_rate_limiting_verif"
+name "rys:test_rate_limiting_sender"
 
 \end_inset
 
@@ -12236,103 +12128,18 @@ name "rys:test_rate_limiting_verif"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
+Symulacja komponentu LabVIEW zakłada nadawanie realnych danych pomiarowych
+ co określony interwał.
+ Dane testowe zostały wygenerowane przez stanowisko pomiarowe 06.10.2017.
+ Czas pomiędzy kolejnymi pomiarami został wyliczony na podstawie zbioru
+ testowego wykorzystanego w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:test_rate_limiting_verif"
-
-\end_inset
-
- przedstawia rozruch aplikacji iperf3 służącej weryfikacji przepustowości
- sieci.
- Składa się ona z dwóch komponentów - klienta oraz serwera.
- Serwer został uruchomiony na maszynie vm-receiver z opcją nasłuchu na porcie
- 50123.
- Klient został uruchomiony na maszynie vm-sender z poleceniem połączenia
- się na adres 172.16.0.1 port 50123 odpowiadający serwerowi.
- Ponadto ustawiono opcję wypisywania wyjścia w kilobajtach na sekundę oraz
- czas trwania testu na 100 sekund.
- Program wypisuje dane cząstkowe co sekundę.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-a
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Podsumowanie działania programu iperf3
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:test_rate_limiting_end"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:test_rate_limiting_end"
-
-\end_inset
-
- przedstawia ostatnie cząstkowe wartości oraz podsumowanie działania programu.
- Przepustowość nadawania została oszacowana na 12.2 KB/s a przepustowość
- odbioru na 11.2 KB/s.
- Ustawienia programu tc nie zostały odwzorowane dokładnie jednak można uznać
- że warunki symulacji reprezentują dostatecznie dobrze środowisko docelowe.
-\end_layout
-
-\begin_layout Standard
-W ramach testu wykorzystano komponent data_provider który jest w stanie
- zasymulować działanie Labview, wymaga on podania ścieżki do katalogu z
- pomiarami.
- Wysyła on informacje o nowych pomiarach co skonfigurowany interwał.
- Kolejność wysyłania plików jest zgodna z danymi czasowymi zawartymi w nazwach
- plików oraz katalogów z pomiarami.
- Kod źródłowy symulatora znajduje się w źródłach pracy (implementacja/sync/labvi
-ew_sim/data_provider.py).
-\end_layout
-
-\begin_layout Standard
-Do poprawnego przeprowadzenia symulacji wymagana jest średni interwał pomiędzy
- kolejnymi rozgłoszeniami par pomiarów.
- Do wyliczenia pomiarów użyto ponownie zestawu danych z sekcji 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Analiza-ilościowa"
+reference "chap:opis_problemu"
 
 \end_inset
 
 .
- Zastosowano następującą formułę:
 \end_layout
 
 \begin_layout Standard
@@ -12382,11 +12189,6 @@ interwał pomiędzy pomiarami
 \end_layout
 
 \begin_layout Standard
-Na potrzeby testu nadawano dane wygenerowane na stanowisku w Gardawicach
- dnia 06.10.2017.
-\end_layout
-
-\begin_layout Standard
 Rozruch wykonano za pomocą komendy
 \end_layout
 
@@ -12407,10 +12209,36 @@ python3 sync/labview_sim/data_provider.py -hs 127.0.0.1 -p 50321 -s client_stora
 \end_layout
 
 \begin_layout Standard
+Opis flag wykorzystanych do uruchomienia symulatora przedstawia tabela 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:rys_provider_args"
+
+\end_inset
+
+.
+ Aplikacja nasłuchuje na interfejsie lokalnym IP oraz porcie TCP 50321.
+ Katalog bazowy pomiarów ustawiony został na miejsce przechowywania danych
+ pomiarowych z dnia 06.10.2017.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Flagi rozruchowe symulatora
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -12608,18 +12436,6 @@ Czas pomiędzy kolejnymi rozgłoszeniami
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Argumenty rozruchowe symulatora
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:rys_provider_args"
@@ -12632,21 +12448,6 @@ name "tab:rys_provider_args"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Tabela 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:rys_provider_args"
-
-\end_inset
-
- przedstawia flagi z jakimi został uruchomiony symulator Labview.
- Aplikacja nasłuchuje na interfejsie lokalnym porcie 50321, katalog z pomiarami
- został zdefiniowany relatywnie do katalogu rozruchu aplikacji, monitorowane
- rozszerzenia ustawione zostały zgodnie z wymaganiami pracy a wartość opóźnienia
- zgodnie z wyliczoną wartością.
 \end_layout
 
 \begin_layout Standard
@@ -12665,7 +12466,17 @@ python3 server.py -c server.json
 
 \end_inset
 
+Konfigurację testową komponentu Sender przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_receiver_configuration"
 
+\end_inset
+
+.
+ Nasłuchuje on pod adresem 127.16.0.1:50123 odpowiadającym sieci testowej,
+ katalog bazowy pomiarów przyjął wartość server_storage.
+ Ponadto pliki lvm zostaną zdekompresowane po odebraniu.
 \end_layout
 
 \begin_layout Standard
@@ -12712,21 +12523,6 @@ name "rys:test_receiver_configuration"
 \end_layout
 
 \begin_layout Standard
-Rys.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:test_receiver_configuration"
-
-\end_inset
-
- przedstawia konfigurację komponentu Sender na potrzeby testu.
- Został on skonfigurowany do nasłuchu pod adresem 127.16.0.1:50123 odpowiadającym
- sieci testowej, katalog bazowy pomiarów przyjął wartość server_storage.
- Ponadto pliki lvm zostaną zdekompresowane po odebraniu.
-\end_layout
-
-\begin_layout Standard
 Komponent Sender został uruchomiony za pomocą następującej komendy
 \end_layout
 
@@ -12742,7 +12538,45 @@ python3 client.py -c client.json
 
 \end_inset
 
+Konfigurację testową komponentu Sender przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_sender_config"
 
+\end_inset
+
+.
+ Wartości par (host, port) klauzul 
+\begin_inset Quotes pld
+\end_inset
+
+server
+\begin_inset Quotes prd
+\end_inset
+
+ i 
+\begin_inset Quotes pld
+\end_inset
+
+provider
+\begin_inset Quotes prd
+\end_inset
+
+ odpowiadają konfiguracjom symulatora oraz Receivera.
+\end_layout
+
+\begin_layout Standard
+Symulator i komponent Sender współdzielą katalog w którym zostały uruchomione,
+ stąd katalog bazowy pomiarów - client_storage - wskazuje w obu przypadkach
+ na tą samą lokalizację.
+ Schemat kompresji zgodnie z wnioskami z sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Kompresja"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -12789,51 +12623,50 @@ name "rys:test_sender_config"
 \end_layout
 
 \begin_layout Standard
-Rys.
+Długość kolejki plików do wysłania odczytywano bezpośrednio z kolejki dyskowej.
+ Rys.
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:test_sender_config"
+reference "rys:test_monitoring_script"
 
 \end_inset
 
- przedstawia konfigurację komponentu Receiver na potrzeby testu.
- Wartości par host:port klauzul 
-\begin_inset Quotes pld
-\end_inset
+ przedstawia skrypt w języku Python za pomocą którego monitorowano stan
+ kolejki dyskowej.
+ Przyjmuje on dwa argumenty
+\end_layout
 
-server
-\begin_inset Quotes prd
-\end_inset
+\begin_layout Enumerate
+Ścieżkę do pliku przechowującego stan kolejki
+\end_layout
 
- i 
-\begin_inset Quotes pld
-\end_inset
-
-provider
-\begin_inset Quotes prd
-\end_inset
-
- odpowiadają konfiguracjom symulatora oraz Receivera.
- Zarówno Sender jak i symulator Labview zostały uruchomione na maszynie
- vm-sender.
- Ponadto obie aplikacje współdzielą katalog w którym zostały uruchomione,
- stąd katalog bazowy pomiarów - client_storage - wskazuje w obu przypadkach
- na tą samą lokalizację.
- Schemat kompresji zgodnie z wnioskami z sekcji 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Kompresja"
-
-\end_inset
-
-.
+\begin_layout Enumerate
+Ścieżkę do logu stanu kolejki
 \end_layout
 
 \begin_layout Standard
-Wartością testu jest stan kolejki dyskowej, w przypadku dostatecznej przepustowo
-ści jej długość powinna posiadać obserwowalną maksymalną wartość.
- Narastająca ilość plików oznacza niedostateczną przepustowość.
+W trakcie działania wykonuje on zapytanie SELECT count(*) FROM queue które
+ zlicza ilość wpisów w tabeli, każdy wpis odpowiada pojedynczemu elementowi
+ w kolejce.
+ Wartość następnie jest zapisywana w formacie CSV do pliku razem z czasem
+ wykonania pomiaru.
+\end_layout
+
+\begin_layout Standard
+Skrypt został uruchomiony z następującymi parametrami.
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+python3 measure.py state_storage/stage.queue state_storage/queue.log
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -12880,45 +12713,82 @@ name "rys:test_monitoring_script"
 
 \end_layout
 
+\begin_layout Section
+Środowisko robocze
+\end_layout
+
 \begin_layout Standard
-Rys.
- 
+Weryfikację implementacji przeprowadzono również na środowisku docelowym,
+ konfiguracje komponentów Sender i Receiver przedstawiaja rysunki 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:test_monitoring_script"
+reference "rys:prod_config_sender"
 
 \end_inset
 
- przedstawia skrypt w języku Python za pomocą którego monitorowano stan
- kolejki dyskowej.
- Przyjmuje on dwa argumenty
-\end_layout
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:prod_config_receiver"
 
-\begin_layout Enumerate
-Ścieżkę do pliku przechowującego stan kolejki
-\end_layout
+\end_inset
 
-\begin_layout Enumerate
-Ścieżkę do logu stanu kolejki
+.
+ Dekompresję danych pominięto w celu zaoszczędzenia przestrzeni dyskowej.
+ Komponent Receiver nasłuchuje pod adresem 10.8.0.42 na porcie 50123, wartość
+ ta została skonfigurowana również w klauzuli 
+\begin_inset Quotes pld
+\end_inset
+
+server
+\begin_inset Quotes prd
+\end_inset
+
+ komponentu Sender.
+ Adres komponentu LabVIEW ustawiony został na 127.0.0.1 (interfejs lokalny)
+ port 6341.
+ Komponent Sender po zerwaniu połączenia odczekuje 30 sekund przed próbą
+ ponownego nawiązania.
 \end_layout
 
 \begin_layout Standard
-W trakcie działania wykonuje on zapytanie SELECT count(*) FROM queue które
- zlicza ilość wpisów w tabeli, każdy wpis odpowiada pojedynczemu elementowi
- w kolejce.
- Wartość następnie jest zapisywana w formacie CSV do pliku razem z czasem
- wykonania pomiaru.
- Skrypt został uruchomiony w następujący sposób.
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
+\begin_inset Float figure
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/produkcja_sender_config.PNG
+	lyxscale 70
+	scale 70
 
-python3 measure.py state_storage/stage.queue state_storage/queue.log
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Konfiguracja komponentu Sender
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:prod_config_sender"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -12927,8 +12797,206 @@ python3 measure.py state_storage/stage.queue state_storage/queue.log
 \end_layout
 
 \begin_layout Standard
-Skrypt uruchomiono w tym samym katalogu co komponent Sender oraz symulator
- Labview.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/produkcja_receiver_config.PNG
+	lyxscale 70
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Konfiguracja komponentu Receiver
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:prod_config_receiver"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Monitorowanie stanu kolejki przeprowadzono za pomocą skryptu przedstawionego
+ na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:prod_monitoring"
+
+\end_inset
+
+.
+ Uzupełnia on pomiar o wielkość pliku kolejki.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/produkcja_skrypt_pomiarowy.PNG
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Skrypt monitorujący długość kolejki i wielkość pliku kolejki
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:prod_monitoring"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wynik pomiaru długości kolejki w ciągu doby przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:prod_dlugosc_kolejki"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+placeholder
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Długość kolejki
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:prod_dlugosc_kolejki"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wielkość pliku kolejki w ciągu doby przedstawia rysunek 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+placeholder
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wielkość pliku kolejki
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:prod_wielkosc_kolejki"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Takie a takie rzeczy się stały, ich przyczyną mogło być to i to, należy
+ przypuszczać że kolejka będzie narastać w kolejnych dniach.
+ Godzinny pomiar przepustowości łącza nie odwzorował dostatecznie stanu
+ faktycznego.
+ W godzinach porannych natężenie ruchu drogowego jest zdecydowanie wyższe
+ niż nocnych.
 \end_layout
 
 \begin_layout Chapter
