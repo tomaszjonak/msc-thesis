@@ -695,11 +695,11 @@ Użytkownik realizujący komunikację z pomocą gniazda zapisuje dane do kolejki
 \end_layout
 
 \begin_layout Standard
-Wykonując odczyt użytkownik podaje ilość danych którą oczekuje odebrać z
- kolejki.
+Wykonując odczyt użytkownik podaje ilość danych, którą oczekuje odebrać
+ z kolejki.
  Jeśli kolejka zawiera mniej danych, niż żądana ilość, zwracana jest dostępna
  ilość.
- W przypadku, gdy wątek wykona odczyt,a kolejka odbioru będzie pusta, zostanie
+ W przypadku, gdy wątek wykona odczyt, a kolejka odbioru będzie pusta, zostanie
  on uśpiony przez system operacyjny.
  Wątek zostanie wybudzony w momencie pojawienia się danych w kolejce.
  Sytuację taką nazywamy wywołaniem blokującym.
@@ -733,8 +733,8 @@ W przypadku, gdy prędkość generowania danych przekracza przepustowość łąc
 \end_layout
 
 \begin_layout Standard
-Kompresją nazywamy operację która przekształca plik danych w nowy plik mniejszej
- wielkości, nazywany plikiem skompresowanym.
+Kompresją nazywamy operację, która przekształca plik danych w nowy plik
+ mniejszej wielkości, nazywany plikiem skompresowanym.
  Operacja odtworzenia pliku oryginalnego z pliku skompresowanego nazywana
  jest dekompresją.
 \end_layout
@@ -898,7 +898,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Schemat stanowiska pomiarowego, źródło
+Schemat stanowiska pomiarowego, źródło: Z.
+ Marszałek 
+\begin_inset Quotes pld
+\end_inset
+
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Marszalekpomiary"
@@ -2346,7 +2351,7 @@ reference "eq:compression_factor"
 \end_inset
 
 .
- Pozwoli ona odrzucić metody kompresji które nie zapewniają wystarczającego
+ Pozwoli ona odrzucić metody kompresji, które nie zapewniają wystarczającego
  zmniejszenia wielkości strumienia danych.
 \end_layout
 
@@ -7710,8 +7715,8 @@ Algorytm falkowy został zbadany z ustawieniami domyślnymi, zaczerpniętymi
  z implementacji w języku Matlab dostarczonej jako referencyjna.
  Przypuszcza się, że zmodyfikowanie parametrów algorytmu może istotnie zmienić
  wartości błędu.
- Wymaga to jednak dodatkowych badań które nie zostały przeprowadzone w trakcie
- pracy.
+ Wymaga to jednak dodatkowych badań, które nie zostały przeprowadzone w
+ trakcie pracy.
 \end_layout
 
 \begin_layout Standard
@@ -9058,7 +9063,7 @@ ciałem
 
 \begin_layout Standard
 Konstrukcja separatora jest kluczowa dla poprawnej komunikacji, nie może
- on należeć do zbioru symboli które mogą składać się na niesioną informację.
+ on należeć do zbioru symboli, które mogą składać się na niesioną informację.
  Zarówno w przypadku ścieżek jak i wartości liczbowych można zastosować
  sekwencję znaków powrotu karetki i nowej linii.
 \end_layout
@@ -9440,7 +9445,7 @@ name "rys:queue_unsync_state"
 Przypadki te wymagają skanowania katalogu pomiarów w poszukiwaniu brakujących
  plików.
  Przeszukiwanie dysku jest czynnością kosztowną obliczeniowo.
- Wyznaczono zestaw informacji na podstawie którego można ograniczyć przestrzeń
+ Wyznaczono zestaw informacji, na podstawie którego można ograniczyć przestrzeń
  przeszukiwania:
 \end_layout
 
@@ -12591,7 +12596,7 @@ provider
 \end_layout
 
 \begin_layout Standard
-Symulator i komponent Sender współdzielą katalog w którym zostały uruchomione,
+Symulator i komponent Sender współdzielą katalog, w którym zostały uruchomione,
  stąd katalog bazowy pomiarów - client_storage - wskazuje w obu przypadkach
  na tą samą lokalizację.
  Schemat kompresji zgodnie z wnioskami z sekcji 
@@ -12657,7 +12662,7 @@ reference "rys:test_monitoring_script"
 
 \end_inset
 
- przedstawia skrypt w języku Python za pomocą którego monitorowano stan
+ przedstawia skrypt w języku Python, za pomocą którego monitorowano stan
  kolejki dyskowej.
  Przyjmuje on dwa argumenty
 \end_layout
@@ -12671,7 +12676,7 @@ reference "rys:test_monitoring_script"
 \end_layout
 
 \begin_layout Standard
-W trakcie działania wykonuje on zapytanie SELECT count(*) FROM queue które
+W trakcie działania wykonuje on zapytanie SELECT count(*) FROM queue, które
  zlicza ilość wpisów w tabeli, każdy wpis odpowiada pojedynczemu elementowi
  w kolejce.
  Wartość następnie jest zapisywana w formacie CSV do pliku razem z czasem
@@ -13226,7 +13231,7 @@ name "chap:Podsumowanie"
 \begin_layout Standard
 W ramach pracy przeprowadzono analizę pomiarów generowanych przez stanowisko
  pomiarowe.
- Oszacowano przepustowość łącza za pomocą którego stanowisko komunikuje
+ Oszacowano przepustowość łącza, za pomocą którego stanowisko komunikuje
  się z uczelnią, a także dobrano metody kompresji poszczególnych danych
  pomiarowych na podstawie analizy sprawności.
  Zaprojektowany został system przesyłowy, bazując na uproszczonej wersji
@@ -13269,7 +13274,7 @@ Kompleksowa metoda synchronizacji jest wymagana, ponieważ w katalogu pomiarów
  mogą znajdować się pliki już wysłane.
  Wprowadzenie na stałe do aplikacji mechanizmu usuwania nadanych plików
  likwiduje ten problem.
- W takim podejściu każdy plik który znajduje się w katalogu pomiarów wymaga
+ W takim podejściu każdy plik, który znajduje się w katalogu pomiarów wymaga
  wysłania.
 \end_layout
 
