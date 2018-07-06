@@ -47,7 +47,7 @@
 \maintain_unincluded_children false
 \language polish
 \language_package default
-\inputencoding iso8859-2
+\inputencoding utf8
 \fontencoding global
 \font_roman "utopia" "default"
 \font_sans "default" "default"
@@ -267,6 +267,13 @@ figurename}{Rys.}
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
 \end_inset
 
 
@@ -819,6 +826,13 @@ Opisuje ona jakim procentem objętości oryginalnego pliku jest objętość plik
  wynikowego.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Analiza problemu
 \begin_inset CommandInset label
@@ -884,13 +898,10 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Schemat stanowiska pomiarowego 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-(dodac ref do oryginalu)
-\end_layout
+Schemat stanowiska pomiarowego, źródło
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Marszalekpomiary"
 
 \end_inset
 
@@ -8233,6 +8244,13 @@ Schematy kompresji wybrane dla danych typów plików
 Lista typów plików do przesłania
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Projekt systemu przesyłu
 \begin_inset CommandInset label
@@ -11876,6 +11894,13 @@ name "rys:receiver_startup_logs"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 \noindent
 Testy działania systemu przesyłu
@@ -11891,12 +11916,12 @@ name "chap:Testy"
 \begin_layout Standard
 Celem niniejszego rozdziału jest weryfikacja działania systemu przesyłu.
  Wielkością opisującą działanie systemu jest długość kolejki plików do wysłania,
- jej wartość opisuje czy zastosowany schemat kompresji pozwala na wysyłanie
- danych pomiarowych bez opóźnień.
+ jej zmienność w czasie opisuje czy system w danej konfiguracji zdolny jest
+ nadawać dane bez opóźnień.
 \end_layout
 
 \begin_layout Section
-Środowisko symulacyjne
+Zachowanie sytemu w warunkach symulacyjnych
 \end_layout
 
 \begin_layout Standard
@@ -12713,13 +12738,145 @@ name "rys:test_monitoring_script"
 
 \end_layout
 
-\begin_layout Section
-Środowisko robocze
+\begin_layout Standard
+Wynik przesłania zestawu danych testowych przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_sim_queue_55kbps"
+
+\end_inset
+
+.
+ Ilość punktów pomiarowych ograniczono w celu uwidocznienia zmian w długości
+ kolejki.
+ Nadawanie danych rozpoczęto około godziny 21.30 dnia 01.07.2018.
+ Długość kolejki w czasie symulacji nie wyniosła więcej niż 2 pliki.
+ Test trwał około 24 godziny.
+ Przepustowość na poziomie 55 kilobajtów jest wystarczająca do bieżącego
+ przesyłu danych pomiarowych.
 \end_layout
 
 \begin_layout Standard
-Weryfikację implementacji przeprowadzono również na środowisku docelowym,
- konfiguracje komponentów Sender i Receiver przedstawiaja rysunki 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/sym_queue_diagram_55kbps.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Długość kolejki plików do wysłania w ujęciu godzinowym, przepustowość łącza
+ 55 kB/s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_sim_queue_55kbps"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Przeprowadzono również test przy przepustowości 15 kB/s.
+ Wyniki pomiarów długości kolejki przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_sim_queue_15kbps"
+
+\end_inset
+
+.
+ Po 5 godzinach działania kolejka urosła do 350 plików.
+ Prędkość ta jest niewystarczająca do nadawania bez opóźnień.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/sym_queue_diagram_15kbps.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Długość kolejki plików do wysłania w ujęciu godzinowym, przepustowość łącza
+ 55 kB/s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_sim_queue_15kbps"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Zachowanie systemu w warunkach roboczych
+\end_layout
+
+\begin_layout Standard
+W warunkach symulacyjnych pliki nadawane były co stały interwał, a przepustowość
+ sieci posiadała stałą wartość.
+ Odbiega to od warunków rzeczywistych, w których oba te parametry są zmienne.
+ W celu zbadania zachowania aplikacji przeprowadzono próbne rozruchy na
+ środowisku docelowym.
+ 
+\end_layout
+
+\begin_layout Standard
+Konfiguracje komponentów Sender i Receiver przedstawiaja rysunki 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:prod_config_sender"
@@ -12734,7 +12891,8 @@ reference "rys:prod_config_receiver"
 \end_inset
 
 .
- Dekompresję danych pominięto w celu zaoszczędzenia przestrzeni dyskowej.
+ Dekompresję danych pominięto w celu zaoszczędzenia przestrzeni dyskowej
+ na maszynie docelowej.
  Komponent Receiver nasłuchuje pod adresem 10.8.0.42 na porcie 50123, wartość
  ta została skonfigurowana również w klauzuli 
 \begin_inset Quotes pld
@@ -12852,6 +13010,8 @@ reference "rys:prod_monitoring"
 
 .
  Uzupełnia on pomiar o wielkość pliku kolejki.
+ Wielkość tą zmierzono w celu ustalenia jak długość kolejki wpływa na zużycie
+ przestrzeni dyskowej przez komponent Sender.
 \end_layout
 
 \begin_layout Standard
@@ -12900,7 +13060,8 @@ name "rys:prod_monitoring"
 \end_layout
 
 \begin_layout Standard
-Wynik pomiaru długości kolejki w ciągu doby przedstawia rysunek 
+Wynik monitorowania stanu kolejki w warunkach roboczych przedstawia rysunek
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:prod_dlugosc_kolejki"
@@ -12908,6 +13069,30 @@ reference "rys:prod_dlugosc_kolejki"
 \end_inset
 
 .
+ Pomiar uruchomiono o godzinie 20.40 dnia 04.07.2018.
+ Do godziny piątej pliki nadawane były bez opóźnień.
+ Od godziny piątej do dwudziestej pierwszej kolejka rośnie, przypuszcza
+ się, że spowodowane jest to zwiększonym natężeniem ruchu drogowego.
+ Pomiędzy północą a piątą rano 05.07 długość kolejki spada.
+\end_layout
+
+\begin_layout Standard
+Wykres przyjmuje specyficzny kształt pomiędzy godziną siódmą a dziewiątą
+ 05.07.2018.
+ W okolicach godziny 6.40 komputer w miejscowości Gardawice uruchomił się
+ ponownie, komponent Sender został wyłączony.
+ Manualne uruchomienie komponentu nastąpiło o godzinie 8.40.
+ Za skok ilości plików w kolejce odpowiedzialny jest wątek SyncThread, po
+ nawiązaniu połączenia z komponentem LabVIEW przeszukał on dysk twardy i
+ uzupełnił kolejkę o brakujące pliki.
+\end_layout
+
+\begin_layout Standard
+Na podstawie kształtu wykresu można przypuszczać tendencję wzrostową długości
+ kolejki.
+ Spadek w godzinach nocnych nie kompensuje wzrostu długości w ciągu dnia.
+ Wybrany schemat kompresji okazał się niewystarczający, a pomiar przepustowości
+ łącza zbyt krótki aby otrzymać realistyczne dane.
 \end_layout
 
 \begin_layout Standard
@@ -12918,14 +13103,21 @@ status open
 
 \begin_layout Plain Layout
 \align center
-placeholder
+\begin_inset Graphics
+	filename img/queue_length_timeseries_gardawice.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Długość kolejki
+Długość kolejki plików do wysłania w ujęciu godzinowym
 \end_layout
 
 \end_inset
@@ -12949,7 +13141,30 @@ name "rys:prod_dlugosc_kolejki"
 \end_layout
 
 \begin_layout Standard
-Wielkość pliku kolejki w ciągu doby przedstawia rysunek 
+Trend wzrostowy długości kolejki może doprowadzić do przepełnienia dysku,
+ jest to sytuacja niepożądana, w przypadku zbyt szybkiego zajmowania przestrzeni
+ dyskowej zastosowanie komponentu Sender przestaje przynosić zysk.
+ Jednym z celi działania systemu przesyłu jest zapobiegnięcie przepełnieniu.
+\end_layout
+
+\begin_layout Standard
+Wykres wielkości pliku kolejki w czasie prowadzonego pomiaru przedstawia
+ rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:prod_wielkosc_kolejki"
+
+\end_inset
+
+.
+ Wielkość pliku wzrasta wraz ze zwiększaniem się ilości plików w kolejce.
+ Interesującym jest fakt, że w momencie spadku długości kolejki wielkość
+ pliku nie zmniejsza się.
+ Sytuacja ta jest widoczna na wykresie pomiędzy godziną 23 dnia 04.07, a
+ 9 dnia 05.07.
+ Przypuszczalnie silnik bazy danych SQLite, wykorzystany w implementacji
+ kolejki zakłada, że wielkość bazy będzie rosnąć i zwalnianie miejsca nie
+ przynosi korzyści.
 \end_layout
 
 \begin_layout Standard
@@ -12960,14 +13175,21 @@ status open
 
 \begin_layout Plain Layout
 \align center
-placeholder
+\begin_inset Graphics
+	filename img/queue_file_size_timeseries.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Wielkość pliku kolejki
+Wielkość pliku kolejki w ujęciu godzinowym
 \end_layout
 
 \end_inset
@@ -12990,15 +13212,6 @@ name "rys:prod_wielkosc_kolejki"
 
 \end_layout
 
-\begin_layout Standard
-Takie a takie rzeczy się stały, ich przyczyną mogło być to i to, należy
- przypuszczać że kolejka będzie narastać w kolejnych dniach.
- Godzinny pomiar przepustowości łącza nie odwzorował dostatecznie stanu
- faktycznego.
- W godzinach porannych natężenie ruchu drogowego jest zdecydowanie wyższe
- niż nocnych.
-\end_layout
-
 \begin_layout Chapter
 Podsumowanie
 \begin_inset CommandInset label
@@ -13008,6 +13221,97 @@ name "chap:Podsumowanie"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+W ramach pracy przeprowadzono analizę pomiarów generowanych przez stanowisko
+ pomiarowe.
+ Oszacowano przepustowość łącza za pomocą którego stanowisko komunikuje
+ się z uczelnią, a także dobrano metody kompresji poszczególnych danych
+ pomiarowych na podstawie analizy sprawności.
+ Zaprojektowany został system przesyłowy, bazując na uproszczonej wersji
+ protokołu HTTP, przeprowadzono analizę możliwych awarii oraz zaproponowano
+ metody ich obsługi.
+ Działanie aplikacji zostało zweryfikowane w środowisku symulacyjnym a następnie
+ wdrożone.
+\end_layout
+
+\begin_layout Section*
+Kierunki dalszego rozwoju
+\end_layout
+
+\begin_layout Standard
+W trakcie prac nad projektem zauważono, że model współbieżności oparty na
+ wątkach nie jest dostosowany do napotkanego problemu.
+ Przypuszcza się, że skuteczniejsze wykorzystanie zasobów sieciowych można
+ uzyskać stosując podejście asynchroniczne.
+ Jest ono oferowane przez bibliotekę asyncio języka Python oraz język Go.
+\end_layout
+
+\begin_layout Standard
+Kompresja jest jedną z metod przetwarzania strumieni danych.
+ Proponowane jest uogólnienie tego podejścia i umożliwienie zintegrowania
+ aplikacji z dowolnym 
+\begin_inset Quotes pld
+\end_inset
+
+pośrednim
+\begin_inset Quotes prd
+\end_inset
+
+ programem przetwarzającym dane.
+ W ten sposób można umożliwić wykonanie analizy profili magnetycznych na
+ stanowisku pomiarowym, a wysyłać jedynie jej wyniki.
+\end_layout
+
+\begin_layout Standard
+Kompleksowa metoda synchronizacji jest wymagana, ponieważ w katalogu pomiarów
+ mogą znajdować się pliki już wysłane.
+ Wprowadzenie na stałe do aplikacji mechanizmu usuwania nadanych plików
+ likwiduje ten problem.
+ W takim podejściu każdy plik który znajduje się w katalogu pomiarów wymaga
+ wysłania.
+\end_layout
+
+\begin_layout Section*
+Wnioski
+\end_layout
+
+\begin_layout Standard
+Stanowisko pomiarowe przeprowadza średnio dziennie 5.6 tysiąca pomiarów.
+ Wynikiem tego jest ponad 11 tysięcy plików z pomiarami o łącznej wadzie
+ 9 gigabajtów.
+ Wielkość sekwencji wideo zależy od pory dnia.
+ Przypuszczalnie jest to spowodowane zmianami naświetlenia stanowiska pomiaroweg
+o.
+ Łącze sieciowe zapewniające transfer danych na uczelnie posiada przepustowość
+ na poziomie zdecydowanie niższym niż 58 kilobajtów na sekundę, którą zmierzono
+ w trakcie pracy.
+\end_layout
+
+\begin_layout Standard
+Zbadano trzy metody kompresji bezstratnej oraz dwie stratne.
+ Kompresja wideo z użyciem standardu H.264 przyniosła bardzo dobre rezultaty.
+ Współczynnik kompresji oferowany przez algorytm falkowy deklasuje pozostałe
+ proponowane metody.
+ Przypuszcza się, że odpowiednie dobranie parametrów tego algorytmu doprowadzi
+ do znacznej redukcji zakłóceń wprowadzanych prze jego zastosowanie.
+\end_layout
+
+\begin_layout Standard
+W ramach pracy zaprojektowano dwie aplikacje, które w kooperacji realizują
+ ciągły i bezstratny przesył danych pomiarowych.
+ System przesyłowy został uruchomiony na środowisku pomiarowym.
+ Obserwacja jego działania prowadzi do wniosku, że obecnie zaproponowany
+ schemat kompresji nie jest wystarczający, aby realizować przesył danych
+ na bieżąco.
+\end_layout
+
+\begin_layout Standard
+Osiągniecie tego celu wymaga dalszych prac nad sposobem przygotowania danych
+ do nadawania.
+ Proponowane jest przeprowadzenie analizy sygnałowej w miejsce kompresji
+ i nadawanie jej wyników.
 \end_layout
 
 \begin_layout Standard
