@@ -28,61 +28,6 @@ def calculate_mse(tpl):
     return np.array(wavelet_mse), std_mse, (client_file, server_file)
 
 
-# def old_main():
-#     client_storage = pl.Path('../client_storage')
-#     server_storage = pl.Path('../server_received')
-#
-#     pairs, invalid_paths = get_file_pairs(client_storage, server_storage, 'lvm')
-#     if invalid_paths:
-#         pprint(invalid_paths)
-#
-#     with multiprocessing.Pool() as pool:
-#         results = pool.map(calculate_mse, pairs)
-#
-#     test_values = (
-#         ('wavelet_max_channels_mean', max(results, key=lambda x: x[0].mean())),
-#         ('wavelet_max_channels_max', max(results, key=lambda x: x[0].max())),
-#         ('wavelet_max_channels_sum', max(results, key=lambda x: x[0].sum())),
-#         ('std_max_channels_mean', max(results, key=lambda x: x[1].mean())),
-#         ('std_max_channels_max', max(results, key=lambda x: x[1].max())),
-#         ('std_max_channels_sum', max(results, key=lambda x: x[1].sum())),
-#         ('wavelet_min_channels_mean', min(results, key=lambda x: x[0].mean())),
-#         ('wavelet_min_channels_max', min(results, key=lambda x: x[0].max())),
-#         ('std_min_channels_mean', min(results, key=lambda x: x[1].mean())),
-#         ('std_min_channels_max', min(results, key=lambda x: x[1].max())),
-#         # TODO srednie wartosci
-#     )
-#
-#     associations_dict = collections.defaultdict(list)
-#     for case, (_, _, pair) in test_values:
-#         associations_dict[pair].append(case)
-#     pprint(associations_dict)
-#
-#     x = input('Print summaries? ')
-#     if x:
-#         wavelet_means = pandas.DataFrame([record[0] for record in results])
-#         std_means = pandas.DataFrame([record[1] for record in results])
-#
-#         print('\nMean calculated as in matlab')
-#         print(wavelet_means.describe())
-#         print('\nMean in default way')
-#         print(std_means.describe())
-#
-#     x = input('Print significant plots? ')
-#     if x:
-#         for files, cases in associations_dict.items():
-#             client_file, server_file = files
-#             analyse_file_pair(client_file, server_file, repr(cases))
-#
-#     x = input('Print two random? ')
-#     if x:
-#         indices = np.random.randint(0, len(results), 2)
-#         test_pairs = [results[i][2] for i in indices]
-#         print('Checking {}'.format(str(test_pairs)))
-#         for i, (client_file, server_file) in enumerate(test_pairs):
-#             analyse_file_pair(client_file, server_file, '{}'.format(client_file.relative_to(client_storage).as_posix()))
-
-
 def measure_wavelet_compression(path: pl.Path):
     try:
         original_data = np.loadtxt(str(path))[:, 1:]
