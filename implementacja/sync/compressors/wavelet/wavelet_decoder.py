@@ -84,8 +84,8 @@ def _dec_vect(bs, p, N, ka, params):
 
 
 def _extract_length(binstream):
-    length = int(binstream[:14], 2)
-    bs = binstream[14:]
+    length = int(binstream[:16], 2)
+    bs = binstream[16:]
     return length, bs
 
 

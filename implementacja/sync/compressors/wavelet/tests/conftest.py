@@ -135,3 +135,16 @@ def cw2bs_matlab_state(request):
     expected_bs = state['bs'][0]
 
     return input_kod, expected_bs
+
+
+@pytest.fixture(scope='function', params=[
+    'wavelet/tests/signal_data/channel1'
+])
+def bs_read_matlab_state(request):
+    state = scio.loadmat(request.param + '/bs_read_results.mat')
+
+    bs = state['bs'][0]
+    N = state['N'][0]
+    x = bytearray(el[0] for el in state['x'])
+
+    return x, bs, N

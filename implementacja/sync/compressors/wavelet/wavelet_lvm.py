@@ -43,6 +43,12 @@ def encode_file_return_bytestreams(file_name):
     return result_data
 
 
+def decode_signal_from_file(file: pl.Path):
+    packed_signal = file.read_bytes()
+
+    return wdec.decode_signal(packed_signal, params)
+
+
 def decode_binary(packed_measurements):
     ptr = 0
     len_ = len(packed_measurements)
@@ -76,6 +82,8 @@ def decode_to_bytestream(packed_measurements, fmt='%.6f', delimiter='\t'):
     outstream = io.BytesIO()
 
     np.savetxt(outstream, data_array, fmt=fmt, delimiter=delimiter)
+
+    return outstream
 
 
 def decode_to_file(file: pl.Path, packed_measurements, fmt='%.6f', delimiter='\t'):
