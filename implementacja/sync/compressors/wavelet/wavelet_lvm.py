@@ -19,7 +19,7 @@ def encode_file(file_name):
     for channel in range(channels):
         signal = data[:, channel]
         encoded_signal, _ = wenc.signal_encode(signal, params)
-        # packed_measurements += len(encoded_signal).to_bytes(length=3, byteorder='big')
+        packed_measurements += len(encoded_signal).to_bytes(length=3, byteorder='big')
         packed_measurements += encoded_signal
 
     return packed_measurements

@@ -116,18 +116,19 @@ class ReceiverProcessor(object):
         # into path only for existence check
         full_paths = (self.storage_root.joinpath(file) for file in possible_files)
 
-        valid_paths = [path for path in full_paths if path.exists()]
-        if not valid_paths:
-            return [], None, None
-
         # LabVIEW doesn not guarantee that avi file will exist while sending path
         # separate logic is needed to handle this situation
         # if any paths has been found (i.e lvm) and not avi then it should be sent to finder
+        # UPDATE: lvm also may not be sent on time
         if '.avi' in self.extensions:
             avi_file_path = self.storage_root.joinpath(base_path.with_suffix('.avi'))
             if not avi_file_path.exists():
                 logger.debug("Adding avi file to finder ({})".format(avi_file_path))
                 self.avi_queue.put(avi_file_path, timeout=10)
+
+        valid_paths = [path for path in full_paths if path.exists()]
+        if not valid_paths:
+            return [], None, None
 
         last_created = max(valid_paths, key=lambda file: file.stat().st_ctime_ns)
         first_created = min(valid_paths, key=lambda file: file.stat().st_ctime_ns)
