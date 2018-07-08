@@ -2,7 +2,7 @@ from . import wavelet_lvm
 
 
 def map_extension(original):
-    return '.wavelet'
+    return '.lvm.wavelet'
 
 
 def remap_extension(received):

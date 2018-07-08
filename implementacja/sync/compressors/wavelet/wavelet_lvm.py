@@ -69,7 +69,7 @@ def decode_with_indexing(packed_measurements):
     decoded_measurements = decode_binary(packed_measurements)
     len_ = decoded_measurements.shape[0]
     # original numbering is for some reason multiplied by 10e-5
-    indices = np.arange(len_) / 10e5
+    indices = np.arange(len_) / 10e3
     # transpose indices
     indices.shape = (len_, 1)
     # concatenate it with results
@@ -83,7 +83,7 @@ def decode_to_bytestream(packed_measurements, fmt='%.6f', delimiter='\t'):
 
     np.savetxt(outstream, data_array, fmt=fmt, delimiter=delimiter)
 
-    return outstream
+    return outstream.getbuffer()
 
 
 def decode_to_file(file: pl.Path, packed_measurements, fmt='%.6f', delimiter='\t'):
