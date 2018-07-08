@@ -30,4 +30,13 @@ def plot_signals(original_data, decompressed_data, case_name):
 
 
 bad_file = 'M171006_183622.lvm'
-decompress_and_plot(bad_file, bad_file)
+
+# matlab_path = pl.Path('matlab_compressed')
+python_path = pl.Path('python_compressed')
+python_path.mkdir(parents=True, exist_ok=True)
+
+bytestreams = wavelet.wavelet_lvm.encode_file_return_bytestreams(bad_file)
+
+for i, bytestream in enumerate(bytestreams):
+    signal_path = python_path.joinpath('{}_{}_{}.wavelet'.format(bad_file, 'sym4', i+1))
+    signal_path.write_bytes(bytestream)

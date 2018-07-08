@@ -19,10 +19,28 @@ def encode_file(file_name):
     for channel in range(channels):
         signal = data[:, channel]
         encoded_signal, _ = wenc.signal_encode(signal, params)
-        packed_measurements += len(encoded_signal).to_bytes(length=3, byteorder='big')
+        # packed_measurements += len(encoded_signal).to_bytes(length=3, byteorder='big')
         packed_measurements += encoded_signal
 
     return packed_measurements
+
+
+def encode_file_return_bytestreams(file_name):
+    data = np.loadtxt(file_name)[:, 1:]
+
+    channels = data.shape[1]
+
+    result_data = []
+    for channel in range(channels):
+        signal = data[:, channel]
+        encoded_signal, _ = wenc.signal_encode(signal, params)
+        result_data.append(encoded_signal)
+        # storage_representation = bytearray()
+        # storage_representation += len(encoded_signal).to_bytes(length=2, byteorder='big')
+        # storage_representation += encoded_signal
+        # result_data.append(storage_representation)
+
+    return result_data
 
 
 def decode_binary(packed_measurements):

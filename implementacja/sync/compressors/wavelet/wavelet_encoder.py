@@ -10,11 +10,16 @@ def signal_encode(signal, params):
     xa, xd, nz = qdwt(xa, xd, params)
     bs, ka, kd = encode(xa, xd, params)
 
-    stream_with_length = add_length_to_stream(bs, len(signal))
+    stream_with_length = add_length_to_stream(bs, 2, signal.shape[0])
     padded_stream = pad_stream(stream_with_length)
-    binstream = to_binary(padded_stream)
+    # binstream = to_binary(padded_stream)
+    binstream = bitstring_to_bytes(padded_stream)
 
     return binstream, len(padded_stream)
+
+
+def bitstring_to_bytes(s):
+    return int(s, 2).to_bytes(len(s) // 8, byteorder='big')
 
 
 def to_binary(bitstream):
@@ -24,10 +29,12 @@ def to_binary(bitstream):
     return b
 
 
-def add_length_to_stream(bitstream, signal_len):
-    outstream = format(signal_len, 'b')
-    outstream += bitstream
-    return outstream
+def add_length_to_stream(bitstream, byte_size, signal_len):
+    assert isinstance(bitstream, str)
+    # outstream = signal_len.to_bytes(byte_size, byteorder='big')
+    # outstream = '{value:0{bits}6b}'.format(value=signal_len, bits=8*byte_size)
+    # outstream += bitstream
+    return '{value:0{bits}b}'.format(value=signal_len, bits=8*byte_size) + bitstream
 
 
 def pad_stream(bitstream):
@@ -43,9 +50,14 @@ def fdwt(signal, params):
     padding = np.zeros(int(np.ceil(N/2**n) * (2**n) - N))
     xa = np.concatenate((signal, padding))
 
-    xa, *xd = pywt.wavedec(xa, 'sym4', 'per', level=n)
+    # xa, *xd = pywt.wavedec(xa, 'sym4', 'per', level=n)
 
-    return np.array(xa), np.array((*reversed(xd),))
+    xds = []
+    for _ in range(n):
+        xa, xd = pywt.dwt(xa, 'sym4', 'per')
+        xds.append(xd)
+
+    return np.asarray(xa), np.array(xds)
 
 
 def qdwt(xa, xd, params):
@@ -66,7 +78,6 @@ def qdwt(xa, xd, params):
 
 
 def encode(xa, xd, params):
-    p = 0
 
     ka = k_opt(xa, params)
     kd = [k_opt(x_, params) for x_ in xd]
@@ -77,6 +88,8 @@ def encode(xa, xd, params):
     v = np.zeros(2**L)
     # Another magic numbers
     kod = np.zeros((10000, 5))
+
+    p = 0
     for k in range(xa.size):
         v[0] = xa[k]
         d = 1
@@ -171,7 +184,7 @@ def enc_vect(V, kod, p, ka, kd, params):
         u = V[n]
 
         nz += 1
-        if not u:
+        if u == 0:
             continue
 
         cw, cn = GR0(nz, params.k_z, params.ESC_Q, params.ESC_Z)

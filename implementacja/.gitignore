@@ -2,3 +2,4 @@ client_storage
 server_received
 state_storage
 server_storage
+python_compressed/
