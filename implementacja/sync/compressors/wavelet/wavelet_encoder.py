@@ -12,7 +12,6 @@ def signal_encode(signal, params):
 
     stream_with_length = add_length_to_stream(bs, 2, signal.shape[0])
     padded_stream = pad_stream(stream_with_length)
-    # binstream = to_binary(padded_stream)
     binstream = bitstring_to_bytes(padded_stream)
 
     return binstream, len(padded_stream)
@@ -22,18 +21,8 @@ def bitstring_to_bytes(s):
     return int(s, 2).to_bytes(len(s) // 8, byteorder='big')
 
 
-def to_binary(bitstream):
-    b = bytearray()
-    for chunk in chunks(bitstream, 8):
-        b += int(chunk, 2).to_bytes(1, byteorder='big')
-    return b
-
-
 def add_length_to_stream(bitstream, byte_size, signal_len):
     assert isinstance(bitstream, str)
-    # outstream = signal_len.to_bytes(byte_size, byteorder='big')
-    # outstream = '{value:0{bits}6b}'.format(value=signal_len, bits=8*byte_size)
-    # outstream += bitstream
     return '{value:0{bits}b}'.format(value=signal_len, bits=8*byte_size) + bitstream
 
 
@@ -50,8 +39,6 @@ def fdwt(signal, params):
     padding = np.zeros(int(np.ceil(N/2**n) * (2**n) - N))
     xa = np.concatenate((signal, padding))
 
-    # xa, *xd = pywt.wavedec(xa, 'sym4', 'per', level=n)
-
     xds = []
     for _ in range(n):
         xa, xd = pywt.dwt(xa, 'sym4', 'per')
@@ -63,6 +50,7 @@ def fdwt(signal, params):
 def qdwt(xa, xd, params):
     e = np.sum(np.square(xa))
 
+    # TODO: change this into sum over generator
     for xd_ in xd:
         e += np.sum(np.square(xd_))
 
@@ -78,16 +66,15 @@ def qdwt(xa, xd, params):
 
 
 def encode(xa, xd, params):
-
     ka = k_opt(xa, params)
     kd = [k_opt(x_, params) for x_ in xd]
 
     N, A = 0, 0
 
     L = len(xd)
-    v = np.zeros(2**L)
+    v = np.zeros(2**L, dtype='int64')
     # Another magic numbers
-    kod = np.zeros((10000, 5))
+    kod = np.zeros((10000, 5), dtype='int64')
 
     p = 0
     for k in range(xa.size):
@@ -172,8 +159,11 @@ def GR0(v, k, ESC_Q, ESC_B):
 
 
 def enc_vect(V, kod, p, ka, kd, params):
+    k_z = params.k_z
+    k_v = params.k_v
+
     if np.count_nonzero(V) == 0:
-        kod[p, :] = [1, 0, params.k_z, 0, 1]
+        kod[p, :] = [1, 0, k_z, 0, 1]
         p += 1
         return kod, p
 
@@ -189,7 +179,7 @@ def enc_vect(V, kod, p, ka, kd, params):
 
         cw, cn = GR0(nz, params.k_z, params.ESC_Q, params.ESC_Z)
 
-        kod[p, :] = [0, nz, params.k_z, cw, cn]
+        kod[p, :] = [0, nz, k_z, cw, cn]
         p += 1
         k_v = 0
         nz = 0
@@ -206,7 +196,7 @@ def enc_vect(V, kod, p, ka, kd, params):
             elif params.a_enc in ('gre', 'agre'):
                 cw, cn = GR0(v, ka, params.ESC_Q, params.ESC_V)
         else:
-            cw, cn = GR0(v, k_v, cw, cn)
+            cw, cn = GR0(v, k_v, params.ESC_Q, params.ESC_V)
 
         kod[p, :] = [1, u, k_v, cw, cn]
         p += 1
