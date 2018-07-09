@@ -6119,7 +6119,7 @@ wavelets
 \begin_inset Text
 
 \begin_layout Plain Layout
-Ilość pomiarów
+Ilość plików
 \end_layout
 
 \end_inset
@@ -6185,7 +6185,7 @@ Ilość pomiarów
 \begin_layout Plain Layout
 
 \lang english
-21.62
+65.57
 \end_layout
 
 \end_inset
@@ -6196,7 +6196,7 @@ Ilość pomiarów
 \begin_layout Plain Layout
 
 \lang english
-19.73
+66.57
 \end_layout
 
 \end_inset
@@ -6207,7 +6207,7 @@ Ilość pomiarów
 \begin_layout Plain Layout
 
 \lang english
-28.96
+78.30
 \end_layout
 
 \end_inset
@@ -6218,7 +6218,7 @@ Ilość pomiarów
 \begin_layout Plain Layout
 
 \lang english
-0.13
+2.97
 \end_layout
 
 \end_inset
@@ -6240,7 +6240,7 @@ Odchylenie standardowe
 \begin_layout Plain Layout
 
 \lang english
-0.55
+6.83
 \end_layout
 
 \end_inset
@@ -6251,7 +6251,7 @@ Odchylenie standardowe
 \begin_layout Plain Layout
 
 \lang english
-1.02
+5.28
 \end_layout
 
 \end_inset
@@ -6262,7 +6262,7 @@ Odchylenie standardowe
 \begin_layout Plain Layout
 
 \lang english
-0.89
+2.93
 \end_layout
 
 \end_inset
@@ -6273,7 +6273,7 @@ Odchylenie standardowe
 \begin_layout Plain Layout
 
 \lang english
-0.01
+1.39
 \end_layout
 
 \end_inset
@@ -6295,7 +6295,7 @@ Wartość minimalna
 \begin_layout Plain Layout
 
 \lang english
-19.37
+10.95
 \end_layout
 
 \end_inset
@@ -6306,7 +6306,7 @@ Wartość minimalna
 \begin_layout Plain Layout
 
 \lang english
-16.10
+11.45
 \end_layout
 
 \end_inset
@@ -6317,7 +6317,7 @@ Wartość minimalna
 \begin_layout Plain Layout
 
 \lang english
-26.28
+11.14
 \end_layout
 
 \end_inset
@@ -6328,7 +6328,7 @@ Wartość minimalna
 \begin_layout Plain Layout
 
 \lang english
-0.09
+0.98
 \end_layout
 
 \end_inset
@@ -6350,7 +6350,7 @@ Q1 (25%)
 \begin_layout Plain Layout
 
 \lang english
-21.26
+59.61
 \end_layout
 
 \end_inset
@@ -6361,7 +6361,7 @@ Q1 (25%)
 \begin_layout Plain Layout
 
 \lang english
-19.14
+62.81
 \end_layout
 
 \end_inset
@@ -6372,7 +6372,7 @@ Q1 (25%)
 \begin_layout Plain Layout
 
 \lang english
-28.35
+76.98
 \end_layout
 
 \end_inset
@@ -6383,7 +6383,7 @@ Q1 (25%)
 \begin_layout Plain Layout
 
 \lang english
-0.12
+1.88
 \end_layout
 
 \end_inset
@@ -6405,7 +6405,7 @@ Q2 (50%)
 \begin_layout Plain Layout
 
 \lang english
-21.57
+65.14
 \end_layout
 
 \end_inset
@@ -6416,7 +6416,7 @@ Q2 (50%)
 \begin_layout Plain Layout
 
 \lang english
-19.54
+66.36
 \end_layout
 
 \end_inset
@@ -6427,7 +6427,7 @@ Q2 (50%)
 \begin_layout Plain Layout
 
 \lang english
-28.82
+78.63
 \end_layout
 
 \end_inset
@@ -6438,7 +6438,7 @@ Q2 (50%)
 \begin_layout Plain Layout
 
 \lang english
-0.13
+2.30
 \end_layout
 
 \end_inset
@@ -6460,7 +6460,7 @@ Q3 (75%)
 \begin_layout Plain Layout
 
 \lang english
-21.88
+71.28
 \end_layout
 
 \end_inset
@@ -6471,7 +6471,7 @@ Q3 (75%)
 \begin_layout Plain Layout
 
 \lang english
-20.02
+70.18
 \end_layout
 
 \end_inset
@@ -6482,7 +6482,7 @@ Q3 (75%)
 \begin_layout Plain Layout
 
 \lang english
-29.37
+80.09
 \end_layout
 
 \end_inset
@@ -6493,7 +6493,7 @@ Q3 (75%)
 \begin_layout Plain Layout
 
 \lang english
-0.14
+4.10
 \end_layout
 
 \end_inset
@@ -6515,7 +6515,7 @@ Wartość maksymalna
 \begin_layout Plain Layout
 
 \lang english
-25.17
+86.72
 \end_layout
 
 \end_inset
@@ -6526,7 +6526,7 @@ Wartość maksymalna
 \begin_layout Plain Layout
 
 \lang english
-28.69
+88.37
 \end_layout
 
 \end_inset
@@ -6537,7 +6537,7 @@ Wartość maksymalna
 \begin_layout Plain Layout
 
 \lang english
-35.13
+88.40
 \end_layout
 
 \end_inset
@@ -6548,7 +6548,7 @@ Wartość maksymalna
 \begin_layout Plain Layout
 
 \lang english
-0.37
+7.64
 \end_layout
 
 \end_inset
@@ -6593,8 +6593,8 @@ reference "tab:box_plot_kompresja_lvm"
 
  przedstawiają wyniki badań kompresji plików lvm.
  Kompresja falkowa wybija się na tle pozostałych metod.
- Średni współczynnik kompresji wyniósł 0.13%, co jest wartością dwa rzędy
- wielkości niższą niż w przypadku pozostałych metod.
+ Średni współczynnik kompresji wyniósł 2.97%, co jest wartością rząd wielkości
+ niższą niż w przypadku pozostałych metod.
 \end_layout
 
 \begin_layout Standard
@@ -6662,12 +6662,12 @@ reference "tab:wavelet_mse"
 .
  W analizie wyróżniono kanały pomiarowe ze względu na inny oczekiwany przebieg
  sygnału.
- Dane pokazują bardzo wysokie wartości odchylenia standardowego w stosunku
- do średniej oraz wartości maksymalne błędu o dwa rzędy wielkości wyższe
- niż wartość średnia.
- Wartość maksymalna błędu przekracza odchylenie standardowe o kolejny rząd
- wielkości.
- Są one również widoczne na rysunku jako pojedyncze kropki.
+\end_layout
+
+\begin_layout Standard
+Dane pokazują wartości w zakresie od jednej tysięcznej do jednej setnej.
+ Na rysunku widoczne są również pomiary odstające, których wartość błędu
+ nie przekracza jednej trzydziestej.
 \end_layout
 
 \begin_layout Standard
@@ -6827,9 +6827,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-5940
+6104
 \end_layout
 
 \end_inset
@@ -6839,9 +6839,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-5940
+6104
 \end_layout
 
 \end_inset
@@ -6851,9 +6851,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-5940
+6104
 \end_layout
 
 \end_inset
@@ -6863,9 +6863,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-5940
+6104
 \end_layout
 
 \end_inset
@@ -6875,9 +6875,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-5940
+6104
 \end_layout
 
 \end_inset
@@ -6887,9 +6887,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-5940
+6104
 \end_layout
 
 \end_inset
@@ -6912,9 +6912,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-284.54
+0.001829
 \end_layout
 
 \end_inset
@@ -6924,9 +6924,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-250.57
+0.001238
 \end_layout
 
 \end_inset
@@ -6936,9 +6936,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-160.56
+0.001856
 \end_layout
 
 \end_inset
@@ -6948,9 +6948,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-484.06
+0.001611
 \end_layout
 
 \end_inset
@@ -6960,9 +6960,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-91.98
+0.003053
 \end_layout
 
 \end_inset
@@ -6972,9 +6972,9 @@ Ilość plików
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-208.94
+0.002091
 \end_layout
 
 \end_inset
@@ -6997,9 +6997,9 @@ Odchylenie standardowe
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-3292.13
+0.000687
 \end_layout
 
 \end_inset
@@ -7009,9 +7009,9 @@ Odchylenie standardowe
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-3155.06
+0.000658
 \end_layout
 
 \end_inset
@@ -7021,9 +7021,9 @@ Odchylenie standardowe
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-2645.10
+0.000535
 \end_layout
 
 \end_inset
@@ -7033,9 +7033,9 @@ Odchylenie standardowe
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-3953.51
+0.000539
 \end_layout
 
 \end_inset
@@ -7045,9 +7045,9 @@ Odchylenie standardowe
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-1673.07
+0.000500
 \end_layout
 
 \end_inset
@@ -7057,9 +7057,9 @@ Odchylenie standardowe
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-3054.47
+0.000685
 \end_layout
 
 \end_inset
@@ -7082,7 +7082,7 @@ Wartość minimalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
 0.000341
 \end_layout
@@ -7094,7 +7094,7 @@ Wartość minimalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
 0.000247
 \end_layout
@@ -7106,7 +7106,7 @@ Wartość minimalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
 0.000536
 \end_layout
@@ -7118,7 +7118,7 @@ Wartość minimalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
 0.000503
 \end_layout
@@ -7130,7 +7130,7 @@ Wartość minimalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
 0.002096
 \end_layout
@@ -7142,7 +7142,7 @@ Wartość minimalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
 0.000757
 \end_layout
@@ -7167,9 +7167,9 @@ Q1 (25%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001319
+0.001288
 \end_layout
 
 \end_inset
@@ -7179,9 +7179,9 @@ Q1 (25%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.000708
+0.000699
 \end_layout
 
 \end_inset
@@ -7191,9 +7191,9 @@ Q1 (25%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001485
+0.001472
 \end_layout
 
 \end_inset
@@ -7203,9 +7203,9 @@ Q1 (25%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001304
+0.001242
 \end_layout
 
 \end_inset
@@ -7215,9 +7215,9 @@ Q1 (25%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.002643
+0.002637
 \end_layout
 
 \end_inset
@@ -7227,9 +7227,9 @@ Q1 (25%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001596
+0.001560
 \end_layout
 
 \end_inset
@@ -7252,9 +7252,9 @@ Q2 (50%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001917
+0.001840
 \end_layout
 
 \end_inset
@@ -7264,9 +7264,9 @@ Q2 (50%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001166
+0.001115
 \end_layout
 
 \end_inset
@@ -7276,9 +7276,9 @@ Q2 (50%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001984
+0.001944
 \end_layout
 
 \end_inset
@@ -7288,9 +7288,9 @@ Q2 (50%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001756
+0.001556
 \end_layout
 
 \end_inset
@@ -7300,9 +7300,9 @@ Q2 (50%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.003014
+0.002987
 \end_layout
 
 \end_inset
@@ -7312,9 +7312,9 @@ Q2 (50%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.002104
+0.001966
 \end_layout
 
 \end_inset
@@ -7337,9 +7337,9 @@ Q3 (75%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.002505
+0.002374
 \end_layout
 
 \end_inset
@@ -7349,9 +7349,9 @@ Q3 (75%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.001804
+0.001549
 \end_layout
 
 \end_inset
@@ -7361,9 +7361,9 @@ Q3 (75%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.002314
+0.002287
 \end_layout
 
 \end_inset
@@ -7373,9 +7373,9 @@ Q3 (75%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.002554
+0.001957
 \end_layout
 
 \end_inset
@@ -7385,9 +7385,9 @@ Q3 (75%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.003510
+0.003436
 \end_layout
 
 \end_inset
@@ -7397,9 +7397,9 @@ Q3 (75%)
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-0.002927
+0.002591
 \end_layout
 
 \end_inset
@@ -7422,9 +7422,9 @@ Wartość maksymalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-70019
+0.003515
 \end_layout
 
 \end_inset
@@ -7434,9 +7434,9 @@ Wartość maksymalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-91181
+0.003460
 \end_layout
 
 \end_inset
@@ -7446,9 +7446,9 @@ Wartość maksymalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-93338
+0.003403
 \end_layout
 
 \end_inset
@@ -7458,9 +7458,9 @@ Wartość maksymalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-73839
+0.019099
 \end_layout
 
 \end_inset
@@ -7470,9 +7470,9 @@ Wartość maksymalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-48370
+0.004734
 \end_layout
 
 \end_inset
@@ -7482,9 +7482,9 @@ Wartość maksymalna
 
 \begin_layout Plain Layout
 
-\size footnotesize
+\size scriptsize
 \lang english
-151779
+0.020863
 \end_layout
 
 \end_inset
@@ -7525,91 +7525,25 @@ name "tab:wavelet_mse"
 \end_layout
 
 \begin_layout Standard
-Przebieg sygnałów oryginalnego i zdekompresowanego przedstawia rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_poprawny_przebieg"
-
-\end_inset
-
-, wybrano przebieg o niskim błędzie średnikowadratowym.
- Dekompresja wprowadza niewielkie zakłócenia do przebiegu.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename img/wavelet_poprawny_przebieg.jpeg
-	lyxscale 70
-	scale 24
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Sygnał oryginalny i po procesie kompresji i dekompresji
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "rys:wavelet_poprawny_przebieg"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Przebieg o najwyższym błędzie zaobserwowanym w zbiorze testowym przedstawiają
- rysunki 
+Przebieg o najwyższym błędzie zaobserwowanym w zbiorze testowym przedstawia
+ rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:wavelet_little_signal"
 
 \end_inset
 
- oraz 
+.
+ Sygnał oryginalny przedstawia rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "rys:wavelet_poprawny_przebieg"
+reference "rys:wavelet_little_signal_original"
 
 \end_inset
 
 .
- Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_poprawny_przebieg"
-
-\end_inset
-
- został przeskalowany do zakresu [-10,10] na osi Y.
- Wartości sygnałów oryginalnych generowanych przez stanowisko pomiarowe
- mieszczą się w tym zakresie.
- Kompresja falkowa w szczególnych przypadkach wprowadza bardzo wysokie zaburzeni
-a danych pomiarowych.
+ Metoda falkowa nawet w przypadku pesymistycznym zachowuje kluczowe cechy
+ sygnału.
 \end_layout
 
 \begin_layout Standard
@@ -7667,7 +7601,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/zaburzenia_falek_duze_zblizenie.jpeg
+	filename img/przebieg_oryginalny.jpeg
 	lyxscale 70
 	scale 24
 
@@ -7680,14 +7614,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Rysunek 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "rys:wavelet_little_signal"
-
-\end_inset
-
- przeskalowany do zakresu -10,10 na osi Y
+Sygnał oryginalny, którego sekwencja kompresja-dekompresja ma najwyższy
+ błąd średnikwadratowy
 \end_layout
 
 \end_inset
@@ -7698,7 +7626,7 @@ reference "rys:wavelet_little_signal"
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "rys:wavelet_duze_zaburzenia_przyblizony"
+name "rys:wavelet_little_signal_original"
 
 \end_inset
 
@@ -7713,17 +7641,14 @@ name "rys:wavelet_duze_zaburzenia_przyblizony"
 \begin_layout Standard
 Algorytm falkowy został zbadany z ustawieniami domyślnymi, zaczerpniętymi
  z implementacji w języku Matlab dostarczonej jako referencyjna.
- Przypuszcza się, że zmodyfikowanie parametrów algorytmu może istotnie zmienić
- wartości błędu.
- Wymaga to jednak dodatkowych badań, które nie zostały przeprowadzone w
- trakcie pracy.
+ Przypuszcza się, że zmodyfikowanie parametrów algorytmu może wpłynąć zarówno
+ na wartość błędu jak i stopień kompresji sygnału.
 \end_layout
 
 \begin_layout Standard
 Implementacja tego algorytmu w postaci biblioteki języka Python została
  dołączona do źródeł pracy.
- Może ona posłużyć jako podstawa do dalszych badań nad algorytmem, istnieje
- również możliwość uruchomienia tego trybu kompresji w projekcie.
+ Może ona posłużyć jako podstawa do dalszych badań nad algorytmem.
 \end_layout
 
 \begin_layout Subsection
@@ -7822,8 +7747,8 @@ reference "eq:kompresja"
 .
  Dane przedstawiono w formie macierzowej, gdzie indeks wierszowy oznacza
  metodę kompresji pliku lvm, a indeks kolumnowy pliku avi (sekwencji wideo).
- Najlepszą sprawność oferuje para metod (bzip2, x264), ich zastosowanie
- redukuje rozmiar danych do 12.8% wielkości wejściowej.
+ Najlepszą sprawność oferuje para metod (wavelet, x264), ich zastosowanie
+ redukuje rozmiar danych do 1.74% wielkości wejściowej.
 \end_layout
 
 \begin_layout Standard
@@ -7847,7 +7772,7 @@ Macierz sumarycznego współczynnika kompresji
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="6">
+<lyxtabular version="3" rows="6" columns="6">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -7990,6 +7915,8 @@ lzma
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 40.32
 \end_layout
 
@@ -7999,6 +7926,8 @@ lzma
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 41.08
 \end_layout
 
@@ -8008,6 +7937,8 @@ lzma
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 46.56
 \end_layout
 
@@ -8017,6 +7948,8 @@ lzma
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 13.86
 \end_layout
 
@@ -8046,6 +7979,8 @@ bzip2
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 39.26
 \end_layout
 
@@ -8055,6 +7990,8 @@ bzip2
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 40.02
 \end_layout
 
@@ -8064,6 +8001,8 @@ bzip2
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 45.49
 \end_layout
 
@@ -8073,6 +8012,8 @@ bzip2
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 12.80
 \end_layout
 
@@ -8089,7 +8030,7 @@ bzip2
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8098,20 +8039,57 @@ zlib
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 44.47
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\lang english
 45.22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+50.70
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+18.00
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -8120,7 +8098,40 @@ zlib
 \begin_inset Text
 
 \begin_layout Plain Layout
-50.70
+wavelet
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+28.21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+28.97
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+34.44
 \end_layout
 
 \end_inset
@@ -8129,7 +8140,9 @@ zlib
 \begin_inset Text
 
 \begin_layout Plain Layout
-18.00
+
+\lang english
+1.74
 \end_layout
 
 \end_inset
@@ -11925,6 +11938,14 @@ Celem niniejszego rozdziału jest weryfikacja działania systemu przesyłu.
  nadawać dane bez opóźnień.
 \end_layout
 
+\begin_layout Standard
+Testy symulacyjne przeprowadzono dla par kompresorów (bzip2, x264) oraz
+ (wavelet, x264).
+ Na stanowisku pomiarowym przeprowadzono test pary (bzip2, x264) ze względu
+ na problemy z instalacją biblioteki PyWavelets, realizującej transformację
+ falkową.
+\end_layout
+
 \begin_layout Section
 Zachowanie sytemu w warunkach symulacyjnych
 \end_layout
@@ -11933,6 +11954,9 @@ Zachowanie sytemu w warunkach symulacyjnych
 Celem zbadania przepustowości aplikacji w konfiguracji realizującej kompresje
  stworzono środowisko testowe z interfejsem sieciowym posiadającym ograniczoną
  przepustowość.
+ Przykłady konfiguracji przedstawiają przygotowanie symulacji dla pary kompresor
+ów (bzip2, x264).
+ Symulację działania dla pary (wavelet, x264) testowano w taki sam sposób.
 \end_layout
 
 \begin_layout Standard
@@ -12808,8 +12832,7 @@ name "rys:test_sim_queue_55kbps"
 \end_layout
 
 \begin_layout Standard
-Przeprowadzono również test przy przepustowości 15 kB/s.
- Wyniki pomiarów długości kolejki przedstawia rysunek 
+Wynik testu przy przepustowości 15 kB/s przedstawia rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rys:test_sim_queue_15kbps"
@@ -12856,6 +12879,67 @@ Długość kolejki plików do wysłania w ujęciu godzinowym, przepustowość ł
 \begin_inset CommandInset label
 LatexCommand label
 name "rys:test_sim_queue_15kbps"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wynik testu pary (wavelet, x264) przedstawia rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rys:test_wavelet_12kbps"
+
+\end_inset
+
+.
+ Symulację przeprowadzono, przy przepustowości łącza 12 kB/s.
+ Pomimo najniższej z badanych przepustowości nadawanie odbywa się na bieżąco.
+ Duża ilość wartości zero widocznych na wykresie sugeruje, że schemat ten
+ może pracować również przy niższych przepustowościach.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/sym_wavelet_diagram_12kbps.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Długość kolejki plików do wysłania w ujęciu godzinowym, kompresja (wavelet,
+ x264), przepustowość łącza 12 kB/s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "rys:test_wavelet_12kbps"
 
 \end_inset
 
@@ -13239,6 +13323,8 @@ W ramach pracy przeprowadzono analizę pomiarów generowanych przez stanowisko
  metody ich obsługi.
  Działanie aplikacji zostało zweryfikowane w środowisku symulacyjnym a następnie
  wdrożone.
+ Ponadto zaimplementowano w języku Python oraz zweryfikowano działanie algorytmu
+ falkowego.
 \end_layout
 
 \begin_layout Section*
@@ -13278,6 +13364,14 @@ Kompleksowa metoda synchronizacji jest wymagana, ponieważ w katalogu pomiarów
  wysłania.
 \end_layout
 
+\begin_layout Standard
+Symulacje wskazują, że zastosowanie algorytmu falkowego na stanowisku pomiarowym
+ umożliwi bieżący przesył danych.
+ W celu weryfikacji tej hipotezy, należy przeprowadzić próbę instalacji
+ biblioteki PyWavelets z uprawnieniami administratorskimi, bądź zaimplementować
+ algorytm z użyciem innej biblioteki.
+\end_layout
+
 \begin_layout Section*
 Wnioski
 \end_layout
@@ -13299,8 +13393,6 @@ Zbadano trzy metody kompresji bezstratnej oraz dwie stratne.
  Kompresja wideo z użyciem standardu H.264 przyniosła bardzo dobre rezultaty.
  Współczynnik kompresji oferowany przez algorytm falkowy deklasuje pozostałe
  proponowane metody.
- Przypuszcza się, że odpowiednie dobranie parametrów tego algorytmu doprowadzi
- do znacznej redukcji zakłóceń wprowadzanych prze jego zastosowanie.
 \end_layout
 
 \begin_layout Standard
