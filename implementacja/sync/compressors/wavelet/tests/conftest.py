@@ -1,5 +1,6 @@
 import pytest
 from scipy import io as scio
+import pathlib as pl
 
 from .. import wavelet_commons
 
@@ -12,8 +13,10 @@ def params():
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel1',
-    'wavelet/tests/signal_data/channel4'
+    'wavelet/tests/signal_data/M171006_183622/channel1',
+    'wavelet/tests/signal_data/M171006_183622/channel4',
+    'wavelet/tests/signal_data/M171006_032845/channel1',
+    'wavelet/tests/signal_data/M171006_032845/channel4'
 ])
 def fdwt_matlab_state(request):
     state = scio.loadmat(request.param + '/fdwt_results.mat')
@@ -24,8 +27,10 @@ def fdwt_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel1',
-    'wavelet/tests/signal_data/channel4'
+    'wavelet/tests/signal_data/M171006_183622/channel1',
+    'wavelet/tests/signal_data/M171006_183622/channel4',
+    'wavelet/tests/signal_data/M171006_032845/channel1',
+    'wavelet/tests/signal_data/M171006_032845/channel4'
 ])
 def qdwt_matlab_state(request):
     state1 = scio.loadmat(request.param + '/fdwt_results.mat')
@@ -42,8 +47,10 @@ def qdwt_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel1',
-    'wavelet/tests/signal_data/channel4'
+    'wavelet/tests/signal_data/M171006_183622/channel1',
+    'wavelet/tests/signal_data/M171006_183622/channel4',
+    'wavelet/tests/signal_data/M171006_032845/channel1',
+    'wavelet/tests/signal_data/M171006_032845/channel4'
 ])
 def encv3_matlab_state(request):
     state = scio.loadmat(request.param + '/encv3_results.mat')
@@ -59,7 +66,7 @@ def encv3_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel4'
+    'wavelet/tests/signal_data/M171006_183622/channel4'
 ])
 def kopt_matlab_state(request):
     state = scio.loadmat(request.param + '/kopt_results.mat')
@@ -73,7 +80,7 @@ def kopt_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel4'
+    'wavelet/tests/signal_data/M171006_183622/channel4'
 ])
 def kget_matlab_state(request):
     state = scio.loadmat(request.param + '/kget_results.mat')
@@ -87,7 +94,7 @@ def kget_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel4'
+    'wavelet/tests/signal_data/M171006_183622/channel4'
 ])
 def na_matlab_state(request):
     state = scio.loadmat(request.param + '/kget_results.mat')
@@ -106,7 +113,7 @@ def na_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel4'
+    'wavelet/tests/signal_data/M171006_183622/channel4'
 ])
 def enc_vect_matlab_state(request):
     pre_state = scio.loadmat(request.param + '/enc_pre_results.mat')
@@ -126,7 +133,7 @@ def enc_vect_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel4'
+    'wavelet/tests/signal_data/M171006_183622/channel4'
 ])
 def cw2bs_matlab_state(request):
     state = scio.loadmat(request.param + '/cw2bs_results.mat')
@@ -138,7 +145,7 @@ def cw2bs_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/channel1'
+    'wavelet/tests/signal_data/M171006_183622/channel1'
 ])
 def bs_read_matlab_state(request):
     state = scio.loadmat(request.param + '/bs_read_results.mat')
@@ -148,3 +155,12 @@ def bs_read_matlab_state(request):
     x = bytearray(el[0] for el in state['x'])
 
     return x, bs, N
+
+
+@pytest.fixture(scope='function', params=[
+    'wavelet/tests/source_signals/M171006_032845.lvm',
+    'wavelet/tests/source_signals/M171006_183622.lvm',
+    'wavelet/tests/source_signals/M171006_201801.lvm'
+])
+def bad_signal_file(request):
+    return pl.Path(request.param)

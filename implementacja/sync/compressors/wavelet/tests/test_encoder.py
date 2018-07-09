@@ -107,20 +107,18 @@ def md5(fname: pl.Path):
     return hash_md5.hexdigest()
 
 
-def test_end_to_end():
+def test_end_to_end(bad_signal_file):
     python_path = pl.Path('wavelet/tests/python_compressed')
     matlab_path = pl.Path('wavelet/tests/matlab_compressed')
     python_path.mkdir(parents=True, exist_ok=True)
 
-    """
-    This file uses reference output from matlab implementation to test python
-    """
-    bad_file = 'wavelet/tests/M171006_183622.lvm'
-    bytestreams = wavelet_lvm.encode_file_return_bytestreams(bad_file)
+    # bad_signal_name = bad_signal_file.stem
+
+    bytestreams = wavelet_lvm.encode_file_return_bytestreams(str(bad_signal_file))
 
     results = []
     for i, bytestream in enumerate(bytestreams):
-        signal_path = python_path.joinpath('{}_{}_{}.wavelet'.format(pl.Path(bad_file).name, 'sym4', i + 1))
+        signal_path = python_path.joinpath('{}_{}_{}.wavelet'.format(bad_signal_file.name, 'sym4', i + 1))
         signal_path.write_bytes(bytestream)
         results.append(signal_path)
 

@@ -22,11 +22,14 @@ def signal_error(sig1, sig2):
     return np.square(sig1 - sig2).mean()
 
 
-def test_decode():
+def test_decode(bad_signal_file):
     source_folder = pl.Path('wavelet/tests/matlab_compressed')
-    original_signals = np.loadtxt('wavelet/tests/M171006_183622.lvm')[:, 1:]
-    matlab_decoded_signals = np.loadtxt('wavelet/tests/M171006_183622.matlab.lvm')
-    source_files = source_folder.glob('*.wavelet')
+
+    stem = bad_signal_file.stem
+
+    original_signals = np.loadtxt('wavelet/tests/source_signals/{}.lvm'.format(stem))[:, 1:]
+    matlab_decoded_signals = np.loadtxt('wavelet/tests/matlab_compressed/{}.matlab.lvm'.format(stem))
+    source_files = source_folder.glob('{}*.wavelet'.format(stem))
 
     matlab_errors = []
     python_errors = []
