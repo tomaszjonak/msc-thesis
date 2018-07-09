@@ -158,6 +158,22 @@ def bs_read_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
+    'wavelet/tests/signal_data/M171006_032845/channel4'
+])
+def gr0_matlab_state(request):
+    state = scio.loadmat(request.param + '/gr0_results.mat')
+
+    v = state['v'][0][0]
+    ka = state['ka'][0][0]
+    esc_q = state['ESC_Q'][0][0]
+    esc_v = state['ESC_V'][0][0]
+    expected_cw = state['cw'][0][0]
+    expected_cn = state['cn'][0][0]
+
+    return v, ka, esc_q, esc_v, expected_cw, expected_cn
+
+
+@pytest.fixture(scope='function', params=[
     'wavelet/tests/source_signals/M171006_032845.lvm',
     'wavelet/tests/source_signals/M171006_183622.lvm',
     'wavelet/tests/source_signals/M171006_201801.lvm'

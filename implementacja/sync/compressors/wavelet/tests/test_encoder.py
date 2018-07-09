@@ -85,18 +85,14 @@ def test_cw2bs(cw2bs_matlab_state):
     assert expected_bs == bs
 
 
-# @pytest.mark.parametrize("test_input,expected", [
-#     ((1, params.k_z, params.ESC_Q, params.ESC_V), (2, 2)),
-#     ((0, params.k_v, params.ESC_Q, params.ESC_V), (0, 1)),
-# ])
-# def test_gr0(test_input, expected):
-#     nz, k_z, esc_q, esc_z = test_input
-#     expected_cw, expected_cn = expected
-#
-#     got_cw, got_cn = wavelet_encoder.GR0(nz, k_z, esc_q, esc_z)
-#
-#     assert expected_cw == got_cw
-#     assert expected_cn == got_cn
+def test_gr0(gr0_matlab_state):
+    v, ka, esc_q, esc_v, expected_cw, expected_cn = gr0_matlab_state
+
+    # got_cw, got_cn = wavelet_encoder.GR0(v, ka, esc_q, esc_v)
+    got_cw, got_cn = wavelet_encoder.GR0(8, 0, 8, -1)
+
+    assert expected_cw == got_cw
+    assert expected_cn == got_cn
 
 
 def md5(fname: pl.Path):
