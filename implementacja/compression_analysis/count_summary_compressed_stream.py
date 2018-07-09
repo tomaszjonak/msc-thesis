@@ -15,7 +15,7 @@ def main():
     original_dataset_size = (lvm_df['original_size'].sum() + avi_df['original_size'].sum()) / 1000
     print('{} Kb'.format(original_dataset_size))
 
-    lvm_methods = ['lzma', 'bz2', 'zlib']
+    lvm_methods = ['lzma', 'bz2', 'zlib', 'wavelets']
     avi_methods = ['lzma', 'bz2', 'zlib', 'x264']
 
     def calculate_compression(x):
@@ -25,7 +25,7 @@ def main():
         avi_size = avi_df[avi_method].sum() / 1000
         return (avi_size + lvm_size) / original_dataset_size * 100
 
-    result_df = pd.DataFrame(np.nan, index=lvm_methods,columns=avi_methods).apply(calculate_compression)
+    result_df = pd.DataFrame(np.nan, index=lvm_methods, columns=avi_methods).apply(calculate_compression)
     result_df.to_csv('compression_method_matrix.csv', float_format='%.2f')
     print(result_df)
     # for lvm_m, avi_m in itertools.product(lvm_methods, avi_methods):

@@ -20,10 +20,10 @@ def describe_lvm():
     print(lvm_description)
     lvm_description.to_csv('lvm_compression_summary.csv', float_format='%.2f')
     matplotlib.style.use('ggplot')
-    lvm_percents.boxplot(return_type='axes')
-    plt.title('Wykres pudelkowy wielkosci skompresowanego pliku lvm dla badanych metod kompresji')
-    plt.xlabel("Algorytm kompresji")
-    plt.ylabel("Sprawnosc kompresji [procent wielkosci oryginalnego pliku]")
+    lvm_percents.boxplot(return_type='axes', fontsize=20)
+    plt.title('Wykres pudelkowy wielkosci skompresowanego pliku lvm dla badanych metod kompresji', fontsize=20)
+    plt.xlabel("Algorytm kompresji", fontsize=20)
+    plt.ylabel("Sprawnosc kompresji [procent wielkosci oryginalnego pliku]", fontsize=20)
     plt.show()
 
 
@@ -35,10 +35,10 @@ def describe_avi():
     print(avi_description)
     avi_description.to_csv('lvm_compression_summary.csv', float_format='%.2f')
     matplotlib.style.use('ggplot')
-    avi_percents.boxplot(return_type='axes')
-    plt.title('Wykres pudelkowy wielkosci skompresowanego pliku avi dla badanych metod kompresji')
-    plt.xlabel("Algorytm kompresji")
-    plt.ylabel("Sprawnosc kompresji [procent wielkosci oryginalnego pliku]")
+    avi_percents.boxplot(return_type='axes', fontsize=20)
+    plt.title('Wykres pudelkowy wielkosci skompresowanego pliku avi dla badanych metod kompresji', fontsize=20)
+    plt.xlabel("Algorytm kompresji", fontsize=20)
+    plt.ylabel("Sprawnosc kompresji [procent wielkosci oryginalnego pliku]", fontsize=20)
     plt.show()
 
 
