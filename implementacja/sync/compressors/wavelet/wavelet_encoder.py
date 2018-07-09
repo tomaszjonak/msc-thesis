@@ -146,7 +146,7 @@ def GR0(v, k, ESC_Q, ESC_B):
         msb = int(np.log2(v))
 
         u = v - 2**msb
-        c = (2**ESC_Q - 1) * 2**(msb + 3) + (msb + 3) * 2**msb + u
+        c = (2**ESC_Q - 1) * (2**(msb + 3)) + (msb - 3) * 2**msb + u
         # is this hardcoded 8 ESC_Q?
         n = msb + 3 + 8
 
