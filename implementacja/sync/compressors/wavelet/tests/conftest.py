@@ -13,6 +13,15 @@ def params():
 
 
 @pytest.fixture(scope='function', params=[
+    'wavelet/tests/source_signals/M171006_032845.lvm',
+    'wavelet/tests/source_signals/M171006_183622.lvm',
+    'wavelet/tests/source_signals/M171006_201801.lvm'
+])
+def bad_signal_file(request):
+    return pl.Path(request.param)
+
+
+@pytest.fixture(scope='function', params=[
     'wavelet/tests/signal_data/M171006_183622/channel1',
     'wavelet/tests/signal_data/M171006_183622/channel4',
     'wavelet/tests/signal_data/M171006_032845/channel1',
@@ -145,19 +154,6 @@ def cw2bs_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/signal_data/M171006_183622/channel1'
-])
-def bs_read_matlab_state(request):
-    state = scio.loadmat(request.param + '/bs_read_results.mat')
-
-    bs = state['bs'][0]
-    N = state['N'][0]
-    x = bytearray(el[0] for el in state['x'])
-
-    return x, bs, N
-
-
-@pytest.fixture(scope='function', params=[
     'wavelet/tests/signal_data/M171006_032845/channel4'
 ])
 def gr0_matlab_state(request):
@@ -174,9 +170,45 @@ def gr0_matlab_state(request):
 
 
 @pytest.fixture(scope='function', params=[
-    'wavelet/tests/source_signals/M171006_032845.lvm',
-    'wavelet/tests/source_signals/M171006_183622.lvm',
-    'wavelet/tests/source_signals/M171006_201801.lvm'
+    'wavelet/tests/signal_data/M171006_183622/channel1',
+    'wavelet/tests/signal_data/M171006_032845/channel1'
 ])
-def bad_signal_file(request):
-    return pl.Path(request.param)
+def bs_read_matlab_state(request):
+    state = scio.loadmat(request.param + '/bs_read_results.mat')
+
+    bs = state['bs'][0]
+    N = state['N'][0]
+    x = bytearray(el[0] for el in state['x'])
+
+    return x, bs, N
+
+
+@pytest.fixture(scope='function', params=[
+    'wavelet/tests/signal_data/M171006_032845/channel1'
+])
+def iwt_matlab_state(request):
+    state = scio.loadmat(request.param + '/iwt_results.mat')
+
+    original_len = state['original_len'][0][0]
+    xa2 = state['xa2'][0]
+    xd2 = [elem[0] for elem in state['xd2'][0]]
+    expected_x2 = state['x2'][0]
+
+    return original_len, xa2, xd2, expected_x2
+
+
+@pytest.fixture(scope='function', params=[
+    'wavelet/tests/signal_data/M171006_032845/channel1'
+])
+def decv3_matlab_state(request):
+    state = scio.loadmat(request.param + '/decv3_results.mat')
+
+    bytestream = state['bytestream'][0]
+    n_levels = state['n_levels'][0][0]
+    original_len = state['original_len'][0][0]
+    ka = state['ka'][0][0]
+    kd = state['kd'][0]
+    expected_xa2 = state['xa2'][0]
+    expected_xd2 = [elem[0] for elem in state['xd2'][0]]
+
+    return bytestream, n_levels, original_len, ka, kd, expected_xa2, expected_xd2
