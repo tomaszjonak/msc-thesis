@@ -61,14 +61,11 @@ def test_decode(bad_signal_file_decode):
         matlab_errors.append(err_matlab_original)
         python_errors.append(err_python_original)
         assert err_matlab_python < 10e-6
-        # error_pairs.append((err_matlab_original, err_python_original))
-
-        # assert
 
         # print("{}   matlab: {:4f}".format(file.name, err_matlab_original))
         # print("{}   python: {:4f}".format(file.name, err_python_original))
         # print("{}   diff:   {:4f}".format(file.name, err_matlab_python))
-
+        #
         # plt.plot(original_signal, label='original')
         # plt.plot(matlab_decoded_signal, label='matlab')
         # plt.plot(python_decoded_signal, label='python')
@@ -78,4 +75,4 @@ def test_decode(bad_signal_file_decode):
         # plt.legend()
         # plt.show()
 
-    assert np.allclose(matlab_errors, python_errors)
+    assert np.allclose(matlab_errors, python_errors, atol=10e-5)

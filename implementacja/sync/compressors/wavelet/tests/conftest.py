@@ -24,6 +24,7 @@ def bad_signal_file_encode(request):
 
 @pytest.fixture(scope='function', params=[
     'wavelet/tests/source_signals/M171006_032845.lvm',
+    'wavelet/tests/source_signals/M171006_152139.lvm',
     'wavelet/tests/source_signals/M171006_183622.lvm',
     'wavelet/tests/source_signals/M171006_201801.lvm'
 ])
