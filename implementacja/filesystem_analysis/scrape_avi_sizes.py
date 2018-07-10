@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import itertools
 
-str_loc = 'avi_results.csv'
+str_loc = 'lvm_results.csv'
 path = pl.Path(str_loc)
 
 data = []
@@ -45,19 +45,19 @@ plot_metrics = (
 )
 
 # matplotlib.style.use('ggplot')
-matplotlib.rcParams.update({'font.size': 12})
+matplotlib.rcParams.update({'font.size': 20})
 fig, ax = plt.subplots()
 
 for metric, label in plot_metrics:
     ax.plot(timestamps, metric, label=label)
 ax.legend()
-ax.set_title('Wielkosci sekwencji wideo w ujeciu dobowym')
+ax.set_title('Wielkosci plikow lvm w ujeciu dobowym')
 # plt.gcf().autofmt_xdate()
 ax.xaxis.set_major_locator(mdates.HourLocator())
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%H'))
 ax.set_ylim(bottom=0)
 ax.grid()
-ax.set_xlabel('Czas zarejestrowania sekwencji')
+ax.set_xlabel('Czas zarejestrowania sygnalow')
 ax.set_ylabel('Wielkosc pliku [Bajty]')
 
 plt.show()

@@ -13,6 +13,8 @@ matplotlib.rcParams.update({'font.size': 30})
 all_results = pandas.concat([avi_df, lvm_df], axis=1)
 # summary_bytes = 0
 matplotlib.style.use('ggplot')
+matplotlib.rcParams.update({'font.size': 20})
+
 # print(all_results.describe())
 plt.title("Wykres pudelkowy rozmiaru plikow avi oraz lvm")
 plt.xlabel("Typ pliku")

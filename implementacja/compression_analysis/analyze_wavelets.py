@@ -18,13 +18,16 @@ def decompress_and_plot(path, case_name):
 
 def plot_signals(original_data, decompressed_data, case_name):
     assert original_data.shape == decompressed_data.shape
+    matplotlib.rcParams.update({'font.size': 18})
 
     for i in range(original_data.shape[1]):
+        if i < 5:
+            continue
         client_signal = original_data[:, i]
-        server_signal = decompressed_data[:, i]
+        # server_signal = decompressed_data[:, i]
 
         plt.plot(client_signal, label='sygnal oryginalny')
-        plt.plot(server_signal, label='sygnal zdekompresowany')
+        # plt.plot(server_signal, label='sygnal zdekompresowany')
         plt.legend()
         plt.title('{} - kanal {}'.format(case_name, i))
         plt.xlabel('Indeks probki')
@@ -51,22 +54,24 @@ def main():
     stats = stddf.describe()
     stats.to_csv('wavelet_compression_summary.csv', float_format='%.6f')
 
-    matplotlib.style.use('ggplot')
-    stats.boxplot()
-    plt.title('Wykres pudelkowy bledu sredniokwadratowego kompresji falkowej')
-    plt.xlabel('Kanal pomiaru')
-    plt.ylabel('Wartosc bledu')
-    plt.show()
+    # matplotlib.rcParams.update({'font.size': 40})
+    # matplotlib.style.use('ggplot')
+    # stats.boxplot(fontsize=20)
+    #
+    # plt.title('Wykres pudelkowy bledu sredniokwadratowego kompresji falkowej', fontsize=20)
+    # plt.xlabel('Kanal pomiaru', fontsize=20)
+    # plt.ylabel('Wartosc bledu', fontsize=20)
+    # plt.show()
 
-    # max_mean_column = stddf.max().argmax()
-    # max_row_index = stddf[max_mean_column].argmax()
-    # file_name = df.iloc[max_row_index]['nazwa pliku']
-    file_name = df.sample(3)['nazwa pliku'].iloc[0]
+    max_mean_column = stddf.max().argmax()
+    max_row_index = stddf[max_mean_column].argmax()
+    file_name = df.iloc[max_row_index]['nazwa pliku']
+    # file_name = df.sample(3)['nazwa pliku'].iloc[0]
 
-    # min_row_index =  stddf[max_mean_column].argmin()
+    # min_row_index = stddf[max_mean_column].argmin()
     # file_name = df.iloc[min_row_index]['nazwa pliku']
 
-    # decompress_and_plot(pl.Path('../client_storage/R2017_10_06').joinpath(file_name), str(file_name))
+    decompress_and_plot(pl.Path('../client_storage/R2017_10_06').joinpath(file_name), str(file_name))
 
 if __name__ == '__main__':
     main()
