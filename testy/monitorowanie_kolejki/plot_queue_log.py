@@ -17,7 +17,7 @@ def main():
         path = sys.argv[1]
     else:
         # path = "queue_0107.log"
-        path = "queue.log"
+        path = "sym_wavelets_12kbps.log"
         # subprocess.check_call(retrieve_command)
 
     data = pd.read_csv(path, index_col=0, parse_dates=True, header=None)
@@ -25,39 +25,39 @@ def main():
     data.index.name = "Czas pomiaru"
 
     matplotlib.style.use('ggplot')
-    matplotlib.rcParams.update({'font.size': 18})
+    matplotlib.rcParams.update({'font.size': 20})
 
     fig, ax = plt.subplots()
 
-    data['Ilosc plikow do wyslania'].iloc[::6].plot(ax=ax)
+    data['Ilosc plikow do wyslania'].iloc[::2].plot(ax=ax)
     # ax.yaxis.lim(ymin=0)
     ax.set_title("Wielkosc kolejki plikow do wyslania w czasie dzialania aplikacji")
     ax.set_xlabel("Godzina")
     ax.set_ylabel("Ilosc plikow oczekujacych na wyslanie")
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=1))
-    ax.xaxis.set_minor_locator(mdates.HourLocator(byhour=range(0, 24, 2)))
-    # ax.xaxis.set_minor_locator(mdates.HourLocator(interval=1))
+    # ax.xaxis.set_minor_locator(mdates.HourLocator(byhour=range(0, 24, 2)))
+    ax.xaxis.set_minor_locator(mdates.HourLocator(interval=1))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('\n%d/%m'))
     ax.xaxis.set_minor_formatter(mdates.DateFormatter('%H'))
     ax.xaxis.grid(b=True, which='major', linewidth=2)
     ax.xaxis.grid(b=True, which='minor')
-    ax.set_ylim(bottom=0)
+    ax.set_ylim(bottom=0, top=5)
 
-    fig, ax = plt.subplots()
+    # fig, ax = plt.subplots()
 
-    (data[2]/1000).plot(ax=ax)
-    ax.set_title("Wielkosc pliku kolejki")
-    ax.set_ylabel("Wielkosc pliku kolejki w kilobajtach")
-    ax.set_xlabel("Godzina")
-    ax.xaxis.set_major_locator(mdates.DayLocator(interval=1))
-    ax.xaxis.set_minor_locator(mdates.HourLocator(byhour=range(0, 24, 2)))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('\n%d/%m'))
-    ax.xaxis.set_minor_formatter(mdates.DateFormatter('%H'))
-    ax.xaxis.grid(b=True, which='major', linewidth=2)
-    ax.xaxis.grid(b=True, which='minor')
-    ax.set_ylim(bottom=0)
+    # (data[2]/1000).plot(ax=ax)
+    # ax.set_title("Wielkosc pliku kolejki")
+    # ax.set_ylabel("Wielkosc pliku kolejki w kilobajtach")
+    # ax.set_xlabel("Godzina")
+    # ax.xaxis.set_major_locator(mdates.DayLocator(interval=1))
+    # ax.xaxis.set_minor_locator(mdates.HourLocator(byhour=range(0, 24, 2)))
+    # ax.xaxis.set_major_formatter(mdates.DateFormatter('\n%d/%m'))
+    # ax.xaxis.set_minor_formatter(mdates.DateFormatter('%H'))
+    # ax.xaxis.grid(b=True, which='major', linewidth=2)
+    # ax.xaxis.grid(b=True, which='minor')
+    # ax.set_ylim(bottom=0)
 
-    plt.tight_layout()
+    # plt.tight_layout()
     plt.show()
 
 main()

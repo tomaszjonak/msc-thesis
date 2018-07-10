@@ -1851,7 +1851,7 @@ status open
 \begin_inset Graphics
 	filename img/filesystem_file_size_box_plot.png
 	lyxscale 50
-	scale 35
+	scale 33
 
 \end_inset
 
@@ -1935,7 +1935,7 @@ status open
 \begin_inset Graphics
 	filename img/wielkosci_dobowe_avi.jpeg
 	lyxscale 50
-	scale 25
+	scale 23
 
 \end_inset
 
@@ -1978,15 +1978,6 @@ reference "rys:wielkosci_lvm"
 .
  Zmienność rozmiaru pliku nie wykazuje żadnej istotnej cykliczności w ujęciu
  dobowym.
- Na wykresie widać dwie 
-\begin_inset Quotes pld
-\end_inset
-
-szpilki
-\begin_inset Quotes prd
-\end_inset
-
-, oznaczające puste pliki.
 \end_layout
 
 \begin_layout Standard
@@ -2000,7 +1991,7 @@ status open
 \begin_inset Graphics
 	filename img/wielkosci_dobowe_lvm.jpeg
 	lyxscale 50
-	scale 25
+	scale 23
 
 \end_inset
 
@@ -2689,7 +2680,7 @@ status open
 \begin_inset Graphics
 	filename img/avi_compression.jpeg
 	lyxscale 60
-	scale 24
+	scale 23
 
 \end_inset
 
@@ -7641,8 +7632,10 @@ name "rys:wavelet_little_signal_original"
 \begin_layout Standard
 Algorytm falkowy został zbadany z ustawieniami domyślnymi, zaczerpniętymi
  z implementacji w języku Matlab dostarczonej jako referencyjna.
- Przypuszcza się, że zmodyfikowanie parametrów algorytmu może wpłynąć zarówno
- na wartość błędu jak i stopień kompresji sygnału.
+ Modyﬁkacje parametrów algorytmu znacząco wpływają zarówno na wartość błędu
+ jak i stopień kompresji sygnału.
+ Badania dotyczące wpływu wartości parametrów algorytmu na stopień kompresji
+ i wartość błędu wykraczają jednak poza zakres niniejszej pracy.
 \end_layout
 
 \begin_layout Standard
@@ -12867,7 +12860,7 @@ status open
 
 \begin_layout Plain Layout
 Długość kolejki plików do wysłania w ujęciu godzinowym, przepustowość łącza
- 55 kB/s
+ 15 kB/s
 \end_layout
 
 \end_inset
@@ -13296,6 +13289,13 @@ name "rys:prod_wielkosc_kolejki"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
 \end_inset
 
 
